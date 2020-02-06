@@ -4,11 +4,13 @@ MVN=mvn
 CLASSPATH=./target/*.jar
 JAVA_OPT=-cp $(CLASSPATH)
 JAVA=java $(JAVA_OPT)
-TARGET=my.package.name.App
+TARGET=GameLauncher
 
 # Target all builds the project.
 all:
-	$(MVN) package
+	$(MVN) package assembly:single
+	cp target/aquavias-0.1.jar \
+	   aquavias.jar
 
 # Target run executes the program and start with target all to build the
 # project.

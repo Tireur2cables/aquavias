@@ -80,7 +80,7 @@
                   <configuration>
                     <archive>
                       <manifest>
-                          <mainClass>GameLauncher</mainClass>
+                          <mainClass>${basedir}/GameLauncher</mainClass>
                       </manifest>
                     </archive>
                     <descriptorRefs>
