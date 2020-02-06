@@ -9,7 +9,7 @@ TARGET=GameLauncher
 # Target all builds the project.
 all:
 	$(MVN) package assembly:single
-	cp target/aquavias-0.1.jar \
+	cp target/aquavias-0.1-jar-with-dependencies.jar \
 	   aquavias.jar
 
 # Target run executes the program and start with target all to build the
