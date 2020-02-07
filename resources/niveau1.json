@@ -1,1 +1,17 @@
-yolo
+{
+  "largeur" : 3,
+  "longueur" : 3,
+  "niveau" : {
+    "colonnes" : [
+      [
+        [],["forme" : i, "orientation" : est, "spec" : entree],[]
+      ],
+      [
+        [],["forme" : i, "orientation" : nord, "spec" : null],[]
+      ],
+      [
+        [],["forme" : i, "orientation" : est, "spec" : sortie],[]
+      ]
+    ]
+  }
+}
