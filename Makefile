@@ -1,7 +1,7 @@
 .PHONY: all run clean
 
 MVN=mvn
-CLASSPATH=./target/*.jar
+CLASSPATH=./target/aquavias-0.1.jar
 JAVA_OPT=-cp $(CLASSPATH)
 JAVA=java $(JAVA_OPT)
 TARGET=GameLauncher
