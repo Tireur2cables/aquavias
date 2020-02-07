@@ -22,7 +22,7 @@ public class GameLauncherTest {
     public void restoreStreams() {
         System.setOut(originalOut);
         System.setErr(originalErr);
-    }
+    }aq
     @Test
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
