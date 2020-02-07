@@ -7,7 +7,7 @@ JAVA=java $(JAVA_OPT)
 TARGET=GameLauncher
 
 # Target all builds the project.
-all:
+all: clean
 	$(MVN) package assembly:single
 	cp target/aquavias-0.1-jar-with-dependencies.jar \
 	   aquavias.jar
@@ -19,4 +19,5 @@ run : all
 
 # Target clean removes all files produced during build.
 clean :
+	if [ -e aquavias.jar ]; then rm aquavias.jar; fi;
 	$(MVN) clean
