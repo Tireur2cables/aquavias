@@ -5,7 +5,7 @@ public class Controller {
     private Vue_Graphique graph;
 
     public Controller() {
-        this.graph = new Vue_Graphique();
+        this.graph = new Vue_Graphique(this);
         this.term = new Vue_Terminale(this);
     }
 
