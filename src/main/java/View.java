@@ -11,6 +11,8 @@ public class View extends JFrame {
         this.image = image;
         this.setTitle(titre);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+        this.setContentPane(new ImagePane());
         this.setVisible(true);
     }
 
