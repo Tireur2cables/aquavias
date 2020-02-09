@@ -12,7 +12,7 @@ public class Vue_Graphique {
         this.controller = controller;
     }
 
-    public void showPont(char c){
+    public static void showPont(char c){
         String chemin = "resources/";
         switch (c){
             case 'I': chemin += "InoO.png";
@@ -26,6 +26,8 @@ public class Vue_Graphique {
         }
         try{
             BufferedImage image = ImageIO.read(new File(chemin));
+            new View("Pont", image);
+
         }catch (IOException e){
             System.out.println("Impossible de charger l'image");
             System.out.println(Arrays.toString(e.getStackTrace()));
