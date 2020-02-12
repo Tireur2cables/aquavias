@@ -10,7 +10,7 @@ public class Controller {
     }
 
     public void launch() {
-        this.jeu = new Jeu();
+        this.jeu = new Jeu(this);
         this.term.affiche();
     }
 
