@@ -24,4 +24,11 @@ Le json d'un niveau comprend 3 champs :
     * S'il y a un pont une case est un tableau de 3 champs : le premier est le type du pont, le second est son orientation et le troisieme précise s'il s'agit d'un pont spécial (entrée, sortie, immobile).  
     * S'il n'y a pas de pont, il y a un tableau vide.  
 
-![Alt text](https://gaufre.informatique.univ-paris-diderot.fr/Brrlt/aquavias/blob/planProjet/nomnoml.png)
+![img](https://gaufre.informatique.univ-paris-diderot.fr/Brrlt/aquavias/blob/planProjet/nomnoml.png)
+```plantuml
+Alice -> Bob: Authentication Request
+Bob --> Alice: Authentication Response
+
+Alice -> Bob: Another authentication Request
+Alice <-- Bob: Another authentication Response
+```
