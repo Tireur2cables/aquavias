@@ -34,7 +34,7 @@ public class Jeu {
         for (int i = 0; i < this.plateau[0].length; i++) {
             for (int j = 0; j < this.plateau.length; j++) {
                 if (this.plateau[j][i].pont == null) System.out.print("- ");
-                else System.out.print(this.plateau[j][i].pont.getOrientation() + " ");
+                else System.out.print(this.plateau[j][i].pont.getForme() + " ");
             }
             System.out.println();
         }
