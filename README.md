@@ -15,7 +15,7 @@ Un pont est défini par 4 attributs :
   * Un tableau de booléens de taille 4 sorties qui défini dans quelles directions le pont est ouvert, le tableau sortie suit l'organisation [Nord, Est, Sud, Ouest]  
   * un booléen water qui informe sur la présence d'eau ou non sur le pont
 
-### Format et sauvegarde des niveaux
+### Format et sauvegarde des niveaux
 Les niveaux sont sauvegardés dans des fichiers json.  
 Le json d'un niveau comprend 3 champs :  
   * hauteur et longueur qui définissent la taille du plateau  
