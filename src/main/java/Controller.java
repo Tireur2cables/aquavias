@@ -11,7 +11,7 @@ public class Controller {
 
     public void launch() {
         this.jeu = new Jeu();
-        this.term.affiche();
+        System.out.println("Le jeu se lance!");
     }
 
 }

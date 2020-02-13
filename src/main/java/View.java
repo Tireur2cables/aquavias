@@ -4,32 +4,35 @@ import java.awt.image.BufferedImage;
 
 public class View extends JFrame {
 
-    BufferedImage image;
-
     public View(String titre, BufferedImage image){
         super();
-        this.image = image;
-        this.setTitle(titre);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setTitle(titre);
 
-        this.setContentPane(new ImagePane());
+        this.setContentPane(new ImagePane(image));
         this.pack();
         this.setVisible(true);
     }
 
-    class ImagePane extends JPanel {
+}
 
-        ImagePane() {
-            super();
-            this.setPreferredSize(new Dimension(200, 200));
+class ImagePane extends JPanel {
 
-        }
+     private BufferedImage image;
+     private int width;
+     private int height;
 
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(image, 0, 0, this);
-        }
+    ImagePane(BufferedImage image) {
+        super();
+        this.image = image;
+        this.width = image.getWidth();
+        this.height = image.getHeight();
+        this.setPreferredSize(new Dimension(this.width, this.height));
     }
 
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(this.image, 0, 0, this);
+    }
 }

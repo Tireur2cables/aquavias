@@ -10,18 +10,19 @@ public class Vue_Graphique {
 
     public Vue_Graphique(Controller controller) {
         this.controller = controller;
+        showPont('I');
     }
 
     public static void showPont(char c){
         String chemin = "resources/" + cheminPont(c);
         BufferedImage image = takeImage(chemin);
-        new View("Pont", image);
+        View v = new View("Pont", image);
     }
 
     private static String cheminPont(char c) {
         switch (c){
             case 'I':  return "InoO.png";
-            case 'C': return "CnoO.png";
+            case 'L': return "LnoO.png";
             case 'T': return "TnoO.png";
             default:
                 throw new RuntimeException("Aucun pont correspondant à ce character");
