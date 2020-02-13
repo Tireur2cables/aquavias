@@ -4,7 +4,7 @@ public class GameLauncher {
         Controller controller = new Controller();
         controller.launch();
 
-        Vue_Graphique.showPont('I');
+        Vue_Graphique.showPont('T');
     }
 
 }

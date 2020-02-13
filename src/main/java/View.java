@@ -13,6 +13,7 @@ public class View extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         this.setContentPane(new ImagePane());
+        this.pack();
         this.setVisible(true);
     }
 
