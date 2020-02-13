@@ -10,7 +10,7 @@ public class Controller {
     }
 
     public void launch() {
-        this.jeu = new Jeu();
+        this.jeu = new Jeu(this);
         System.out.println("Le jeu se lance!");
     }
 
