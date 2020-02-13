@@ -13,28 +13,30 @@ public class Vue_Graphique {
     }
 
     public static void showPont(char c){
-        String chemin = "resources/";
-        switch (c){
-            case 'I': chemin += "InoO.png";
-                break;
-            case 'C': chemin += "CnoO.png";
-                break;
-            case 'T': chemin += "TnoO.png";
-                break;
-            default:
-                System.out.println("Aucun pont correspondant à ce character");
-        }
-        try{
-            BufferedImage image = ImageIO.read(new File(chemin));
-            new View("Pont", image);
+        String chemin = "resources/" + cheminPont(c);
+        BufferedImage image = takeImage(chemin);
+        new View("Pont", image);
+    }
 
-        }catch (IOException e){
-            System.out.println("Impossible de charger l'image");
-            System.out.println(Arrays.toString(e.getStackTrace()));
-        }catch (NullPointerException e){
-            System.out.println("Impossible de charger l'image");
-            System.out.println(Arrays.toString(e.getStackTrace()));
+    private static String cheminPont(char c) {
+        switch (c){
+            case 'I':  return "InoO.png";
+            case 'C': return "CnoO.png";
+            case 'T': return "TnoO.png";
+            default:
+                throw new RuntimeException("Aucun pont correspondant à ce character");
         }
+    }
+
+    private static BufferedImage takeImage(String chemin) {
+        try{
+            return ImageIO.read(new File(chemin));
+        }catch (IOException e){
+            System.out.println("Impossible de charger l'image de chemin : " + chemin);
+        }catch (NullPointerException e){
+            System.out.println("Impossible de trouver l'image correspondant au chemin : " + chemin);
+        }
+        throw new RuntimeException("Erreur de chargement de l'image");
     }
 
 }
