@@ -1,17 +1,15 @@
 {
-  "largeur" : 3,
+  "hauteur" : 3,
   "longueur" : 3,
-  "niveau" : {
-    "colonnes" : [
+  "niveau" : [
       [
-        [],["forme" : i, "orientation" : est, "spec" : entree],[]
+        [], ["i", "E", "entree"], []
       ],
       [
-        [],["forme" : i, "orientation" : nord, "spec" : null],[]
+        [], ["i", "N", null], []
       ],
       [
-        [],["forme" : i, "orientation" : est, "spec" : sortie],[]
+        [], ["i", "E", "sortie"], []
       ]
-    ]
-  }
-} 
+  ]
+}
