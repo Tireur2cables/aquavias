@@ -1,0 +1,18 @@
+{
+    "hauteur" :3,
+    "longueur" :4,
+    "niveau" :[
+        [
+            [],["l","E","entree"],[]
+        ],
+        [
+            ["l","N",null],["l","O",null],[]
+        ],
+        [
+             ["l","N",null],["l","S",null],[]
+        ],
+        [
+             [],["i","E","sortie"],[]
+        ]
+    ]
+}
