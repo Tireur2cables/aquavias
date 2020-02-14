@@ -12,7 +12,7 @@ public abstract class Pont {
     public Pont(JSONArray json){
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
-        this.spe = (!json.get(2).equals("null"))? (String) json.get(2) : null;
+        this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
         this.water = false;
     }
 
