@@ -1,7 +1,7 @@
 /* Imports with maven dependecies */
 import org.json.*;
 
-public class Pont {
+public abstract class Pont {
 
     private char forme; /* I, T, L */
     private char orientation; /* N, E, S, O */
@@ -13,8 +13,11 @@ public class Pont {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = json.getString(2).toLowerCase();
-        this.sorties = this.calculateSorties();
         this.water = false;
+    }
+
+    public boolean[] getSorties() {
+        return sorties;
     }
 
     //constructeur voué à disparaitre
@@ -25,27 +28,8 @@ public class Pont {
         this.water = false;
     }
 
-    public boolean[] calculateSorties(){
-        switch (forme) {
-          case "I" :
-            return this.calculateSortiesI();
-          case "L" :
-            return this.calculateSortiesL();
-          case "T" :
-            return this.calculateSortiesT();
-        }
-    }
-
-    private boolean[] calculateSortiesI(){
-      boolean[] tab = boolean[4];
-      for(int = 0 ; i < tab.length ; i++){
-        tab[i] = ((this.orientation == 'N' || this.orientation == 'S') && i%2 == 0)
-              || ((this.orientation == 'E' || this.orientation == 'O') && i%2 == 1);
-      }
-    }
-
     private boolean[] calculateSortiesL(){
-      boolean[] tab = boolean[4];
+      boolean[] tab = new  boolean[4];
       switch (this.orientation) {
         case 'N' :
           tab[0] = true;
@@ -72,7 +56,7 @@ public class Pont {
           tab[3] = true;
             return tab;
       }
-
+        return;
     }
 
     public char getForme(){
