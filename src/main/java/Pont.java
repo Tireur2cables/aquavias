@@ -1,30 +1,23 @@
 /* Imports with maven dependecies */
 import org.json.*;
 
-public class Pont {
+public abstract class Pont {
 
     private char forme; /* I, T, L */
     private char orientation; /* N, E, S, O */
     private boolean[] sorties;
-    private boolean eau;
+    private boolean water;
+    private String spe; /* entree, sortie, immobile */
 
     public Pont(JSONArray json){
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
-        this.sorties = this.calculSorties();
-        this.eau = false;
+        this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
+        this.water = false;
     }
 
-    public Pont(char forme, char orientation) {
-        this.forme = forme;
-        this.orientation = orientation;
-        this.sorties = calculSorties();
-        this.eau = false;
-    }
-
-    public boolean[] calculSorties(){
-        boolean[] tab = new boolean[4];
-        return tab;
+    public void setSorties(boolean[] sorties) {
+        this.sorties = sorties;
     }
 
     public char getForme(){
