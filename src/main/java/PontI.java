@@ -1,5 +1,4 @@
 import org.json.JSONArray;
-
 import java.awt.image.BufferedImage;
 
 public class PontI extends Pont {
@@ -7,18 +6,19 @@ public class PontI extends Pont {
     static BufferedImage pontIEau;
     public PontI(JSONArray json) {
         super(json);
-        this.getSorties() = this.calculateSorties();
+        this.setSorties(this.calculSorties());
         /* A compléter
         this.pontI =
         this.pontIEau =
         */
     }
 
-    public boolean[] calculateSorties(){
+    public boolean[] calculSorties(){
         boolean[] tab = new boolean[4];
         for(int i = 0 ; i < tab.length ; i++){
-            tab[i] = ((this.orientation == 'N' || this.orientation == 'S') && i%2 == 0)
-                    || ((this.orientation == 'E' || this.orientation == 'O') && i%2 == 1);
+            tab[i] = ((this.getOrientation() == 'N' || this.getOrientation() == 'S') && i%2 == 0)
+                    || ((this.getOrientation() == 'E' || this.getOrientation() == 'O') && i%2 == 1);
         }
+        return tab;
     }
 }

@@ -12,51 +12,12 @@ public abstract class Pont {
     public Pont(JSONArray json){
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
-        this.spe = json.getString(2).toLowerCase();
+        this.spe = (!json.get(2).equals("null"))? (String) json.get(2) : null;
         this.water = false;
     }
 
-    public boolean[] getSorties() {
-        return sorties;
-    }
-
-    //constructeur voué à disparaitre
-    public Pont(char forme, char orientation) {
-        this.forme = forme;
-        this.orientation = orientation;
-        this.sorties = calculateSorties();
-        this.water = false;
-    }
-
-    private boolean[] calculateSortiesL(){
-      boolean[] tab = new  boolean[4];
-      switch (this.orientation) {
-        case 'N' :
-          tab[0] = true;
-          tab[1] = true;
-          tab[2] = false;
-          tab[3] = false;
-          return tab;
-        case 'E' :
-          tab[0] = false;
-          tab[1] = true;
-          tab[2] = true;
-          tab[3] = false;
-          return tab;
-        case 'S' :
-          tab[0] = false;
-          tab[1] = false;
-          tab[2] = true;
-          tab[3] = true;
-          return tab;
-        case 'O' :
-          tab[0] = true;
-          tab[1] = false;
-          tab[2] = false;
-          tab[3] = true;
-            return tab;
-      }
-        return;
+    public void setSorties(boolean[] sorties) {
+        this.sorties = sorties;
     }
 
     public char getForme(){
