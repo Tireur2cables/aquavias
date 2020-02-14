@@ -2,7 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class View extends JFrame {
+class View extends JFrame {
 
     public View(String titre, BufferedImage image){
         super();
