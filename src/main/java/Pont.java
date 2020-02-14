@@ -6,23 +6,23 @@ public class Pont {
     private char forme; /* I, T, L */
     private char orientation; /* N, E, S, O */
     private boolean[] sorties;
-    private boolean water;
+    private boolean eau;
 
     public Pont(JSONArray json){
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
-        this.sorties = this.calculateSorties();
-        this.water = false;
+        this.sorties = this.calculSorties();
+        this.eau = false;
     }
 
     public Pont(char forme, char orientation) {
         this.forme = forme;
         this.orientation = orientation;
-        this.sorties = calculateSorties();
-        this.water = false;
+        this.sorties = calculSorties();
+        this.eau = false;
     }
 
-    public boolean[] calculateSorties(){
+    public boolean[] calculSorties(){
         boolean[] tab = new boolean[4];
         return tab;
     }
