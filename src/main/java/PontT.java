@@ -2,11 +2,13 @@ import org.json.JSONArray;
 import java.awt.image.BufferedImage;
 
 public class PontT extends Pont {
-    static BufferedImage pontT;
-    static BufferedImage pontTEau;
+
+    protected static BufferedImage pontT;
+    protected static BufferedImage pontTEau;
+
     public PontT(JSONArray json) {
         super(json);
-        this.setSorties(this.calculSorties());
+        this.sorties = this.calculSorties();
         /* A compléter
         this.pontT =
         this.pontTEau =
@@ -15,7 +17,7 @@ public class PontT extends Pont {
 
     public boolean[] calculSorties(){
         boolean[] tab = {true,true,true,true};
-        switch (getOrientation()){
+        switch (this.orientation){
             case 'N' :
                 tab[2] = false;
                 break;
@@ -31,4 +33,5 @@ public class PontT extends Pont {
         }
         return tab;
     }
+
 }
