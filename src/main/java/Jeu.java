@@ -19,11 +19,11 @@ public class Jeu {
     }
 
     private Case[][] plateau;
-    private Controller controller;
+    private Controleur controleur;
 
 
-    public Jeu(Controller controller){
-        this.controller = controller;
+    public Jeu(Controleur controleur){
+        this.controleur = controleur;
         this.initNiveau();
         this.afficher();
     }

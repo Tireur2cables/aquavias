@@ -4,18 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class Vue_Graphique {
+public class VueGraphique {
 
-    private Controller controller;
+    private Controleur controleur;
 
-    public Vue_Graphique(Controller controller) {
-        this.controller = controller;
-        showPont('I');
+    public VueGraphique(Controleur controleur) {
+        this.controleur = controleur;
+        affichePont('I');
     }
 
-    public static void showPont(char c){
+    public static void affichePont(char c){
         String chemin = "resources/" + cheminPont(c);
-        BufferedImage image = takeImage(chemin);
+        BufferedImage image = chargeImage(chemin);
         View v = new View("Pont", image);
     }
 
@@ -29,7 +29,7 @@ public class Vue_Graphique {
         }
     }
 
-    private static BufferedImage takeImage(String chemin) {
+    private static BufferedImage chargeImage(String chemin) {
         try{
             return ImageIO.read(new File(chemin));
         }catch (IOException e){
