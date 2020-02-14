@@ -26,6 +26,6 @@ public class GameLauncherTest {
     @Test
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
-        assertEquals("- - - \nE N E \n- - - \nLe jeu se lance!\n", outContent.toString());
+        assertEquals("- - - \nI I I \n- - - \nLe jeu se lance!\n", outContent.toString());
     }
 }

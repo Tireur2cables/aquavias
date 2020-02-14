@@ -3,16 +3,16 @@
     "longueur" :4,
     "niveau" :[
         [
-            ["l","O",null],["t","E","entree"],["l","N",null]
+            ["l", "O", null], ["t", "E", "entree"], ["l", "N", null]
         ],
         [
-            [],["i","E",null],["i","E",null]
+            [], ["i", "E", null], ["i", "E", null]
         ],
         [
-             [],["t","E",null],["l","N",null]
+            [], ["t", "E", null], ["l", "N", null]
         ],
         [
-             [],["i","E","sortie"],[]
+            [], ["i", "E", "sortie"], []
         ]
     ]
 }
