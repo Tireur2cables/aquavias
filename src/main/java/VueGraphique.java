@@ -14,7 +14,7 @@ public class VueGraphique {
     }
 
     public static void affichePont(char c){
-        String chemin = "resources/" + cheminPont(c);
+        String chemin = "resources/img/" + cheminPont(c);
         BufferedImage image = chargeImage(chemin);
         View v = new View("Pont", image);
     }
