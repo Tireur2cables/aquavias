@@ -4,16 +4,12 @@ import java.awt.image.BufferedImage;
 
 public class PontI extends Pont {
 
-    protected static BufferedImage pontI;
-    protected static BufferedImage pontIEau;
+    protected static BufferedImage pontI = chargeImage("InoO.png");
+    protected static BufferedImage pontIEau = chargeImage("IwO.png");
 
     public PontI(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();
-        /* A compléter
-        this.pontI =
-        this.pontIEau =
-        */
     }
 
     public boolean[] calculSorties(){

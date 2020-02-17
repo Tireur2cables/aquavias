@@ -3,16 +3,12 @@ import java.awt.image.BufferedImage;
 
 public class PontL extends Pont {
 
-    protected static BufferedImage pontL;
-    protected static BufferedImage pontLEau;
+    protected static BufferedImage pontL = chargeImage("LnoO.png");
+    protected static BufferedImage pontLEau = chargeImage("LwO.png");
 
     public PontL(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();
-        /* A compléter
-        this.pontL =
-        this.pontLEau =
-        */
     }
 
     private boolean[] calculSorties(){

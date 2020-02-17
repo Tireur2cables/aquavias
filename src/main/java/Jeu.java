@@ -51,7 +51,7 @@ public class Jeu {
     }
 
     private void initNiveau(){
-        String chemin = "resources/niveau1.json";
+        String chemin = "resources/niveaux/niveau1.json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
         int longueur = json.getInt("longueur");
