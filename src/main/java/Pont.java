@@ -1,6 +1,11 @@
 /* Imports with maven dependecies */
 import org.json.*;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 public abstract class Pont {
 
     protected char forme; /* I, T, L */
@@ -14,6 +19,19 @@ public abstract class Pont {
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
         this.eau = false;
+    }
+
+    protected static BufferedImage chargeImage(String chemin) {
+        String dossierImages = "resources/img/";
+        chemin = dossierImages + chemin;
+        try{
+            return ImageIO.read(new File(chemin));
+        }catch (IOException e){
+            System.out.println("Impossible de charger l'image de chemin : " + chemin);
+        }catch (NullPointerException e){
+            System.out.println("Impossible de trouver l'image correspondant au chemin : " + chemin);
+        }
+        throw new RuntimeException("Erreur de chargement de l'image");
     }
 
     public void setSorties(boolean[] sorties) {

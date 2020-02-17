@@ -1,18 +1,18 @@
 import org.json.JSONArray;
+
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class PontT extends Pont {
 
-    protected static BufferedImage pontT;
-    protected static BufferedImage pontTEau;
+    protected static BufferedImage pontT = chargeImage("TnoO.png");
+    protected static BufferedImage pontTEau = chargeImage("TwO.png");
 
     public PontT(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();
-        /* A compléter
-        this.pontT =
-        this.pontTEau =
-        */
     }
 
     public boolean[] calculSorties(){
