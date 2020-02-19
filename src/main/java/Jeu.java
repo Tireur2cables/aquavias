@@ -84,4 +84,15 @@ public class Jeu {
     public Case[][] getPlateau() {
         return plateau;
     }
+
+
+    /**
+     * C'est pas super comme facon de faire, mais je vois pas trop comment faire autrement
+     * */
+    public int getHauteur(){
+        return this.plateau.length;
+    }
+    public int getLargeur(){
+        return this.plateau[0].length;
+    }
 }

@@ -21,8 +21,9 @@ public class VueGraphique {
     }
 
     public void affichePlateau(){
-        int largeur = this.controleur.getJeu().
-        View v = new View(largeur, longueur);
+        int hauteur = this.controleur.getJeu().getHauteur();
+        int largeur = this.controleur.getJeu().getLargeur();
+        View v = new View(hauteur, largeur);
     }
 
 
