@@ -12,4 +12,7 @@ public class Controleur {
         System.out.println("Le jeu se lance!");
     }
 
+    public Jeu getJeu() {
+        return jeu;
+    }
 }

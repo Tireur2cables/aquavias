@@ -38,7 +38,7 @@ public class Jeu {
         this.afficher();
     }
 
-    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les affichées correctement */
+    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les afficher correctement */
     public void afficher(){
         if (this.plateau.length <= 0) return;
         for (int i = 0; i < this.plateau[0].length; i++) {
@@ -81,4 +81,7 @@ public class Jeu {
         throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
     }
 
+    public Case[][] getPlateau() {
+        return plateau;
+    }
 }

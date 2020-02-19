@@ -20,6 +20,12 @@ public class VueGraphique {
         View v2 = new View("Pont", rotate(image, 90));
     }
 
+    public void affichePlateau(){
+        int largeur = this.controleur.getJeu().
+        View v = new View(largeur, longueur);
+    }
+
+
     private static String cheminPont(char c) {
         switch (c){
             case 'I':  return "InoO.png";

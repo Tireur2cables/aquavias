@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 class View extends JFrame {
 
     public View(String titre, BufferedImage image){
+        /*Interface de l'affichage des exemples de ponts*/
         super();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setTitle(titre);
@@ -14,7 +15,31 @@ class View extends JFrame {
         this.setVisible(true);
     }
 
+    public View(int largeur, int longueur){
+        /*Interface du jeu*/
+        /**
+         * Taille du plateau
+         * Entree / Sortie
+         *
+         * */
+        super();
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setTitle("Aquavias");
+        this.add(new Plateau());
+        this.pack();
+        this.setVisible(true);
+
+    }
+
 }
+
+class Plateau extends JPanel {
+
+    public Plateau(){
+
+    }
+}
+
 
 class ImagePane extends JPanel {
 
