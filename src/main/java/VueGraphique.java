@@ -15,8 +15,7 @@ public class VueGraphique {
     public void affichePont(char c, boolean eau, double rotation){
         String chemin = "resources/img/" + cheminPont(c, eau);
         BufferedImage image = chargeImage(chemin);
-        View v = new View("Pont", image);
-        View v2 = new View("Pont", rotate(image, 90));
+        View v = new View("Pont", rotate(image, rotation));
     }
 
     public void affichePlateau(){
