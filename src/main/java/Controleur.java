@@ -13,7 +13,7 @@ public class Controleur {
         this.jeu = new Jeu(this);
         System.out.println("Le jeu se lance!");
     //    System.out.println("Test de l'affichage d'un pont");
-        this.affiche();
+        this.affichePont('I', true, 0);
     }
 
     private void affiche() {
@@ -34,10 +34,16 @@ public class Controleur {
             case 'O' : rotation = 270;
             break;
         }
-        this.affichePont(image, rotation);
+        //this.affichePont(image, rotation);
     }
 
-    private void affichePont(BufferedImage image, double rotation){
+    private void affichePont(char c, boolean eau, double rotation){
+        Pont p = new PontI();
+        BufferedImage image = null;
+        switch (p.forme){
+            case 'I' : image = (eau)?PontI.pontIEau:PontI.pontI;
+                break;
+        }
         this.graph.affichePont(image, rotation);
     }
 
