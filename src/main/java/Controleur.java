@@ -16,27 +16,6 @@ public class Controleur {
         this.affichePont('I', true, 0);
     }
 
-    private void affiche() {
-        Pont p = this.jeu.getPont(0,0);
-        BufferedImage image = null;
-        switch (p.forme){
-            case 'I' : image = PontI.pontI;
-            break;
-        }
-        double rotation = 0;
-        switch (p.orientation){
-            case 'N' : rotation = 0;
-            break;
-            case 'E' : rotation = 90;
-            break;
-            case 'S' : rotation = 180;
-            break;
-            case 'O' : rotation = 270;
-            break;
-        }
-        //this.affichePont(image, rotation);
-    }
-
     private void affichePont(char c, boolean eau, double rotation){
         BufferedImage image = null;
         switch (c){
