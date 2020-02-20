@@ -23,7 +23,17 @@ public class Controleur {
             case 'I' : image = PontI.pontI;
             break;
         }
-        double rotation = (p.orientation == 'N')?0:90;
+        double rotation = 0;
+        switch (p.orientation){
+            case 'N' : rotation = 0;
+            break;
+            case 'E': rotation = 90;
+            break;
+            case 'S' : rotation  = 180;
+            break;
+            case 'O' : rotation = 270;
+            break;
+        }
         this.affichePont(image, rotation);
     }
 
