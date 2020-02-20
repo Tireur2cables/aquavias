@@ -11,7 +11,7 @@ public class Controleur {
         this.jeu = new Jeu(this);
         System.out.println("Le jeu se lance!");
     //    System.out.println("Test de l'affichage d'un pont");
-        this.affichePont('I', true, 0);
+        this.affichePont('I', true, 90);
     }
 
     public void affichePont(char c, boolean eau, double rotation){

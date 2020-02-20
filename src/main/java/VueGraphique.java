@@ -27,9 +27,9 @@ public class VueGraphique {
 
     private static String cheminPont(char c, boolean eau) {
         switch (c){
-            case 'I':  return (eau)?("InoO.png"):("IwO.png");
-            case 'L': return (eau)?("LnoO.png"):("LwO.png");
-            case 'T': return (eau)?("TnoO.png"):("TwO.png");
+            case 'I':  return (eau)?("IwO.png"):("InoO.png");
+            case 'L': return (eau)?("LwO.png"):("LnoO.png");
+            case 'T': return (eau)?("TwO.png"):("TnoO.png");
             default:
                 throw new RuntimeException("Aucun pont correspondant à ce character");
         }
