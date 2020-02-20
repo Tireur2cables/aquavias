@@ -10,7 +10,8 @@ public class Controleur {
     public void launch() {
         this.jeu = new Jeu(this);
         System.out.println("Le jeu se lance!");
-        System.out.println("Test de l'affichage d'un pont");
+    //    System.out.println("Test de l'affichage d'un pont");
+        this.affichePont('I', true, 0);
     }
 
     public void affichePont(char c, boolean eau, double rotation){
