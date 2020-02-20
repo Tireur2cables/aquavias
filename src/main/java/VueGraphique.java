@@ -12,9 +12,7 @@ public class VueGraphique {
         this.controleur = controleur;
     }
 
-    public void affichePont(char c, boolean eau, double rotation){
-        String chemin = "resources/img/" + cheminPont(c, eau);
-        BufferedImage image = chargeImage(chemin);
+    public void affichePont(BufferedImage image, double rotation){
         View v = new View("Pont", rotate(image, rotation));
     }
 

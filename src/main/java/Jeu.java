@@ -85,6 +85,10 @@ public class Jeu {
         return plateau;
     }
 
+    public Pont getPont(int hauteur, int largeur) {
+        return new PontI();
+    }
+
 
     /**
      * C'est pas super comme facon de faire, mais je vois pas trop comment faire autrement

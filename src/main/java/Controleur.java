@@ -1,3 +1,5 @@
+import java.awt.image.BufferedImage;
+
 public class Controleur {
 
     private Jeu jeu;
@@ -11,11 +13,16 @@ public class Controleur {
         this.jeu = new Jeu(this);
         System.out.println("Le jeu se lance!");
     //    System.out.println("Test de l'affichage d'un pont");
-        this.affichePont('I', true, 90);
+        this.affiche();
     }
 
-    public void affichePont(char c, boolean eau, double rotation){
-        this.graph.affichePont(c, eau, rotation);
+    private void affiche() {
+        Pont p = this.jeu.getPont(0,0);
+        this.affichePont(image, rotation);
+    }
+
+    private void affichePont(BufferedImage image, double rotation){
+        this.graph.affichePont(image, rotation);
     }
 
     public Jeu getJeu() {
