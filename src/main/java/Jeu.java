@@ -30,7 +30,7 @@ public class Jeu {
 
     private Case[][] plateau;
     private Controleur controleur;
-    
+
     public Jeu(Controleur controleur){
         this.controleur = controleur;
         this.initNiveau();
@@ -84,9 +84,10 @@ public class Jeu {
         return plateau;
     }
 
-    public Pont getPont(int hauteur, int largeur) {
-        return new PontI();
+    /*public Pont getPont(int hauteur, int largeur) {
+
     }
+    */
 
 
     /**
