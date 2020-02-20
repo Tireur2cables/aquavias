@@ -47,7 +47,7 @@ public class VueGraphique {
     }
 
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
-
+        /**fixme renvoit une nouvelle BufferedImage à chaque rotation -> Danger ? */
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 
