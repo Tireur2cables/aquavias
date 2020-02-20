@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 public class PontI extends Pont {
 
-    protected static BufferedImage pontI = chargeImage("InoO.png");
-    protected static BufferedImage pontIEau = chargeImage("IwO.png");
+    static BufferedImage pontI = chargeImage("InoO.png");
+    static BufferedImage pontIEau = chargeImage("IwO.png");
 
     public PontI(JSONArray json) {
         super(json);

@@ -18,6 +18,12 @@ public class Controleur {
 
     private void affiche() {
         Pont p = this.jeu.getPont(0,0);
+        BufferedImage image = null;
+        switch (p.orientation){
+            case 'I' : image = PontI.pontI;
+            break;
+        }
+        double rotation = (p.orientation == 'N')?0:90;
         this.affichePont(image, rotation);
     }
 
