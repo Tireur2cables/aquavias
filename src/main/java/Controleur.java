@@ -27,9 +27,9 @@ public class Controleur {
         switch (p.orientation){
             case 'N' : rotation = 0;
             break;
-            case 'E': rotation = 90;
+            case 'E' : rotation = 90;
             break;
-            case 'S' : rotation  = 180;
+            case 'S' : rotation = 180;
             break;
             case 'O' : rotation = 270;
             break;
