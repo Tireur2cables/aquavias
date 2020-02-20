@@ -10,11 +10,10 @@ public class VueGraphique {
 
     public VueGraphique(Controleur controleur) {
         this.controleur = controleur;
-        affichePont('I');
     }
 
-    public static void affichePont(char c){
-        String chemin = "resources/img/" + cheminPont(c);
+    public void affichePont(char c, boolean eau, double rotation){
+        String chemin = "resources/img/" + cheminPont(c, eau);
         BufferedImage image = chargeImage(chemin);
         View v = new View("Pont", image);
         View v2 = new View("Pont", rotate(image, 90));
@@ -27,11 +26,11 @@ public class VueGraphique {
     }
 
 
-    private static String cheminPont(char c) {
+    private static String cheminPont(char c, boolean eau) {
         switch (c){
-            case 'I':  return "InoO.png";
-            case 'L': return "LnoO.png";
-            case 'T': return "TnoO.png";
+            case 'I':  return (eau)?("InoO.png"):("IwO.png");
+            case 'L': return (eau)?("LnoO.png"):("LwO.png");
+            case 'T': return (eau)?("TnoO.png"):("TwO.png");
             default:
                 throw new RuntimeException("Aucun pont correspondant à ce character");
         }
