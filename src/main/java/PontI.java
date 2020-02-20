@@ -12,13 +12,6 @@ public class PontI extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    public PontI(){
-        this.forme = 'I';
-        this.orientation = 'N';
-        this.eau = false;
-        this.sorties = this.calculSorties();
-        this.spe = null;
-    }
 
     public boolean[] calculSorties(){
         boolean[] tab = new boolean[4];

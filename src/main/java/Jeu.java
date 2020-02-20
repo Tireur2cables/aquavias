@@ -30,8 +30,7 @@ public class Jeu {
 
     private Case[][] plateau;
     private Controleur controleur;
-
-
+    
     public Jeu(Controleur controleur){
         this.controleur = controleur;
         this.initNiveau();

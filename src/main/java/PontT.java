@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class PontT extends Pont {
 
-    protected static BufferedImage pontT = chargeImage("TnoO.png");
-    protected static BufferedImage pontTEau = chargeImage("TwO.png");
+    static BufferedImage pontT = chargeImage("TnoO.png");
+    static BufferedImage pontTEau = chargeImage("TwO.png");
 
     public PontT(JSONArray json) {
         super(json);

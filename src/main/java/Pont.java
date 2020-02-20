@@ -21,10 +21,6 @@ public abstract class Pont {
         this.eau = false;
     }
 
-    public Pont(){
-
-    }
-
     protected static BufferedImage chargeImage(String chemin) {
         String dossierImages = "resources/img/";
         chemin = dossierImages + chemin;

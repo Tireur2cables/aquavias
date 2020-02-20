@@ -38,10 +38,13 @@ public class Controleur {
     }
 
     private void affichePont(char c, boolean eau, double rotation){
-        Pont p = new PontI();
         BufferedImage image = null;
-        switch (p.forme){
+        switch (c){
             case 'I' : image = (eau)?PontI.pontIEau:PontI.pontI;
+                break;
+            case 'T' : image = (eau)?PontT.pontTEau:PontT.pontT;
+                break;
+            case 'L' : image = (eau)?PontL.pontLEau:PontL.pontL;
                 break;
         }
         this.graph.affichePont(image, rotation);
