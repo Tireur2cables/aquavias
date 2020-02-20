@@ -19,7 +19,7 @@ public class Controleur {
     private void affiche() {
         Pont p = this.jeu.getPont(0,0);
         BufferedImage image = null;
-        switch (p.orientation){
+        switch (p.forme){
             case 'I' : image = PontI.pontI;
             break;
         }
