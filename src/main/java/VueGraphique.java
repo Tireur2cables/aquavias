@@ -16,9 +16,10 @@ public class VueGraphique {
     public void setVisible() {
         this.fenetre.setVisible(true);
     }
+
     public void repaint(){
-        this.fenetre.pack();
         this.fenetre.repaint();
+        this.fenetre.pack();
     }
 
     public void affichePont(BufferedImage image) {

@@ -38,7 +38,7 @@ public class Controleur {
     }
 
     private BufferedImage getImageFromPont(Pont p) {
-        if (p == null) return Pont.transp; /* FIXME: A remplacer par une image transparente vide de 200*200 */
+        if (p == null) return Pont.transp;
         char c = p.getForme();
         boolean eau = p.getEau();
         char orientation = p.getOrientation();

@@ -22,6 +22,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
+            this.setVisible(false);
         });
     }
 
@@ -33,6 +34,7 @@ class Plateau extends JPanel {
         super();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(largeur, hauteur));
+            this.setPreferredSize(new Dimension(hauteur*200,largeur*200));
         });
     }
 }
