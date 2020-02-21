@@ -51,7 +51,7 @@ public class Controleur {
 
     /* FIXME: Fonction à factoriser */
     private BufferedImage getImage(Pont p) {
-        if (p == null) return PontI.pontI; /* FIXME: A remplacer par une image transparente vide de 200*200 */
+        if (p == null) return Pont.transp; /* FIXME: A remplacer par une image transparente vide de 200*200 */
         char c = p.getForme();
         boolean eau = p.getEau();
         BufferedImage image = null;

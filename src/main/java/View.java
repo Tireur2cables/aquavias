@@ -55,7 +55,7 @@ class ImagePane extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            g.drawImage(this.image, 0, 0, this);
+        super.paintComponent(g);
+        g.drawImage(this.image, 0, 0, this);
     }
 }

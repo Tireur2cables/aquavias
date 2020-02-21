@@ -14,6 +14,8 @@ public abstract class Pont {
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
+    static BufferedImage transp = chargeImage("transp.png");
+
     public Pont(JSONArray json) {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
