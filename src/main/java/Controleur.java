@@ -11,8 +11,6 @@ public class Controleur {
     }
 
     public void launch() {
-        System.out.println("Test de l'affichage d'un pont");
-        this.affichePont('I', true, 0);
         System.out.println("Test affichage de niveau");
         this.jeu = new Jeu(this);
         this.jeu.initNiveau(1);
@@ -47,6 +45,7 @@ public class Controleur {
             }
         }
         this.graph.afficheNiveau();
+        this.graph.setVisible();
     }
 
     /* FIXME: Fonction à factoriser */

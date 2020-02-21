@@ -26,6 +26,6 @@ public class GameLauncherTest {
     @Test
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
-        assertEquals("Test de l'affichage d'un pont\nTest affichage de niveau\nLe jeu se lance!\n", outContent.toString());
+        assertEquals("Test affichage de niveau\nLe jeu se lance!\n", outContent.toString());
     }
 }

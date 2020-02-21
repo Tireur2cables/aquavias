@@ -2,33 +2,27 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-class View extends JFrame {
+class Fenetre extends JFrame {
 
-    public View(String titre, BufferedImage image) {
-        /*Interface de l'affichage des exemples de ponts*/
+    public Fenetre(String titre, BufferedImage image) {
+        /* Fenetre pour l'affichage unitaire de test */
         super();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle(titre);
-
-        this.setContentPane(new ImagePane(image));
-        this.pack();
-        this.setVisible(true);
+        EventQueue.invokeLater(() -> {
+            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            this.setTitle(titre);
+            this.setContentPane(new ImagePane(image));
+            this.pack();
+            this.setVisible(true);
+        });
     }
 
-    public View(int hauteur, int largeur) {
-        /*Interface du jeu*/
-        /**
-         * Taille du plateau
-         * Entree / Sortie
-         *
-         * */
+    public Fenetre() {
+        /* Fenetre pour l'affichage du jeu */
         super();
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        this.setTitle("Aquavias");
-        this.add(new Plateau(hauteur, largeur));
-        this.pack();
-        this.setVisible(true);
-
+        EventQueue.invokeLater(() -> {
+            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            this.setTitle("Aquavias");
+        });
     }
 
 }
