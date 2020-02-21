@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.image.BufferedImage;
 public class VueGraphique {
 
@@ -9,7 +10,7 @@ public class VueGraphique {
     }
 
     public void affichePont(BufferedImage image) {
-        View v = new View("Pont", image);
+        EventQueue.invokeLater(() -> new View("Pont", image));
     }
 
     public void initPlateau(int hauteur, int largeur) {
@@ -18,6 +19,10 @@ public class VueGraphique {
 
     public void addToPlateau(BufferedImage image) {
         this.plateau.add(new ImagePane(image));
+    }
+
+    public void afficheNiveau() {
+
     }
 
 }

@@ -36,7 +36,9 @@ class View extends JFrame {
 class Plateau extends JPanel {
 
     public Plateau(int hauteur, int largeur) {
-        this.setLayout(new GridLayout(largeur, hauteur));
+        EventQueue.invokeLater(() -> {
+            this.setLayout(new GridLayout(largeur, hauteur));
+        });
     }
 }
 
@@ -48,15 +50,19 @@ class ImagePane extends JPanel {
 
     ImagePane(BufferedImage image) {
         super();
-        this.image = image;
-        this.width = image.getWidth();
-        this.height = image.getHeight();
-        this.setPreferredSize(new Dimension(this.width, this.height));
+        EventQueue.invokeLater(() -> {
+            this.image = image;
+            this.width = image.getWidth();
+            this.height = image.getHeight();
+            this.setPreferredSize(new Dimension(this.width, this.height));
+        });
     }
 
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.drawImage(this.image, 0, 0, this);
+        EventQueue.invokeLater(() -> {
+            super.paintComponent(g);
+            g.drawImage(this.image, 0, 0, this);
+        });
     }
 }
