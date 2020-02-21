@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 public class VueGraphique {
@@ -14,6 +15,10 @@ public class VueGraphique {
 
     public void setVisible() {
         this.fenetre.setVisible(true);
+    }
+    public void repaint(){
+        this.fenetre.pack();
+        this.fenetre.repaint();
     }
 
     public void affichePont(BufferedImage image) {
@@ -32,9 +37,11 @@ public class VueGraphique {
 
     public void addToPlateau(BufferedImage image) {
         EventQueue.invokeLater(() -> {
-            this.plateau.add(new ImagePane(image));
-            this.fenetre.pack();
+            JPanel tmp = new JPanel();
+            tmp.setPreferredSize(new Dimension(200,200));
+            tmp.setBackground(new Color((int) (Math.random()*100), 125, 5));
+            this.plateau.add(tmp);
+           // this.plateau.add(new ImagePane(image));
         });
     }
-
 }

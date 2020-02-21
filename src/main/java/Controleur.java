@@ -45,6 +45,7 @@ public class Controleur {
                 this.graph.addToPlateau(this.getImage(this.jeu.getPont(i,j)));
             }
         }
+        this.graph.repaint();
         this.graph.setVisible();
     }
 
