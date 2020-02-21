@@ -37,11 +37,11 @@ public class VueGraphique {
 
     public void addToPlateau(BufferedImage image) {
         EventQueue.invokeLater(() -> {
-            JPanel tmp = new JPanel();
+           /* JPanel tmp = new JPanel();
             tmp.setPreferredSize(new Dimension(200,200));
             tmp.setBackground(new Color((int) (Math.random()*100), 125, 5));
-            this.plateau.add(tmp);
-           // this.plateau.add(new ImagePane(image));
+            this.plateau.add(tmp);*/
+            this.plateau.add(new ImagePane(image));
         });
     }
 }

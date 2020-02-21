@@ -55,9 +55,7 @@ class ImagePane extends JPanel {
 
     @Override
     protected void paintComponent(Graphics g) {
-        EventQueue.invokeLater(() -> {
             super.paintComponent(g);
             g.drawImage(this.image, 0, 0, this);
-        });
     }
 }
