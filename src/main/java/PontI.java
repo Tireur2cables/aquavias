@@ -1,6 +1,8 @@
+import java.awt.image.BufferedImage;
+
+/* Imports with maven dependecies */
 import org.json.JSONArray;
 
-import java.awt.image.BufferedImage;
 
 public class PontI extends Pont {
 
@@ -13,9 +15,9 @@ public class PontI extends Pont {
     }
 
 
-    public boolean[] calculSorties(){
+    public boolean[] calculSorties() {
         boolean[] tab = new boolean[4];
-        for(int i = 0 ; i < tab.length ; i++){
+        for(int i = 0 ; i < tab.length ; i++) {
             tab[i] = ((this.orientation == 'N' || this.orientation == 'S') && i%2 == 0)
                     || ((this.orientation == 'E' || this.orientation == 'O') && i%2 == 1);
         }

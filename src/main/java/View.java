@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 class View extends JFrame {
 
-    public View(String titre, BufferedImage image){
+    public View(String titre, BufferedImage image) {
         /*Interface de l'affichage des exemples de ponts*/
         super();
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -15,7 +15,7 @@ class View extends JFrame {
         this.setVisible(true);
     }
 
-    public View(int hauteur, int largeur){
+    public View(int hauteur, int largeur) {
         /*Interface du jeu*/
         /**
          * Taille du plateau
@@ -35,10 +35,10 @@ class View extends JFrame {
 
 class Plateau extends JPanel {
 
-    public Plateau(int hauteur, int largeur){
+    public Plateau(int hauteur, int largeur) {
         this.setLayout(new GridLayout(hauteur, largeur));
-        for(int i = 0; i < hauteur; i++){
-            for(int j = 0; j < largeur; j++){
+        for(int i = 0; i < hauteur; i++) {
+            for(int j = 0; j < largeur; j++) {
                 this.add(new JCase(i, j));
             }
         }
@@ -47,7 +47,7 @@ class Plateau extends JPanel {
 
 class JCase extends JPanel {
 
-    public JCase(int x, int y){
+    public JCase(int x, int y) {
         /* Juste une classe de test pour la visualisation*/
         this.setBackground(new Color(x*y, x*y, x*y));
     }

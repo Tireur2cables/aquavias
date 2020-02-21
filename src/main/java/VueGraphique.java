@@ -12,11 +12,11 @@ public class VueGraphique {
         this.controleur = controleur;
     }
 
-    public void affichePont(BufferedImage image, double rotation){
+    public void affichePont(BufferedImage image, double rotation) {
         View v = new View("Pont", rotate(image, rotation));
     }
 
-    public void affichePlateau(){
+    public void affichePlateau() {
         int hauteur = this.controleur.getJeu().getHauteur();
         int largeur = this.controleur.getJeu().getLargeur();
         View v = new View(hauteur, largeur);
@@ -25,27 +25,19 @@ public class VueGraphique {
 
     private static String cheminPont(char c, boolean eau) {
         switch (c){
-            case 'I':  return (eau)?("IwO.png"):("InoO.png");
-            case 'L': return (eau)?("LwO.png"):("LnoO.png");
-            case 'T': return (eau)?("TwO.png"):("TnoO.png");
+            case 'I':
+                return (eau)?("IwO.png"):("InoO.png");
+            case 'L':
+                return (eau)?("LwO.png"):("LnoO.png");
+            case 'T': 
+                return (eau)?("TwO.png"):("TnoO.png");
             default:
                 throw new RuntimeException("Aucun pont correspondant à ce character");
         }
     }
 
-    private static BufferedImage chargeImage(String chemin) {
-        try{
-            return ImageIO.read(new File(chemin));
-        }catch (IOException e){
-            System.out.println("Impossible de charger l'image de chemin : " + chemin);
-        }catch (NullPointerException e){
-            System.out.println("Impossible de trouver l'image correspondant au chemin : " + chemin);
-        }
-        throw new RuntimeException("Erreur de chargement de l'image");
-    }
-
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
-        /**fixme renvoit une nouvelle BufferedImage à chaque rotation -> Danger ? */
+        /**fixme renvoit une nouvelle BufferedImage à chaque rotation -> Danger niveau mémoire ? */
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 

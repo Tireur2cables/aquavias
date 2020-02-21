@@ -1,5 +1,8 @@
-import org.json.JSONArray;
 import java.awt.image.BufferedImage;
+
+/* Imports with maven dependecies */
+import org.json.JSONArray;
+
 
 public class PontL extends Pont {
 
@@ -11,25 +14,29 @@ public class PontL extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    private boolean[] calculSorties(){
+    private boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
-            case 'N' :
+            case 'N' : {
                 tab[2] = false;
                 tab[3] = false;
                 break;
-            case 'E' :
+            }
+            case 'E' : {
                 tab[0] = false;
                 tab[3] = false;
                 break;
-            case 'S' :
+            }
+            case 'S' : {
                 tab[0] = false;
                 tab[1] = false;
                 break;
-            case 'O' :
+            }
+            case 'O' : {
                 tab[1] = false;
                 tab[2] = false;
                 break;
+            }
         }
         return tab;
     }
