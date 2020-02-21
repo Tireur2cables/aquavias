@@ -19,22 +19,10 @@ public class Controleur {
     }
 
     private void affichePont(char c, boolean eau, double rotation){
-        BufferedImage image = null;
-        switch (c) {
-            case 'I' :
-                image = (eau)? PontI.pontIEau : PontI.pontI;
-                break;
-            case 'T' :
-                image = (eau)? PontT.pontTEau : PontT.pontT;
-                break;
-            case 'L' :
-                image = (eau)? PontL.pontLEau : PontL.pontL;
-                break;
-        }
-        if (image == null) throw new RuntimeException("Affichage du pont incorrect!");
+        BufferedImage image = getImage(c, eau);
         this.graph.affichePont(rotate(image, rotation));
     }
-
+    
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
@@ -42,33 +30,25 @@ public class Controleur {
         this.graph.afficheNiveau();
         for (int i = 0; i < largeur; i++) {
             for (int j = 0; j < hauteur; j++) {
-                this.graph.addToPlateau(this.getImage(this.jeu.getPont(i,j)));
+                this.graph.addToPlateau(this.getImageFromPont(this.jeu.getPont(i,j)));
             }
         }
         this.graph.repaint();
         this.graph.setVisible();
     }
 
-    /* FIXME: Fonction à factoriser */
-    private BufferedImage getImage(Pont p) {
+    private BufferedImage getImageFromPont(Pont p) {
         if (p == null) return Pont.transp; /* FIXME: A remplacer par une image transparente vide de 200*200 */
         char c = p.getForme();
         boolean eau = p.getEau();
-        BufferedImage image = null;
-        switch (c) {
-            case 'I' :
-                image = (eau)? PontI.pontIEau : PontI.pontI;
-                break;
-            case 'T' :
-                image = (eau)? PontT.pontTEau : PontT.pontT;
-                break;
-            case 'L' :
-                image = (eau)? PontL.pontLEau : PontL.pontL;
-                break;
-        }
-        if (image == null) throw new RuntimeException("Affichage du pont incorrect!");
-        double rotation = 0;
         char orientation = p.getOrientation();
+        double rotation = getRotation(orientation);
+        BufferedImage image = getImage(c, eau);
+        return rotate(image, rotation);
+    }
+
+    private static double getRotation(char orientation) {
+        double rotation = 0;
         switch (orientation) {
             case 'N' :
                 rotation = 0;
@@ -83,7 +63,24 @@ public class Controleur {
                 rotation = 270;;
                 break;
         }
-        return rotate(image, rotation);
+        return rotation;
+    }
+
+    private static BufferedImage getImage(char c, boolean eau) {
+        BufferedImage image = null;
+        switch (c) {
+            case 'I' :
+                image = (eau)? PontI.pontIEau : PontI.pontI;
+                break;
+            case 'T' :
+                image = (eau)? PontT.pontTEau : PontT.pontT;
+                break;
+            case 'L' :
+                image = (eau)? PontL.pontLEau : PontL.pontL;
+                break;
+        }
+        if (image == null) throw new RuntimeException("Affichage du pont incorrect!");
+        return image;
     }
 
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
