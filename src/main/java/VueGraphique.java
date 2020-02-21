@@ -29,7 +29,7 @@ public class VueGraphique {
                 return (eau)?("IwO.png"):("InoO.png");
             case 'L':
                 return (eau)?("LwO.png"):("LnoO.png");
-            case 'T': 
+            case 'T':
                 return (eau)?("TwO.png"):("TnoO.png");
             default:
                 throw new RuntimeException("Aucun pont correspondant à ce character");
