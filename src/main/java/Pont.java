@@ -42,6 +42,10 @@ public abstract class Pont {
         return this.forme;
     }
 
+    public boolean getEau() {
+        return this.eau;
+    }
+
     public char getOrientation(){
         return this.orientation;
     }

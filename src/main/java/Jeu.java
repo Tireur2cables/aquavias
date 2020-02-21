@@ -7,16 +7,16 @@ import org.json.*;
 
 public class Jeu {
 
-    private class Case{
+    private class Case {
 
         private Pont pont;
 
-        private Case(int ligne, JSONArray json){
+        private Case(int ligne, JSONArray json) {
             JSONArray tab = ((JSONArray) json.get(ligne));
             this.pont = (tab.length() <= 0)? null : initPont(tab);
         }
-        private Pont initPont(JSONArray tab){
-            switch(tab.getString(0).toUpperCase().charAt(0)){
+        private Pont initPont(JSONArray tab) {
+            switch(tab.getString(0).toUpperCase().charAt(0)) {
                 case 'I' :
                     return new PontI(tab);
                 case 'L' :
@@ -31,14 +31,14 @@ public class Jeu {
     private Case[][] plateau;
     private Controleur controleur;
 
-    public Jeu(Controleur controleur){
+    public Jeu(Controleur controleur) {
         this.controleur = controleur;
-        this.initNiveau();
-        this.afficher();
+        //this.afficher();
     }
 
     /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les afficher correctement */
-    public void afficher(){
+    public void afficher() {
+        System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
         for (int i = 0; i < this.plateau[0].length; i++) {
             for (int j = 0; j < this.plateau.length; j++) {
@@ -49,8 +49,8 @@ public class Jeu {
         }
     }
 
-    private void initNiveau(){
-        String chemin = "resources/niveaux/niveau1.json";
+    public void initNiveau(int number) {
+        String chemin = "resources/niveaux/niveau" + number + ".json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
         int longueur = json.getInt("longueur");
@@ -58,7 +58,7 @@ public class Jeu {
         this.initPlateau(longueur, hauteur, niveau);
     }
 
-    private void initPlateau(int longueur, int hauteur, JSONArray niveau){
+    private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
         this.plateau = new Case[longueur][hauteur];
         for (int i = 0; i < longueur; i++) {
             JSONArray colonne = ((JSONArray) niveau.get(i));
@@ -81,13 +81,12 @@ public class Jeu {
     }
 
     public Case[][] getPlateau() {
-        return plateau;
+        return this.plateau;
     }
 
-    /*public Pont getPont(int hauteur, int largeur) {
-
+    public Pont getPont(int hauteur, int largeur) {
+        return this.plateau[largeur][hauteur].pont;
     }
-    */
 
 
     /**
