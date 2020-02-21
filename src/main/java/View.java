@@ -30,6 +30,7 @@ class Fenetre extends JFrame {
 class Plateau extends JPanel {
 
     public Plateau(int hauteur, int largeur) {
+        super();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(largeur, hauteur));
         });

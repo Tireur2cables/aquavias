@@ -39,12 +39,12 @@ public class Controleur {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
         this.graph.initPlateau(hauteur, largeur);
+        this.graph.afficheNiveau();
         for (int i = 0; i < largeur; i++) {
             for (int j = 0; j < hauteur; j++) {
                 this.graph.addToPlateau(this.getImage(this.jeu.getPont(i,j)));
             }
         }
-        this.graph.afficheNiveau();
         this.graph.setVisible();
     }
 

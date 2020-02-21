@@ -24,13 +24,15 @@ public class VueGraphique {
         this.plateau = new Plateau(hauteur, largeur);
     }
 
-    public void addToPlateau(BufferedImage image) {
-        this.plateau.add(new ImagePane(image));
-    }
-
     public void afficheNiveau() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.plateau);
+        });
+    }
+
+    public void addToPlateau(BufferedImage image) {
+        EventQueue.invokeLater(() -> {
+            this.plateau.add(new ImagePane(image));
             this.fenetre.pack();
         });
     }
