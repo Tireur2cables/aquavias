@@ -1,16 +1,16 @@
 .PHONY: all run clean
 
 MVN=mvn
-CLASSPATH=./target/aquavias-0.1.jar
-JAVA_OPT=-cp $(CLASSPATH)
+JARPATH=target/aquavias-0.1-jar-with-dependencies.jar
+JAVA_OPT=-jar
 JAVA=java $(JAVA_OPT)
-TARGET=GameLauncher
+TARGET=aquavias.jar
 
 # Target all builds the project.
 all: clean
 	$(MVN) package assembly:single
-	cp target/aquavias-0.1-jar-with-dependencies.jar \
-	   aquavias.jar
+	cp $(JARPATH) \
+	   $(TARGET)
 
 # Target run executes the program and start with target all to build the
 # project.
@@ -19,5 +19,5 @@ run : all
 
 # Target clean removes all files produced during build.
 clean :
-	if [ -e aquavias.jar ]; then rm aquavias.jar; fi;
+	if [ -e $(TARGET) ]; then rm $(TARGET); fi;
 	$(MVN) clean
