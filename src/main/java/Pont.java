@@ -52,4 +52,8 @@ public abstract class Pont {
         return this.orientation;
     }
 
+    public boolean isMovable() {
+        return this.spe == null;
+    }
+
 }

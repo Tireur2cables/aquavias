@@ -36,13 +36,9 @@ public class VueGraphique {
         });
     }
 
-    public void addToPlateau(BufferedImage image) {
+    public void addToPlateau(BufferedImage image, boolean movable) {
         EventQueue.invokeLater(() -> {
-           /* JPanel tmp = new JPanel();
-            tmp.setPreferredSize(new Dimension(200,200));
-            tmp.setBackground(new Color((int) (Math.random()*100), 125, 5));
-            this.plateau.add(tmp);*/
-            this.plateau.add(new ImagePane(image));
+            this.plateau.add(new ImagePane(image, movable));
         });
     }
 }

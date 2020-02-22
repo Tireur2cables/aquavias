@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 class Fenetre extends JFrame {
@@ -10,7 +12,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
-            this.setContentPane(new ImagePane(image));
+            this.setContentPane(new ImagePane(image, true));
             this.pack();
             this.setVisible(true);
         });
@@ -44,8 +46,9 @@ class ImagePane extends JPanel {
      private BufferedImage image;
      private int width;
      private int height;
+     private boolean movable;
 
-    ImagePane(BufferedImage image) {
+    ImagePane(BufferedImage image, boolean movable) {
         super();
         EventQueue.invokeLater(() -> {
             this.image = image;
@@ -53,6 +56,33 @@ class ImagePane extends JPanel {
             this.height = image.getHeight();
             this.setPreferredSize(new Dimension(this.width, this.height));
         });
+
+        EventQueue.invokeLater(() -> {
+            this.addMouseListener(new MouseListener() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    if (movable) rotateImage();
+                    repaint();
+                }
+
+                @Override
+                public void mousePressed(MouseEvent e) { }
+
+                @Override
+                public void mouseReleased(MouseEvent e) { }
+
+                @Override
+                public void mouseEntered(MouseEvent e) { }
+
+                @Override
+                public void mouseExited(MouseEvent e) { }
+            });
+        });
+
+    }
+
+    private void rotateImage() {
+        this.image = Controleur.rotate(this.image, 90);
     }
 
     @Override
