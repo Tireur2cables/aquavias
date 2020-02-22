@@ -40,7 +40,7 @@ public class Controleur {
     }
 
     private BufferedImage getImageFromPont(Pont p) {
-        if (p == null) return Pont.transp;
+        if (p == null) return Pont.transp; /* FIXME : reussir a faire des images vraiment transparentes de 200*200 */
         char c = p.getForme();
         boolean eau = p.getEau();
         char orientation = p.getOrientation();
