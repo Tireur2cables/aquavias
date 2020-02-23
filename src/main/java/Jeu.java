@@ -88,16 +88,15 @@ public class Jeu {
         return this.plateau[largeur][hauteur].pont;
     }
 
-
-    /**
-     * C'est pas super comme facon de faire, mais je vois pas trop comment faire autrement
-     * FIXME ENFAITE C'EST PAS BON, ON DOIT EN PLUS DE CONNAITRE LA HAUTEUR / LARGEUR, CONNAITRE LE TYPE DE PONT DANS LA CASE
-     * FIXME IL FAUT DONC FAIRE UN GETPLATEAU() QUI RENVOIT UN TABLEAU LONGUEUR*LARGEUR AVEC LES CHARACTERS DEFINISSANT LES BOUTS DE PONT
-     * */
     public int getHauteur(){
         return this.plateau.length;
     }
     public int getLargeur(){
         return this.plateau[0].length;
     }
+
+    public static void detectSortiesAdjacente(int x, int y) {
+        System.out.println(x + " " + y);
+    }
+
 }

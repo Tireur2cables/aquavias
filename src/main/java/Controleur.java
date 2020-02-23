@@ -102,7 +102,7 @@ public class Controleur {
     }
 
     public static void detectSorties(int x, int y) {
-        System.out.print(x + " " + y);
+        Jeu.detectSortiesAdjacente(x, y);
     }
 
 }
