@@ -61,8 +61,10 @@ class ImagePane extends JPanel {
             this.addMouseListener(new MouseListener() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (movable) rotateImage();
-                    repaint();
+                    if (movable) {
+                        rotateImage();
+                        repaint();
+                    }
                 }
 
                 @Override
