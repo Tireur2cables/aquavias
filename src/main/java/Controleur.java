@@ -32,7 +32,7 @@ public class Controleur {
             for (int j = 0; j < hauteur; j++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
-                this.graph.addToPlateau(this.getImageFromPont(p), movable);
+                this.graph.addToPlateau(this.getImageFromPont(p), movable, i, j);
             }
         }
         this.graph.repaint();
@@ -96,9 +96,13 @@ public class Controleur {
         graphic.drawImage(bimg, null, 0, 0);
         graphic.dispose();
         /* tentative de libération de la mémoire */
-        bimg = null;    
+        bimg = null;
         System.gc();
         return rotated;
+    }
+
+    public static void detectSorties(int x, int y) {
+        System.out.print(x + " " + y);
     }
 
 }

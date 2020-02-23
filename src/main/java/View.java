@@ -12,7 +12,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
-            this.setContentPane(new ImagePane(image, true));
+            this.setContentPane(new ImagePane(image, true, 0, 0));
             this.pack();
             this.setVisible(true);
         });
@@ -47,13 +47,18 @@ class ImagePane extends JPanel {
      private int width;
      private int height;
      private boolean movable;
+     private int x;
+     private int y;
 
-    ImagePane(BufferedImage image, boolean movable) {
+    ImagePane(BufferedImage image, boolean movable, int x, int y) {
         super();
+        this.movable = movable;
+        this.image = image;
+        this.width = image.getWidth();
+        this.height = image.getHeight();
+        this.x = x;
+        this.y = y;
         EventQueue.invokeLater(() -> {
-            this.image = image;
-            this.width = image.getWidth();
-            this.height = image.getHeight();
             this.setPreferredSize(new Dimension(this.width, this.height));
         });
 
@@ -64,6 +69,7 @@ class ImagePane extends JPanel {
                     if (movable) {
                         rotateImage();
                         repaint();
+                        Controleur.detectSorties(x, y);
                     }
                 }
 
