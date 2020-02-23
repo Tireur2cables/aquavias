@@ -20,7 +20,7 @@ public abstract class Pont {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
-        this.eau = false;
+        this.eau = this.isEntree();
     }
 
     protected static BufferedImage chargeImage(String chemin) {
@@ -54,6 +54,10 @@ public abstract class Pont {
 
     public boolean isMovable() {
         return this.spe == null;
+    }
+
+    private boolean isEntree() {
+        return this.spe != null && this.spe.equals("entree");
     }
 
 }
