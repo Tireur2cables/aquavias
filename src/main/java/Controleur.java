@@ -95,6 +95,9 @@ public class Controleur {
         graphic.rotate(Math.toRadians(angle), w/2, h/2);
         graphic.drawImage(bimg, null, 0, 0);
         graphic.dispose();
+        /* tentative de libération de la mémoire */
+        bimg = null;    
+        System.gc();
         return rotated;
     }
 
