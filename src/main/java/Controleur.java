@@ -22,7 +22,7 @@ public class Controleur {
         BufferedImage image = getImage(c, eau);
         this.graph.affichePont(rotate(image, rotation));
     }
-    
+
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
@@ -40,7 +40,7 @@ public class Controleur {
     }
 
     private BufferedImage getImageFromPont(Pont p) {
-        if (p == null) return Pont.transp; /* FIXME : reussir a faire des images vraiment transparentes de 200*200 */
+        if (p == null) return Pont.transp;
         char c = p.getForme();
         boolean eau = p.getEau();
         char orientation = p.getOrientation();
