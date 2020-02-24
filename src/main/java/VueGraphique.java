@@ -1,57 +1,44 @@
-import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 public class VueGraphique {
 
     private Controleur controleur;
+    private Fenetre fenetre;
+    private Plateau plateau;
 
     public VueGraphique(Controleur controleur) {
         this.controleur = controleur;
-        affichePont('I');
+        this.fenetre = new Fenetre();
+
     }
 
-    public static void affichePont(char c){
-        String chemin = "resources/img/" + cheminPont(c);
-        BufferedImage image = chargeImage(chemin);
-        View v = new View("Pont", image);
-        View v2 = new View("Pont", rotate(image, 90));
+    public void setVisible() {
+        this.fenetre.setVisible(true);
     }
 
-    private static String cheminPont(char c) {
-        switch (c){
-            case 'I':  return "InoO.png";
-            case 'L': return "LnoO.png";
-            case 'T': return "TnoO.png";
-            default:
-                throw new RuntimeException("Aucun pont correspondant à ce character");
-        }
+    public void repaint(){
+        this.fenetre.repaint();
+        this.fenetre.pack();
     }
 
-    private static BufferedImage chargeImage(String chemin) {
-        try{
-            return ImageIO.read(new File(chemin));
-        }catch (IOException e){
-            System.out.println("Impossible de charger l'image de chemin : " + chemin);
-        }catch (NullPointerException e){
-            System.out.println("Impossible de trouver l'image correspondant au chemin : " + chemin);
-        }
-        throw new RuntimeException("Erreur de chargement de l'image");
+    public void affichePont(BufferedImage image) {
+        EventQueue.invokeLater(() -> new Fenetre("Pont", image));
     }
 
-    public static BufferedImage rotate(BufferedImage bimg, double angle) {
-
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
-        Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
-        return rotated;
+    public void initPlateau(int hauteur, int largeur) {
+        this.plateau = new Plateau(hauteur, largeur);
     }
 
+    public void afficheNiveau() {
+        EventQueue.invokeLater(() -> {
+            this.fenetre.setContentPane(this.plateau);
+        });
+    }
+
+    public void addToPlateau(BufferedImage image, boolean movable) {
+        EventQueue.invokeLater(() -> {
+            this.plateau.add(new ImagePane(image, movable));
+        });
+    }
 }

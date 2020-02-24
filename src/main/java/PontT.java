@@ -1,23 +1,22 @@
+import java.awt.image.BufferedImage;
+
+/* Imports with maven dependecies */
 import org.json.JSONArray;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class PontT extends Pont {
 
-    protected static BufferedImage pontT = chargeImage("TnoO.png");
-    protected static BufferedImage pontTEau = chargeImage("TwO.png");
+    static BufferedImage pontT = chargeImage("TnoO.png");
+    static BufferedImage pontTEau = chargeImage("TwO.png");
 
     public PontT(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();
     }
 
-    public boolean[] calculSorties(){
+    public boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
-        switch (this.orientation){
+        switch (this.orientation) {
             case 'N' :
                 tab[2] = false;
                 break;
