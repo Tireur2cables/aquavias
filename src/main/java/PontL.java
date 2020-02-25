@@ -14,7 +14,7 @@ public class PontL extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    private boolean[] calculSorties() {
+    public boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' : {

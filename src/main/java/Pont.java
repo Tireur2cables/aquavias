@@ -36,8 +36,16 @@ public abstract class Pont {
         throw new RuntimeException("Erreur de chargement de l'image");
     }
 
-    public void setSorties(boolean[] sorties) {
-        this.sorties = sorties;
+    public void setOrientation(char c) {
+        this.orientation = c;
+        this.castAndCalculateSorties();
+    }
+
+    private void castAndCalculateSorties() {
+        if (this instanceof PontI) ((PontI) this).calculSorties();
+        else if (this instanceof PontL) ((PontL) this).calculSorties();
+        else if (this instanceof PontT) ((PontT) this).calculSorties();
+        throw new RuntimeException("Invalide type of Pont!");
     }
 
     public char getForme(){
@@ -62,6 +70,16 @@ public abstract class Pont {
 
     public boolean[] getSorties() {
         return this.sorties;
+    }
+
+    public static char getNextOrientation(char c) {
+        switch (c) {
+            case 'N' : return 'E';
+            case 'E' : return 'S';
+            case 'S' : return 'O';
+            case 'O' : return 'N';
+        }
+        throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }
 
 }

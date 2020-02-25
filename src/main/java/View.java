@@ -46,24 +46,30 @@ class ImagePane extends JPanel {
      private BufferedImage image;
      private int width;
      private int height;
+     private Controleur controleur;
+     private int x;
+     private int y;
 
     ImagePane(BufferedImage image, boolean movable, Controleur controleur, int x, int y) {
         super();
         this.image = image;
         this.width = image.getWidth();
         this.height = image.getHeight();
+        this.controleur = controleur;
+        this.x = x;
+        this.y = y;
         EventQueue.invokeLater(() -> {
             this.setPreferredSize(new Dimension(this.width, this.height));
         });
 
         EventQueue.invokeLater(() -> {
-            this.addMouseListener(new ClickListener(movable, controleur, this, x, y));
+            this.addMouseListener(new ClickListener(movable, this));
         });
 
     }
 
     void rotateImage() {
-        this.image = Controleur.rotate(this.image, 90);
+        this.image = this.controleur.rotate(this.image, 90, this.x, this.y, false);
     }
 
     @Override
@@ -76,18 +82,12 @@ class ImagePane extends JPanel {
 class ClickListener implements MouseListener {
 
     private boolean movable;
-    private Controleur controleur;
     private ImagePane imagePane;
-    private int x;
-    private int y;
 
-    public ClickListener(boolean movable, Controleur controleur, ImagePane imagePane, int x, int y) {
+    public ClickListener(boolean movable, ImagePane imagePane) {
         super();
         this.movable = movable;
-        this.controleur = controleur;
         this.imagePane = imagePane;
-        this.x = x;
-        this.y = y;
     }
 
     @Override
@@ -95,9 +95,7 @@ class ClickListener implements MouseListener {
         if (this.movable) {
             this.imagePane.rotateImage();
             this.imagePane.repaint();
-
         }
-        this.controleur.detectSorties(this.x, this.y);
     }
 
     @Override

@@ -94,8 +94,11 @@ public class Jeu {
         return this.plateau[0].length;
     }
 
-    public void detectSortiesAdjacente(int x, int y) {
+    /* On suppose que l'on tourne les ponts uniquement de 90° ici */
+    public void refreshSorties(int x, int y) {
         Pont p = this.plateau[y][x].pont;
+        char newOrientation = Pont.getNextOrientation(p.orientation);
+        p.setOrientation(newOrientation);
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             System.out.print(sortiesP[i] + ",");
