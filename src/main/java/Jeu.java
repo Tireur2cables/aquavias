@@ -90,6 +90,7 @@ public class Jeu {
     public int getHauteur(){
         return this.plateau.length;
     }
+
     public int getLargeur(){
         return this.plateau[0].length;
     }
@@ -99,11 +100,25 @@ public class Jeu {
         Pont p = this.plateau[y][x].pont;
         char newOrientation = Pont.getNextOrientation(p.orientation);
         p.setOrientation(newOrientation);
+    }
+
+    public void detectAdjacents(int x, int y) {
+        Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
-            System.out.print(sortiesP[i] + ",");
+            if (sortiesP[i]){
+                switch (i) {
+                    case 0 : System.out.println("0");
+                        break;
+                    case 1 : System.out.println("1");
+                        break;
+                    case 2 : System.out.println("2");
+                        break;
+                    case 3 : System.out.println("3");
+                        break;
+                }
+            }
         }
-        System.out.println();
     }
 
 }

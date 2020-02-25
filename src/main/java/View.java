@@ -70,6 +70,7 @@ class ImagePane extends JPanel {
 
     void rotateImage() {
         this.image = this.controleur.rotate(this.image, 90, this.x, this.y, false);
+        this.controleur.detectAdjacents(this.x, this.y);
     }
 
     @Override

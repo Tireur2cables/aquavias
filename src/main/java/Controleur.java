@@ -106,4 +106,8 @@ public class Controleur {
         return rotated;
     }
 
+    public void detectAdjacents(int x, int y) {
+        this.jeu.detectAdjacents(x, y);
+    }
+
 }
