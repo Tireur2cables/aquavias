@@ -13,7 +13,7 @@ public class Controleur {
     public void launch() {
         System.out.println("Test affichage de niveau");
         this.jeu = new Jeu(this);
-        this.jeu.initNiveau(1);
+        this.jeu.initNiveau(3);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
@@ -26,10 +26,10 @@ public class Controleur {
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
-        this.graph.initPlateau(hauteur, largeur);
+        this.graph.initPlateau(largeur, hauteur);
         this.graph.afficheNiveau();
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
                 this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);

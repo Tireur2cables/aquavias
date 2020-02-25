@@ -10,7 +10,7 @@ public abstract class Pont {
 
     protected char forme; /* I, T, L */
     protected char orientation; /* N, E, S, O */
-    protected boolean[] sorties;
+    protected boolean[] sorties; /* [N, E, S, O] */
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
