@@ -95,7 +95,12 @@ public class Jeu {
     }
 
     public void detectSortiesAdjacente(int x, int y) {
-        System.out.println(x + " " + y);
+        Pont p = this.plateau[y][x].pont;
+        boolean[] sortiesP = p.getSorties();
+        for (int i = 0; i < sortiesP.length; i++) {
+            System.out.print(sortiesP[i] + ",");
+        }
+        System.out.println();
     }
 
 }

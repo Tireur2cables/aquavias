@@ -60,4 +60,8 @@ public abstract class Pont {
         return this.spe != null && this.spe.equals("entree");
     }
 
+    public boolean[] getSorties() {
+        return this.sorties;
+    }
+
 }

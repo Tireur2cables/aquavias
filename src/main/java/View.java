@@ -95,8 +95,9 @@ class ClickListener implements MouseListener {
         if (this.movable) {
             this.imagePane.rotateImage();
             this.imagePane.repaint();
-            this.controleur.detectSorties(this.x, this.y);
+
         }
+        this.controleur.detectSorties(this.x, this.y);
     }
 
     @Override
