@@ -42,10 +42,9 @@ public abstract class Pont {
     }
 
     private void castAndCalculateSorties() {
-        if (this instanceof PontI) ((PontI) this).calculSorties();
-        else if (this instanceof PontL) ((PontL) this).calculSorties();
-        else if (this instanceof PontT) ((PontT) this).calculSorties();
-        throw new RuntimeException("Invalide type of Pont!");
+        if (this instanceof PontI) this.sorties = ((PontI) this).calculSorties();
+        else if (this instanceof PontL) this.sorties = ((PontL) this).calculSorties();
+        else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
     }
 
     public char getForme(){
