@@ -85,6 +85,10 @@ public class Controleur {
         return image;
     }
 
+    public void detectSorties(int x, int y) {
+        this.jeu.detectSortiesAdjacente(x, y);
+    }
+
     public static BufferedImage rotate(BufferedImage bimg, double angle) {
         /**fixme renvoit une nouvelle BufferedImage à chaque rotation -> Danger niveau mémoire ? */
         int w = bimg.getWidth();
@@ -99,10 +103,6 @@ public class Controleur {
         bimg = null;
         System.gc();
         return rotated;
-    }
-
-    public static void detectSorties(int x, int y) {
-        Jeu.detectSortiesAdjacente(x, y);
     }
 
 }

@@ -94,7 +94,7 @@ public class Jeu {
         return this.plateau[0].length;
     }
 
-    public static void detectSortiesAdjacente(int x, int y) {
+    public void detectSortiesAdjacente(int x, int y) {
         System.out.println(x + " " + y);
     }
 

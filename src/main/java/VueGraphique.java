@@ -22,7 +22,7 @@ public class VueGraphique {
     }
 
     public void affichePont(BufferedImage image) {
-        EventQueue.invokeLater(() -> new Fenetre("Pont", image));
+        EventQueue.invokeLater(() -> new Fenetre("Pont", image, this.controleur));
     }
 
     public void initPlateau(int hauteur, int largeur) {
@@ -37,7 +37,7 @@ public class VueGraphique {
 
     public void addToPlateau(BufferedImage image, boolean movable, int x, int y) {
         EventQueue.invokeLater(() -> {
-            this.plateau.add(new ImagePane(image, movable, x, y));
+            this.plateau.add(new ImagePane(image, movable, this.controleur, x, y));
         });
     }
 }
