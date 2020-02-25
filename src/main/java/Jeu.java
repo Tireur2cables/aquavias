@@ -33,7 +33,6 @@ public class Jeu {
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
-        //this.afficher();
     }
 
     /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les afficher correctement */
