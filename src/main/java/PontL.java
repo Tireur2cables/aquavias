@@ -23,18 +23,18 @@ public class PontL extends Pont {
                 break;
             }
             case 'E' : {
-                tab[2] = false;
-                tab[3] = false;
-                break;
-            }
-            case 'S' : {
                 tab[0] = false;
                 tab[1] = false;
                 break;
             }
-            case 'O' : {
-                tab[3] = false;
+            case 'S' : {
+                tab[1] = false;
                 tab[2] = false;
+                break;
+            }
+            case 'O' : {
+                tab[2] = false;
+                tab[3] = false;
                 break;
             }
         }
