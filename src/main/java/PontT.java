@@ -18,16 +18,16 @@ public class PontT extends Pont {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' :
-                tab[2] = false;
-                break;
-            case 'E' :
                 tab[3] = false;
                 break;
-            case 'S' :
+            case 'E' :
                 tab[0] = false;
                 break;
-            case 'O' :
+            case 'S' :
                 tab[1] = false;
+                break;
+            case 'O' :
+                tab[2] = false;
                 break;
         }
         return tab;

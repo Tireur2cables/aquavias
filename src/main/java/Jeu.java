@@ -131,31 +131,35 @@ public class Jeu {
     /* X = hauteur et Y = largeur */
     private void afficheAdjaI(int i, int x, int y) {
         switch (i) {
-            case 0 : { /* Orientation : N */
+            case 0 : { /* Orientation sortie : N */
                 if (x-1 >= 0) {
+                    char sorite = 'N';
                     Pont p = this.plateau[y][x-1].pont;
-                    if (p != null) System.out.println(p.forme);
+                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
                     else System.out.println("null");
                 }
             }break;
-            case 1 : { /* Orientation : E */
+            case 1 : { /* Orientation sortie : E */
                 if (y+1 < this.getLargeur()) {
+                    char sorite = 'E';
                     Pont p = this.plateau[y+1][x].pont;
-                    if (p != null) System.out.println(p.forme);
+                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
                     else System.out.println("null");
                 }
             }break;
-            case 2 : { /* Orientation : S */
+            case 2 : { /* Orientation sortie : S */
+                char sorite = 'S';
                 if (x+1 < this.getHauteur()) {
                     Pont p = this.plateau[y][x+1].pont;
-                    if (p != null) System.out.println(p.forme);
+                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
                     else System.out.println("null");
                 }
             }break;
-            case 3 : { /* Orientation : O */
+            case 3 : { /* Orientation sortie : O */
                 if (y-1 >= 0) {
+                    char sorite = 'O';
                     Pont p = this.plateau[y-1][x].pont;
-                    if (p != null) System.out.println(p.forme);
+                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
                     else System.out.println("null");
                 }
             }break;

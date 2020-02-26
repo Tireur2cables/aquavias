@@ -81,4 +81,14 @@ public abstract class Pont {
         throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }
 
+    public boolean isAccessibleFrom(char c) {
+        switch (c) {
+            case 'N' : return this.sorties[0];
+            case 'E' : return this.sorties[1];
+            case 'S' : return this.sorties[2];
+            case 'O' : return this.sorties[3];
+        }
+        throw new RuntimeException("char Sortie incorrect : " + c);
+    }
+
 }
