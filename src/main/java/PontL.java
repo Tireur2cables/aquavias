@@ -18,12 +18,12 @@ public class PontL extends Pont {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' : {
-                tab[2] = false;
+                tab[0] = false;
                 tab[3] = false;
                 break;
             }
             case 'E' : {
-                tab[0] = false;
+                tab[2] = false;
                 tab[3] = false;
                 break;
             }
@@ -33,7 +33,7 @@ public class PontL extends Pont {
                 break;
             }
             case 'O' : {
-                tab[1] = false;
+                tab[3] = false;
                 tab[2] = false;
                 break;
             }
