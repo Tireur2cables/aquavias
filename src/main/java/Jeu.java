@@ -107,63 +107,55 @@ public class Jeu {
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
-                this.castAndAffichentAdja(i, x, y, p);
+                this.afficheAdja(i, x, y);
             }
         }
     }
 
-    private void castAndAffichentAdja(int i, int x, int y, Pont source) {
-        if (source instanceof PontI) this.afficheAdjaI(i, x, y);
-        else if (source instanceof PontL) this.afficheAdjaL(i, x, y);
-        else if (source instanceof PontT) this.afficheAdjaT(i, x, y);
-        else throw new RuntimeException("Bad type of Pont");
-    }
-
-    private void afficheAdjaL(int i, int x, int y){
-
-    }
-
-    private void afficheAdjaT(int i, int x, int y){
-
-    }
-
-    /* FIXME : Fonction à factoriser */
-    /* FIXME : Elle ne prend pas en compte les sorties des autres pour l'instant */
     /* X = hauteur et Y = largeur */
-    private void afficheAdjaI(int i, int x, int y) {
+    private void afficheAdja(int i, int x, int y) {
         switch (i) {
-            case 0 : { /* Orientation sortie : N */
-                if (x-1 >= 0) {
-                    char sortie = 'N';
-                    Pont p = this.plateau[y][x-1].pont;
-                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
-                    else System.out.println("null");
-                }
-            }break;
-            case 1 : { /* Orientation sortie : E */
-                if (y+1 < this.getLargeur()) {
-                    char sortie = 'E';
-                    Pont p = this.plateau[y+1][x].pont;
-                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
-                    else System.out.println("null");
-                }
-            }break;
-            case 2 : { /* Orientation sortie : S */
-                char sortie = 'S';
-                if (x+1 < this.getHauteur()) {
-                    Pont p = this.plateau[y][x+1].pont;
-                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
-                    else System.out.println("null");
-                }
-            }break;
-            case 3 : { /* Orientation sortie : O */
-                if (y-1 >= 0) {
-                    char sortie = 'O';
-                    Pont p = this.plateau[y-1][x].pont;
-                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
-                    else System.out.println("null");
-                }
-            }break;
+            case 0 : this.checkAdjaNord(x, y);
+                break;
+            case 1 : this.checkAdjaEst(x, y);
+                break;
+            case 2 : this.checkAdjaSud(x, y);
+                break;
+            case 3 : this.checkAdjaOuest(x, y);
+                break;
+        }
+    }
+
+    private void checkAdjaNord(int x, int y) {
+        if (x-1 >= 0) {
+            char sortie = 'N';
+            Pont p = this.plateau[y][x-1].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
+    private void checkAdjaEst(int x, int y) {
+        if (y+1 < this.getLargeur()) {
+            char sortie = 'E';
+            Pont p = this.plateau[y+1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
+    private void checkAdjaSud(int x, int y) {
+        if (x+1 < this.getHauteur()) {
+            char sortie = 'S';
+            Pont p = this.plateau[y][x+1].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
+    private void checkAdjaOuest(int x, int y) {
+        if (y-1 >= 0) {
+            char sortie = 'O';
+            Pont p = this.plateau[y-1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
         }
     }
 
