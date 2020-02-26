@@ -83,10 +83,10 @@ public abstract class Pont {
 
     public boolean isAccessibleFrom(char c) {
         switch (c) {
-            case 'N' : return this.sorties[0];
-            case 'E' : return this.sorties[1];
-            case 'S' : return this.sorties[2];
-            case 'O' : return this.sorties[3];
+            case 'N' : return this.sorties[2]; /* accessible depuis le nord de l'autre pont donc le sud de ce pont etc... */
+            case 'E' : return this.sorties[3];
+            case 'S' : return this.sorties[0];
+            case 'O' : return this.sorties[1];
         }
         throw new RuntimeException("char Sortie incorrect : " + c);
     }

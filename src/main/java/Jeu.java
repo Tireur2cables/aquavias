@@ -116,6 +116,7 @@ public class Jeu {
         if (source instanceof PontI) this.afficheAdjaI(i, x, y);
         else if (source instanceof PontL) this.afficheAdjaL(i, x, y);
         else if (source instanceof PontT) this.afficheAdjaT(i, x, y);
+        else throw new RuntimeException("Bad type of Pont");
     }
 
     private void afficheAdjaL(int i, int x, int y){
@@ -133,33 +134,33 @@ public class Jeu {
         switch (i) {
             case 0 : { /* Orientation sortie : N */
                 if (x-1 >= 0) {
-                    char sorite = 'N';
+                    char sortie = 'N';
                     Pont p = this.plateau[y][x-1].pont;
-                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
+                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
                     else System.out.println("null");
                 }
             }break;
             case 1 : { /* Orientation sortie : E */
                 if (y+1 < this.getLargeur()) {
-                    char sorite = 'E';
+                    char sortie = 'E';
                     Pont p = this.plateau[y+1][x].pont;
-                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
+                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
                     else System.out.println("null");
                 }
             }break;
             case 2 : { /* Orientation sortie : S */
-                char sorite = 'S';
+                char sortie = 'S';
                 if (x+1 < this.getHauteur()) {
                     Pont p = this.plateau[y][x+1].pont;
-                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
+                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
                     else System.out.println("null");
                 }
             }break;
             case 3 : { /* Orientation sortie : O */
                 if (y-1 >= 0) {
-                    char sorite = 'O';
+                    char sortie = 'O';
                     Pont p = this.plateau[y-1][x].pont;
-                    if (p != null && p.isAccessibleFrom(sorite)) System.out.println(p.forme + " : " + sorite);
+                    if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
                     else System.out.println("null");
                 }
             }break;
