@@ -106,7 +106,7 @@ public class Controleur {
     }
 
     public void detectAdjacents(int x, int y) {
-        this.jeu.detectAdjacents(x, y);
+        this.jeu.detectAdjacents(x, y, false);
     }
 
     public BufferedImage actualiseImage(int x, int y) {

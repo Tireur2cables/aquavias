@@ -117,109 +117,107 @@ public class Jeu {
         p.setOrientation(newOrientation);
     }
 
-    public void detectAdjacents(int x, int y,boolean flag) {
+    public void detectAdjacents(int x, int y, boolean flag) {
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
-                this.afficheAdja(i, x, y,flag);
+                this.afficheAdja(i, x, y, flag);
             }
         }
     }
 
     /* X = hauteur et Y = largeur */
-    private void afficheAdja(int i, int x, int y,boolean flag) {
+    private void afficheAdja(int i, int x, int y, boolean flag) {
         switch (i) {
-            case 0 : this.checkAdjaNord(x, y,flag);
+            case 0 : this.checkAdjaNord(x, y, flag);
                 break;
-            case 1 : this.checkAdjaEst(x, y,flag);
+            case 1 : this.checkAdjaEst(x, y, flag);
                 break;
-            case 2 : this.checkAdjaSud(x, y,flag);
+            case 2 : this.checkAdjaSud(x, y, flag);
                 break;
-            case 3 : this.checkAdjaOuest(x, y,flag);
+            case 3 : this.checkAdjaOuest(x, y, flag);
                 break;
         }
     }
 
-    private void checkAdjaNord(int x, int y,boolean flag) {
+    private void checkAdjaNord(int x, int y, boolean flag) {
         if (x-1 >= 0) {
             char sortie = 'N';
             Pont p = this.plateau[y][x-1].pont;
-            Pont source = this.plateau[y][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-              if (flag){
-                p.setEau(true);
-                this.detectAdjacents(x-1,y,true);
-              }else{
-                this.parcourchemin();
-              }
+                if (flag) {
+                    if (!p.getEau()) {
+                        p.setEau(true);
+                        this.detectAdjacents(x-1, y,true);
+                    }
+                }else this.parcourchemin();
             }
         }
     }
 
-    private void checkAdjaEst(int x, int y,boolean flag) {
+    private void checkAdjaEst(int x, int y, boolean flag) {
         if (y+1 < this.getLargeur()) {
             char sortie = 'E';
             Pont p = this.plateau[y+1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-              if (flag){
-                p.setEau(true);
-                this.detectAdjacents(x,y+1,true);
-              }else{
-                this.parcourchemin();
-              }
+                if (flag) {
+                    if (!p.getEau()) {
+                        p.setEau(true);
+                        this.detectAdjacents(x-1, y,true);
+                    }
+                }else this.parcourchemin();
             }
-
         }
     }
 
-    private void checkAdjaSud(int x, int y,boolean flag) {
+    private void checkAdjaSud(int x, int y, boolean flag) {
         if (x+1 < this.getHauteur()) {
             char sortie = 'S';
             Pont p = this.plateau[y][x+1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-              if (flag){
-                p.setEau(true);
-                this.detectAdjacents(x+1,y,true);
-              }else{
-                this.parcourchemin();
-              }
+                if (flag) {
+                    if (!p.getEau()) {
+                        p.setEau(true);
+                        this.detectAdjacents(x-1, y,true);
+                    }
+                }else this.parcourchemin();
             }
         }
     }
 
-    private void checkAdjaOuest(int x, int y,boolean flag) {
-        if (y - 1 >= 0) {
+    private void checkAdjaOuest(int x, int y, boolean flag) {
+        if (y-1 >= 0) {
             char sortie = 'O';
-            Pont p = this.plateau[y - 1][x].pont;
+            Pont p = this.plateau[y-1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-              if (flag){
-                p.setEau(true);
-                this.detectAdjacents(x,y-1,true);
-              }else{
-                this.parcourchemin();
-              }
+              if (flag) {
+                  if (!p.getEau()) {
+                      p.setEau(true);
+                      this.detectAdjacents(x-1, y,true);
+                  }
+              }else this.parcourchemin();
             }
 
         }
     }
-    private void parcourchemin (){
-	     this.resetWater();
-	      int x=this.xEntree;
-	       int y=this.yEntree;
-         this.detectAdjacents(x,y,true);
+
+    private void parcourchemin() {
+        this.resetWater();
+        int x = this.xEntree;
+        int y = this.yEntree;
+        this.detectAdjacents(x, y,true);
 
     }
-    private void resetWater(){
-      for(int i=0;i<this.getLargeur();i++){
-        for (int j=0;j<this.getHauteur() ;j++ ) {
-          Pont p=this.plateau [i][j].pont;
-          if (p!=null && !p.isEntree()){
-            p.setEau(false);
-          }
 
+    private void resetWater() {
+        for(int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++ ) {
+                Pont p = this.plateau[i][j].pont;
+                if (p != null && !p.isEntree())
+                    p.setEau(false);
+            }
         }
-      }
     }
 
 }
