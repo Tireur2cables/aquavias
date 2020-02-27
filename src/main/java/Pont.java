@@ -63,7 +63,7 @@ public abstract class Pont {
         return this.spe == null;
     }
 
-    private boolean isEntree() {
+    public boolean isEntree() {
         return this.spe != null && this.spe.equals("entree");
     }
 

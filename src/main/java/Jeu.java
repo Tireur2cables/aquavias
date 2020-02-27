@@ -30,6 +30,8 @@ public class Jeu {
 
     private Case[][] plateau;
     private Controleur controleur;
+    private int xEntree;
+    private int yEntree;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -55,6 +57,7 @@ public class Jeu {
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau);
+        this.chercheEntree();
     }
 
     private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
@@ -63,6 +66,18 @@ public class Jeu {
             JSONArray colonne = ((JSONArray) niveau.get(i));
             for (int j = 0; j < hauteur; j++) {
                 this.plateau[i][j] = new Case(j, colonne);
+            }
+        }
+    }
+
+    private void chercheEntree() {
+        for (int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++) {
+                if (this.plateau[i][j].pont.isEntree()) {
+                    this.xEntree = j;
+                    this.yEntree = i;
+                    return;
+                }
             }
         }
     }
@@ -130,8 +145,10 @@ public class Jeu {
         if (x-1 >= 0) {
             char sortie = 'N';
             Pont p = this.plateau[y][x-1].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            Pont source = this.plateau[y][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
                 System.out.println(p.forme + " : " + sortie);
+            }
         }
     }
 
@@ -152,9 +169,9 @@ public class Jeu {
     }
 
     private void checkAdjaOuest(int x, int y) {
-        if (y-1 >= 0) {
+        if (y - 1 >= 0) {
             char sortie = 'O';
-            Pont p = this.plateau[y-1][x].pont;
+            Pont p = this.plateau[y - 1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
         }
     }

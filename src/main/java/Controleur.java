@@ -32,21 +32,21 @@ public class Controleur {
             for (int j = 0; j < largeur; j++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
-                this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);
+                this.graph.addToPlateau(this.getImageFromPont(p, i, j, false), movable, i, j);
             }
         }
         this.graph.repaint();
         this.graph.setVisible();
     }
 
-    private BufferedImage getImageFromPont(Pont p, int x, int y) {
+    private BufferedImage getImageFromPont(Pont p, int x, int y, boolean refresh) {
         if (p == null) return Pont.transp;
         char c = p.getForme();
         boolean eau = p.getEau();
         char orientation = p.getOrientation();
         double rotation = getRotation(orientation);
         BufferedImage image = getImage(c, eau);
-        return this.rotate(image, rotation, x, y, true);
+        return this.rotate(image, rotation, x, y, refresh);
     }
 
     private static double getRotation(char orientation) {
@@ -85,7 +85,7 @@ public class Controleur {
         return image;
     }
 
-    public BufferedImage rotate(BufferedImage bimg, double angle, int x, int y, boolean init /* True durant l'initialisation du niveau */) {
+    public BufferedImage rotate(BufferedImage bimg, double angle, int x, int y, boolean refresh /* True lorsqu'on tourne le pont */) {
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 
@@ -100,13 +100,18 @@ public class Controleur {
         System.gc();
 
         /* Actualisation des sorties du pont */
-        if (!init) this.jeu.refreshSorties(x, y);
+        if (refresh) this.jeu.refreshSorties(x, y);
 
         return rotated;
     }
 
     public void detectAdjacents(int x, int y) {
         this.jeu.detectAdjacents(x, y);
+    }
+
+    public BufferedImage actualiseImage(int x, int y) {
+        Pont p = this.jeu.getPont(x, y);
+        return this.getImageFromPont(p, x, y, false);
     }
 
 }
