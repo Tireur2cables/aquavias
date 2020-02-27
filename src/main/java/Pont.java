@@ -70,6 +70,9 @@ public abstract class Pont {
     public boolean[] getSorties() {
         return this.sorties;
     }
+    public void setEau(boolean eau){
+      this.eau=eau;
+    }
 
     public static char getNextOrientation(char c) {
         switch (c) {
