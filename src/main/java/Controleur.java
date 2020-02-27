@@ -102,6 +102,9 @@ public class Controleur {
         /* Actualisation des sorties du pont */
         if (refresh) this.jeu.refreshSorties(x, y);
 
+        /* change l'attribut eau des ponts */
+        this.detectAdjacents(x, y);
+
         return rotated;
     }
 
