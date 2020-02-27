@@ -86,7 +86,6 @@ public class Controleur {
     }
 
     public BufferedImage rotate(BufferedImage bimg, double angle, int x, int y, boolean init /* True durant l'initialisation du niveau */) {
-        /**fixme renvoit une nouvelle BufferedImage à chaque rotation -> Danger niveau mémoire ? */
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 
