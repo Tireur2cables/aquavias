@@ -13,40 +13,40 @@ public class Controleur {
     public void launch() {
         System.out.println("Test affichage de niveau");
         this.jeu = new Jeu(this);
-        this.jeu.initNiveau(1);
+        this.jeu.initNiveau(3);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
 
     private void affichePont(char c, boolean eau, double rotation){
         BufferedImage image = getImage(c, eau);
-        this.graph.affichePont(rotate(image, rotation));
+        this.graph.affichePont(this.rotate(image, rotation, 0, 0, true));
     }
 
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
-        this.graph.initPlateau(hauteur, largeur);
+        this.graph.initPlateau(largeur, hauteur);
         this.graph.afficheNiveau();
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
-                this.graph.addToPlateau(this.getImageFromPont(p), movable);
+                this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);
             }
         }
         this.graph.repaint();
         this.graph.setVisible();
     }
 
-    private BufferedImage getImageFromPont(Pont p) {
+    private BufferedImage getImageFromPont(Pont p, int x, int y) {
         if (p == null) return Pont.transp;
         char c = p.getForme();
         boolean eau = p.getEau();
         char orientation = p.getOrientation();
         double rotation = getRotation(orientation);
         BufferedImage image = getImage(c, eau);
-        return rotate(image, rotation);
+        return this.rotate(image, rotation, x, y, true);
     }
 
     private static double getRotation(char orientation) {
@@ -85,8 +85,7 @@ public class Controleur {
         return image;
     }
 
-    public static BufferedImage rotate(BufferedImage bimg, double angle) {
-        /**fixme renvoit une nouvelle BufferedImage à chaque rotation -> Danger niveau mémoire ? */
+    public BufferedImage rotate(BufferedImage bimg, double angle, int x, int y, boolean init /* True durant l'initialisation du niveau */) {
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 
@@ -95,10 +94,19 @@ public class Controleur {
         graphic.rotate(Math.toRadians(angle), w/2, h/2);
         graphic.drawImage(bimg, null, 0, 0);
         graphic.dispose();
+
         /* tentative de libération de la mémoire */
-        bimg = null;    
+        bimg = null;
         System.gc();
+
+        /* Actualisation des sorties du pont */
+        if (!init) this.jeu.refreshSorties(x, y);
+
         return rotated;
+    }
+
+    public void detectAdjacents(int x, int y) {
+        this.jeu.detectAdjacents(x, y);
     }
 
 }

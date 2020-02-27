@@ -10,7 +10,7 @@ public abstract class Pont {
 
     protected char forme; /* I, T, L */
     protected char orientation; /* N, E, S, O */
-    protected boolean[] sorties;
+    protected boolean[] sorties; /* [N, E, S, O] */
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
@@ -36,8 +36,15 @@ public abstract class Pont {
         throw new RuntimeException("Erreur de chargement de l'image");
     }
 
-    public void setSorties(boolean[] sorties) {
-        this.sorties = sorties;
+    public void setOrientation(char c) {
+        this.orientation = c;
+        this.castAndCalculateSorties();
+    }
+
+    private void castAndCalculateSorties() {
+        if (this instanceof PontI) this.sorties = ((PontI) this).calculSorties();
+        else if (this instanceof PontL) this.sorties = ((PontL) this).calculSorties();
+        else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
     }
 
     public char getForme(){
@@ -58,6 +65,30 @@ public abstract class Pont {
 
     private boolean isEntree() {
         return this.spe != null && this.spe.equals("entree");
+    }
+
+    public boolean[] getSorties() {
+        return this.sorties;
+    }
+
+    public static char getNextOrientation(char c) {
+        switch (c) {
+            case 'N' : return 'E';
+            case 'E' : return 'S';
+            case 'S' : return 'O';
+            case 'O' : return 'N';
+        }
+        throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
+    }
+
+    public boolean isAccessibleFrom(char c) {
+        switch (c) {
+            case 'N' : return this.sorties[2]; /* accessible depuis le nord de l'autre pont donc le sud de ce pont etc... */
+            case 'E' : return this.sorties[3];
+            case 'S' : return this.sorties[0];
+            case 'O' : return this.sorties[1];
+        }
+        throw new RuntimeException("char Sortie incorrect : " + c);
     }
 
 }

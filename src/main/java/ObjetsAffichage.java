@@ -6,13 +6,13 @@ import java.awt.image.BufferedImage;
 
 class Fenetre extends JFrame {
 
-    public Fenetre(String titre, BufferedImage image) {
+    public Fenetre(String titre, BufferedImage image, Controleur controleur) {
         /* Fenetre pour l'affichage unitaire de test */
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
-            this.setContentPane(new ImagePane(image, true));
+            this.setContentPane(new ImagePane(image, true, controleur, 0, 0));
             this.pack();
             this.setVisible(true);
         });
@@ -46,45 +46,31 @@ class ImagePane extends JPanel {
      private BufferedImage image;
      private int width;
      private int height;
-     private boolean movable;
+     private Controleur controleur;
+     private int x;
+     private int y;
 
-    ImagePane(BufferedImage image, boolean movable) {
+    ImagePane(BufferedImage image, boolean movable, Controleur controleur, int x, int y) {
         super();
+        this.image = image;
+        this.width = image.getWidth();
+        this.height = image.getHeight();
+        this.controleur = controleur;
+        this.x = x;
+        this.y = y;
         EventQueue.invokeLater(() -> {
-            this.image = image;
-            this.width = image.getWidth();
-            this.height = image.getHeight();
             this.setPreferredSize(new Dimension(this.width, this.height));
         });
 
         EventQueue.invokeLater(() -> {
-            this.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    if (movable) {
-                        rotateImage();
-                        repaint();
-                    }
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) { }
-
-                @Override
-                public void mouseReleased(MouseEvent e) { }
-
-                @Override
-                public void mouseEntered(MouseEvent e) { }
-
-                @Override
-                public void mouseExited(MouseEvent e) { }
-            });
+            this.addMouseListener(new ClickListener(movable, this));
         });
 
     }
 
-    private void rotateImage() {
-        this.image = Controleur.rotate(this.image, 90);
+    void rotateImage() {
+        this.image = this.controleur.rotate(this.image, 90, this.x, this.y, false);
+        this.controleur.detectAdjacents(this.x, this.y);
     }
 
     @Override
@@ -92,4 +78,37 @@ class ImagePane extends JPanel {
         super.paintComponent(g);
         g.drawImage(this.image, 0, 0, this);
     }
+}
+
+class ClickListener implements MouseListener {
+
+    private boolean movable;
+    private ImagePane imagePane;
+
+    public ClickListener(boolean movable, ImagePane imagePane) {
+        super();
+        this.movable = movable;
+        this.imagePane = imagePane;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        if (this.movable) {
+            this.imagePane.rotateImage();
+            this.imagePane.repaint();
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) { }
+
+    @Override
+    public void mouseReleased(MouseEvent e) { }
+
+    @Override
+    public void mouseEntered(MouseEvent e) { }
+
+    @Override
+    public void mouseExited(MouseEvent e) { }
+
 }

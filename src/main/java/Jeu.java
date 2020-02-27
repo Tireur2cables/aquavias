@@ -33,7 +33,6 @@ public class Jeu {
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
-        //this.afficher();
     }
 
     /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les afficher correctement */
@@ -41,9 +40,9 @@ public class Jeu {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
         for (int i = 0; i < this.plateau[0].length; i++) {
-            for (int j = 0; j < this.plateau.length; j++) {
-                if (this.plateau[j][i].pont == null) System.out.print("- ");
-                else System.out.print(this.plateau[j][i].pont.getForme() + " ");
+            for (Case[] cases : this.plateau) {
+                if (cases[i].pont == null) System.out.print("- ");
+                else System.out.print(cases[i].pont.getForme() + " ");
             }
             System.out.println();
         }
@@ -88,16 +87,76 @@ public class Jeu {
         return this.plateau[largeur][hauteur].pont;
     }
 
-
-    /**
-     * C'est pas super comme facon de faire, mais je vois pas trop comment faire autrement
-     * FIXME ENFAITE C'EST PAS BON, ON DOIT EN PLUS DE CONNAITRE LA HAUTEUR / LARGEUR, CONNAITRE LE TYPE DE PONT DANS LA CASE
-     * FIXME IL FAUT DONC FAIRE UN GETPLATEAU() QUI RENVOIT UN TABLEAU LONGUEUR*LARGEUR AVEC LES CHARACTERS DEFINISSANT LES BOUTS DE PONT
-     * */
     public int getHauteur(){
-        return this.plateau.length;
-    }
-    public int getLargeur(){
         return this.plateau[0].length;
     }
+
+    public int getLargeur(){
+        return this.plateau.length;
+    }
+
+    /* On suppose que l'on tourne les ponts uniquement de 90° ici */
+    public void refreshSorties(int x, int y) {
+        Pont p = this.plateau[y][x].pont;
+        char newOrientation = Pont.getNextOrientation(p.orientation);
+        p.setOrientation(newOrientation);
+    }
+
+    public void detectAdjacents(int x, int y) {
+        Pont p = this.plateau[y][x].pont;
+        boolean[] sortiesP = p.getSorties();
+        for (int i = 0; i < sortiesP.length; i++) {
+            if (sortiesP[i]){
+                this.afficheAdja(i, x, y);
+            }
+        }
+    }
+
+    /* X = hauteur et Y = largeur */
+    private void afficheAdja(int i, int x, int y) {
+        switch (i) {
+            case 0 : this.checkAdjaNord(x, y);
+                break;
+            case 1 : this.checkAdjaEst(x, y);
+                break;
+            case 2 : this.checkAdjaSud(x, y);
+                break;
+            case 3 : this.checkAdjaOuest(x, y);
+                break;
+        }
+    }
+
+    private void checkAdjaNord(int x, int y) {
+        if (x-1 >= 0) {
+            char sortie = 'N';
+            Pont p = this.plateau[y][x-1].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
+    private void checkAdjaEst(int x, int y) {
+        if (y+1 < this.getLargeur()) {
+            char sortie = 'E';
+            Pont p = this.plateau[y+1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
+    private void checkAdjaSud(int x, int y) {
+        if (x+1 < this.getHauteur()) {
+            char sortie = 'S';
+            Pont p = this.plateau[y][x+1].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
+    private void checkAdjaOuest(int x, int y) {
+        if (y-1 >= 0) {
+            char sortie = 'O';
+            Pont p = this.plateau[y-1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+        }
+    }
+
 }
