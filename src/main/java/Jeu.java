@@ -58,6 +58,7 @@ public class Jeu {
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau);
         this.chercheEntree();
+        this.parcourchemin();
     }
 
     private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
