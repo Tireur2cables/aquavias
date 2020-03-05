@@ -126,6 +126,7 @@ public class Jeu {
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
                 this.afficheAdja(i, x, y, flag);
+                System.out.print(x + " - " +  y);
             }
         }
     }
