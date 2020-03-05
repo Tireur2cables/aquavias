@@ -133,6 +133,7 @@ public class Jeu {
     /**
      *  X = hauteur et Y = largeur
      *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
+     *  
      *  */
     private void afficheAdja(int i, int x, int y, boolean flag) {
         switch (i) {
