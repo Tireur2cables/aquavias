@@ -69,7 +69,7 @@ class ImagePane extends JPanel {
     }
 
     void rotateImage() {
-        this.image = this.controleur.rotate(this.image, 90, this.x, this.y, true);
+        this.image = VueGraphique.rotate(this.image, 90);
         this.controleur.actualiseAllImages();
     }
 

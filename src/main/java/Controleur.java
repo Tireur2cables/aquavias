@@ -20,7 +20,7 @@ public class Controleur {
 
     private void affichePont(char c, boolean eau, double rotation){
         BufferedImage image = getImage(c, eau);
-        this.graph.affichePont(this.rotate(image, rotation, 0, 0, true));
+        this.graph.affichePont(VueGraphique.rotate(image, rotation));
     }
 
     private void afficheNiveau() {
@@ -46,7 +46,7 @@ public class Controleur {
         char orientation = p.getOrientation();
         double rotation = getRotation(orientation);
         BufferedImage image = getImage(c, eau);
-        return this.rotate(image, rotation, x, y, refresh);
+        return VueGraphique.rotate(image, rotation);
     }
 
     private static double getRotation(char orientation) {
@@ -85,27 +85,12 @@ public class Controleur {
         return image;
     }
 
-    public BufferedImage rotate(BufferedImage bimg, double angle, int x, int y, boolean refresh /* True lorsqu'on tourne le pont */) {
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
-        Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
-
-        /* tentative de libération de la mémoire */
-        bimg = null;
-        System.gc();
-
-        /* Actualisation des sorties du pont */
+    public void rotate(int x, int y, boolean refresh /* True lorsqu'on tourne le pont */) {
         if (refresh) this.jeu.refreshSorties(x, y);
 
         /* change l'attribut eau des ponts */
         this.detectAdjacents(x, y);
 
-        return rotated;
     }
 
     public void detectAdjacents(int x, int y) {
