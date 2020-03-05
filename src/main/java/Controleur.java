@@ -109,6 +109,7 @@ public class Controleur {
     }
 
     public void detectAdjacents(int x, int y) {
+        this.jeu.resetWater();
         this.jeu.detectAdjacents(x, y, false);
     }
 

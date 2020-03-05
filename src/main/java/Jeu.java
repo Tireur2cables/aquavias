@@ -201,8 +201,8 @@ public class Jeu {
             char sortie = 'O';
             Pont p = this.plateau[y-1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-              if (flag) {
-                  if (!p.getEau()) {
+                if (flag) {
+                    if (!p.getEau()) {
                       System.out.print("O - Pont trouvé : "+  p.forme);
                       p.setEau(true);
                       this.detectAdjacents(x, y-1,true);
@@ -217,14 +217,14 @@ public class Jeu {
      * Parcours récursif de chaque chemin complet
      * */
     private void parcourchemin() {
-        this.resetWater();
+        //this.resetWater();
         int x = this.xEntree;
         int y = this.yEntree;
         this.detectAdjacents(x, y,true);
         this.afficher();
     }
 
-    private void resetWater() {
+     void resetWater() {
         for(int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++ ) {
                 Pont p = this.plateau[i][j].pont;
