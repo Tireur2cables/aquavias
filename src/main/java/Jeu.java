@@ -117,6 +117,9 @@ public class Jeu {
         p.setOrientation(newOrientation);
     }
 
+    /**
+     * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
+     * */
     public void detectAdjacents(int x, int y, boolean flag) {
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
@@ -127,7 +130,10 @@ public class Jeu {
         }
     }
 
-    /* X = hauteur et Y = largeur */
+    /**
+     *  X = hauteur et Y = largeur
+     *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
+     *  */
     private void afficheAdja(int i, int x, int y, boolean flag) {
         switch (i) {
             case 0 : this.checkAdjaNord(x, y, flag);
@@ -202,6 +208,9 @@ public class Jeu {
         }
     }
 
+    /**
+     * Parcours récursif de chaque chemin complet
+     * */
     private void parcourchemin() {
         this.resetWater();
         int x = this.xEntree;
