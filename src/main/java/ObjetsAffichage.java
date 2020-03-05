@@ -129,9 +129,12 @@ class Menu extends JMenuBar{
     static Menu createMenu(){
         Menu menuBar = new Menu();
 
-        
+        JMenu charger = new JMenu("Charger");
+        JMenuItem niveau1 = new JMenuItem("Niveau 1");
+        charger.add(niveau1);
 
-        menuBar.add(new Button("Charger un niveau"));
+        menuBar.add(charger);
+        //menuBar.add(new Button("Charger un niveau"));
         menuBar.add(new Button("Sauvegarder"));
         return menuBar;
     }
