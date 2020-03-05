@@ -95,7 +95,7 @@ public class Controleur {
 
     public void detectAdjacents(int x, int y) {
         this.jeu.resetWater();
-        this.jeu.detectAdjacents(x, y, false);
+        this.jeu.parcourchemin();
     }
 
     private BufferedImage actualiseImage(int x, int y) {

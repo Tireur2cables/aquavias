@@ -216,7 +216,7 @@ public class Jeu {
     /**
      * Parcours récursif de chaque chemin complet
      * */
-    private void parcourchemin() {
+    void parcourchemin() {
         //this.resetWater();
         int x = this.xEntree;
         int y = this.yEntree;
