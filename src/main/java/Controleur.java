@@ -11,18 +11,18 @@ public class Controleur {
     }
 
     public void launch() {
-        System.out.println("Test affichage de niveau");
         this.jeu = new Jeu(this);
-        this.jeu.initNiveau(3);
+        this.jeu.initNiveau(2);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
 
     private void affichePont(char c, boolean eau, double rotation){
         BufferedImage image = getImage(c, eau);
-        this.graph.affichePont(this.rotate(image, rotation, 0, 0, true));
+        this.graph.affichePont(VueGraphique.rotate(image, rotation));
     }
 
+    /* FIXME: a factoriser */
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
@@ -46,7 +46,7 @@ public class Controleur {
         char orientation = p.getOrientation();
         double rotation = getRotation(orientation);
         BufferedImage image = getImage(c, eau);
-        return this.rotate(image, rotation, x, y, true);
+        return VueGraphique.rotate(image, rotation);
     }
 
     private static double getRotation(char orientation) {
@@ -85,28 +85,31 @@ public class Controleur {
         return image;
     }
 
-    public BufferedImage rotate(BufferedImage bimg, double angle, int x, int y, boolean init /* True durant l'initialisation du niveau */) {
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
+    public void refreshSorties(int x, int y) {
+        /* change les sorties du pont */
+        this.jeu.refreshSorties(x, y);
 
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
-        Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
+        /* change l'attribut eau des ponts */
+        this.detectAdjacents();
 
-        /* tentative de libération de la mémoire */
-        bimg = null;
-        System.gc();
-
-        /* Actualisation des sorties du pont */
-        if (!init) this.jeu.refreshSorties(x, y);
-
-        return rotated;
     }
 
-    public void detectAdjacents(int x, int y) {
-        this.jeu.detectAdjacents(x, y);
+    public void detectAdjacents() {
+        this.jeu.resetWater();
+        this.jeu.parcourchemin();
+    }
+
+    private BufferedImage actualiseImage(int x, int y) {
+        Pont p = this.jeu.getPont(x, y);
+        return this.getImageFromPont(p, x, y);
+    }
+
+    public void actualiseAllImages() {
+        for (int i = 0; i < this.jeu.getLargeur(); i++) {
+            for (int j = 0; j < this.jeu.getHauteur(); j++) {
+                this.graph.actualiseImage(this.actualiseImage(j,i),j,i);
+            }
+        }
     }
 
 }

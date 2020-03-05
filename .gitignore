@@ -1,15 +1,21 @@
+#Java
 *.class
 *.jar
 
+#Maven compilation
 *target/
 
-
+#IntelliJ
 .idea/
 out/
 *.iml
 
-
+#Eclipse
 .classpath
 .project
 .settings/
 bin/
+
+#Emacs
+*~
+\#*

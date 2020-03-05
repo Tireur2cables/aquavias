@@ -69,8 +69,15 @@ class ImagePane extends JPanel {
     }
 
     void rotateImage() {
-        this.image = this.controleur.rotate(this.image, 90, this.x, this.y, false);
-        this.controleur.detectAdjacents(this.x, this.y);
+        /* On tourne les ponts de 90° */
+        this.image = VueGraphique.rotate(this.image, 90);
+        this.controleur.refreshSorties(this.x,this.y);
+        this.controleur.actualiseAllImages();
+    }
+
+    void setImage(BufferedImage image) {
+        this.image = image;
+        this.repaint();
     }
 
     @Override

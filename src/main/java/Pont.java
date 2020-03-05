@@ -63,12 +63,15 @@ public abstract class Pont {
         return this.spe == null;
     }
 
-    private boolean isEntree() {
+    public boolean isEntree() {
         return this.spe != null && this.spe.equals("entree");
     }
 
     public boolean[] getSorties() {
         return this.sorties;
+    }
+    public void setEau(boolean eau) {
+        this.eau = eau;
     }
 
     public static char getNextOrientation(char c) {

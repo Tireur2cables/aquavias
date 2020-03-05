@@ -12,6 +12,22 @@ public class VueGraphique {
 
     }
 
+    static BufferedImage rotate(BufferedImage bimg, double angle){
+        int w = bimg.getWidth();
+        int h = bimg.getHeight();
+
+        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
+        Graphics2D graphic = rotated.createGraphics();
+        graphic.rotate(Math.toRadians(angle), w/2, h/2);
+        graphic.drawImage(bimg, null, 0, 0);
+        graphic.dispose();
+
+        /* tentative de libération de la mémoire */
+        bimg = null;
+        System.gc();
+        return rotated;
+    }
+
     public void setVisible() {
         this.fenetre.setVisible(true);
     }
@@ -39,5 +55,11 @@ public class VueGraphique {
         EventQueue.invokeLater(() -> {
             this.plateau.add(new ImagePane(image, movable, this.controleur, x, y));
         });
+    }
+
+    public void actualiseImage(BufferedImage image, int x, int y) {
+        int largeur = ((GridLayout) this.plateau.getLayout()).getColumns();
+        int indice = y+x*largeur;
+        ((ImagePane) this.plateau.getComponents()[indice]).setImage(image);
     }
 }

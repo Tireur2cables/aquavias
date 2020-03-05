@@ -15,6 +15,7 @@ public class Jeu {
             JSONArray tab = ((JSONArray) json.get(ligne));
             this.pont = (tab.length() <= 0)? null : initPont(tab);
         }
+
         private Pont initPont(JSONArray tab) {
             switch(tab.getString(0).toUpperCase().charAt(0)) {
                 case 'I' :
@@ -26,28 +27,33 @@ public class Jeu {
             }
             throw new RuntimeException("char du pont inconnu");
         }
+
     }
 
     private Case[][] plateau;
     private Controleur controleur;
+    private int xEntree;
+    private int yEntree;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
     }
 
-    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les afficher correctement */
+    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
+        donc on échange les indices pour les afficher correctement */
     public void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
         for (int i = 0; i < this.plateau[0].length; i++) {
             for (Case[] cases : this.plateau) {
                 if (cases[i].pont == null) System.out.print("- ");
-                else System.out.print(cases[i].pont.getForme() + " ");
+                else System.out.print(cases[i].pont.getEau() + " ");
             }
             System.out.println();
         }
     }
 
+    /* FIXME: parametre static ? */
     public void initNiveau(int number) {
         String chemin = "resources/niveaux/niveau" + number + ".json";
         JSONObject json = readJSON(chemin);
@@ -55,6 +61,8 @@ public class Jeu {
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau);
+        this.chercheEntree();
+        this.parcourchemin();
     }
 
     private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
@@ -63,6 +71,18 @@ public class Jeu {
             JSONArray colonne = ((JSONArray) niveau.get(i));
             for (int j = 0; j < hauteur; j++) {
                 this.plateau[i][j] = new Case(j, colonne);
+            }
+        }
+    }
+
+    private void chercheEntree() {
+        for (int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++) {
+                if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isEntree()) {
+                    this.xEntree = j;
+                    this.yEntree = i;
+                    return;
+                }
             }
         }
     }
@@ -77,10 +97,6 @@ public class Jeu {
             System.out.println("Impossible de lire le fichier niveau à l'adresse : " + chemin);
         }
         throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
-    }
-
-    public Case[][] getPlateau() {
-        return this.plateau;
     }
 
     public Pont getPont(int hauteur, int largeur) {
@@ -102,6 +118,9 @@ public class Jeu {
         p.setOrientation(newOrientation);
     }
 
+    /**
+     * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
+     * */
     public void detectAdjacents(int x, int y) {
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
@@ -112,7 +131,11 @@ public class Jeu {
         }
     }
 
-    /* X = hauteur et Y = largeur */
+    /**
+     *  X = hauteur et Y = largeur
+     *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
+     *  
+     *  */
     private void afficheAdja(int i, int x, int y) {
         switch (i) {
             case 0 : this.checkAdjaNord(x, y);
@@ -130,8 +153,12 @@ public class Jeu {
         if (x-1 >= 0) {
             char sortie = 'N';
             Pont p = this.plateau[y][x-1].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
-                System.out.println(p.forme + " : " + sortie);
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (!p.getEau()) {
+                    p.setEau(true);
+                    this.detectAdjacents(x-1, y);
+                }
+            }
         }
     }
 
@@ -139,7 +166,12 @@ public class Jeu {
         if (y+1 < this.getLargeur()) {
             char sortie = 'E';
             Pont p = this.plateau[y+1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (!p.getEau()) {
+                    p.setEau(true);
+                    this.detectAdjacents(x, y+1);
+                }
+            }
         }
     }
 
@@ -147,7 +179,12 @@ public class Jeu {
         if (x+1 < this.getHauteur()) {
             char sortie = 'S';
             Pont p = this.plateau[y][x+1].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (!p.getEau()) {
+                    p.setEau(true);
+                    this.detectAdjacents(x+1, y);
+                }
+            }
         }
     }
 
@@ -155,7 +192,32 @@ public class Jeu {
         if (y-1 >= 0) {
             char sortie = 'O';
             Pont p = this.plateau[y-1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) System.out.println(p.forme + " : " + sortie);
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (!p.getEau()) {
+                  p.setEau(true);
+                  this.detectAdjacents(x, y-1);
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Parcours récursif de chaque chemin complet
+     * */
+    void parcourchemin() {
+        int x = this.xEntree;
+        int y = this.yEntree;
+        this.detectAdjacents(x, y);
+    }
+
+     void resetWater() {
+        for(int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++ ) {
+                Pont p = this.plateau[i][j].pont;
+                if (p != null && !p.isEntree())
+                    p.setEau(false);
+            }
         }
     }
 
