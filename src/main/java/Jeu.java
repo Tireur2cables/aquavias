@@ -15,6 +15,7 @@ public class Jeu {
             JSONArray tab = ((JSONArray) json.get(ligne));
             this.pont = (tab.length() <= 0)? null : initPont(tab);
         }
+
         private Pont initPont(JSONArray tab) {
             switch(tab.getString(0).toUpperCase().charAt(0)) {
                 case 'I' :
@@ -26,6 +27,7 @@ public class Jeu {
             }
             throw new RuntimeException("char du pont inconnu");
         }
+
     }
 
     private Case[][] plateau;
@@ -37,7 +39,8 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes donc on échange les indices pour les afficher correctement */
+    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
+        donc on échange les indices pour les afficher correctement */
     public void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
@@ -50,6 +53,7 @@ public class Jeu {
         }
     }
 
+    /* FIXME: parametre static ? */
     public void initNiveau(int number) {
         String chemin = "resources/niveaux/niveau" + number + ".json";
         JSONObject json = readJSON(chemin);
@@ -93,10 +97,6 @@ public class Jeu {
             System.out.println("Impossible de lire le fichier niveau à l'adresse : " + chemin);
         }
         throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
-    }
-
-    public Case[][] getPlateau() {
-        return this.plateau;
     }
 
     public Pont getPont(int hauteur, int largeur) {
@@ -155,7 +155,6 @@ public class Jeu {
             Pont p = this.plateau[y][x-1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
-                    System.out.print("N - Pont trouvé : "+  p.forme);
                     p.setEau(true);
                     this.detectAdjacents(x-1, y);
                 }
@@ -169,7 +168,6 @@ public class Jeu {
             Pont p = this.plateau[y+1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
-                    System.out.print("E - Pont trouvé : "+  p.forme);
                     p.setEau(true);
                     this.detectAdjacents(x, y+1);
                 }
@@ -183,7 +181,6 @@ public class Jeu {
             Pont p = this.plateau[y][x+1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
-                    System.out.print("S - Pont trouvé : "+  p.forme);
                     p.setEau(true);
                     this.detectAdjacents(x+1, y);
                 }
@@ -197,10 +194,9 @@ public class Jeu {
             Pont p = this.plateau[y-1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
-                  System.out.print("O - Pont trouvé : "+  p.forme);
                   p.setEau(true);
                   this.detectAdjacents(x, y-1);
-              }
+                }
             }
 
         }
@@ -210,11 +206,9 @@ public class Jeu {
      * Parcours récursif de chaque chemin complet
      * */
     void parcourchemin() {
-        //this.resetWater();
         int x = this.xEntree;
         int y = this.yEntree;
         this.detectAdjacents(x, y);
-        this.afficher();
     }
 
      void resetWater() {

@@ -11,7 +11,6 @@ public class Controleur {
     }
 
     public void launch() {
-        System.out.println("Test affichage de niveau");
         this.jeu = new Jeu(this);
         this.jeu.initNiveau(3);
         this.afficheNiveau();
@@ -23,6 +22,7 @@ public class Controleur {
         this.graph.affichePont(VueGraphique.rotate(image, rotation));
     }
 
+    /* FIXME: a factoriser */
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
@@ -32,14 +32,14 @@ public class Controleur {
             for (int j = 0; j < largeur; j++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
-                this.graph.addToPlateau(this.getImageFromPont(p, i, j, false), movable, i, j);
+                this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);
             }
         }
         this.graph.repaint();
         this.graph.setVisible();
     }
 
-    private BufferedImage getImageFromPont(Pont p, int x, int y, boolean refresh) {
+    private BufferedImage getImageFromPont(Pont p, int x, int y) {
         if (p == null) return Pont.transp;
         char c = p.getForme();
         boolean eau = p.getEau();
@@ -86,21 +86,22 @@ public class Controleur {
     }
 
     public void refreshSorties(int x, int y) {
+        /* change les sorties du pont */
         this.jeu.refreshSorties(x, y);
 
         /* change l'attribut eau des ponts */
-        this.detectAdjacents(x, y);
+        this.detectAdjacents();
 
     }
 
-    public void detectAdjacents(int x, int y) {
+    public void detectAdjacents() {
         this.jeu.resetWater();
         this.jeu.parcourchemin();
     }
 
     private BufferedImage actualiseImage(int x, int y) {
         Pont p = this.jeu.getPont(x, y);
-        return this.getImageFromPont(p, x, y, false);
+        return this.getImageFromPont(p, x, y);
     }
 
     public void actualiseAllImages() {

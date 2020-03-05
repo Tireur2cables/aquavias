@@ -69,6 +69,7 @@ class ImagePane extends JPanel {
     }
 
     void rotateImage() {
+        /* On tourne les ponts de 90° */
         this.image = VueGraphique.rotate(this.image, 90);
         this.controleur.refreshSorties(this.x,this.y);
         this.controleur.actualiseAllImages();
