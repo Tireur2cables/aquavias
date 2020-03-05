@@ -44,7 +44,7 @@ public class Jeu {
         for (int i = 0; i < this.plateau[0].length; i++) {
             for (Case[] cases : this.plateau) {
                 if (cases[i].pont == null) System.out.print("- ");
-                else System.out.print(cases[i].pont.getForme() + " ");
+                else System.out.print(cases[i].pont.getEau() + " ");
             }
             System.out.println();
         }
@@ -221,7 +221,7 @@ public class Jeu {
         int x = this.xEntree;
         int y = this.yEntree;
         this.detectAdjacents(x, y,true);
-
+        this.afficher();
     }
 
     private void resetWater() {
