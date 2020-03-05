@@ -118,13 +118,12 @@ public class Controleur {
         return this.getImageFromPont(p, x, y, false);
     }
 
-    public void actualiseAllImages() {/*
+    public void actualiseAllImages() {
         for (int i = 0; i < this.jeu.getLargeur(); i++) {
             for (int j = 0; j < this.jeu.getHauteur(); j++) {
                 this.graph.actualiseImage(this.actualiseImage(j,i),j,i);
             }
-        }*/
-        this.graph.actualiseImage(this.actualiseImage(0,1),0,1);
+        }
     }
 
 }

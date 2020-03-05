@@ -42,6 +42,9 @@ public class VueGraphique {
     }
 
     public void actualiseImage(BufferedImage image, int x, int y) {
-        ((ImagePane) (this.fenetre.getContentPane()).getComponents()[0]).setImage(image);
+        int hauteur = ((GridLayout) this.plateau.getLayout()).getRows();
+        int largeur = ((GridLayout) this.plateau.getLayout()).getColumns();
+        int indice = y+x*largeur;
+        ((ImagePane) this.plateau.getComponents()[indice]).setImage(image);
     }
 }
