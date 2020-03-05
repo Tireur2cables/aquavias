@@ -78,7 +78,7 @@ public class Jeu {
     private void chercheEntree() {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
-                if (this.plateau[i][j].pont.isEntree()) {
+                if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isEntree()) {
                     this.xEntree = j;
                     this.yEntree = i;
                     return;
