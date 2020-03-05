@@ -23,7 +23,7 @@ public class GameLauncherTest {
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
-    
+
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
         assertEquals("Test affichage de niveau\nLe jeu se lance!\n", outContent.toString());

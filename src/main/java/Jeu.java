@@ -126,7 +126,6 @@ public class Jeu {
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
                 this.afficheAdja(i, x, y, flag);
-                System.out.print(x + " - " +  y);
             }
         }
     }
@@ -155,6 +154,7 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (flag) {
                     if (!p.getEau()) {
+                        System.out.print("N - Pont trouvé : "+  p.forme);
                         p.setEau(true);
                         this.detectAdjacents(x-1, y,true);
                     }
@@ -170,8 +170,9 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (flag) {
                     if (!p.getEau()) {
+                        System.out.print("E - Pont trouvé : "+  p.forme);
                         p.setEau(true);
-                        this.detectAdjacents(x-1, y,true);
+                        this.detectAdjacents(x, y+1,true);
                     }
                 }else this.parcourchemin();
             }
@@ -185,8 +186,9 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (flag) {
                     if (!p.getEau()) {
+                        System.out.print("S - Pont trouvé : "+  p.forme);
                         p.setEau(true);
-                        this.detectAdjacents(x-1, y,true);
+                        this.detectAdjacents(x+1, y,true);
                     }
                 }else this.parcourchemin();
             }
@@ -200,8 +202,9 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
               if (flag) {
                   if (!p.getEau()) {
+                      System.out.print("O - Pont trouvé : "+  p.forme);
                       p.setEau(true);
-                      this.detectAdjacents(x-1, y,true);
+                      this.detectAdjacents(x, y-1,true);
                   }
               }else this.parcourchemin();
             }
