@@ -21,11 +21,20 @@ class Fenetre extends JFrame {
     public Fenetre() {
         /* Fenetre pour l'affichage du jeu */
         super();
+        JMenuBar menuBar = createMenuBar();
+        this.setJMenuBar(menuBar);
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
             this.setVisible(false);
         });
+    }
+    private JMenuBar createMenuBar(){
+        JMenuBar menuBar = new JMenuBar();
+        //JMenu menu = new JMenu();
+        menuBar.add(new Button("test"));
+        menuBar.add(new Button("test2"));
+        return menuBar;
     }
 
 }
@@ -117,5 +126,14 @@ class ClickListener implements MouseListener {
 
     @Override
     public void mouseExited(MouseEvent e) { }
+
+}
+
+class Menu extends JMenuBar{
+
+    public Menu(){
+        super();
+    }
+
 
 }
