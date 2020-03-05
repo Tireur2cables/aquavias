@@ -70,7 +70,12 @@ class ImagePane extends JPanel {
 
     void rotateImage() {
         this.image = this.controleur.rotate(this.image, 90, this.x, this.y, true);
-        this.image = this.controleur.actualiseImage(this.x, this.y);
+        this.controleur.actualiseAllImages();
+    }
+
+    void setImage(BufferedImage image) {
+        this.image = image;
+        this.repaint();
     }
 
     @Override

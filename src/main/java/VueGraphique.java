@@ -40,4 +40,8 @@ public class VueGraphique {
             this.plateau.add(new ImagePane(image, movable, this.controleur, x, y));
         });
     }
+
+    public void actualiseImage(BufferedImage image, int x, int y) {
+        ((ImagePane) (this.fenetre.getContentPane()).getComponents()[0]).setImage(image);
+    }
 }
