@@ -85,8 +85,8 @@ public class Controleur {
         return image;
     }
 
-    public void rotate(int x, int y, boolean refresh /* True lorsqu'on tourne le pont */) {
-        if (refresh) this.jeu.refreshSorties(x, y);
+    public void refreshSorties(int x, int y) {
+        this.jeu.refreshSorties(x, y);
 
         /* change l'attribut eau des ponts */
         this.detectAdjacents(x, y);
