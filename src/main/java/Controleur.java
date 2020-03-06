@@ -17,7 +17,7 @@ public class Controleur {
         System.out.println("Le jeu se lance!");
     }
 
-    private void affichePont(char c, boolean eau, double rotation){
+    private void affichePont(char c, boolean eau, double rotation) {
         BufferedImage image = getImage(c, eau);
         this.graph.affichePont(VueGraphique.rotate(image, rotation));
     }
