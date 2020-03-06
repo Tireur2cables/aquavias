@@ -91,7 +91,6 @@ public class Controleur {
 
         /* change l'attribut eau des ponts */
         this.detectAdjacents();
-
     }
 
     public void detectAdjacents() {

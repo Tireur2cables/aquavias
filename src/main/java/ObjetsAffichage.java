@@ -21,10 +21,10 @@ class Fenetre extends JFrame {
     public Fenetre() {
         /* Fenetre pour l'affichage du jeu */
         super();
-        this.setJMenuBar(Menu.createMenu());
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
+            this.setJMenuBar(Menu.createMenu());
             this.setVisible(false);
         });
     }
@@ -126,6 +126,7 @@ class Menu extends JMenuBar{
     public Menu(){
         super();
     }
+
     static Menu createMenu(){
         Menu menuBar = new Menu();
 
