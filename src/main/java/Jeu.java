@@ -79,8 +79,8 @@ public class Jeu {
                 Pont modPont = this.getPont(i,j);
                 if(modPont != null){
                     JSONArray pont = new JSONArray();
-                    pont.put(((char)modPont.forme));
-                    pont.put((char)modPont.orientation);
+                    pont.put(((char)modPont.forme + ""));
+                    pont.put((char)modPont.orientation + "");
                     pont.put(modPont.spe);
                     ligne.put(pont);
                 }else{

@@ -1,3 +1,1 @@
-{"longueur":4,
-  "niveau":[
-  [[],[76,78,null],[76,78,null],[]],[[73,69,"entree"],[76,79,null],[76,83,null],[73,69,"sortie"]],[[],[],[],[]]],"hauteur":3}
+{"longueur":4,"niveau":[[[],["L","N",null],["L","N",null],[]],[["I","E","entree"],["L","O",null],["L","S",null],["I","E","sortie"]],[[],[],[],[]]],"hauteur":3}
