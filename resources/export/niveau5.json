@@ -1,1 +1,1 @@
-{"longueur":4,"niveau":[[[],["I","E","entree"],[]],[["L","N",null],["L","O",null],[]],[["L","N",null],["L","S",null],[]],[[],["I","E","sortie"],[]]],"hauteur":3}
+{"longueur":4,"niveau":[[["L","O",null],["T","E","entree"],["L","N",null]],[[],["I","O",null],["I","O",null]],[[],["T","O",null],["L","O",null]],[[],["I","E","sortie"],[]]],"hauteur":3}
