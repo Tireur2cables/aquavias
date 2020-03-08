@@ -69,7 +69,6 @@ public class Jeu {
         this.parcourchemin();
     }
 
-    /* FIXME: à factoriser */
     public void exportNiveau(int number){
         String chemin = "resources/export/niveau" + number + ".json";
         JSONObject fic = this.initJSON();
