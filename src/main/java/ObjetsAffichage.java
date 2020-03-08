@@ -19,13 +19,13 @@ class Fenetre extends JFrame {
         });
     }
 
-    public Fenetre() {
+    public Fenetre(Controleur controleur) {
         /* Fenetre pour l'affichage du jeu */
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
-            this.setJMenuBar(Menu.createMenu(this));
+            this.setJMenuBar(Menu.createMenu(this, controleur));
             this.setVisible(false);
         });
     }
@@ -124,11 +124,12 @@ class ClickListener implements MouseListener {
 
 class Menu extends JMenuBar{
 
+
     public Menu(){
         super();
     }
 
-    static Menu createMenu(Fenetre fenetre){
+    static Menu createMenu(Fenetre fenetre, Controleur controleur){
         Menu menuBar = new Menu();
 
         JMenu charger = new JMenu("Charger");
@@ -140,6 +141,7 @@ class Menu extends JMenuBar{
         JButton bouton = new JButton("Sauvegarder");
         bouton.addActionListener((ActionEvent e) -> {
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté");
+            controleur.exportNiveau(5);
 
         });
         menuBar.add(bouton);
