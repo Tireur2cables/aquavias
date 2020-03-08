@@ -34,6 +34,7 @@ public class Jeu {
 
     private Case[][] plateau;
     private Controleur controleur;
+    private int numNiveau;
     private int xEntree;
     private int yEntree;
 
@@ -64,13 +65,13 @@ public class Jeu {
         int hauteur = json.getInt("hauteur");
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
-        this.initPlateau(longueur, hauteur, niveau);
+        this.initPlateau(longueur, hauteur, niveau, number);
         this.chercheEntree();
         this.parcourchemin();
     }
 
-    public void exportNiveau(int number){
-        String chemin = "resources/export/niveau" + number + ".json";
+    public void exportNiveau(int number, boolean newNiveau){
+        String chemin = "resources/export/niveau" + (newNiveau)?number:this.numNiveau + ".json";
         JSONObject fic = this.initJSON();
         writeFile(fic, chemin);
     }
@@ -111,7 +112,8 @@ public class Jeu {
      return fic;
     }
 
-    private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
+    private void initPlateau(int longueur, int hauteur, JSONArray niveau, int numNiveau) {
+        this.numNiveau = numNiveau;
         this.plateau = new Case[longueur][hauteur];
         for (int i = 0; i < longueur; i++) {
             JSONArray colonne = ((JSONArray) niveau.get(i));

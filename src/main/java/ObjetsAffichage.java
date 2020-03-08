@@ -144,7 +144,7 @@ class Menu extends JMenuBar{
         JButton bouton = new JButton("Sauvegarder");
         bouton.addActionListener((ActionEvent e) -> {
             /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
-            controleur.exportNiveau(5);
+            controleur.exportNiveau(0, false);
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         menuBar.add(bouton);

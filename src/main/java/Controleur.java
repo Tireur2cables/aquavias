@@ -110,8 +110,8 @@ public class Controleur {
             }
         }
     }
-    public void exportNiveau(int number){
-        this.jeu.exportNiveau(number);
+    public void exportNiveau(int number, boolean nouveauNiveau){
+        this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
 }
