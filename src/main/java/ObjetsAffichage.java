@@ -7,8 +7,10 @@ import java.awt.image.BufferedImage;
 
 class Fenetre extends JFrame {
 
+    /**
+     * Fenetre pour les tests unitaires
+     * */
     public Fenetre(String titre, BufferedImage image, Controleur controleur) {
-        /* Fenetre pour l'affichage unitaire de test */
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -19,8 +21,10 @@ class Fenetre extends JFrame {
         });
     }
 
+    /**
+     * Fenetre pour l'affichage du jeu
+     * */
     public Fenetre(Controleur controleur) {
-        /* Fenetre pour l'affichage du jeu */
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -137,12 +141,11 @@ class Menu extends JMenuBar{
         charger.add(niveau1);
 
         menuBar.add(charger);
-        //menuBar.add(new Button("Charger un niveau"));
         JButton bouton = new JButton("Sauvegarder");
         bouton.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(fenetre, "Niveau exporté");
+            /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
             controleur.exportNiveau(5);
-
+            JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         menuBar.add(bouton);
         return menuBar;

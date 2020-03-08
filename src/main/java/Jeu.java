@@ -41,8 +41,10 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
-        donc on échange les indices pour les afficher correctement */
+    /**
+     * Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
+     * donc on échange les indices i et j pour les afficher correctement
+     * */
     public void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
@@ -55,7 +57,7 @@ public class Jeu {
         }
     }
 
-    /* FIXME: parametre static ? */
+    /* FIXME: chemin en parametre static ? */
     public void initNiveau(int number) {
         String chemin = "resources/niveaux/niveau" + number + ".json";
         JSONObject json = readJSON(chemin);
@@ -67,6 +69,7 @@ public class Jeu {
         this.parcourchemin();
     }
 
+    /* FIXME: à factoriser */
     public void exportNiveau(int number){
         String chemin = "resources/export/niveau" + number + ".json";
         JSONObject fic = this.initJSON();
@@ -155,7 +158,9 @@ public class Jeu {
         return this.plateau.length;
     }
 
-    /* On suppose que l'on tourne les ponts uniquement de 90° ici */
+    /**
+     * On suppose que l'on tourne les ponts uniquement de 90° ici
+     * */
     public void refreshSorties(int x, int y) {
         Pont p = this.plateau[y][x].pont;
         char newOrientation = Pont.getNextOrientation(p.orientation);
@@ -238,8 +243,8 @@ public class Jeu {
             Pont p = this.plateau[y-1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
-                  p.setEau(true);
-                  this.detectAdjacents(x, y-1);
+                    p.setEau(true);
+                    this.detectAdjacents(x, y-1);
                 }
             }
 
