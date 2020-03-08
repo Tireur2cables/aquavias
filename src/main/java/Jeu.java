@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
@@ -72,15 +73,27 @@ public class Jeu {
         fic.put("hauteur", this.getHauteur());
         fic.put("longueur", this.getLargeur());
         JSONArray niveau = new JSONArray();
-        for(int i = 0; i < this.getLargeur(); i++){
-            for(int j = 0; j < this.getHauteur(); j++){
-                niveau.put(this.getPont(i, j).forme);
+        for(int i = 0; i < this.getHauteur(); i++){
+            JSONArray ligne = new JSONArray();
+            for(int j = 0; j < this.getLargeur(); j++){
+                Pont modPont = this.getPont(i,j);
+                if(modPont != null){
+                    JSONArray pont = new JSONArray();
+                    pont.put(((char)modPont.forme));
+                    pont.put((char)modPont.orientation);
+                    pont.put(modPont.spe);
+                    ligne.put(pont);
+                }else{
+                    ligne.put((Collection<?>) null);
+                }
             }
+            niveau.put(ligne);
         }
         fic.put("niveau", niveau);
         try{
             FileWriter fichier = new FileWriter(chemin);
             fichier.write(fic.toString());
+            fichier.close();
         }catch (IOException e){
 
         }
