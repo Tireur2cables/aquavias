@@ -69,34 +69,44 @@ public class Jeu {
 
     public void exportNiveau(int number){
         String chemin = "resources/export/niveau" + number + ".json";
-        JSONObject fic = new JSONObject();
-        fic.put("hauteur", this.getHauteur());
-        fic.put("longueur", this.getLargeur());
-        JSONArray niveau = new JSONArray();
-        for(int i = 0; i < this.getLargeur(); i++){
-            JSONArray ligne = new JSONArray();
-            for(int j = 0; j < this.getHauteur(); j++){
-                Pont modPont = this.getPont(j,i);
-                if(modPont != null){
-                    JSONArray pont = new JSONArray();
-                    pont.put(((char)modPont.forme + ""));
-                    pont.put((char)modPont.orientation + "");
-                    pont.put(modPont.spe);
-                    ligne.put(pont);
-                }else{
-                    ligne.put((Collection<?>) null);
-                }
-            }
-            niveau.put(ligne);
-        }
-        fic.put("niveau", niveau);
-        try{
-            FileWriter fichier = new FileWriter(chemin);
-            fichier.write(fic.toString());
-            fichier.close();
-        }catch (IOException e){
+        JSONObject fic = this.initJSON();
+        writeFile(fic, chemin);
+    }
 
-        }
+    static void writeFile(JSONObject file, String chemin){
+      try{
+          FileWriter fichier = new FileWriter(chemin);
+          fichier.write(file.toString());
+          fichier.close();
+      }catch (IOException e){
+          System.out.println("Echec de l'écriture du niveau");
+          System.out.println(e.getStackTrace());
+      }
+    }
+
+   JSONObject initJSON(){
+     JSONObject fic = new JSONObject();
+     fic.put("hauteur", this.getHauteur());
+     fic.put("longueur", this.getLargeur());
+     JSONArray niveau = new JSONArray();
+     for(int i = 0; i < this.getLargeur(); i++){
+         JSONArray ligne = new JSONArray();
+         for(int j = 0; j < this.getHauteur(); j++){
+             Pont modPont = this.getPont(j,i);
+             if(modPont != null){
+                 JSONArray pont = new JSONArray();
+                 pont.put(((char)modPont.forme + ""));
+                 pont.put((char)modPont.orientation + "");
+                 pont.put(modPont.spe);
+                 ligne.put(pont);
+             }else{
+                 ligne.put((Collection<?>) null);
+             }
+         }
+         niveau.put(ligne);
+     }
+     fic.put("niveau", niveau);
+     return fic;
     }
 
     private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
@@ -168,7 +178,7 @@ public class Jeu {
     /**
      *  X = hauteur et Y = largeur
      *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
-     *  
+     *
      *  */
     private void afficheAdja(int i, int x, int y) {
         switch (i) {
