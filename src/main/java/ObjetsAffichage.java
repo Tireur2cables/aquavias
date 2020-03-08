@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
@@ -24,7 +25,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
-            this.setJMenuBar(Menu.createMenu());
+            this.setJMenuBar(Menu.createMenu(this));
             this.setVisible(false);
         });
     }
@@ -127,7 +128,7 @@ class Menu extends JMenuBar{
         super();
     }
 
-    static Menu createMenu(){
+    static Menu createMenu(Fenetre fenetre){
         Menu menuBar = new Menu();
 
         JMenu charger = new JMenu("Charger");
@@ -136,7 +137,12 @@ class Menu extends JMenuBar{
 
         menuBar.add(charger);
         //menuBar.add(new Button("Charger un niveau"));
-        menuBar.add(new Button("Sauvegarder"));
+        JButton bouton = new JButton("Sauvegarder");
+        bouton.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(fenetre, "Niveau exporté");
+
+        });
+        menuBar.add(bouton);
         return menuBar;
     }
 
