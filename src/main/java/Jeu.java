@@ -73,10 +73,10 @@ public class Jeu {
         fic.put("hauteur", this.getHauteur());
         fic.put("longueur", this.getLargeur());
         JSONArray niveau = new JSONArray();
-        for(int i = 0; i < this.getHauteur(); i++){
+        for(int i = 0; i < this.getLargeur(); i++){
             JSONArray ligne = new JSONArray();
-            for(int j = 0; j < this.getLargeur(); j++){
-                Pont modPont = this.getPont(i,j);
+            for(int j = 0; j < this.getHauteur(); j++){
+                Pont modPont = this.getPont(j,i);
                 if(modPont != null){
                     JSONArray pont = new JSONArray();
                     pont.put(((char)modPont.forme + ""));
