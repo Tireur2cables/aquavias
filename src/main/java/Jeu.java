@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /* Imports with maven dependecies */
@@ -63,6 +64,26 @@ public class Jeu {
         this.initPlateau(longueur, hauteur, niveau);
         this.chercheEntree();
         this.parcourchemin();
+    }
+
+    public void exportNiveau(int number){
+        String chemin = "resources/export/niveau" + number + ".json";
+        JSONObject fic = new JSONObject();
+        fic.put("hauteur", this.getHauteur());
+        fic.put("longueur", this.getLargeur());
+        JSONArray niveau = new JSONArray();
+        for(int i = 0; i < this.getLargeur(); i++){
+            for(int j = 0; j < this.getHauteur(); j++){
+                niveau.put(this.getPont(i, j).forme);
+            }
+        }
+        fic.put("niveau", niveau);
+        try{
+            FileWriter fichier = new FileWriter(chemin);
+            fichier.write(fic.toString());
+        }catch (IOException e){
+
+        }
     }
 
     private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
