@@ -71,7 +71,7 @@ public class Jeu {
     }
 
     public void exportNiveau(int number, boolean newNiveau){
-        String chemin = "resources/export/niveau" + (newNiveau)?number:this.numNiveau + ".json";
+        String chemin = "resources/export/niveau" + ((newNiveau)?number:this.numNiveau) + ".json";
         JSONObject fic = this.initJSON();
         writeFile(fic, chemin);
     }
