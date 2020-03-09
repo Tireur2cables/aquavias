@@ -114,4 +114,8 @@ public class Controleur {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
+    public boolean isVictoire(){
+        return this.jeu.calculVictoire();
+    }
+
 }
