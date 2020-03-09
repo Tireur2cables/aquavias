@@ -286,6 +286,11 @@ public class Jeu {
     }
 
     boolean calculVictoire(){
-        if()
+        if(this.getPont(xEntree, yEntree).getEau()){
+            
+        }else{
+            return false;
+        }
+        return false;
     }
 }
