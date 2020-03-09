@@ -37,6 +37,8 @@ public class Jeu {
     private int numNiveau;
     private int xEntree;
     private int yEntree;
+    private int xSortie;
+    private int ySortie;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -129,6 +131,18 @@ public class Jeu {
                 if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isEntree()) {
                     this.xEntree = j;
                     this.yEntree = i;
+                    return;
+                }
+            }
+        }
+    }
+
+    private void chercheSortie(){
+        for (int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++) {
+                if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isSortie()) {
+                    this.xSortie = j;
+                    this.ySortie = i;
                     return;
                 }
             }
@@ -271,4 +285,7 @@ public class Jeu {
         }
     }
 
+    boolean calculVictoire(){
+        if()
+    }
 }

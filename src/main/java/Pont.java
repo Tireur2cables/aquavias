@@ -67,9 +67,14 @@ public abstract class Pont {
         return this.spe != null && this.spe.equals("entree");
     }
 
+    public boolean isSortie() {
+        return this.spe != null && this.spe.equals("sortie");
+    }
+
     public boolean[] getSorties() {
         return this.sorties;
     }
+
     public void setEau(boolean eau) {
         this.eau = eau;
     }
