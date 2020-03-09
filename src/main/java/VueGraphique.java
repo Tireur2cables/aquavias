@@ -8,7 +8,7 @@ public class VueGraphique {
 
     public VueGraphique(Controleur controleur) {
         this.controleur = controleur;
-        this.fenetre = new Fenetre();
+        this.fenetre = new Fenetre(controleur);
 
     }
 

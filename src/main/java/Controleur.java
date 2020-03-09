@@ -12,7 +12,7 @@ public class Controleur {
 
     public void launch() {
         this.jeu = new Jeu(this);
-        this.jeu.initNiveau(2);
+        this.jeu.initNiveau(3);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
@@ -109,6 +109,9 @@ public class Controleur {
                 this.graph.actualiseImage(this.actualiseImage(j,i),j,i);
             }
         }
+    }
+    public void exportNiveau(int number, boolean nouveauNiveau){
+        this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
 }

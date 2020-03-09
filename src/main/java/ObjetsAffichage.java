@@ -1,13 +1,16 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 class Fenetre extends JFrame {
 
+    /**
+     * Fenetre pour les tests unitaires
+     * */
     public Fenetre(String titre, BufferedImage image, Controleur controleur) {
-        /* Fenetre pour l'affichage unitaire de test */
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -18,13 +21,15 @@ class Fenetre extends JFrame {
         });
     }
 
-    public Fenetre() {
-        /* Fenetre pour l'affichage du jeu */
+    /**
+     * Fenetre pour l'affichage du jeu
+     * */
+    public Fenetre(Controleur controleur) {
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
-            this.setJMenuBar(Menu.createMenu());
+            this.setJMenuBar(Menu.createMenu(this, controleur));
             this.setVisible(false);
         });
     }
@@ -123,11 +128,12 @@ class ClickListener implements MouseListener {
 
 class Menu extends JMenuBar{
 
+
     public Menu(){
         super();
     }
 
-    static Menu createMenu(){
+    static Menu createMenu(Fenetre fenetre, Controleur controleur){
         Menu menuBar = new Menu();
 
         JMenu charger = new JMenu("Charger");
@@ -135,8 +141,13 @@ class Menu extends JMenuBar{
         charger.add(niveau1);
 
         menuBar.add(charger);
-        //menuBar.add(new Button("Charger un niveau"));
-        menuBar.add(new Button("Sauvegarder"));
+        JButton bouton = new JButton("Sauvegarder");
+        bouton.addActionListener((ActionEvent e) -> {
+            /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
+            controleur.exportNiveau(0, false);
+            JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
+        });
+        menuBar.add(bouton);
         return menuBar;
     }
 
