@@ -123,4 +123,18 @@ public class Controleur {
         this.graph.defaite();
     }
 
+    /**
+     * WIP
+     */
+    void retry() {
+        System.out.println("Réessayer");
+    }
+
+    /**
+     * WIP
+     */
+    void backMenu() {
+        System.out.println("Retour Menu");
+    }
+
 }
