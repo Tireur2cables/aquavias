@@ -1,0 +1,19 @@
+{
+  "longueur":4,
+  "niveau":
+  [
+    [
+      ["L","O",null],["T","E","entree"],["L","N",null]
+    ],
+    [
+      [],["I","O",null],["I","E",null]
+    ],
+    [
+      [],["T","E",null],["L","N",null]
+    ],
+    [
+      [],["I","E","sortie"],[]]
+    ],
+    "hauteur":3,
+    "mode":"compteur"
+}
