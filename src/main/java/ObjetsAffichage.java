@@ -39,7 +39,7 @@ class Fenetre extends JFrame {
     }
 
     void incrementeCompteur() {
-        JTextField compteur = ((JTextField) this.getJMenuBar().getMenu(2).getComponent());
+        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
         int val = Integer.parseInt(compteur.getText());
         String newVal = String.valueOf(val+1);
         compteur.setText(newVal);
@@ -171,10 +171,11 @@ class Menu extends JMenuBar{
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         menuBar.add(bouton);
-        if (controleur.getMode().equals("compteur")) {
-            JTextField counter = new JTextField("0");
-            menuBar.add(counter);
-        }
+        JLabel counter = new JLabel("0");
+        menuBar.add(counter);
+        /*if (controleur.getMode().equals("compteur")) {
+//FIXME:la condition ne marche pas
+        }*/
         return menuBar;
     }
 
