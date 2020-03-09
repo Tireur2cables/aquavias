@@ -38,10 +38,18 @@ class Fenetre extends JFrame {
         });
     }
 
+    void incrementeCompteur() {
+        JTextField compteur = ((JTextField) this.getJMenuBar().getMenu(2).getComponent());
+        int val = Integer.parseInt(compteur.getText());
+        String newVal = String.valueOf(val+1);
+        compteur.setText(newVal);
+    }
+
     void defaite() {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(","",JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(","",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
@@ -163,6 +171,10 @@ class Menu extends JMenuBar{
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         menuBar.add(bouton);
+        if (controleur.getMode().equals("compteur")) {
+            JTextField counter = new JTextField("0");
+            menuBar.add(counter);
+        }
         return menuBar;
     }
 

@@ -12,7 +12,7 @@ public class Controleur {
 
     public void launch() {
         this.jeu = new Jeu(this);
-        this.jeu.initNiveau(3);
+        this.jeu.initNiveau(30);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
@@ -93,7 +93,10 @@ public class Controleur {
         this.detectAdjacents();
 
         /* en mode compteur incrémente le compteur */
-        if (this.jeu.getMode().equals("compteur")) this.jeu.incrementeCompteur();
+        if (this.jeu.getMode().equals("compteur")) {
+            this.jeu.incrementeCompteur();
+            this.graph.incrementeCompteur();
+        }
     }
 
     public void detectAdjacents() {
@@ -121,6 +124,10 @@ public class Controleur {
     void defaite() {
         System.out.println("Defaite!");
         this.graph.defaite();
+    }
+
+    String getMode() {
+        return this.jeu.getMode();
     }
 
     /**

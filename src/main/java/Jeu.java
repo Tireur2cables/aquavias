@@ -92,6 +92,7 @@ public class Jeu {
         }
     }
 
+    /* FIXME factoriser la partie double For dans une autre fonction */
     private JSONObject initJSON(){
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
@@ -165,7 +166,7 @@ public class Jeu {
     }
 
     String getMode() {
-        return this.mode;
+        return (this.mode == null)? "" : this.mode;
     }
 
     void incrementeCompteur() {
