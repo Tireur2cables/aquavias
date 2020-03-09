@@ -62,4 +62,9 @@ public class VueGraphique {
         int indice = y+x*largeur;
         ((ImagePane) this.plateau.getComponents()[indice]).setImage(image);
     }
+
+    void defaite() {
+        this.fenetre.defaite();
+    }
+
 }

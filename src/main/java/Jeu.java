@@ -37,6 +37,9 @@ public class Jeu {
     private int numNiveau;
     private int xEntree;
     private int yEntree;
+    private String mode = "compteur"; /* FIXME: à ajouter dans le fichier json */
+    private int compteur = 0;
+    private int limite = 5; /* FIXME: à ajouter dans le fichier json */
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -157,6 +160,15 @@ public class Jeu {
 
     public int getLargeur(){
         return this.plateau.length;
+    }
+
+    String getMode() {
+        return this.mode;
+    }
+
+    void incrementeCompteur() {
+        this.compteur++;
+        if (this.compteur >= this.limite) this.controleur.defaite();
     }
 
     /**

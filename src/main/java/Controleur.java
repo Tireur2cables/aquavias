@@ -91,6 +91,9 @@ public class Controleur {
 
         /* change l'attribut eau des ponts */
         this.detectAdjacents();
+
+        /* en mode compteur incrémente le compteur */
+        if (this.jeu.getMode().equals("compteur")) this.jeu.incrementeCompteur();
     }
 
     public void detectAdjacents() {
@@ -110,8 +113,14 @@ public class Controleur {
             }
         }
     }
+
     public void exportNiveau(int number, boolean nouveauNiveau){
         this.jeu.exportNiveau(number, nouveauNiveau);
+    }
+
+    void defaite() {
+        System.out.println("Defaite!");
+        this.graph.defaite();
     }
 
 }

@@ -34,6 +34,13 @@ class Fenetre extends JFrame {
         });
     }
 
+    void defaite() {
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showConfirmDialog(this, "Vous avez perdu! :(","", JOptionPane.OK_OPTION);
+            System.out.println(retour);
+        });
+    }
+
 }
 
 class Plateau extends JPanel {
