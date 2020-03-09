@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Controleur {
@@ -7,11 +6,11 @@ public class Controleur {
     private VueGraphique graph;
 
     public Controleur() {
+        this.jeu = new Jeu(this);
         this.graph = new VueGraphique(this);
     }
 
     public void launch() {
-        this.jeu = new Jeu(this);
         this.jeu.initNiveau(30);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");

@@ -57,6 +57,13 @@ class Fenetre extends JFrame {
         });
     }
 
+    void addCompteur() {
+        if (this.controleur.getMode().equals("compteur")) {
+            JLabel counter = new JLabel("0");
+            this.getJMenuBar().add(counter);
+        }
+    }
+
 }
 
 class Plateau extends JPanel {
@@ -171,11 +178,6 @@ class Menu extends JMenuBar{
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         menuBar.add(bouton);
-        JLabel counter = new JLabel("0");
-        menuBar.add(counter);
-        /*if (controleur.getMode().equals("compteur")) {
-//FIXME:la condition ne marche pas
-        }*/
         return menuBar;
     }
 

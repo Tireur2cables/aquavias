@@ -9,7 +9,6 @@ public class VueGraphique {
     public VueGraphique(Controleur controleur) {
         this.controleur = controleur;
         this.fenetre = new Fenetre(controleur);
-
     }
 
     static BufferedImage rotate(BufferedImage bimg, double angle){
@@ -48,6 +47,8 @@ public class VueGraphique {
     public void afficheNiveau() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.plateau);
+            if (this.controleur.getMode().equals("compteur"))
+                this.fenetre.addCompteur();
         });
     }
 

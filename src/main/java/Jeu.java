@@ -166,7 +166,7 @@ public class Jeu {
     }
 
     String getMode() {
-        return (this.mode == null)? "" : this.mode;
+        return this.mode;
     }
 
     void incrementeCompteur() {
