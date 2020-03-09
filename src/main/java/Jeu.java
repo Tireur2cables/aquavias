@@ -288,12 +288,12 @@ public class Jeu {
         }
     }
 
-    boolean calculCheminComplet(int x, int y){
+    boolean calculCheminComplet(int x, int y,boolean flag){
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
-                System.out.println("affiche adja : " + " " + x + "" + y + " " + afficheAdja2(i, x, y));
+                System.out.println(flag + "affiche adja : " + " " + x + "" + y + " " + afficheAdja2(i, x, y));
                 return afficheAdja2(i, x, y);
             }
         }
@@ -315,8 +315,8 @@ public class Jeu {
             char sortie = 'N';
             Pont p = this.plateau[y][x-1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x-1, y);
+                //if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x-1, y, false) || p.isEntree() || p.isSortie();
             }else{
                 return false;
             }
@@ -329,8 +329,8 @@ public class Jeu {
             char sortie = 'E';
             Pont p = this.plateau[y+1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x, y+1);
+                //if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x, y+1, false) || p.isEntree() || p.isSortie();
             }else{
                 return false;
             }
@@ -343,8 +343,8 @@ public class Jeu {
             char sortie = 'S';
             Pont p = this.plateau[y][x+1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x+1, y);
+                //if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x+1, y, false) || p.isEntree() || p.isSortie();
             }else{
                 return false;
             }
@@ -357,8 +357,8 @@ public class Jeu {
             char sortie = 'O';
             Pont p = this.plateau[y-1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x, y-1);
+                //if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x, y-1, false) || p.isEntree() || p.isSortie();
             }else{
                 return false;
             }
@@ -373,7 +373,8 @@ public class Jeu {
     boolean calculVictoire(){
         System.out.print(xSortie +" " + ySortie);
         if(this.getPont(xSortie, ySortie).getEau()){
-            return calculCheminComplet(xEntree, yEntree);
+            System.out.print("debut");
+            return calculCheminComplet(xEntree, yEntree, true);
         }else{
             return false;
         }
