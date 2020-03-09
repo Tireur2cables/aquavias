@@ -285,12 +285,81 @@ public class Jeu {
         }
     }
 
+    boolean calculCheminComplet(int x, int y){
+        Pont p = this.plateau[y][x].pont;
+        boolean[] sortiesP = p.getSorties();
+        for (int i = 0; i < sortiesP.length; i++) {
+            if (sortiesP[i]){
+                return afficheAdja2(i, x, y);
+            }
+        }
+        return false;
+    }
+
+    private boolean afficheAdja2(int i, int x, int y) {
+        switch (i) {
+            case 0 : return this.checkAdjaNord2(x, y);
+            case 1 : return this.checkAdjaEst2(x, y);
+            case 2 : return this.checkAdjaSud2(x, y);
+            case 3 : return this.checkAdjaOuest2(x, y);
+        }
+        return false;
+    }
+
+    private boolean checkAdjaNord2(int x, int y) {
+        if (x-1 >= 0) {
+            char sortie = 'N';
+            Pont p = this.plateau[y][x-1].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x-1, y);
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAdjaEst2(int x, int y) {
+        if (y+1 < this.getLargeur()) {
+            char sortie = 'E';
+            Pont p = this.plateau[y+1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x, y+1);
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAdjaSud2(int x, int y) {
+        if (x+1 < this.getHauteur()) {
+            char sortie = 'S';
+            Pont p = this.plateau[y][x+1].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x+1, y);
+            }
+        }
+        return false;
+    }
+
+    private boolean checkAdjaOuest2(int x, int y) {
+        if (y-1 >= 0) {
+            char sortie = 'O';
+            Pont p = this.plateau[y-1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if(p.isEntree() || p.isSortie()) return true;
+                return this.calculCheminComplet(x, y-1);
+            }
+
+        }
+        return false;
+    }
+
     boolean calculVictoire(){
-        if(this.getPont(xEntree, yEntree).getEau()){
-            
+        if(this.getPont(xSortie, ySortie).getEau()){
+            return calculCheminComplet(xEntree, yEntree);
         }else{
             return false;
         }
-        return false;
     }
 }
