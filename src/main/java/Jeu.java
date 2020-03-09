@@ -1,5 +1,7 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Collection;
 
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
@@ -32,6 +34,7 @@ public class Jeu {
 
     private Case[][] plateau;
     private Controleur controleur;
+    private int numNiveau;
     private int xEntree;
     private int yEntree;
 
@@ -39,8 +42,10 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    /* Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
-        donc on échange les indices pour les afficher correctement */
+    /**
+     * Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
+     * donc on échange les indices i et j pour les afficher correctement
+     * */
     public void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
@@ -53,19 +58,62 @@ public class Jeu {
         }
     }
 
-    /* FIXME: parametre static ? */
+    /* FIXME: chemin en parametre static ? */
     public void initNiveau(int number) {
         String chemin = "resources/niveaux/niveau" + number + ".json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
-        this.initPlateau(longueur, hauteur, niveau);
+        this.initPlateau(longueur, hauteur, niveau, number);
         this.chercheEntree();
         this.parcourchemin();
     }
 
-    private void initPlateau(int longueur, int hauteur, JSONArray niveau) {
+    public void exportNiveau(int number, boolean newNiveau){
+        String chemin = "resources/export/niveau" + ((newNiveau)? number : this.numNiveau) + ".json";
+        JSONObject fic = this.initJSON();
+        writeFile(fic, chemin);
+    }
+
+    private static void writeFile(JSONObject file, String chemin){
+        try{
+            FileWriter fichier = new FileWriter(chemin);
+            fichier.write(file.toString());
+            fichier.close();
+        }catch (IOException e){
+            System.out.println("Echec de l'écriture du niveau");
+            System.out.println(e.getStackTrace());
+        }
+    }
+
+    private JSONObject initJSON(){
+        JSONObject fic = new JSONObject();
+        fic.put("hauteur", this.getHauteur());
+        fic.put("longueur", this.getLargeur());
+        JSONArray niveau = new JSONArray();
+        for(int i = 0; i < this.getLargeur(); i++){
+            JSONArray ligne = new JSONArray();
+            for(int j = 0; j < this.getHauteur(); j++){
+                Pont modPont = this.getPont(j,i);
+                if(modPont != null){
+                    JSONArray pont = new JSONArray();
+                    pont.put((modPont.forme + ""));
+                    pont.put(modPont.orientation + "");
+                    pont.put(modPont.spe);
+                    ligne.put(pont);
+                }else{
+                    ligne.put((Collection<?>) null);
+                }
+            }
+            niveau.put(ligne);
+        }
+        fic.put("niveau", niveau);
+        return fic;
+    }
+
+    private void initPlateau(int longueur, int hauteur, JSONArray niveau, int numNiveau) {
+        this.numNiveau = numNiveau;
         this.plateau = new Case[longueur][hauteur];
         for (int i = 0; i < longueur; i++) {
             JSONArray colonne = ((JSONArray) niveau.get(i));
@@ -111,7 +159,9 @@ public class Jeu {
         return this.plateau.length;
     }
 
-    /* On suppose que l'on tourne les ponts uniquement de 90° ici */
+    /**
+     * On suppose que l'on tourne les ponts uniquement de 90° ici
+     * */
     public void refreshSorties(int x, int y) {
         Pont p = this.plateau[y][x].pont;
         char newOrientation = Pont.getNextOrientation(p.orientation);
@@ -134,7 +184,7 @@ public class Jeu {
     /**
      *  X = hauteur et Y = largeur
      *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
-     *  
+     *
      *  */
     private void afficheAdja(int i, int x, int y) {
         switch (i) {
@@ -194,8 +244,8 @@ public class Jeu {
             Pont p = this.plateau[y-1][x].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
-                  p.setEau(true);
-                  this.detectAdjacents(x, y-1);
+                    p.setEau(true);
+                    this.detectAdjacents(x, y-1);
                 }
             }
 
@@ -211,7 +261,7 @@ public class Jeu {
         this.detectAdjacents(x, y);
     }
 
-     void resetWater() {
+    void resetWater() {
         for(int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++ ) {
                 Pont p = this.plateau[i][j].pont;

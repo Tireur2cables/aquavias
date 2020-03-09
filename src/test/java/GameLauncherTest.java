@@ -7,6 +7,7 @@ import java.io.PrintStream;
 
 
 public class GameLauncherTest {
+
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -29,4 +30,5 @@ public class GameLauncherTest {
         GameLauncher.main(new String[]{"test"});
         assertEquals("Le jeu se lance!\n", outContent.toString());
     }
+
 }

@@ -1,3 +1,6 @@
+#exportation de niveaux
+#resources/export/
+
 #Java
 *.class
 *.jar
