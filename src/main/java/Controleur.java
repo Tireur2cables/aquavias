@@ -93,8 +93,8 @@ public class Controleur {
 
         /* en mode compteur incrémente le compteur */
         if (this.jeu.getMode().equals("compteur")) {
-            this.jeu.incrementeCompteur();
-            this.graph.incrementeCompteur();
+            this.jeu.decrementeCompteur();
+            this.graph.decrementeCompteur();
         }
     }
 
@@ -127,6 +127,10 @@ public class Controleur {
 
     String getMode() {
         return this.jeu.getMode();
+    }
+
+    int getLimite() {
+        return this.jeu.getLimite();
     }
 
     /**

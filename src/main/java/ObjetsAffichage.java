@@ -38,10 +38,10 @@ class Fenetre extends JFrame {
         });
     }
 
-    void incrementeCompteur() {
+    void decrementeCompteur() {
         JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
         int val = Integer.parseInt(compteur.getText());
-        String newVal = String.valueOf(val+1);
+        String newVal = String.valueOf(val-1);
         compteur.setText(newVal);
     }
 
@@ -59,7 +59,8 @@ class Fenetre extends JFrame {
 
     void addCompteur() {
         if (this.controleur.getMode().equals("compteur")) {
-            JLabel counter = new JLabel("0");
+            int limite =  this.controleur.getLimite();
+            JLabel counter = new JLabel("" + limite);
             this.getJMenuBar().add(counter);
         }
     }

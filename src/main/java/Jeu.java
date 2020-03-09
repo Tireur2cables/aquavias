@@ -38,7 +38,7 @@ public class Jeu {
     private int xEntree;
     private int yEntree;
     private String mode;
-    private int compteur = 0;
+    private int compteur;
     private int limite;
 
     public Jeu(Controleur controleur) {
@@ -71,6 +71,7 @@ public class Jeu {
         this.initPlateau(longueur, hauteur, niveau, number);
         this.mode = json.getString("mode");
         this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
+        this.compteur = this.limite;
         this.chercheEntree();
         this.parcourchemin();
     }
@@ -169,9 +170,13 @@ public class Jeu {
         return this.mode;
     }
 
-    void incrementeCompteur() {
-        this.compteur++;
-        if (this.compteur >= this.limite) this.controleur.defaite();
+    int getLimite() {
+        return this.limite;
+    }
+
+    void decrementeCompteur() {
+        this.compteur--;
+        if (this.compteur <= 0) this.controleur.defaite();
     }
 
     /**

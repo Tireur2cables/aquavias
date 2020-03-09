@@ -68,8 +68,8 @@ public class VueGraphique {
         this.fenetre.defaite();
     }
 
-    void incrementeCompteur() {
-        this.fenetre.incrementeCompteur();
+    void decrementeCompteur() {
+        this.fenetre.decrementeCompteur();
     }
 
 }
