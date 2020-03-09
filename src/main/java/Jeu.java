@@ -37,9 +37,9 @@ public class Jeu {
     private int numNiveau;
     private int xEntree;
     private int yEntree;
-    private String mode = "compteur"; /* FIXME: à ajouter dans le fichier json */
+    private String mode;
     private int compteur = 0;
-    private int limite = 5; /* FIXME: à ajouter dans le fichier json */
+    private int limite;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -69,6 +69,8 @@ public class Jeu {
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau, number);
+        this.mode = json.getString("mode");
+        this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
         this.chercheEntree();
         this.parcourchemin();
     }
