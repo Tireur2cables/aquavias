@@ -69,6 +69,7 @@ public class Jeu {
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau, number);
         this.chercheEntree();
+        this.chercheSortie();
         this.parcourchemin();
     }
 
@@ -268,6 +269,8 @@ public class Jeu {
 
     /**
      * Parcours récursif de chaque chemin complet
+     *
+     * FIXME: A refactor c'est très laid
      * */
     void parcourchemin() {
         int x = this.xEntree;
@@ -290,6 +293,7 @@ public class Jeu {
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
+                System.out.println("affiche adja : " + " " + x + "" + y + " " + afficheAdja2(i, x, y));
                 return afficheAdja2(i, x, y);
             }
         }
@@ -313,6 +317,8 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if(p.isEntree() || p.isSortie()) return true;
                 return this.calculCheminComplet(x-1, y);
+            }else{
+                return false;
             }
         }
         return false;
@@ -325,6 +331,8 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if(p.isEntree() || p.isSortie()) return true;
                 return this.calculCheminComplet(x, y+1);
+            }else{
+                return false;
             }
         }
         return false;
@@ -337,6 +345,8 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if(p.isEntree() || p.isSortie()) return true;
                 return this.calculCheminComplet(x+1, y);
+            }else{
+                return false;
             }
         }
         return false;
@@ -349,13 +359,19 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if(p.isEntree() || p.isSortie()) return true;
                 return this.calculCheminComplet(x, y-1);
+            }else{
+                return false;
             }
 
         }
         return false;
     }
 
+    /**
+     * FIXME: A refactor c'est très laid
+     * */
     boolean calculVictoire(){
+        System.out.print(xSortie +" " + ySortie);
         if(this.getPont(xSortie, ySortie).getEau()){
             return calculCheminComplet(xEntree, yEntree);
         }else{
