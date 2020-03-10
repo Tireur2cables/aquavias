@@ -37,6 +37,9 @@ public class Jeu {
     private int numNiveau;
     private int xEntree;
     private int yEntree;
+    private String mode;
+    private int compteur;
+    private int limite;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -66,6 +69,9 @@ public class Jeu {
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau, number);
+        this.mode = json.getString("mode");
+        this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
+        this.compteur = this.limite;
         this.chercheEntree();
         this.parcourchemin();
     }
@@ -87,6 +93,7 @@ public class Jeu {
         }
     }
 
+    /* FIXME factoriser la partie double For dans une autre fonction */
     private JSONObject initJSON(){
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
@@ -157,6 +164,19 @@ public class Jeu {
 
     public int getLargeur(){
         return this.plateau.length;
+    }
+
+    String getMode() {
+        return this.mode;
+    }
+
+    int getLimite() {
+        return this.limite;
+    }
+
+    void decrementeCompteur() {
+        this.compteur--;
+        if (this.compteur <= 0) this.controleur.defaite();
     }
 
     /**
