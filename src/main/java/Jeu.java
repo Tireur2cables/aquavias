@@ -291,13 +291,18 @@ public class Jeu {
     boolean calculCheminComplet(int x, int y,boolean flag){
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
+        boolean[] sortiesConnectees = new boolean[sortiesP.lentgh];
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]){
                 System.out.println(flag + "affiche adja : " + " " + x + "" + y + " " + afficheAdja2(i, x, y));
-                return afficheAdja2(i, x, y);
+                sortiesConnectees[i] = afficheAdja2(i, x, y);
             }
         }
-        return false;
+        boolean flag = true;
+        for(int i = 0; i < sortiesConnectees.length; i++){
+          flag = flag && sortiesConnectees[i];
+        }
+        return flag;
     }
 
     private boolean afficheAdja2(int i, int x, int y) {
