@@ -190,7 +190,7 @@ public class Jeu {
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
-            if (sortiesP[i]){
+            if (sortiesP[i]) {
                 this.afficheAdja(i, x, y);
             }
         }
@@ -288,6 +288,13 @@ public class Jeu {
         }
     }
 
+    /**
+     *
+     * Parcours
+     * victoire
+     *
+     */
+/*
     boolean calculCheminComplet(int x, int y,boolean flag){
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
@@ -375,13 +382,106 @@ public class Jeu {
     /**
      * FIXME: A refactor c'est très laid
      * */
-    boolean calculVictoire(){
-        System.out.print(xSortie +" " + ySortie);
-        if(this.getPont(xSortie, ySortie).getEau()){
-            System.out.print("debut");
-            return calculCheminComplet(xEntree, yEntree, true);
-        }else{
-            return false;
+    private static boolean[][] passage;
+
+    private static void createPassage(int largeur, int hauteur) {
+        passage = new boolean[largeur][hauteur];
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
+                passage[i][j] = false;
+            }
         }
     }
+
+    boolean calculVictoire(){
+        //System.out.print(xSortie +" " + ySortie);
+        if(this.getPont(this.xSortie, this.ySortie).getEau()) {
+            System.out.println("debut");
+            return isEtanche();
+            //return calculCheminComplet(this.xEntree, this.yEntree, true);
+        }else
+            return false;
+    }
+
+    boolean isEtanche() {
+        createPassage(this.getLargeur(), this.getHauteur());
+        int x = this.xEntree;
+        int y = this.yEntree;
+        return this.detectAdjacents2(x, y);
+    }
+
+    private boolean detectAdjacents2(int x, int y) {
+        Pont p = this.plateau[y][x].pont;
+        boolean[] sortiesP = p.getSorties();
+        passage[y][x] = true;
+        boolean soriteEtanche = true;
+        for (int i = 0; i < sortiesP.length; i++) {
+            if (sortiesP[i])
+                soriteEtanche = soriteEtanche && this.afficheAdja2(i, x, y);
+        }
+        return soriteEtanche;
+    }
+
+    private boolean afficheAdja2(int i, int x, int y) {
+        switch (i) {
+            case 0 : return this.checkAdjaNord2(x, y);
+            case 1 : return this.checkAdjaEst2(x, y);
+            case 2 : return this.checkAdjaSud2(x, y);
+            case 3 : return this.checkAdjaOuest2(x, y);
+        }
+        throw new RuntimeException("Sortie de Pont Inconnue");
+    }
+
+    private boolean checkAdjaNord2(int x, int y) {
+        if (x-1 >= 0) {
+            if (passage[y][x-1]) return true;
+            char sortie = 'N';
+            Pont p = this.plateau[y][x-1].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectAdjacents2(x-1, y);
+            else
+                return false;
+        }
+        return false;
+    }
+
+    private boolean checkAdjaEst2(int x, int y) {
+        if (y+1 < this.getLargeur()) {
+            if (passage[y+1][x]) return true;
+            char sortie = 'E';
+            Pont p = this.plateau[y+1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectAdjacents2(x, y+1);
+            else
+                return false;
+        }
+        return false;
+    }
+
+    private boolean checkAdjaSud2(int x, int y) {
+        if (x+1 < this.getHauteur()) {
+            if (passage[y][x+1]) return true;
+            char sortie = 'S';
+            Pont p = this.plateau[y][x+1].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectAdjacents2(x+1, y);
+            else
+                return false;
+        }
+        return false;
+    }
+
+    private boolean checkAdjaOuest2(int x, int y) {
+        if (y-1 >= 0) {
+            if (passage[y-1][x]) return true;
+            char sortie = 'O';
+            Pont p = this.plateau[y-1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectAdjacents2(x, y-1);
+            else
+                return false;
+        }
+        return false;
+    }
+
 }
