@@ -278,7 +278,7 @@ public class Jeu {
     /**
      * Parcours récursif de chaque chemin complet
      *
-     * FIXME: A refactor c'est très laid
+     * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
     void parcourchemin() {
         int x = this.xEntree;
@@ -297,98 +297,11 @@ public class Jeu {
     }
 
     /**
-     *
-     * Parcours
-     * victoire
-     *
+     * Parcours Victoire
      */
-/*
-    boolean calculCheminComplet(int x, int y,boolean flag){
-        Pont p = this.plateau[y][x].pont;
-        boolean[] sortiesP = p.getSorties();
-        boolean[] sortiesConnectees = new boolean[sortiesP.length];
-        for (int i = 0; i < sortiesP.length; i++) {
-            if (sortiesP[i]){
-                System.out.println(flag + "affiche adja : " + " " + x + "" + y + " " + afficheAdja2(i, x, y));
-                sortiesConnectees[i] = afficheAdja2(i, x, y);
-            }
-        }
-        boolean flag2 = true;
-        for(int i = 0; i < sortiesConnectees.length; i++){
-          flag2 = flag2 && sortiesConnectees[i];
-        }
-        return flag2;
-    }
-
-    private boolean afficheAdja2(int i, int x, int y) {
-        switch (i) {
-            case 0 : return this.checkAdjaNord2(x, y);
-            case 1 : return this.checkAdjaEst2(x, y);
-            case 2 : return this.checkAdjaSud2(x, y);
-            case 3 : return this.checkAdjaOuest2(x, y);
-        }
-        return false;
-    }
-
-    private boolean checkAdjaNord2(int x, int y) {
-        if (x-1 >= 0) {
-            char sortie = 'N';
-            Pont p = this.plateau[y][x-1].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) {
-                //if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x-1, y, false) || p.isEntree() || p.isSortie();
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkAdjaEst2(int x, int y) {
-        if (y+1 < this.getLargeur()) {
-            char sortie = 'E';
-            Pont p = this.plateau[y+1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) {
-                //if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x, y+1, false) || p.isEntree() || p.isSortie();
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkAdjaSud2(int x, int y) {
-        if (x+1 < this.getHauteur()) {
-            char sortie = 'S';
-            Pont p = this.plateau[y][x+1].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) {
-                //if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x+1, y, false) || p.isEntree() || p.isSortie();
-            }else{
-                return false;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkAdjaOuest2(int x, int y) {
-        if (y-1 >= 0) {
-            char sortie = 'O';
-            Pont p = this.plateau[y-1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) {
-                //if(p.isEntree() || p.isSortie()) return true;
-                return this.calculCheminComplet(x, y-1, false) || p.isEntree() || p.isSortie();
-            }else{
-                return false;
-            }
-
-        }
-        return false;
-    }
 
     /**
-     * FIXME: A refactor c'est très laid
+     * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
     private static boolean[][] passage;
 
@@ -401,31 +314,23 @@ public class Jeu {
         }
     }
 
-    private static void affichePassage(int largeur, int hauteur) {
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
-                System.out.print(passage[j][i] + " ");
-            }
-            System.out.println();
-        }
-    }
-
     boolean calculVictoire(){
-        //System.out.print(xSortie +" " + ySortie);
-        if(this.getPont(this.xSortie, this.ySortie).getEau()) {
+        if(this.getPont(this.xSortie, this.ySortie).getEau())
             return isEtanche();
-            //return calculCheminComplet(this.xEntree, this.yEntree, true);
-        }else
+        else
             return false;
     }
 
+    /**
+     * Suppose que Sortie et Entrée sont des lignes droites
+     * (ne possèdent que une sorite connéctable avec des ponts)
+     * cf. checkAdja...2 le else de fin
+     * */
     boolean isEtanche() {
         createPassage(this.getLargeur(), this.getHauteur());
         int x = this.xEntree;
         int y = this.yEntree;
-        boolean ret = this.detectAdjacents2(x, y);
-        //affichePassage(this.getLargeur(), this.getHauteur());
-        return ret;
+        return this.detectAdjacents2(x, y);
     }
 
     private boolean detectAdjacents2(int x, int y) {
@@ -438,7 +343,6 @@ public class Jeu {
                 soriteEtanche = soriteEtanche && this.afficheAdja2(i, x, y);
             }
         }
-        //System.out.println("x:" + x + " y:" + y + "etanche:" + soriteEtanche);
         return soriteEtanche;
     }
 
