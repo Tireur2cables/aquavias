@@ -110,12 +110,15 @@ public class Controleur {
             }
         }
     }
+
     public void exportNiveau(int number, boolean nouveauNiveau){
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
-    public boolean isVictoire(){
-        return this.jeu.calculVictoire();
+    void isVictoire(){
+        if (this.jeu.calculVictoire()) {
+            this.graph.victoire();
+        }
     }
 
 }
