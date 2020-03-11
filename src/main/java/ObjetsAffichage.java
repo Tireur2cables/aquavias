@@ -7,11 +7,14 @@ import java.awt.image.BufferedImage;
 
 class Fenetre extends JFrame {
 
+    private Controleur controleur;
+
     /**
      * Fenetre pour les tests unitaires
      * */
     public Fenetre(String titre, BufferedImage image, Controleur controleur) {
         super();
+        this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
@@ -26,6 +29,7 @@ class Fenetre extends JFrame {
      * */
     public Fenetre(Controleur controleur) {
         super();
+        this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
@@ -46,6 +50,33 @@ class Fenetre extends JFrame {
                 System.out.println("Retour au menu");
                 //this.controleur.backMenu();
         });
+    }
+
+    void decrementeCompteur() {
+        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
+        int val = Integer.parseInt(compteur.getText());
+        String newVal = String.valueOf(val-1);
+        compteur.setText(newVal);
+    }
+
+    void defaite() {
+        String[] choices = {"Réessayer!", "Retour au menu"};
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(","",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
+            if (retour == 0) /* retour = 0 = Réessayer */
+                this.controleur.retry();
+            else /* retour = 1 = Retour au menu */
+               this.controleur.backMenu();
+        });
+    }
+
+    void addCompteur() {
+        if (this.controleur.getMode().equals("compteur")) {
+            int limite =  this.controleur.getLimite();
+            JLabel counter = new JLabel("" + limite);
+            this.getJMenuBar().add(counter);
+        }
     }
 
 }

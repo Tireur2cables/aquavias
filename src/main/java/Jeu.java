@@ -39,6 +39,9 @@ public class Jeu {
     private int yEntree;
     private int xSortie;
     private int ySortie;
+    private String mode;
+    private int compteur;
+    private int limite;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -68,6 +71,9 @@ public class Jeu {
         int longueur = json.getInt("longueur");
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau, number);
+        this.mode = json.getString("mode");
+        this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
+        this.compteur = this.limite;
         this.chercheEntree();
         this.chercheSortie();
         this.parcourchemin();
@@ -90,6 +96,7 @@ public class Jeu {
         }
     }
 
+    /* FIXME factoriser la partie double For dans une autre fonction */
     private JSONObject initJSON(){
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
@@ -180,6 +187,19 @@ public class Jeu {
 
     private boolean isEntree(int x, int y) {
         return x == this.xEntree && y == this.yEntree;
+    }
+    
+    String getMode() {
+        return this.mode;
+    }
+
+    int getLimite() {
+        return this.limite;
+    }
+
+    void decrementeCompteur() {
+        this.compteur--;
+        if (this.compteur <= 0) this.controleur.defaite();
     }
 
     /**
@@ -298,7 +318,7 @@ public class Jeu {
 
     /**
      * Parcours Victoire
-     */
+     * */
 
     /**
      * FIXME: A refactor c'est très laid (trop long et decoupé)

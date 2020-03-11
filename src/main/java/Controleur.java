@@ -1,4 +1,3 @@
-import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class Controleur {
@@ -7,12 +6,12 @@ public class Controleur {
     private VueGraphique graph;
 
     public Controleur() {
+        this.jeu = new Jeu(this);
         this.graph = new VueGraphique(this);
     }
 
     public void launch() {
-        this.jeu = new Jeu(this);
-        this.jeu.initNiveau(3);
+        this.jeu.initNiveau(30);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
@@ -91,6 +90,12 @@ public class Controleur {
 
         /* change l'attribut eau des ponts */
         this.detectAdjacents();
+
+        /* en mode compteur incrémente le compteur */
+        if (this.jeu.getMode().equals("compteur")) {
+            this.jeu.decrementeCompteur();
+            this.graph.decrementeCompteur();
+        }
     }
 
     public void detectAdjacents() {
@@ -119,6 +124,33 @@ public class Controleur {
         if (this.jeu.calculVictoire()) {
             this.graph.victoire();
         }
+    }
+    
+    void defaite() {
+        System.out.println("Defaite!");
+        this.graph.defaite();
+    }
+
+    String getMode() {
+        return this.jeu.getMode();
+    }
+
+    int getLimite() {
+        return this.jeu.getLimite();
+    }
+
+    /**
+     * WIP
+     */
+    void retry() {
+        System.out.println("Réessayer");
+    }
+
+    /**
+     * WIP
+     */
+    void backMenu() {
+        System.out.println("Retour Menu");
     }
 
 }

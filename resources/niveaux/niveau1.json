@@ -1,6 +1,7 @@
 {
   "hauteur" : 3,
   "longueur" : 3,
+  "mode":"",
   "niveau" : [
       [
         [], ["i", "E", "entree"], []
