@@ -174,6 +174,14 @@ public class Jeu {
         return this.plateau.length;
     }
 
+    private boolean isSortie(int x, int y) {
+        return x == this.xSortie && y == this.ySortie;
+    }
+
+    private boolean isEntree(int x, int y) {
+        return x == this.xEntree && y == this.yEntree;
+    }
+
     /**
      * On suppose que l'on tourne les ponts uniquement de 90° ici
      * */
@@ -393,10 +401,18 @@ public class Jeu {
         }
     }
 
+    private static void affichePassage(int largeur, int hauteur) {
+        for (int i = 0; i < hauteur; i++) {
+            for (int j = 0; j < largeur; j++) {
+                System.out.print(passage[j][i] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     boolean calculVictoire(){
         //System.out.print(xSortie +" " + ySortie);
         if(this.getPont(this.xSortie, this.ySortie).getEau()) {
-            System.out.println("debut");
             return isEtanche();
             //return calculCheminComplet(this.xEntree, this.yEntree, true);
         }else
@@ -407,7 +423,9 @@ public class Jeu {
         createPassage(this.getLargeur(), this.getHauteur());
         int x = this.xEntree;
         int y = this.yEntree;
-        return this.detectAdjacents2(x, y);
+        boolean ret = this.detectAdjacents2(x, y);
+        //affichePassage(this.getLargeur(), this.getHauteur());
+        return ret;
     }
 
     private boolean detectAdjacents2(int x, int y) {
@@ -416,9 +434,11 @@ public class Jeu {
         passage[y][x] = true;
         boolean soriteEtanche = true;
         for (int i = 0; i < sortiesP.length; i++) {
-            if (sortiesP[i])
+            if (sortiesP[i]) {
                 soriteEtanche = soriteEtanche && this.afficheAdja2(i, x, y);
+            }
         }
+        //System.out.println("x:" + x + " y:" + y + "etanche:" + soriteEtanche);
         return soriteEtanche;
     }
 
@@ -441,8 +461,8 @@ public class Jeu {
                 return this.detectAdjacents2(x-1, y);
             else
                 return false;
-        }
-        return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
     }
 
     private boolean checkAdjaEst2(int x, int y) {
@@ -454,8 +474,8 @@ public class Jeu {
                 return this.detectAdjacents2(x, y+1);
             else
                 return false;
-        }
-        return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
     }
 
     private boolean checkAdjaSud2(int x, int y) {
@@ -467,8 +487,8 @@ public class Jeu {
                 return this.detectAdjacents2(x+1, y);
             else
                 return false;
-        }
-        return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
     }
 
     private boolean checkAdjaOuest2(int x, int y) {
@@ -480,8 +500,8 @@ public class Jeu {
                 return this.detectAdjacents2(x, y-1);
             else
                 return false;
-        }
-        return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
     }
 
 }
