@@ -165,6 +165,14 @@ public class Jeu {
     void initTimer(){
         if (this.controleur.getMode().equals("fuite")){
             timer = newScheduledThreadPool(1);
+            Runnable compteSeconde = new Runnable(){
+                @Override
+                public void run() {
+                    if(!isEtanche()){
+                        
+                    }
+                }
+            };
         }
     }
 
