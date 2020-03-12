@@ -48,11 +48,11 @@ public class VueGraphique {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.plateau);
             if (this.controleur.getMode().equals("compteur")){
-              this.fenetre.addCompteur();
+                this.fenetre.addCompteur();
             }
             else{
-              this.fenetre.addCompteur();
-              this.controleur.initTimer();
+                this.fenetre.addCompteur();
+                this.controleur.initTimer();
             }
         });
     }

@@ -163,9 +163,9 @@ public class Jeu {
         }
     }
     void initTimer(){
-      if (this.controleur.getMode().equals("fuite")){
-          timer = newScheduledThreadPool(1);
-      }
+        if (this.controleur.getMode().equals("fuite")){
+            timer = newScheduledThreadPool(1);
+        }
     }
 
     private static JSONObject readJSON(String chemin) {

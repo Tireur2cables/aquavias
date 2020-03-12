@@ -121,7 +121,7 @@ public class Controleur {
     }
 
     void initTimer(){
-      this.jeu.initTimer();
+        this.jeu.initTimer();
     }
 
     void isVictoire(){
