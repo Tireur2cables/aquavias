@@ -1,7 +1,8 @@
 {
   "hauteur" : 3,
   "longueur" : 3,
-  "mode":"",
+  "mode":"compteur",
+  "limite":10,
   "niveau" : [
       [
         [], ["i", "E", "entree"], []

@@ -1,7 +1,8 @@
 {
     "hauteur" :3,
     "longueur" :4,
-    "mode":"",
+    "mode":"fuite",
+    "limite":120,
     "niveau" :[
         [
             ["l", "O", null], ["t", "E", "entree"], ["l", "N", null]

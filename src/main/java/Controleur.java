@@ -11,7 +11,7 @@ public class Controleur {
     }
 
     public void launch() {
-        this.jeu.initNiveau(30);
+        this.jeu.initNiveau(2);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
@@ -92,7 +92,7 @@ public class Controleur {
         this.detectAdjacents();
 
         /* en mode compteur incrémente le compteur */
-        if (this.jeu.getMode().equals("compteur")) {
+        if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire()) {
             this.jeu.decrementeCompteur();
             this.graph.decrementeCompteur();
         }
