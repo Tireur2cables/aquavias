@@ -409,12 +409,12 @@ public class Jeu {
 
     private boolean checkEtancheNord(int x, int y) {
         if (x-1 >= 0) {
-            if (passage[y][x-1]) return true;
             char sortie = 'N';
             Pont p = this.plateau[y][x-1].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y][x-1]) return true;
                 return this.detectEtancheAdjacents(x-1, y);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
@@ -422,12 +422,12 @@ public class Jeu {
 
     private boolean checkEtancheEst(int x, int y) {
         if (y+1 < this.getLargeur()) {
-            if (passage[y+1][x]) return true;
             char sortie = 'E';
             Pont p = this.plateau[y+1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y+1][x]) return true;
                 return this.detectEtancheAdjacents(x, y+1);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
@@ -435,12 +435,12 @@ public class Jeu {
 
     private boolean checkEtancheSud(int x, int y) {
         if (x+1 < this.getHauteur()) {
-            if (passage[y][x+1]) return true;
             char sortie = 'S';
             Pont p = this.plateau[y][x+1].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y][x+1]) return true;
                 return this.detectEtancheAdjacents(x+1, y);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
@@ -448,12 +448,12 @@ public class Jeu {
 
     private boolean checkEtancheOuest(int x, int y) {
         if (y-1 >= 0) {
-            if (passage[y-1][x]) return true;
             char sortie = 'O';
             Pont p = this.plateau[y-1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y-1][x]) return true;
                 return this.detectEtancheAdjacents(x, y-1);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
