@@ -188,7 +188,7 @@ public class Jeu {
     private boolean isEntree(int x, int y) {
         return x == this.xEntree && y == this.yEntree;
     }
-    
+
     String getMode() {
         return this.mode;
     }
@@ -360,10 +360,10 @@ public class Jeu {
         boolean soriteEtanche = true;
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]) {
-                soriteEtanche = soriteEtanche && this.afficheAdja2(i, x, y);
+                sortieEtanche = sortieEtanche && this.afficheAdja2(i, x, y);
             }
         }
-        return soriteEtanche;
+        return sortieEtanche;
     }
 
     private boolean afficheAdja2(int i, int x, int y) {
