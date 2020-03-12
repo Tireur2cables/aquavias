@@ -37,6 +37,8 @@ public class Jeu {
     private int numNiveau;
     private int xEntree;
     private int yEntree;
+    private int xSortie;
+    private int ySortie;
     private String mode;
     private int compteur;
     private int limite;
@@ -73,6 +75,7 @@ public class Jeu {
         this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
         this.compteur = this.limite;
         this.chercheEntree();
+        this.chercheSortie();
         this.parcourchemin();
     }
 
@@ -142,6 +145,18 @@ public class Jeu {
         }
     }
 
+    private void chercheSortie(){
+        for (int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++) {
+                if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isSortie()) {
+                    this.xSortie = j;
+                    this.ySortie = i;
+                    return;
+                }
+            }
+        }
+    }
+
     private static JSONObject readJSON(String chemin) {
         try {
             File f = new File(chemin);
@@ -164,6 +179,14 @@ public class Jeu {
 
     public int getLargeur(){
         return this.plateau.length;
+    }
+
+    private boolean isSortie(int x, int y) {
+        return x == this.xSortie && y == this.ySortie;
+    }
+
+    private boolean isEntree(int x, int y) {
+        return x == this.xEntree && y == this.yEntree;
     }
 
     String getMode() {
@@ -195,7 +218,7 @@ public class Jeu {
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
-            if (sortiesP[i]){
+            if (sortiesP[i]) {
                 this.afficheAdja(i, x, y);
             }
         }
@@ -274,6 +297,8 @@ public class Jeu {
 
     /**
      * Parcours récursif de chaque chemin complet
+     *
+     * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
     void parcourchemin() {
         int x = this.xEntree;
@@ -289,6 +314,119 @@ public class Jeu {
                     p.setEau(false);
             }
         }
+    }
+
+    /**
+     * Parcours Victoire
+     * */
+
+    /**
+     * FIXME: A refactor c'est très laid (trop long et decoupé)
+     * */
+    private static boolean[][] passage;
+
+    private static void createPassage(int largeur, int hauteur) {
+        passage = new boolean[largeur][hauteur];
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
+                passage[i][j] = false;
+            }
+        }
+    }
+
+    boolean calculVictoire(){
+        if(this.getPont(this.xSortie, this.ySortie).getEau())
+            return isEtanche();
+        else
+            return false;
+    }
+
+    /**
+     * A vérifié:
+     * Suppose que Sortie est une ligne droite
+     * (ne possède que une sortie connectable avec des ponts)
+     * cf. checkEtanche... le else de fin
+     * */
+    boolean isEtanche() {
+        createPassage(this.getLargeur(), this.getHauteur());
+        int x = this.xEntree;
+        int y = this.yEntree;
+        return this.detectEtancheAdjacents(x, y);
+    }
+
+    private boolean detectEtancheAdjacents(int x, int y) {
+        Pont p = this.plateau[y][x].pont;
+        boolean[] sortiesP = p.getSorties();
+        passage[y][x] = true;
+        boolean sortieEtanche = true;
+        for (int i = 0; i < sortiesP.length; i++) {
+            if (sortiesP[i]) {
+                sortieEtanche = sortieEtanche && this.getAdjacentDirection(i, x, y);
+            }
+        }
+        return sortieEtanche;
+    }
+
+    private boolean getAdjacentDirection(int i, int x, int y) {
+        switch (i) {
+            case 0 : return this.checkEtancheNord(x, y);
+            case 1 : return this.checkEtancheEst(x, y);
+            case 2 : return this.checkEtancheSud(x, y);
+            case 3 : return this.checkEtancheOuest(x, y);
+        }
+        throw new RuntimeException("Sortie de Pont Inconnue");
+    }
+
+    private boolean checkEtancheNord(int x, int y) {
+        if (x-1 >= 0) {
+            if (passage[y][x-1]) return true;
+            char sortie = 'N';
+            Pont p = this.plateau[y][x-1].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectEtancheAdjacents(x-1, y);
+            else
+                return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
+    }
+
+    private boolean checkEtancheEst(int x, int y) {
+        if (y+1 < this.getLargeur()) {
+            if (passage[y+1][x]) return true;
+            char sortie = 'E';
+            Pont p = this.plateau[y+1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectEtancheAdjacents(x, y+1);
+            else
+                return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
+    }
+
+    private boolean checkEtancheSud(int x, int y) {
+        if (x+1 < this.getHauteur()) {
+            if (passage[y][x+1]) return true;
+            char sortie = 'S';
+            Pont p = this.plateau[y][x+1].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectEtancheAdjacents(x+1, y);
+            else
+                return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
+    }
+
+    private boolean checkEtancheOuest(int x, int y) {
+        if (y-1 >= 0) {
+            if (passage[y-1][x]) return true;
+            char sortie = 'O';
+            Pont p = this.plateau[y-1][x].pont;
+            if (p != null && p.isAccessibleFrom(sortie))
+                return this.detectEtancheAdjacents(x, y-1);
+            else
+                return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
     }
 
 }

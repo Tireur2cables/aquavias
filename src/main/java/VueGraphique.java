@@ -64,6 +64,10 @@ public class VueGraphique {
         ((ImagePane) this.plateau.getComponents()[indice]).setImage(image);
     }
 
+    void victoire() {
+        this.fenetre.victoire();
+    }
+    
     void defaite() {
         this.fenetre.defaite();
     }

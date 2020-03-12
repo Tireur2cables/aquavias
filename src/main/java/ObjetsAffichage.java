@@ -38,6 +38,20 @@ class Fenetre extends JFrame {
         });
     }
 
+    void victoire() {
+        String[] choices = {"Niveau Suivant", "Retour au menu"};
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez gagner! BRAVO!\nL'eau est là!","",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
+            if (retour == 0) /* retour = 0 = Réessayer */
+                System.out.println("Niveau suivant");
+                //this.controleur.nextLevel();
+            else /* retour = 1 = Retour au menu */
+                System.out.println("Retour au menu");
+                //this.controleur.backMenu();
+        });
+    }
+
     void decrementeCompteur() {
         JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
         int val = Integer.parseInt(compteur.getText());
@@ -110,6 +124,7 @@ class ImagePane extends JPanel {
         this.image = VueGraphique.rotate(this.image, 90);
         this.controleur.refreshSorties(this.x,this.y);
         this.controleur.actualiseAllImages();
+        this.controleur.isVictoire();
     }
 
     void setImage(BufferedImage image) {

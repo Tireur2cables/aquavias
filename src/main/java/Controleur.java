@@ -120,6 +120,12 @@ public class Controleur {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
+    void isVictoire(){
+        if (this.jeu.calculVictoire()) {
+            this.graph.victoire();
+        }
+    }
+    
     void defaite() {
         System.out.println("Defaite!");
         this.graph.defaite();
