@@ -75,6 +75,9 @@ class Fenetre extends JFrame {
         int limite =  this.controleur.getLimite();
         JLabel counter = new JLabel("" + limite);
         this.getJMenuBar().add(counter);
+        if (this.controleur.getMode().equals("fuite")){
+            //decrementeCompteur();
+        }
     }
 
 }
