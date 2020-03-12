@@ -2,10 +2,13 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.ScheduledExecutorService;
 
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
 import org.json.*;
+
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 public class Jeu {
 
