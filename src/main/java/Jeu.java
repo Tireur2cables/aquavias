@@ -108,7 +108,7 @@ public class Jeu {
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
         fic.put("longueur", this.getLargeur());
-        fic.put("limite", this.getLimite());
+        fic.put("limite", this.getCompteur());
         fic.put("mode", this.getMode());
         JSONArray niveau = new JSONArray();
         for(int i = 0; i < this.getLargeur(); i++){
@@ -197,6 +197,10 @@ public class Jeu {
             System.out.println("Impossible de lire le fichier niveau à l'adresse : " + chemin);
         }
         throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
+    }
+
+    private int getCompteur() {
+        return this.compteur;
     }
 
     public Pont getPont(int hauteur, int largeur) {
