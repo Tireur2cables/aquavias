@@ -25,7 +25,7 @@ public class GameLauncherTest {
         System.setErr(originalErr);
     }
 
-    //@Test
+    @Test
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
         assertEquals("Le jeu se lance!\n", outContent.toString());
