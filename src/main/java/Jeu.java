@@ -342,9 +342,10 @@ public class Jeu {
     }
 
     /**
+     * A vérifié:
      * Suppose que Sortie est une ligne droite
      * (ne possède que une sortie connectable avec des ponts)
-     * cf. checkAdja...2 le else de fin
+     * cf. checkEtanche... le else de fin
      * */
     boolean isEtanche() {
         createPassage(this.getLargeur(), this.getHauteur());
