@@ -47,8 +47,6 @@ public class Jeu {
     private String mode;
     private int compteur;
     private int limite;
-    private static ScheduledExecutorService timer;
-    private static ScheduledFuture<?> tache;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -165,6 +163,10 @@ public class Jeu {
             }
         }
     }
+
+
+    private static ScheduledExecutorService timer;
+    private static ScheduledFuture<?> tache;
     
     void initTimer() {
         if (this.controleur.getMode().equals("fuite")) {
