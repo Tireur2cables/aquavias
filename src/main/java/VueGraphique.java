@@ -47,11 +47,10 @@ public class VueGraphique {
     public void afficheNiveau() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.plateau);
-            if (this.controleur.getMode().equals("compteur")) {
+            if (this.controleur.getMode().equals("compteur"))
                 this.fenetre.addCompteur();
-            }
             else {
-                this.fenetre.addCompteur();
+                this.fenetre.addProgressBar();
                 this.controleur.initTimer();
             }
         });
@@ -79,6 +78,10 @@ public class VueGraphique {
 
     void decrementeCompteur() {
         this.fenetre.decrementeCompteur();
+    }
+
+    void decrementeProgressBar() {
+        this.fenetre.decrementeProgressBar();
     }
 
 }

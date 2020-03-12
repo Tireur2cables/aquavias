@@ -99,7 +99,10 @@ public class Controleur {
 
     void decrementeCompteur() {
         this.jeu.decrementeCompteur();
-        this.graph.decrementeCompteur();
+        if (this.jeu.getMode().equals("compteur"))
+            this.graph.decrementeCompteur();
+        else
+            this.graph.decrementeProgressBar();
     }
 
     public void detectAdjacents() {

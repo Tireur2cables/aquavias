@@ -58,6 +58,22 @@ class Fenetre extends JFrame {
         compteur.setText(newVal);
     }
 
+    void decrementeProgressBar() {
+		int limite = this.controleur.getLimite();
+        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
+        int val = progressBar.getValue();
+        if(val < (limite/5)){
+			if(val%2==0){
+				 progressBar.setForeground(Color.red);
+			}else{
+				progressBar.setForeground(Color.blue);
+			}
+
+        }
+        progressBar.setValue(val-1);
+        progressBar.setString(val-1 + " secondes restantes");
+    }
+
     void defaite() {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
@@ -74,6 +90,17 @@ class Fenetre extends JFrame {
         int limite =  this.controleur.getLimite();
         JLabel counter = new JLabel("" + limite);
         this.getJMenuBar().add(counter);
+    }
+
+    void addProgressBar() {
+        int limite =  this.controleur.getLimite();
+        JProgressBar progressBar = new JProgressBar();
+		progressBar.setMaximum(limite);
+        progressBar.setValue(limite);
+        progressBar.setStringPainted(true);
+        progressBar.setForeground(Color.blue);
+        progressBar.setString(limite + " secondes restantes");
+        this.getJMenuBar().add(progressBar);
     }
 
 }

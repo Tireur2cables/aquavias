@@ -2,7 +2,7 @@
     "hauteur" :4,
     "longueur" :6,
     "mode":"fuite",
-    "limite":120,
+    "limite":20,
     "niveau" :[
         [
             [], ["i", "E", "entree"], [], []
