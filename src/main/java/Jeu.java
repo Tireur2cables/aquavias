@@ -72,7 +72,7 @@ public class Jeu {
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau, number);
         this.mode = json.getString("mode");
-        this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
+        this.limite = json.getInt("limite");
         this.compteur = this.limite;
         this.chercheEntree();
         this.chercheSortie();
