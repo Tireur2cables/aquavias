@@ -3,6 +3,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
@@ -46,6 +48,7 @@ public class Jeu {
     private int compteur;
     private int limite;
     private static ScheduledExecutorService timer;
+    private static ScheduledFuture<?> tache;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -169,10 +172,18 @@ public class Jeu {
                 @Override
                 public void run() {
                     if(!isEtanche()){
-                        
+                        controleur.decrementeCompteur();
                     }
                 }
             };
+            tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS );
+        }
+    }
+
+    void stopTimer(){
+        if(timer != null && !timer.isShutdown()){
+            tache.cancel(true);
+            timer.shutdown();
         }
     }
 

@@ -131,12 +131,14 @@ public class Controleur {
     void isVictoire(){
         if (this.jeu.calculVictoire()) {
             this.graph.victoire();
+            this.jeu.stopTimer();
         }
     }
 
     void defaite() {
         System.out.println("Defaite!");
         this.graph.defaite();
+        this.jeu.stopTimer();
     }
 
     String getMode() {
