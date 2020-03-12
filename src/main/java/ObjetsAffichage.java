@@ -59,9 +59,10 @@ class Fenetre extends JFrame {
     }
 
     void decrementeProgressBar() {
+		int limite = this.controleur.getLimite();
         JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
         int val = progressBar.getValue();
-        if(val < 15){
+        if(val < (limite/5)){
 			if(val%2==0){
 				 progressBar.setForeground(Color.red);
 			}else{
@@ -93,6 +94,7 @@ class Fenetre extends JFrame {
     void addProgressBar() {
         int limite =  this.controleur.getLimite();
         JProgressBar progressBar = new JProgressBar();
+		progressBar.setMaximum(limite);
         progressBar.setValue(limite);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
