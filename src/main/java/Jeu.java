@@ -343,7 +343,7 @@ public class Jeu {
 
     /**
      * Suppose que Sortie et Entrée sont des lignes droites
-     * (ne possèdent que une sorite connéctable avec des ponts)
+     * (ne possèdent que une sortie connéctable avec des ponts)
      * cf. checkAdja...2 le else de fin
      * */
     boolean isEtanche() {
@@ -357,7 +357,7 @@ public class Jeu {
         Pont p = this.plateau[y][x].pont;
         boolean[] sortiesP = p.getSorties();
         passage[y][x] = true;
-        boolean soriteEtanche = true;
+        boolean sortieEtanche = true;
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]) {
                 sortieEtanche = sortieEtanche && this.afficheAdja2(i, x, y);
