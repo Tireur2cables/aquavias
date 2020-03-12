@@ -165,6 +165,7 @@ public class Jeu {
             }
         }
     }
+    
     void initTimer() {
         if (this.controleur.getMode().equals("fuite")) {
             timer = newScheduledThreadPool(1);
