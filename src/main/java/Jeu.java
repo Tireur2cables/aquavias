@@ -2,10 +2,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
 import org.json.*;
+
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 public class Jeu {
 
@@ -42,6 +47,8 @@ public class Jeu {
     private String mode;
     private int compteur;
     private int limite;
+    private static ScheduledExecutorService timer;
+    private static ScheduledFuture<?> tache;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -72,7 +79,7 @@ public class Jeu {
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(longueur, hauteur, niveau, number);
         this.mode = json.getString("mode");
-        this.limite = 10; /* FIXME: dans le JSON ou calculé ou calculé puis dans le JSON pour les niveaux créer automatiquement? */
+        this.limite = json.getInt("limite");
         this.compteur = this.limite;
         this.chercheEntree();
         this.chercheSortie();
@@ -101,6 +108,8 @@ public class Jeu {
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
         fic.put("longueur", this.getLargeur());
+        fic.put("limite", this.getLimite());
+        fic.put("mode", this.getMode());
         JSONArray niveau = new JSONArray();
         for(int i = 0; i < this.getLargeur(); i++){
             JSONArray ligne = new JSONArray();
@@ -145,7 +154,7 @@ public class Jeu {
         }
     }
 
-    private void chercheSortie(){
+    private void chercheSortie() {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
                 if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isSortie()) {
@@ -154,6 +163,27 @@ public class Jeu {
                     return;
                 }
             }
+        }
+    }
+    void initTimer() {
+        if (this.controleur.getMode().equals("fuite")) {
+            timer = newScheduledThreadPool(1);
+            Runnable compteSeconde = new Runnable() {
+                @Override
+                public void run() {
+                    if(!isEtanche()) {
+                        controleur.decrementeCompteur();
+                    }
+                }
+            };
+            tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS);
+        }
+    }
+
+    void stopTimer(){
+        if(timer != null && !timer.isShutdown()) {
+            tache.cancel(true);
+            timer.shutdown();
         }
     }
 
@@ -379,12 +409,12 @@ public class Jeu {
 
     private boolean checkEtancheNord(int x, int y) {
         if (x-1 >= 0) {
-            if (passage[y][x-1]) return true;
             char sortie = 'N';
             Pont p = this.plateau[y][x-1].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y][x-1]) return true;
                 return this.detectEtancheAdjacents(x-1, y);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
@@ -392,12 +422,12 @@ public class Jeu {
 
     private boolean checkEtancheEst(int x, int y) {
         if (y+1 < this.getLargeur()) {
-            if (passage[y+1][x]) return true;
             char sortie = 'E';
             Pont p = this.plateau[y+1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y+1][x]) return true;
                 return this.detectEtancheAdjacents(x, y+1);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
@@ -405,12 +435,12 @@ public class Jeu {
 
     private boolean checkEtancheSud(int x, int y) {
         if (x+1 < this.getHauteur()) {
-            if (passage[y][x+1]) return true;
             char sortie = 'S';
             Pont p = this.plateau[y][x+1].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y][x+1]) return true;
                 return this.detectEtancheAdjacents(x+1, y);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
@@ -418,12 +448,12 @@ public class Jeu {
 
     private boolean checkEtancheOuest(int x, int y) {
         if (y-1 >= 0) {
-            if (passage[y-1][x]) return true;
             char sortie = 'O';
             Pont p = this.plateau[y-1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie))
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[y-1][x]) return true;
                 return this.detectEtancheAdjacents(x, y-1);
-            else
+            } else
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);

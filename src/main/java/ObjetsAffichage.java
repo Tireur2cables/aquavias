@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 class Fenetre extends JFrame {
 
     private Controleur controleur;
-
     /**
      * Fenetre pour les tests unitaires
      * */
@@ -72,11 +71,9 @@ class Fenetre extends JFrame {
     }
 
     void addCompteur() {
-        if (this.controleur.getMode().equals("compteur")) {
-            int limite =  this.controleur.getLimite();
-            JLabel counter = new JLabel("" + limite);
-            this.getJMenuBar().add(counter);
-        }
+        int limite =  this.controleur.getLimite();
+        JLabel counter = new JLabel("" + limite);
+        this.getJMenuBar().add(counter);
     }
 
 }

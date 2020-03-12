@@ -11,7 +11,7 @@ public class Controleur {
     }
 
     public void launch() {
-        this.jeu.initNiveau(2);
+        this.jeu.initNiveau(4);
         this.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
@@ -93,9 +93,13 @@ public class Controleur {
 
         /* en mode compteur incrémente le compteur */
         if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire()) {
-            this.jeu.decrementeCompteur();
-            this.graph.decrementeCompteur();
+            this.decrementeCompteur();
         }
+    }
+
+    void decrementeCompteur() {
+        this.jeu.decrementeCompteur();
+        this.graph.decrementeCompteur();
     }
 
     public void detectAdjacents() {
@@ -116,19 +120,25 @@ public class Controleur {
         }
     }
 
-    public void exportNiveau(int number, boolean nouveauNiveau){
+    public void exportNiveau(int number, boolean nouveauNiveau) {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
-    void isVictoire(){
+    void initTimer() {
+        this.jeu.initTimer();
+    }
+
+    void isVictoire() {
         if (this.jeu.calculVictoire()) {
             this.graph.victoire();
+            this.jeu.stopTimer();
         }
     }
-    
+
     void defaite() {
         System.out.println("Defaite!");
         this.graph.defaite();
+        this.jeu.stopTimer();
     }
 
     String getMode() {
