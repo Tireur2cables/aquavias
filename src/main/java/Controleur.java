@@ -93,9 +93,13 @@ public class Controleur {
 
         /* en mode compteur incrémente le compteur */
         if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire()) {
-            this.jeu.decrementeCompteur();
-            this.graph.decrementeCompteur();
+            this.decrementeCompteur();
         }
+    }
+
+    void decrementeCompteur() {
+        this.jeu.decrementeCompteur();
+        this.graph.decrementeCompteur();
     }
 
     public void detectAdjacents() {
