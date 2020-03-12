@@ -49,6 +49,8 @@ public class VueGraphique {
             this.fenetre.setContentPane(this.plateau);
             if (this.controleur.getMode().equals("compteur"))
                 this.fenetre.addCompteur();
+            else
+                this.fenetre.addCompteur();
         });
     }
 
