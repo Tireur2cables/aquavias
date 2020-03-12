@@ -8,7 +8,6 @@ import java.awt.image.BufferedImage;
 class Fenetre extends JFrame {
 
     private Controleur controleur;
-
     /**
      * Fenetre pour les tests unitaires
      * */
@@ -75,9 +74,6 @@ class Fenetre extends JFrame {
         int limite =  this.controleur.getLimite();
         JLabel counter = new JLabel("" + limite);
         this.getJMenuBar().add(counter);
-        if (this.controleur.getMode().equals("fuite")){
-            //decrementeCompteur();
-        }
     }
 
 }

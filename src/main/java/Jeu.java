@@ -42,6 +42,7 @@ public class Jeu {
     private String mode;
     private int compteur;
     private int limite;
+    private static ScheduledExecutorService timer;
 
     public Jeu(Controleur controleur) {
         this.controleur = controleur;
@@ -157,6 +158,11 @@ public class Jeu {
                 }
             }
         }
+    }
+    void initTimer(){
+      if (this.controleur.getMode().equals("fuite")){
+          timer = newScheduledThreadPool(1);
+      }
     }
 
     private static JSONObject readJSON(String chemin) {
