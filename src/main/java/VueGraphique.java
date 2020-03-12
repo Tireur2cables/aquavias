@@ -47,10 +47,10 @@ public class VueGraphique {
     public void afficheNiveau() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.plateau);
-            if (this.controleur.getMode().equals("compteur")){
+            if (this.controleur.getMode().equals("compteur")) {
                 this.fenetre.addCompteur();
             }
-            else{
+            else {
                 this.fenetre.addCompteur();
                 this.controleur.initTimer();
             }

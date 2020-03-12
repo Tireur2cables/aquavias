@@ -154,7 +154,7 @@ public class Jeu {
         }
     }
 
-    private void chercheSortie(){
+    private void chercheSortie() {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
                 if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isSortie()) {
@@ -165,23 +165,23 @@ public class Jeu {
             }
         }
     }
-    void initTimer(){
-        if (this.controleur.getMode().equals("fuite")){
+    void initTimer() {
+        if (this.controleur.getMode().equals("fuite")) {
             timer = newScheduledThreadPool(1);
-            Runnable compteSeconde = new Runnable(){
+            Runnable compteSeconde = new Runnable() {
                 @Override
                 public void run() {
-                    if(!isEtanche()){
+                    if(!isEtanche()) {
                         controleur.decrementeCompteur();
                     }
                 }
             };
-            tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS );
+            tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS);
         }
     }
 
     void stopTimer(){
-        if(timer != null && !timer.isShutdown()){
+        if(timer != null && !timer.isShutdown()) {
             tache.cancel(true);
             timer.shutdown();
         }

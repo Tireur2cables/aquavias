@@ -120,15 +120,15 @@ public class Controleur {
         }
     }
 
-    public void exportNiveau(int number, boolean nouveauNiveau){
+    public void exportNiveau(int number, boolean nouveauNiveau) {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
-    void initTimer(){
+    void initTimer() {
         this.jeu.initTimer();
     }
 
-    void isVictoire(){
+    void isVictoire() {
         if (this.jeu.calculVictoire()) {
             this.graph.victoire();
             this.jeu.stopTimer();
