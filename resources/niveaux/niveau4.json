@@ -1,7 +1,7 @@
 {
     "hauteur" :4,
     "longueur" :6,
-    "mode":"compteur",
+    "mode":"fuite",
     "limite":120,
     "niveau" :[
         [
