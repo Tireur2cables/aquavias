@@ -62,7 +62,12 @@ class Fenetre extends JFrame {
         JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
         int val = progressBar.getValue();
         if(val < 15){
-            progressBar.setForeground(Color.red);
+			if(val%2==0){
+				 progressBar.setForeground(Color.red);
+			}else{
+				progressBar.setForeground(Color.blue);
+			}
+
         }
         progressBar.setValue(val-1);
     }
