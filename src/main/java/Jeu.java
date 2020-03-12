@@ -101,6 +101,8 @@ public class Jeu {
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
         fic.put("longueur", this.getLargeur());
+        fic.put("limite", this.getLimite());
+        fic.put("mode", this.getMode());
         JSONArray niveau = new JSONArray();
         for(int i = 0; i < this.getLargeur(); i++){
             JSONArray ligne = new JSONArray();
