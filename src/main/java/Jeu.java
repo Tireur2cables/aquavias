@@ -343,7 +343,7 @@ public class Jeu {
 
     /**
      * Suppose que Sortie est une ligne droite
-     * (ne possèdent que une sortie connéctable avec des ponts)
+     * (ne possède que une sortie connectable avec des ponts)
      * cf. checkAdja...2 le else de fin
      * */
     boolean isEtanche() {
