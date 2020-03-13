@@ -45,6 +45,9 @@ public class VueGraphique {
         this.plateau = new Plateau(hauteur, largeur);
     }
 
+	/**
+	*Recupère le plateau Graphique et l'affiche, ainsi que les différents modes de jeu
+	*/
     public void afficheNiveau() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.plateau);
@@ -57,12 +60,20 @@ public class VueGraphique {
         });
     }
 
+	/*
+	*Ajoute une imagePane avec les paramètres récupérés du model :
+	*	-image selon la forme et l'orientation du pont,
+	*	-movable si le pont peut être tourné
+	*/
     public void addToPlateau(BufferedImage image, boolean movable, int x, int y) {
         EventQueue.invokeLater(() -> {
             this.plateau.add(new ImagePane(image, movable, this.controleur, x, y));
         });
     }
 
+	/**
+	*Met à jour l'image a la position x,y avec la nouvelle image image
+	*/
     public void actualiseImage(BufferedImage image, int x, int y) {
         int largeur = ((GridLayout) this.plateau.getLayout()).getColumns();
         int indice = y+x*largeur;
