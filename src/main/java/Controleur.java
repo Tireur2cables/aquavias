@@ -38,6 +38,7 @@ public class Controleur {
         this.graph.setVisible();
     }
 
+    /* FIXME: A deplacer dans une autre classe */
     private BufferedImage getImageFromPont(Pont p, int x, int y) {
         if (p == null) return Pont.transp;
         char c = p.getForme();
@@ -92,9 +93,8 @@ public class Controleur {
         this.detectAdjacents();
 
         /* en mode compteur incrémente le compteur */
-        if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire()) {
+        if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire())
             this.decrementeCompteur();
-        }
     }
 
     void decrementeCompteur() {
