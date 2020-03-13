@@ -6,11 +6,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+import static java.util.concurrent.Executors.newScheduledThreadPool;
+
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
 import org.json.*;
-
-import static java.util.concurrent.Executors.newScheduledThreadPool;
 
 public class Jeu {
 
@@ -167,7 +167,7 @@ public class Jeu {
 
     private static ScheduledExecutorService timer;
     private static ScheduledFuture<?> tache;
-    
+
     void initTimer() {
         if (this.controleur.getMode().equals("fuite")) {
             timer = newScheduledThreadPool(1);
