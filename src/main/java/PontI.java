@@ -14,7 +14,6 @@ public class PontI extends Pont {
         this.sorties = this.calculSorties();
     }
 
-
     public boolean[] calculSorties() {
         boolean[] tab = new boolean[4];
         for(int i = 0 ; i < tab.length ; i++) {
