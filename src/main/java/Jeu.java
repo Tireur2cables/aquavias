@@ -174,9 +174,8 @@ public class Jeu {
             Runnable compteSeconde = new Runnable() {
                 @Override
                 public void run() {
-                    if(!isEtanche()) {
+                    if(!isEtanche())
                         controleur.decrementeCompteur();
-                    }
                 }
             };
             tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS);

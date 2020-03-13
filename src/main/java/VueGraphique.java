@@ -11,6 +11,7 @@ public class VueGraphique {
         this.fenetre = new Fenetre(controleur);
     }
 
+    /* FIXME: a revoir, utile ? */
     static BufferedImage rotate(BufferedImage bimg, double angle){
         int w = bimg.getWidth();
         int h = bimg.getHeight();
@@ -49,7 +50,7 @@ public class VueGraphique {
             this.fenetre.setContentPane(this.plateau);
             if (this.controleur.getMode().equals("compteur"))
                 this.fenetre.addCompteur();
-            else {
+            else if (this.controleur.getMode().equals("fuite")) {
                 this.fenetre.addProgressBar();
                 this.controleur.initTimer();
             }

@@ -23,17 +23,17 @@ public abstract class Pont {
         this.eau = this.isEntree();
     }
 
+    /* FIXMe dossier image en static ? */
     protected static BufferedImage chargeImage(String chemin) {
         String dossierImages = "resources/img/";
         chemin = dossierImages + chemin;
         try {
             return ImageIO.read(new File(chemin));
         }catch (IOException e) {
-            System.out.println("Impossible de charger l'image de chemin : " + chemin);
+            throw new RuntimeException("Impossible de charger l'image de chemin : " + chemin);
         }catch (NullPointerException e) {
-            System.out.println("Impossible de trouver l'image correspondant au chemin : " + chemin);
+            throw new RuntimeException("Impossible de trouver l'image correspondant au chemin : " + chemin);
         }
-        throw new RuntimeException("Erreur de chargement de l'image");
     }
 
     public void setOrientation(char c) {

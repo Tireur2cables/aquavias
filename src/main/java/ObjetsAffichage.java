@@ -201,6 +201,7 @@ class Menu extends JMenuBar{
         super();
     }
 
+    /* FIXME: assez long peut etre factoriser ? */
     static Menu createMenu(Fenetre fenetre, Controleur controleur){
         Menu menuBar = new Menu();
 
