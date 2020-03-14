@@ -122,7 +122,6 @@ public class VueGraphique {
 	* */
     void actualiseImage(BufferedImage image, int x, int y) {
         int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
-        System.out.print((plateau[x][y] !=null)?plateau[x][y].orientation:"rien");
         int indice = x+y*largeur;
         ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
     }
