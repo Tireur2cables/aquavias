@@ -114,7 +114,7 @@ public class VueGraphique {
     }
 
     void setEau(int x, int y, boolean eau) {
-        this.plateau[x][y].eau = eau;
+        if (this.plateau != null) this.plateau[x][y].eau = eau;
     }
 
 	/**
