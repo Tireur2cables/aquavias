@@ -103,9 +103,9 @@ class Fenetre extends JFrame {
 
 }
 
-class Plateau extends JPanel {
+class Niveau extends JPanel {
 
-    public Plateau(int hauteur, int largeur) {
+    public Niveau(int hauteur, int largeur) {
         super();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(largeur, hauteur));
@@ -143,7 +143,7 @@ class ImagePane extends JPanel {
 
     void rotateImage() {
         /* On tourne les ponts de 90° */
-        this.image = VueGraphique.rotate(this.image, 90); /* FIXME: utilisation de vuegraphique.totate */
+        this.image = PontGraph.rotate(this.image, 90); /* FIXME: utilisation de vuegraphique.totate */
         this.controleur.refreshSorties(this.x,this.y);
         this.controleur.actualiseAllImages();
         this.controleur.isVictoire();

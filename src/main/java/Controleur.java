@@ -25,7 +25,7 @@ public class Controleur {
     private void afficheNiveau() {
         int hauteur = this.jeu.getHauteur();
         int largeur = this.jeu.getLargeur();
-        this.graph.initPlateau(largeur, hauteur);
+        this.graph.initNiveau(largeur, hauteur);
         this.graph.afficheNiveau();
         for (int i = 0; i < hauteur; i++) {
             for (int j = 0; j < largeur; j++) {
