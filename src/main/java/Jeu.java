@@ -403,9 +403,9 @@ public class Jeu {
     }
 
     private boolean detectEtancheAdjacents(int x, int y) {
-        Pont p = this.plateau[y][x].pont;
+        Pont p = this.plateau[x][y].pont;
         boolean[] sortiesP = p.getSorties();
-        passage[y][x] = true;
+        passage[x][y] = true;
         boolean sortieEtanche = true;
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]) {
@@ -426,12 +426,12 @@ public class Jeu {
     }
 
     private boolean checkEtancheNord(int x, int y) {
-        if (x-1 >= 0) {
+        if (y-1 >= 0) {
             char sortie = 'N';
-            Pont p = this.plateau[y][x-1].pont;
+            Pont p = this.plateau[x][y-1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if (passage[y][x-1]) return true;
-                return this.detectEtancheAdjacents(x-1, y);
+                if (passage[x][y-1]) return true;
+                return this.detectEtancheAdjacents(x, y-1);
             } else
                 return false;
         } else
@@ -439,24 +439,11 @@ public class Jeu {
     }
 
     private boolean checkEtancheEst(int x, int y) {
-        if (y+1 < this.getLargeur()) {
+        if (x+1 < this.getLargeur()) {
             char sortie = 'E';
-            Pont p = this.plateau[y+1][x].pont;
+            Pont p = this.plateau[x+1][y].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if (passage[y+1][x]) return true;
-                return this.detectEtancheAdjacents(x, y+1);
-            } else
-                return false;
-        } else
-            return isSortie(x, y) || isEntree(x, y);
-    }
-
-    private boolean checkEtancheSud(int x, int y) {
-        if (x+1 < this.getHauteur()) {
-            char sortie = 'S';
-            Pont p = this.plateau[y][x+1].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) {
-                if (passage[y][x+1]) return true;
+                if (passage[x+1][y]) return true;
                 return this.detectEtancheAdjacents(x+1, y);
             } else
                 return false;
@@ -464,13 +451,26 @@ public class Jeu {
             return isSortie(x, y) || isEntree(x, y);
     }
 
-    private boolean checkEtancheOuest(int x, int y) {
-        if (y-1 >= 0) {
-            char sortie = 'O';
-            Pont p = this.plateau[y-1][x].pont;
+    private boolean checkEtancheSud(int x, int y) {
+        if (y+1 < this.getHauteur()) {
+            char sortie = 'S';
+            Pont p = this.plateau[x][y+1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
-                if (passage[y-1][x]) return true;
-                return this.detectEtancheAdjacents(x, y-1);
+                if (passage[x][y+1]) return true;
+                return this.detectEtancheAdjacents(x, y+1);
+            } else
+                return false;
+        } else
+            return isSortie(x, y) || isEntree(x, y);
+    }
+
+    private boolean checkEtancheOuest(int x, int y) {
+        if (x-1 >= 0) {
+            char sortie = 'O';
+            Pont p = this.plateau[x-1][y].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (passage[x-1][y]) return true;
+                return this.detectEtancheAdjacents(x-1, y);
             } else
                 return false;
         } else

@@ -98,7 +98,6 @@ public class VueGraphique {
     }
 
     BufferedImage getNextImage(int x, int y) {
-        System.out.print(plateau[x][y].orientation);
         plateau[x][y].incrementeOrientation();
         return plateau[x][y].getImage();
     }
