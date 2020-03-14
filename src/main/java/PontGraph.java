@@ -24,10 +24,10 @@ public class PontGraph{
         throw new RuntimeException("Orientation inconnue : " + orientation);
     }
 
-    private void getImage() {
-        if (this instanceof PontIGraph) this.sorties = ((PontI) this).calculSorties();
-        else if (this instanceof PontLGraph) this.sorties = ((PontL) this).calculSorties();
-        else if (this instanceof PontTGraph) this.sorties = ((PontT) this).calculSorties();
+    void getImage() {
+        if (this instanceof PontIGraph) ((PontIGraph) this).getImage();
+        else if (this instanceof PontLGraph) ((PontLGraph) this).getImage();
+        else if (this instanceof PontTGraph) ((PontTGraph) this).getImage();
     }
 
     static BufferedImage[] chargeImages(String chemin) {
