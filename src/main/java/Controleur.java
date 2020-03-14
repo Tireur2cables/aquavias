@@ -75,7 +75,6 @@ public class Controleur {
     }
 
     void defaite() {
-        System.out.println("Defaite!");
         this.graph.defaite();
         this.jeu.stopTimer();
     }
