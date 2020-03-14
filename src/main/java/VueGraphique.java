@@ -39,6 +39,9 @@ public class VueGraphique {
         }
     }
 
+    /**
+     * FIXME : A changer pour ne pas dépendre du model
+     * */
     public PontGraph getPontGraphique(int i, int j){
         Pont p = this.controleur.getPont(i, j);
         PontGraph newP = null;
