@@ -9,4 +9,8 @@ public class PontIGraph extends PontGraph {
 		super(orientation);
 	}
 
+	BufferedImage getImage() {
+		return (super.eau)? pontIEau[super.orientation] : pontI[super.orientation];
+	}
+
 }

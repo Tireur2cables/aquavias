@@ -7,7 +7,8 @@ import java.io.IOException;
 public class PontGraph{
 
     static BufferedImage transp = chargeImage("transp.png");
-    private int orientation;
+    protected int orientation;
+    protected boolean eau;
 
     PontGraph(char orientation) {
         this.orientation = getOrientationFromChar(orientation);
