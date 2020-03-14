@@ -14,6 +14,7 @@ import org.json.*;
 
 public class Jeu {
 
+    /* FIXME: vraiment utile ? */
     private class Case {
 
         private Pont pont;
