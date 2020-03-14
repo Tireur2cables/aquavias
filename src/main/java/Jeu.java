@@ -113,7 +113,7 @@ public class Jeu {
         for(int i = 0; i < this.getLargeur(); i++){
             JSONArray ligne = new JSONArray();
             for(int j = 0; j < this.getHauteur(); j++){
-                Pont modPont = this.getPont(j,i);
+                Pont modPont = this.getPont(i,j);
                 if(modPont != null){
                     JSONArray pont = new JSONArray();
                     pont.put((modPont.forme + ""));
@@ -130,10 +130,10 @@ public class Jeu {
         return fic;
     }
 
-    private void initPlateau(int longueur, int hauteur, JSONArray niveau, int numNiveau) {
+    private void initPlateau(int largeur, int hauteur, JSONArray niveau, int numNiveau) {
         this.numNiveau = numNiveau;
-        this.plateau = new Case[longueur][hauteur];
-        for (int i = 0; i < longueur; i++) {
+        this.plateau = new Case[largeur][hauteur];
+        for (int i = 0; i < largeur; i++) {
             JSONArray colonne = ((JSONArray) niveau.get(i));
             for (int j = 0; j < hauteur; j++) {
                 this.plateau[i][j] = new Case(j, colonne);
@@ -372,7 +372,7 @@ public class Jeu {
     }
 
     boolean calculVictoire(){
-        if(this.getPont(this.xSortie, this.ySortie).getEau())
+        if(this.getPont(this.ySortie, this.xSortie).getEau())
             return isEtanche();
         else
             return false;
