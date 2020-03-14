@@ -105,17 +105,25 @@ public class VueGraphique {
 
     void rotate(int x, int y){
         this.controleur.tournePont(x,y);
-        this.controleur.actualiseAllImages();
+        this.actualiseAllImages();
         this.controleur.isVictoire();
     }
 
 	/**
 	*   Met à jour l'image a la position x,y avec la nouvelle image image
 	* */
-    public void actualiseImage(BufferedImage image, int x, int y) {
+    void actualiseImage(BufferedImage image, int x, int y) {
         int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
         int indice = y+x*largeur;
         ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
+    }
+
+    void actualiseAllImages() {
+        for (int i = 0; i < this.controleur.getLargeur(); i++) {
+            for (int j = 0; j < this.controleur.getHauteur(); j++) {
+                this.actualiseImage(this.plateau[i][j].getImage(), i, j);
+            }
+        }
     }
 
     void victoire() {

@@ -99,19 +99,6 @@ public class Controleur {
         return this.jeu.isMovable(x, y);
     }
 
-    private BufferedImage actualiseImage(int x, int y) {
-        Pont p = this.jeu.getPont(x, y);
-        return this.getImageFromPont(p, x, y);
-    }
-
-    public void actualiseAllImages() {
-        for (int i = 0; i < this.jeu.getLargeur(); i++) {
-            for (int j = 0; j < this.jeu.getHauteur(); j++) {
-                this.graph.actualiseImage(this.actualiseImage(i,j),j,i);
-            }
-        }
-    }
-
     public void exportNiveau(int number, boolean nouveauNiveau) {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
