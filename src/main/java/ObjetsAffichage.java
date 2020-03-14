@@ -13,7 +13,6 @@ class Fenetre extends JFrame {
      * */
     public Fenetre(String titre, BufferedImage image, VueGraphique vue) {
         super();
-        this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
