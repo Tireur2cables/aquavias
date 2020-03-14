@@ -27,8 +27,33 @@ public class VueGraphique {
 
     public void initNiveau(int hauteur, int largeur) {
         this.niveau = new Niveau(hauteur, largeur);
+        this.initPlateau(hauteur, largeur);
     }
 
+    public void initPlateau(int hauteur, int largeur){
+        for(int i = 0; i < largeur; i++){
+            for(int j = 0; j < hauteur; j++){
+                this.plateau[i][j] = this.getPontGraphique(i, j);
+            }
+        }
+    }
+
+    public PontGraph getPontGraphique(int i, int j){
+        Pont p = this.controleur.getPont(i, j);
+        PontGraph newP = null;
+        if(p == null) return newP;
+        else{
+            switch (p.getForme()){
+                case 'I' : newP = new PontIGraph(p.orientation);
+                    break;
+                case 'L' : newP = new PontLGraph(p.orientation);
+                    break;
+                case 'T' : newP = new PontTGraph(p.orientation);
+                    break;
+            }
+        }
+        return newP;
+    }
 	/**
 	* Recupère le plateau Graphique et l'affiche, ainsi que les différents modes de jeu
 	* */

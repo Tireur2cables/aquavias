@@ -206,7 +206,7 @@ public class Jeu {
         return this.compteur;
     }
 
-    public Pont getPont(int hauteur, int largeur) {
+    public Pont getPont(int largeur, int hauteur) {
         return this.plateau[largeur][hauteur].pont;
     }
 

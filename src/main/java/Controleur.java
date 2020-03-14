@@ -27,8 +27,8 @@ public class Controleur {
         int largeur = this.jeu.getLargeur();
         this.graph.initNiveau(largeur, hauteur);
         this.graph.afficheNiveau();
-        for (int i = 0; i < hauteur; i++) {
-            for (int j = 0; j < largeur; j++) {
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
                 this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);
@@ -75,6 +75,9 @@ public class Controleur {
         return image;
     }
 
+    Pont getPont(int x, int y){
+        return this.jeu.getPont(x, y);
+    }
     public void refreshSorties(int x, int y) {
         /* change les sorties du pont */
         this.jeu.refreshSorties(x, y);
@@ -108,7 +111,7 @@ public class Controleur {
     public void actualiseAllImages() {
         for (int i = 0; i < this.jeu.getLargeur(); i++) {
             for (int j = 0; j < this.jeu.getHauteur(); j++) {
-                this.graph.actualiseImage(this.actualiseImage(j,i),j,i);
+                this.graph.actualiseImage(this.actualiseImage(i,j),j,i);
             }
         }
     }
