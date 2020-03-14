@@ -105,11 +105,11 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    public Niveau(int hauteur, int largeur) {
+    public Niveau(int largeur, int hauteur) {
         super();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(largeur, hauteur));
-            this.setPreferredSize(new Dimension(hauteur*200,largeur*200));
+            this.setPreferredSize(new Dimension(largeur*200,hauteur*200));
         });
     }
 }

@@ -25,12 +25,13 @@ public class VueGraphique {
         EventQueue.invokeLater(() -> new Fenetre("Pont", image, this.controleur));
     }
 
-    public void initNiveau(int hauteur, int largeur) {
-        this.niveau = new Niveau(hauteur, largeur);
-        this.initPlateau(hauteur, largeur);
+    public void initNiveau(int largeur, int hauteur) {
+        this.niveau = new Niveau(largeur, hauteur);
+        this.initPlateau(largeur, hauteur);
     }
 
-    public void initPlateau(int hauteur, int largeur){
+    public void initPlateau(int largeur, int hauteur){
+        this.plateau = new PontGraph[largeur][hauteur];
         for(int i = 0; i < largeur; i++){
             for(int j = 0; j < hauteur; j++){
                 this.plateau[i][j] = this.getPontGraphique(i, j);
