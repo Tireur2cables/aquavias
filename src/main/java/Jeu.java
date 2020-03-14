@@ -267,7 +267,7 @@ public class Jeu {
     }
 
     /**
-     *  X = hauteur et Y = largeur
+     *  X = largeur et Y = hauteur
      *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
      *
      *  */
@@ -390,7 +390,7 @@ public class Jeu {
     }
 
     /**
-     * A vérifié:
+     * A vérifié: semble marché en fait voir niveau 4
      * Suppose que Sortie est une ligne droite
      * (ne possède que une sortie connectable avec des ponts)
      * cf. checkEtanche... le else de fin
