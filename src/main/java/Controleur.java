@@ -99,6 +99,10 @@ public class Controleur {
         return this.jeu.isMovable(x, y);
     }
 
+    void setEau(int x, int y, boolean eau) {
+        this.graph.setEau(x, y ,eau);
+    }
+
     public void exportNiveau(int number, boolean nouveauNiveau) {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }

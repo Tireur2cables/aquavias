@@ -113,6 +113,10 @@ public class VueGraphique {
         this.controleur.isVictoire();
     }
 
+    void setEau(int x, int y, boolean eau) {
+        this.plateau[x][y].eau = eau;
+    }
+
 	/**
 	*   Met à jour l'image a la position x,y avec la nouvelle image image
 	* */

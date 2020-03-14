@@ -291,6 +291,7 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
+                    this.controleur.setEau(x-1, y, true);
                     this.detectAdjacents(x-1, y);
                 }
             }
@@ -304,6 +305,7 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
+                    this.controleur.setEau(x, y+1, true);
                     this.detectAdjacents(x, y+1);
                 }
             }
@@ -317,6 +319,7 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
+                    this.controleur.setEau(x+1, y, true);
                     this.detectAdjacents(x+1, y);
                 }
             }
@@ -330,6 +333,7 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
+                    this.controleur.setEau(x, y-1, true);
                     this.detectAdjacents(x, y-1);
                 }
             }
@@ -352,8 +356,10 @@ public class Jeu {
         for(int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++ ) {
                 Pont p = this.plateau[i][j].pont;
-                if (p != null && !p.isEntree())
+                if (p != null && !p.isEntree()) {
                     p.setEau(false);
+                    this.controleur.setEau(i, j, false);
+                }
             }
         }
     }
