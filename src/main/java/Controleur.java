@@ -27,8 +27,8 @@ public class Controleur {
         int largeur = this.jeu.getLargeur();
         this.graph.initNiveau(largeur, hauteur);
         this.graph.afficheNiveau();
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
+        for (int j = 0; j < hauteur; j++) {
+            for (int i = 0; i < largeur; i++) {
                 Pont p = this.jeu.getPont(i,j);
                 boolean movable = (p != null) && p.isMovable();
                 this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);
