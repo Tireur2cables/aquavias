@@ -16,48 +16,6 @@ public class Controleur {
         System.out.println("Le jeu se lance!");
     }
 
-    private void affichePont(char c, boolean eau, int num) {
-        BufferedImage image = getImage(c, eau, num);
-        this.graph.affichePont(image);
-    }
-
-    /* FIXME: A deplacer dans une autre classe */
-    private BufferedImage getImageFromPont(Pont p, int x, int y) {
-        if (p == null) return PontGraph.transp;
-        char c = p.getForme();
-        boolean eau = p.getEau();
-        char orientation = p.getOrientation();
-        int num = getNumFromOrientation(orientation);
-        return getImage(c, eau, num);
-    }
-
-    private static int getNumFromOrientation(char orientation) {
-        switch (orientation) {
-            case 'N' : return 0;
-            case 'E' : return 1;
-            case 'S' : return 2;
-            case 'O' : return 3;
-        }
-        throw new RuntimeException("Orientation inconnue");
-    }
-
-    private static BufferedImage getImage(char c, boolean eau, int num) {
-        BufferedImage image = null;
-        switch (c) {
-            case 'I' :
-                image = (eau)? PontIGraph.pontIEau[num] : PontIGraph.pontI[num];
-                break;
-            case 'T' :
-                image = (eau)? PontTGraph.pontTEau[num] : PontTGraph.pontT[num];
-                break;
-            case 'L' :
-                image = (eau)? PontLGraph.pontLEau[num] : PontLGraph.pontL[num];
-                break;
-        }
-        if (image == null) throw new RuntimeException("Affichage du pont incorrect!");
-        return image;
-    }
-
     Pont getPont(int x, int y){
         return this.jeu.getPont(x, y);
     }
