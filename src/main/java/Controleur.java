@@ -91,8 +91,7 @@ public class Controleur {
     }
 
     boolean isMovable(int x, int y){
-        Pont p = this.jeu.getPont(x, y);
-        return p.isMovable();
+        return this.jeu.isMovable(x, y);
     }
 
     public void detectAdjacents() {

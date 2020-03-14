@@ -210,6 +210,11 @@ public class Jeu {
         return this.plateau[largeur][hauteur].pont;
     }
 
+    boolean isMovable(int x,  int y) {
+        Pont p = this.plateau[x][y].pont;
+        return (p != null) && p.isMovable();
+    }
+
     public int getHauteur(){
         return this.plateau[0].length;
     }
