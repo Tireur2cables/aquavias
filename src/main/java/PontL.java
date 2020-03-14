@@ -1,5 +1,3 @@
-import java.awt.image.BufferedImage;
-
 /* Imports with maven dependecies */
 import org.json.JSONArray;
 
