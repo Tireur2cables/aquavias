@@ -64,7 +64,8 @@ public class VueGraphique {
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
-                this.addToNiveau(this.plateau[i][j].getImage(), movable, i, j);
+                BufferedImage image = (this.plateau[i][j] == null)? PontGraph.transp : this.plateau[i][j].getImage();
+                this.addToNiveau(image, movable, i, j);
             }
         }
         this.repaint();
