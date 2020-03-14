@@ -98,6 +98,7 @@ public class VueGraphique {
     }
 
     BufferedImage getNextImage(int x, int y) {
+        System.out.print(plateau[x][y].orientation);
         plateau[x][y].incrementeOrientation();
         return plateau[x][y].getImage();
     }
@@ -117,7 +118,8 @@ public class VueGraphique {
 	* */
     void actualiseImage(BufferedImage image, int x, int y) {
         int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
-        int indice = y+x*largeur;
+        System.out.print((plateau[x][y] !=null)?plateau[x][y].orientation:"rien");
+        int indice = x+y*largeur;
         ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
     }
 
@@ -127,6 +129,7 @@ public class VueGraphique {
                 this.actualiseImage(this.getImage(i, j), i, j);
             }
         }
+        System.out.print("\n");
     }
 
     void victoire() {
