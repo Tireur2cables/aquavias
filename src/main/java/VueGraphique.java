@@ -64,8 +64,7 @@ public class VueGraphique {
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
-                BufferedImage image = (this.plateau[i][j] == null)? PontGraph.transp : this.plateau[i][j].getImage();
-                this.addToNiveau(image, movable, i, j);
+                this.addToNiveau(this.getImage(i, j), movable, i, j);
             }
         }
         this.repaint();
@@ -98,9 +97,13 @@ public class VueGraphique {
         });
     }
 
-    BufferedImage getNextImage(int x, int y){
+    BufferedImage getNextImage(int x, int y) {
         plateau[x][y].incrementeOrientation();
         return plateau[x][y].getImage();
+    }
+
+    BufferedImage getImage(int x, int y) {
+        return (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
     }
 
     void rotate(int x, int y){
@@ -121,7 +124,7 @@ public class VueGraphique {
     void actualiseAllImages() {
         for (int i = 0; i < this.controleur.getLargeur(); i++) {
             for (int j = 0; j < this.controleur.getHauteur(); j++) {
-                this.actualiseImage(this.plateau[i][j].getImage(), i, j);
+                this.actualiseImage(this.getImage(i, j), i, j);
             }
         }
     }
