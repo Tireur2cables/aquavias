@@ -12,30 +12,13 @@ public class Controleur {
 
     public void launch() {
         this.jeu.initNiveau(4);
-        this.afficheNiveau();
+        this.graph.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
 
     private void affichePont(char c, boolean eau, int num) {
         BufferedImage image = getImage(c, eau, num);
         this.graph.affichePont(image);
-    }
-
-    /* FIXME: a factoriser */
-    private void afficheNiveau() {
-        int hauteur = this.jeu.getHauteur();
-        int largeur = this.jeu.getLargeur();
-        this.graph.initNiveau(largeur, hauteur);
-        this.graph.afficheNiveau();
-        for (int j = 0; j < hauteur; j++) {
-            for (int i = 0; i < largeur; i++) {
-                Pont p = this.jeu.getPont(i,j);
-                boolean movable = (p != null) && p.isMovable();
-                this.graph.addToPlateau(this.getImageFromPont(p, i, j), movable, i, j);
-            }
-        }
-        this.graph.repaint();
-        this.graph.setVisible();
     }
 
     /* FIXME: A deplacer dans une autre classe */
@@ -96,6 +79,11 @@ public class Controleur {
             this.graph.decrementeCompteur();
         else
             this.graph.decrementeProgressBar();
+    }
+
+    boolean isMovable(int x, int y){
+        Pont p = this.jeu.getPont(x, y);
+        return p.isMovable();
     }
 
     public void detectAdjacents() {

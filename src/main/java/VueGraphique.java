@@ -55,10 +55,26 @@ public class VueGraphique {
         }
         return newP;
     }
+
+    void afficheNiveau() {
+        int hauteur = this.plateau[0].length;
+        int largeur = this.plateau.length;
+        this.initNiveau(largeur, hauteur);
+        this.setNiveau();
+        for (int j = 0; j < hauteur; j++) {
+            for (int i = 0; i < largeur; i++) {
+                boolean movable = this.controleur.isMovable(i, j);
+                this.addToNiveau(this.plateau[i][j].getImage(), movable, i, j);
+            }
+        }
+        this.repaint();
+        this.setVisible();
+    }
+
 	/**
 	* Recupère le plateau Graphique et l'affiche, ainsi que les différents modes de jeu
 	* */
-    public void afficheNiveau() {
+    public void setNiveau() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(this.niveau);
             if (this.controleur.getMode().equals("compteur"))
@@ -75,7 +91,7 @@ public class VueGraphique {
 	*	-image selon la forme et l'orientation du pont,
 	*	-movable si le pont peut être tourné
 	* */
-    public void addToPlateau(BufferedImage image, boolean movable, int x, int y) {
+    public void addToNiveau(BufferedImage image, boolean movable, int x, int y) {
         EventQueue.invokeLater(() -> {
             this.niveau.add(new ImagePane(image, movable, this.controleur, x, y));
         });

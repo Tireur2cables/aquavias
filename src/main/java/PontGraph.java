@@ -23,6 +23,12 @@ public class PontGraph{
         throw new RuntimeException("Orientation inconnue : " + orientation);
     }
 
+    private void getImage() {
+        if (this instanceof PontIGraph) this.sorties = ((PontI) this).calculSorties();
+        else if (this instanceof PontLGraph) this.sorties = ((PontL) this).calculSorties();
+        else if (this instanceof PontTGraph) this.sorties = ((PontT) this).calculSorties();
+    }
+
     static BufferedImage[] chargeImages(String chemin) {
         BufferedImage imageN = chargeImage(chemin);
         BufferedImage imageE = rotate(imageN, 90);
