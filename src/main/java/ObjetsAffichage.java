@@ -108,7 +108,7 @@ class Niveau extends JPanel {
     public Niveau(int largeur, int hauteur) {
         super();
         EventQueue.invokeLater(() -> {
-            this.setLayout(new GridLayout(largeur, hauteur));
+            this.setLayout(new GridLayout(hauteur, largeur));
             this.setPreferredSize(new Dimension(largeur*200,hauteur*200));
         });
     }
