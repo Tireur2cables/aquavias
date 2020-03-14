@@ -26,7 +26,7 @@ public class PontGraph{
     }
 
     void incrementeOrientation(){
-        this.orientation = (this.orientation++)%4;
+        this.orientation = (++this.orientation)%4;
     }
 
     BufferedImage getImage() {
