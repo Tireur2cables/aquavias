@@ -11,13 +11,13 @@ class Fenetre extends JFrame {
     /**
      * Fenetre pour les tests unitaires
      * */
-    public Fenetre(String titre, BufferedImage image, Controleur controleur) {
+    public Fenetre(String titre, BufferedImage image, VueGraphique vue) {
         super();
         this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
-            this.setContentPane(new ImagePane(image, true, controleur, 0, 0));
+            this.setContentPane(new ImagePane(image, true, vue, 0, 0));
             this.pack();
             this.setVisible(true);
         });
@@ -119,16 +119,16 @@ class ImagePane extends JPanel {
      private BufferedImage image;
      private int width;
      private int height;
-     private Controleur controleur;
+     private VueGraphique vue;
      private int x;
      private int y;
 
-    ImagePane(BufferedImage image, boolean movable, Controleur controleur, int x, int y) {
+    ImagePane(BufferedImage image, boolean movable, VueGraphique vue, int x, int y) {
         super();
         this.image = image;
         this.width = image.getWidth();
         this.height = image.getHeight();
-        this.controleur = controleur;
+        this.vue = vue;
         this.x = x;
         this.y = y;
         EventQueue.invokeLater(() -> {
@@ -143,10 +143,8 @@ class ImagePane extends JPanel {
 
     void rotateImage() {
         /* On tourne les ponts de 90° */
-        this.image = PontGraph.rotate(this.image, 90); /* FIXME: utilisation de vuegraphique.totate */
-        this.controleur.refreshSorties(this.x,this.y);
-        this.controleur.actualiseAllImages();
-        this.controleur.isVictoire();
+        this.image = this.vue.getNextImage(this.x, this.y);
+        this.vue.rotate(this.x, this.y);
     }
 
     void setImage(BufferedImage image) {

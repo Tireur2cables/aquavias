@@ -22,7 +22,7 @@ public class VueGraphique {
     }
 
     public void affichePont(BufferedImage image) {
-        EventQueue.invokeLater(() -> new Fenetre("Pont", image, this.controleur));
+        EventQueue.invokeLater(() -> new Fenetre("Pont", image, this));
     }
 
     public void initNiveau(int largeur, int hauteur) {
@@ -94,8 +94,19 @@ public class VueGraphique {
 	* */
     public void addToNiveau(BufferedImage image, boolean movable, int x, int y) {
         EventQueue.invokeLater(() -> {
-            this.niveau.add(new ImagePane(image, movable, this.controleur, x, y));
+            this.niveau.add(new ImagePane(image, movable, this, x, y));
         });
+    }
+
+    BufferedImage getNextImage(int x, int y){
+        plateau[x][y].incrementeOrientation();
+        return plateau[x][y].getImage();
+    }
+
+    void rotate(int x, int y){
+        this.controleur.refreshSorties(x,y);
+        this.controleur.actualiseAllImages();
+        this.controleur.isVictoire();
     }
 
 	/**

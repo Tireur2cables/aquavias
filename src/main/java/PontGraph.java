@@ -25,6 +25,10 @@ public class PontGraph{
         throw new RuntimeException("Orientation inconnue : " + orientation);
     }
 
+    void incrementeOrientation(){
+        this.orientation = (this.orientation++)%4;
+    }
+
     BufferedImage getImage() {
         if (this instanceof PontIGraph) ((PontIGraph) this).getImage();
         else if (this instanceof PontLGraph) ((PontLGraph) this).getImage();
