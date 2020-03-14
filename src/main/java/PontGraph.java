@@ -10,8 +10,9 @@ public class PontGraph{
     protected int orientation;
     protected boolean eau;
 
-    PontGraph(char orientation) {
+    PontGraph(char orientation, boolean eau) {
         this.orientation = getOrientationFromChar(orientation);
+        this.eau = eau;
     }
 
     private static int getOrientationFromChar(char orientation) {
@@ -24,10 +25,11 @@ public class PontGraph{
         throw new RuntimeException("Orientation inconnue : " + orientation);
     }
 
-    void getImage() {
+    BufferedImage getImage() {
         if (this instanceof PontIGraph) ((PontIGraph) this).getImage();
         else if (this instanceof PontLGraph) ((PontLGraph) this).getImage();
         else if (this instanceof PontTGraph) ((PontTGraph) this).getImage();
+        throw new RuntimeException("Unknown type of pont");
     }
 
     static BufferedImage[] chargeImages(String chemin) {

@@ -5,8 +5,8 @@ public class PontTGraph extends PontGraph {
 	static BufferedImage[] pontT = PontGraph.chargeImages("TnoO.png");
     static BufferedImage[] pontTEau = PontGraph.chargeImages("TwO.png");
 
-    PontTGraph(char orientation) {
-        super(orientation);
+    PontTGraph(char orientation, boolean eau) {
+        super(orientation, eau);
     }
 
     BufferedImage getImage() {
