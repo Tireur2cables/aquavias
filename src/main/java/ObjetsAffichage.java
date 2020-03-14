@@ -69,7 +69,7 @@ class Fenetre extends JFrame {
 				progressBar.setForeground(Color.blue);
         }
         progressBar.setValue(val-1);
-        progressBar.setString(val-1 + " secondes restantes");
+        progressBar.setString(val-1 + " litre restants");
     }
 
     void defaite() {
