@@ -6,8 +6,8 @@ public class PontIGraph extends PontGraph {
     static BufferedImage[] pontIEau = PontGraph.chargeImages("IwO.png");
 	private int orientation;
 
-	PontIGraph(int orientation) {
-		this.orientation = orientation;
+	PontIGraph(char orientation) {
+		super(orientation);
 	}
 
 }

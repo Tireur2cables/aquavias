@@ -6,7 +6,22 @@ import java.io.IOException;
 
 public class PontGraph{
 
-    static BufferedImage transp = chargeImage("transp.png"); /* FIXME: temporairement ici */
+    static BufferedImage transp = chargeImage("transp.png");
+    private int orientation;
+
+    PontGraph(char orientation) {
+        this.orientation = getOrientationFromChar(orientation);
+    }
+
+    private static int getOrientationFromChar(char orientation) {
+        switch (orientation){
+            case 'N': return 0;
+            case 'E': return 1;
+            case 'S': return 2;
+            case 'O': return 3;
+        }
+        throw new RuntimeException("Orientation inconnue : " + orientation);
+    }
 
     static BufferedImage[] chargeImages(String chemin) {
         BufferedImage imageN = chargeImage(chemin);

@@ -4,10 +4,9 @@ public class PontTGraph extends PontGraph {
 
 	static BufferedImage[] pontT = PontGraph.chargeImages("TnoO.png");
     static BufferedImage[] pontTEau = PontGraph.chargeImages("TwO.png");
-    private int orientation;
 
-    PontTGraph(int orientation) {
-        this.orientation = orientation;
+    PontTGraph(char orientation) {
+        super(orientation);
     }
 
 }
