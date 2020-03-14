@@ -1,5 +1,3 @@
-import java.awt.image.BufferedImage;
-
 public class Controleur {
 
     private Jeu jeu;
