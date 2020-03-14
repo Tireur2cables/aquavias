@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public interface PontGraph{
+public class PontGraph{
 
     static BufferedImage transp = chargeImage("transp.png"); /* FIXME: temporairement ici */
     String dossierImages = "resources/img/";
