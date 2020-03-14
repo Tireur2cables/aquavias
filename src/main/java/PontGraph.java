@@ -7,7 +7,6 @@ import java.io.IOException;
 public class PontGraph{
 
     static BufferedImage transp = chargeImage("transp.png"); /* FIXME: temporairement ici */
-    static private String dossierImages = "resources/img/";
 
     static BufferedImage[] chargeImages(String chemin) {
         BufferedImage imageN = chargeImage(chemin);
@@ -23,7 +22,8 @@ public class PontGraph{
     }
 
      static BufferedImage chargeImage(String chemin) {
-        chemin = dossierImages + chemin;
+         String dossierImages = "resources/img/";
+         chemin = dossierImages + chemin;
         try {
             return ImageIO.read(new File(chemin));
         }catch (IOException e) {
