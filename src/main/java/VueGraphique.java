@@ -131,7 +131,6 @@ public class VueGraphique {
                 this.actualiseImage(this.getImage(i, j), i, j);
             }
         }
-        System.out.print("\n");
     }
 
     void victoire() {
