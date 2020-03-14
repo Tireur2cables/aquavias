@@ -6,9 +6,6 @@ import org.json.JSONArray;
 
 public class PontT extends Pont {
 
-    static BufferedImage pontT = chargeImage("TnoO.png");
-    static BufferedImage pontTEau = chargeImage("TwO.png");
-
     public PontT(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();

@@ -14,26 +14,11 @@ public abstract class Pont {
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
-    static BufferedImage transp = chargeImage("transp.png");
-
     public Pont(JSONArray json) {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
         this.eau = this.isEntree();
-    }
-
-    /* FIXMe dossier image en static ? */
-    protected static BufferedImage chargeImage(String chemin) {
-        String dossierImages = "resources/img/";
-        chemin = dossierImages + chemin;
-        try {
-            return ImageIO.read(new File(chemin));
-        }catch (IOException e) {
-            throw new RuntimeException("Impossible de charger l'image de chemin : " + chemin);
-        }catch (NullPointerException e) {
-            throw new RuntimeException("Impossible de trouver l'image correspondant au chemin : " + chemin);
-        }
     }
 
     public void setOrientation(char c) {

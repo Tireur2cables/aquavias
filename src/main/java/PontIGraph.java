@@ -5,8 +5,8 @@ import org.json.JSONArray;
 
 public class PontIGraph extends PontI implements PontGraph {
 
-	static BufferedImage pontI = chargeImage("InoO.png");
-    static BufferedImage pontIEau = chargeImage("IwO.png");
+	static BufferedImage[] pontI = PontGraph.chargeImages("InoO.png");
+    static BufferedImage[] pontIEau = PontGraph.chargeImages("IwO.png");
 
 	PontIGraph(JSONArray json){
 		super(json);
