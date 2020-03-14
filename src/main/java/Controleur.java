@@ -61,6 +61,15 @@ public class Controleur {
     Pont getPont(int x, int y){
         return this.jeu.getPont(x, y);
     }
+
+    int getHauteur(){
+        return this.jeu.getHauteur();
+    }
+
+    int getLargeur(){
+        return this.jeu.getLargeur();
+    }
+
     public void refreshSorties(int x, int y) {
         /* change les sorties du pont */
         this.jeu.refreshSorties(x, y);

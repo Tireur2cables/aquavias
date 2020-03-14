@@ -57,8 +57,8 @@ public class VueGraphique {
     }
 
     void afficheNiveau() {
-        int hauteur = this.plateau[0].length;
-        int largeur = this.plateau.length;
+        int hauteur = this.controleur.getHauteur();
+        int largeur = this.controleur.getLargeur();
         this.initNiveau(largeur, hauteur);
         this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
