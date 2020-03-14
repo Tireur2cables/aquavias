@@ -7,9 +7,5 @@ public class PontIGraph extends PontGraph {
 
 	static BufferedImage[] pontI = PontGraph.chargeImages("InoO.png");
     static BufferedImage[] pontIEau = PontGraph.chargeImages("IwO.png");
-
-	PontIGraph(JSONArray json){
-		super(json);
-	}
-
+	int orientation;
 }
