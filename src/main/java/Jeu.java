@@ -145,8 +145,8 @@ public class Jeu {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
                 if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isEntree()) {
-                    this.xEntree = j;
-                    this.yEntree = i;
+                    this.xEntree = i;
+                    this.yEntree = j;
                     return;
                 }
             }
@@ -157,8 +157,8 @@ public class Jeu {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
                 if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isSortie()) {
-                    this.xSortie = j;
-                    this.ySortie = i;
+                    this.xSortie = i;
+                    this.ySortie = j;
                     return;
                 }
             }
@@ -257,7 +257,7 @@ public class Jeu {
      * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
      * */
     public void detectAdjacents(int x, int y) {
-        Pont p = this.plateau[y][x].pont;
+        Pont p = this.plateau[x][y].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]) {
@@ -285,37 +285,23 @@ public class Jeu {
     }
 
     private void checkAdjaNord(int x, int y) {
-        if (x-1 >= 0) {
+        if (y-1 >= 0) {
             char sortie = 'N';
-            Pont p = this.plateau[y][x-1].pont;
+            Pont p = this.plateau[x][y-1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.controleur.setEau(x-1, y, true);
-                    this.detectAdjacents(x-1, y);
+                    this.controleur.setEau(x, y-1, true);
+                    this.detectAdjacents(x, y-1);
                 }
             }
         }
     }
 
     private void checkAdjaEst(int x, int y) {
-        if (y+1 < this.getLargeur()) {
+        if (x+1 < this.getLargeur()) {
             char sortie = 'E';
-            Pont p = this.plateau[y+1][x].pont;
-            if (p != null && p.isAccessibleFrom(sortie)) {
-                if (!p.getEau()) {
-                    p.setEau(true);
-                    this.controleur.setEau(x, y+1, true);
-                    this.detectAdjacents(x, y+1);
-                }
-            }
-        }
-    }
-
-    private void checkAdjaSud(int x, int y) {
-        if (x+1 < this.getHauteur()) {
-            char sortie = 'S';
-            Pont p = this.plateau[y][x+1].pont;
+            Pont p = this.plateau[x+1][y].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
@@ -326,15 +312,29 @@ public class Jeu {
         }
     }
 
-    private void checkAdjaOuest(int x, int y) {
-        if (y-1 >= 0) {
-            char sortie = 'O';
-            Pont p = this.plateau[y-1][x].pont;
+    private void checkAdjaSud(int x, int y) {
+        if (y+1 < this.getHauteur()) {
+            char sortie = 'S';
+            Pont p = this.plateau[x][y+1].pont;
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.controleur.setEau(x, y-1, true);
-                    this.detectAdjacents(x, y-1);
+                    this.controleur.setEau(x, y+1, true);
+                    this.detectAdjacents(x, y+1);
+                }
+            }
+        }
+    }
+
+    private void checkAdjaOuest(int x, int y) {
+        if (x-1 >= 0) {
+            char sortie = 'O';
+            Pont p = this.plateau[x-1][y].pont;
+            if (p != null && p.isAccessibleFrom(sortie)) {
+                if (!p.getEau()) {
+                    p.setEau(true);
+                    this.controleur.setEau(x-1, y, true);
+                    this.detectAdjacents(x-1, y);
                 }
             }
 
@@ -383,7 +383,7 @@ public class Jeu {
     }
 
     boolean calculVictoire(){
-        if(this.getPont(this.ySortie, this.xSortie).getEau())
+        if(this.getPont(this.xSortie, this.ySortie).getEau())
             return isEtanche();
         else
             return false;
