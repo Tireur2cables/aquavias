@@ -247,7 +247,7 @@ public class Jeu {
     /**
      * On suppose que l'on tourne les ponts uniquement de 90° ici
      * */
-    public void refreshSorties(int x, int y) {
+    public void tournePont(int x, int y) {
         Pont p = this.plateau[x][y].pont;
         char newOrientation = Pont.getNextOrientation(p.orientation);
         p.setOrientation(newOrientation);

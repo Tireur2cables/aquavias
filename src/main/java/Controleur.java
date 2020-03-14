@@ -70,16 +70,21 @@ public class Controleur {
         return this.jeu.getLargeur();
     }
 
-    public void refreshSorties(int x, int y) {
-        /* change les sorties du pont */
-        this.jeu.refreshSorties(x, y);
+    public void tournePont(int x, int y) {
+        /* change les sorties du pont et l'orientation */
+        this.jeu.tournePont(x, y);
 
         /* change l'attribut eau des ponts */
-        this.detectAdjacents();
+        this.detectEauAdjacents();
 
         /* en mode compteur incrémente le compteur */
         if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire())
             this.decrementeCompteur();
+    }
+
+    public void detectEauAdjacents() {
+        this.jeu.resetWater();
+        this.jeu.parcourchemin();
     }
 
     void decrementeCompteur() {
@@ -92,11 +97,6 @@ public class Controleur {
 
     boolean isMovable(int x, int y){
         return this.jeu.isMovable(x, y);
-    }
-
-    public void detectAdjacents() {
-        this.jeu.resetWater();
-        this.jeu.parcourchemin();
     }
 
     private BufferedImage actualiseImage(int x, int y) {

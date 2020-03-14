@@ -104,7 +104,7 @@ public class VueGraphique {
     }
 
     void rotate(int x, int y){
-        this.controleur.refreshSorties(x,y);
+        this.controleur.tournePont(x,y);
         this.controleur.actualiseAllImages();
         this.controleur.isVictoire();
     }
