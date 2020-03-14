@@ -24,13 +24,13 @@ public class PontGraph{
      static BufferedImage chargeImage(String chemin) {
          String dossierImages = "resources/img/";
          chemin = dossierImages + chemin;
-        try {
-            return ImageIO.read(new File(chemin));
-        }catch (IOException e) {
-            throw new RuntimeException("Impossible de charger l'image de chemin : " + chemin);
-        }catch (NullPointerException e) {
-            throw new RuntimeException("Impossible de trouver l'image correspondant au chemin : " + chemin);
-        }
+         try {
+             return ImageIO.read(new File(chemin));
+         }catch (IOException e) {
+             throw new RuntimeException("Impossible de charger l'image de chemin : " + chemin);
+         }catch (NullPointerException e) {
+             throw new RuntimeException("Impossible de trouver l'image correspondant au chemin : " + chemin);
+         }
     }
 
     static BufferedImage rotate(BufferedImage bimg, double angle){
