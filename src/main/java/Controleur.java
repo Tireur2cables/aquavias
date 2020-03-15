@@ -1,32 +1,32 @@
-public class Controleur {
+class Controleur {
 
     private Jeu jeu;
     private VueGraphique graph;
 
-    public Controleur() {
+    Controleur() {
         this.jeu = new Jeu(this);
         this.graph = new VueGraphique(this);
     }
 
-    public void launch() {
+    void launch() {
         this.jeu.initNiveau(4);
         this.graph.afficheNiveau();
         System.out.println("Le jeu se lance!");
     }
 
-    Pont getPont(int x, int y){
+    Pont getPont(int x, int y) {
         return this.jeu.getPont(x, y);
     }
 
-    int getHauteur(){
+    int getHauteur() {
         return this.jeu.getHauteur();
     }
 
-    int getLargeur(){
+    int getLargeur() {
         return this.jeu.getLargeur();
     }
 
-    public void tournePont(int x, int y) {
+    void tournePont(int x, int y) {
         /* change les sorties du pont et l'orientation */
         this.jeu.tournePont(x, y);
 
@@ -38,7 +38,7 @@ public class Controleur {
             this.decrementeCompteur();
     }
 
-    public void detectEauAdjacents() {
+    void detectEauAdjacents() {
         this.jeu.resetWater();
         this.jeu.parcourchemin();
     }
@@ -51,7 +51,7 @@ public class Controleur {
             this.graph.decrementeProgressBar();
     }
 
-    boolean isMovable(int x, int y){
+    boolean isMovable(int x, int y) {
         return this.jeu.isMovable(x, y);
     }
 
@@ -59,7 +59,7 @@ public class Controleur {
         this.graph.setEau(x, y ,eau);
     }
 
-    public void exportNiveau(int number, boolean nouveauNiveau) {
+    void exportNiveau(int number, boolean nouveauNiveau) {
         this.jeu.exportNiveau(number, nouveauNiveau);
     }
 
