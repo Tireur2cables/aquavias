@@ -45,19 +45,7 @@ public class VueGraphique {
      * */
     public PontGraph getPontGraphique(int i, int j){
         Pont p = this.controleur.getPont(i, j);
-        PontGraph newP = null;
-        if(p == null) return newP;
-        else{
-            switch (p.getForme()){
-                case 'I' : newP = new PontIGraph(p.orientation, p.eau);
-                    break;
-                case 'L' : newP = new PontLGraph(p.orientation, p.eau);
-                    break;
-                case 'T' : newP = new PontTGraph(p.orientation, p.eau);
-                    break;
-            }
-        }
-        return newP;
+        return PontGraph.getPontGraph(p);
     }
 
     void afficheNiveau() {

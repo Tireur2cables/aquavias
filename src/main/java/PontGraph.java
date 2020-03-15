@@ -29,6 +29,22 @@ public class PontGraph{
         this.orientation = (++this.orientation)%4;
     }
 
+    static PontGraph getPontGraph(Pont p){
+        PontGraph newP = null;
+        if(p == null) return newP;
+        else{
+            switch (p.getForme()){
+                case 'I' : newP = new PontIGraph(p.orientation, p.eau);
+                    break;
+                case 'L' : newP = new PontLGraph(p.orientation, p.eau);
+                    break;
+                case 'T' : newP = new PontTGraph(p.orientation, p.eau);
+                    break;
+            }
+        }
+        return newP;
+    }
+
     BufferedImage getImage() {
         if (this instanceof PontIGraph) ((PontIGraph) this).getImage();
         else if (this instanceof PontLGraph) ((PontLGraph) this).getImage();
