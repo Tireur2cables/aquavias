@@ -21,6 +21,8 @@ abstract class Pont {
         this.castAndCalculateSorties();
     }
 
+    abstract boolean[] calculSorties();
+
     private void castAndCalculateSorties() {
         if (this instanceof PontI) this.sorties = ((PontI) this).calculSorties();
         else if (this instanceof PontL) this.sorties = ((PontL) this).calculSorties();

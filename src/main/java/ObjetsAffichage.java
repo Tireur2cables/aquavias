@@ -66,7 +66,7 @@ class Fenetre extends JFrame {
 				progressBar.setForeground(Color.blue);
         }
         progressBar.setValue(val-1);
-        progressBar.setString(val-1 + " L restants");
+        this.updateBarString(val-1, progressBar);
     }
 
     void defaite() {
@@ -94,8 +94,15 @@ class Fenetre extends JFrame {
         progressBar.setValue(limite);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        progressBar.setString(limite + " L restantes");
+        this.updateBarString(limite, progressBar);
         this.getJMenuBar().add(progressBar);
+    }
+
+    private void updateBarString(int val, JProgressBar progressBar) {
+        if (val > 1)
+            progressBar.setString(val + "L restants");
+        else
+            progressBar.setString(val + "L restant");
     }
 
 }

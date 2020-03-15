@@ -8,7 +8,7 @@ class PontT extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    boolean[] calculSorties() {
+    protected boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' : tab[3] = false;
