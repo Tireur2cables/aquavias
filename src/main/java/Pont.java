@@ -1,7 +1,7 @@
 /* Imports with maven dependecies */
 import org.json.*;
 
-public abstract class Pont {
+abstract class Pont {
 
     protected char forme; /* I, T, L */
     protected char orientation; /* N, E, S, O */
@@ -9,14 +9,14 @@ public abstract class Pont {
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
-    public Pont(JSONArray json) {
+    Pont(JSONArray json) {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
         this.eau = this.isEntree();
     }
 
-    public void setOrientation(char c) {
+    void setOrientation(char c) {
         this.orientation = c;
         this.castAndCalculateSorties();
     }
@@ -27,39 +27,39 @@ public abstract class Pont {
         else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
     }
 
-    public char getForme(){
+    char getForme(){
         return this.forme;
     }
 
-    public boolean getEau() {
+    boolean getEau() {
         return this.eau;
     }
 
-    public char getOrientation(){
+    char getOrientation(){
         return this.orientation;
     }
 
-    public boolean isMovable() {
+    boolean isMovable() {
         return this.spe == null;
     }
 
-    public boolean isEntree() {
+    boolean isEntree() {
         return this.spe != null && this.spe.equals("entree");
     }
 
-    public boolean isSortie() {
+    boolean isSortie() {
         return this.spe != null && this.spe.equals("sortie");
     }
 
-    public boolean[] getSorties() {
+    boolean[] getSorties() {
         return this.sorties;
     }
 
-    public void setEau(boolean eau) {
+    void setEau(boolean eau) {
         this.eau = eau;
     }
 
-    public static char getNextOrientation(char c) {
+    static char getNextOrientation(char c) {
         switch (c) {
             case 'N' : return 'E';
             case 'E' : return 'S';
@@ -69,7 +69,7 @@ public abstract class Pont {
         throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }
 
-    public boolean isAccessibleFrom(char c) {
+    boolean isAccessibleFrom(char c) {
         switch (c) {
             case 'N' : return this.sorties[2]; /* accessible depuis le nord de l'autre pont donc le sud de ce pont etc... */
             case 'E' : return this.sorties[3];

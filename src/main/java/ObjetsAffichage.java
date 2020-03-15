@@ -207,7 +207,7 @@ class MenuBar extends JMenuBar{
         charger.add(niveau1);
         return charger;
     }
-    
+
     private JButton createSave(Fenetre fenetre, Controleur controleur) {
         JButton save = new JButton("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {

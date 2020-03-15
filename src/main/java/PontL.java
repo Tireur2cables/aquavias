@@ -1,15 +1,14 @@
 /* Imports with maven dependecies */
 import org.json.JSONArray;
 
+class PontL extends Pont {
 
-public class PontL extends Pont {
-
-    public PontL(JSONArray json) {
+    PontL(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();
     }
 
-    public boolean[] calculSorties() {
+    boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' : {
