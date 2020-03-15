@@ -31,6 +31,9 @@ public class VueGraphique {
         this.initPlateau(largeur, hauteur);
     }
 
+    /**
+     * Initialise la matrice plateau avec les pontsGraphiques dépendants du modèle
+     * */
     public void initPlateau(int largeur, int hauteur){
         this.plateau = new PontGraph[largeur][hauteur];
         for(int i = 0; i < largeur; i++){
@@ -41,13 +44,16 @@ public class VueGraphique {
     }
 
     /**
-     * FIXME : A changer pour ne pas dépendre du model
+     * renvoit un PontGraphique en fonction du pont aux coordonnées i, j dans le plateau de jeu
      * */
     public PontGraph getPontGraphique(int i, int j){
         Pont p = this.controleur.getPont(i, j);
         return PontGraph.getPontGraph(p);
     }
 
+    /**
+     * remplit le JPanel Niveau avec chaque Pont du plateau de Jeu et entraine l'affichage de la fenêtre
+     * */
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
