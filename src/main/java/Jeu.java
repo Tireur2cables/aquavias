@@ -12,7 +12,7 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
 
-public class Jeu {
+class Jeu {
 
     /* FIXME: vraiment utile ? */
     private class Case {
@@ -49,7 +49,7 @@ public class Jeu {
     private int compteur;
     private int limite;
 
-    public Jeu(Controleur controleur) {
+    Jeu(Controleur controleur) {
         this.controleur = controleur;
     }
 
@@ -57,7 +57,7 @@ public class Jeu {
      * Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
      * donc on échange les indices i et j pour les afficher correctement
      * */
-    public void afficher() {
+    private void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
         for (int i = 0; i < this.plateau[0].length; i++) {
@@ -70,7 +70,7 @@ public class Jeu {
     }
 
     /* FIXME: chemin en parametre static ? */
-    public void initNiveau(int number) {
+    void initNiveau(int number) {
         String chemin = "resources/niveaux/niveau" + number + ".json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
@@ -85,13 +85,13 @@ public class Jeu {
         this.parcourchemin();
     }
 
-    public void exportNiveau(int number, boolean newNiveau){
+    void exportNiveau(int number, boolean newNiveau) {
         String chemin = "resources/export/niveau" + ((newNiveau)? number : this.numNiveau) + ".json";
         JSONObject fic = this.initJSON();
         writeFile(fic, chemin);
     }
 
-    private static void writeFile(JSONObject file, String chemin){
+    private static void writeFile(JSONObject file, String chemin) {
         try{
             FileWriter fichier = new FileWriter(chemin);
             fichier.write(file.toString());
@@ -103,12 +103,12 @@ public class Jeu {
     }
 
     /* FIXME factoriser la partie double For dans une autre fonction */
-    private JSONObject initJSON(){
+    private JSONObject initJSON() {
         JSONObject fic = new JSONObject();
         fic.put("hauteur", this.getHauteur());
         fic.put("longueur", this.getLargeur());
-        fic.put("limite", this.getCompteur());
-        fic.put("mode", this.getMode());
+        fic.put("limite", this.compteur);
+        fic.put("mode", this.mode);
         JSONArray niveau = new JSONArray();
         for(int i = 0; i < this.getLargeur(); i++){
             JSONArray ligne = new JSONArray();
@@ -183,7 +183,7 @@ public class Jeu {
         }
     }
 
-    void stopTimer(){
+    void stopTimer() {
         if(timer != null && !timer.isShutdown()) {
             tache.cancel(true);
             timer.shutdown();
@@ -202,11 +202,7 @@ public class Jeu {
         throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
     }
 
-    private int getCompteur() {
-        return this.compteur;
-    }
-
-    public Pont getPont(int largeur, int hauteur) {
+    Pont getPont(int largeur, int hauteur) {
         return this.plateau[largeur][hauteur].pont;
     }
 
@@ -215,11 +211,11 @@ public class Jeu {
         return (p != null) && p.isMovable();
     }
 
-    public int getHauteur(){
+    int getHauteur(){
         return this.plateau[0].length;
     }
 
-    public int getLargeur(){
+    int getLargeur(){
         return this.plateau.length;
     }
 
@@ -247,7 +243,7 @@ public class Jeu {
     /**
      * On suppose que l'on tourne les ponts uniquement de 90° ici
      * */
-    public void tournePont(int x, int y) {
+    void tournePont(int x, int y) {
         Pont p = this.plateau[x][y].pont;
         char newOrientation = Pont.getNextOrientation(p.orientation);
         p.setOrientation(newOrientation);
@@ -256,7 +252,7 @@ public class Jeu {
     /**
      * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
      * */
-    public void detectAdjacents(int x, int y) {
+    private void detectAdjacents(int x, int y) {
         Pont p = this.plateau[x][y].pont;
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
