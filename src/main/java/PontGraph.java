@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-class PontGraph {
+abstract class PontGraph {
 
     static BufferedImage transp = chargeImage("transp.png");
     protected int orientation;
@@ -45,15 +45,7 @@ class PontGraph {
         return newP;
     }
 
-    /**
-     * default function overided
-     * */
-    BufferedImage getImage() {
-        if (this instanceof PontIGraph) ((PontIGraph) this).getImage();
-        else if (this instanceof PontLGraph) ((PontLGraph) this).getImage();
-        else if (this instanceof PontTGraph) ((PontTGraph) this).getImage();
-        throw new RuntimeException("Unknown type of pont");
-    }
+    abstract BufferedImage getImage();
 
     static BufferedImage[] chargeImages(String chemin) {
         BufferedImage imageN = chargeImage(chemin);
