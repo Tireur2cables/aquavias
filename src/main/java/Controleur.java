@@ -101,4 +101,11 @@ class Controleur {
         System.out.println("Retour Menu");
     }
 
+    /**
+     * WIP
+     */
+    void nextLevel() {
+        System.out.println("Niveau suivant");
+    }
+
 }

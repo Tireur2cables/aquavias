@@ -11,7 +11,7 @@ class Fenetre extends JFrame {
     /**
      * Fenetre pour les tests unitaires
      * */
-    public Fenetre(String titre, BufferedImage image, VueGraphique vue) {
+    Fenetre(String titre, BufferedImage image, VueGraphique vue) {
         super();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -25,13 +25,13 @@ class Fenetre extends JFrame {
     /**
      * Fenetre pour l'affichage du jeu
      * */
-    public Fenetre(Controleur controleur) {
+    Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
-            this.setJMenuBar(Menu.createMenu(this, controleur));
+            this.setJMenuBar(new MenuBar(this, controleur));
             this.setVisible(false);
         });
     }
@@ -42,11 +42,9 @@ class Fenetre extends JFrame {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagner! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Réessayer */
-                System.out.println("Niveau suivant");
-                //this.controleur.nextLevel();
+                this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
-                System.out.println("Retour au menu");
-                //this.controleur.backMenu();
+                this.controleur.backMenu();
         });
     }
 
@@ -163,7 +161,7 @@ class ClickListener implements MouseListener {
     private boolean movable;
     private ImagePane imagePane;
 
-    public ClickListener(boolean movable, ImagePane imagePane) {
+    ClickListener(boolean movable, ImagePane imagePane) {
         super();
         this.movable = movable;
         this.imagePane = imagePane;
@@ -191,30 +189,33 @@ class ClickListener implements MouseListener {
 
 }
 
-class Menu extends JMenuBar{
+class MenuBar extends JMenuBar{
 
 
-    public Menu(){
+    MenuBar(Fenetre fenetre, Controleur controleur) {
         super();
+        JMenu charger = this.createChargerMenu();
+        this.add(charger);
+
+        JButton save = this.createSave(fenetre, controleur);
+        this.add(save);
     }
 
-    /* FIXME: assez long peut etre factoriser ? */
-    static Menu createMenu(Fenetre fenetre, Controleur controleur){
-        Menu menuBar = new Menu();
-
+    private JMenu createChargerMenu() {
         JMenu charger = new JMenu("Charger");
         JMenuItem niveau1 = new JMenuItem("Niveau 1");
         charger.add(niveau1);
-
-        menuBar.add(charger);
-        JButton bouton = new JButton("Sauvegarder");
-        bouton.addActionListener((ActionEvent e) -> {
+        return charger;
+    }
+    
+    private JButton createSave(Fenetre fenetre, Controleur controleur) {
+        JButton save = new JButton("Sauvegarder");
+        save.addActionListener((ActionEvent e) -> {
             /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
             controleur.exportNiveau(0, false);
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
-        menuBar.add(bouton);
-        return menuBar;
+        return save;
     }
 
 }
