@@ -1,6 +1,6 @@
 import java.awt.image.BufferedImage;
 
-public class PontLGraph extends PontGraph {
+class PontLGraph extends PontGraph {
 
 	static BufferedImage[] pontL = PontGraph.chargeImages("LnoO.png");
     static BufferedImage[] pontLEau = PontGraph.chargeImages("LwO.png");

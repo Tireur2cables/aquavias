@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class PontGraph{
+class PontGraph {
 
     static BufferedImage transp = chargeImage("transp.png");
     protected int orientation;
@@ -16,7 +16,7 @@ public class PontGraph{
     }
 
     private static int getOrientationFromChar(char orientation) {
-        switch (orientation){
+        switch (orientation) {
             case 'N': return 0;
             case 'E': return 1;
             case 'S': return 2;
@@ -25,15 +25,15 @@ public class PontGraph{
         throw new RuntimeException("Orientation inconnue : " + orientation);
     }
 
-    void incrementeOrientation(){
+    void incrementeOrientation() {
         this.orientation = (++this.orientation)%4;
     }
 
-    static PontGraph getPontGraph(Pont p){
+    static PontGraph getPontGraph(Pont p) {
         PontGraph newP = null;
-        if(p == null) return newP;
-        else{
-            switch (p.getForme()){
+        if (p == null) return newP;
+        else {
+            switch (p.getForme()) {
                 case 'I' : newP = new PontIGraph(p.orientation, p.eau);
                     break;
                 case 'L' : newP = new PontLGraph(p.orientation, p.eau);
@@ -45,6 +45,9 @@ public class PontGraph{
         return newP;
     }
 
+    /**
+     * default function overided
+     * */
     BufferedImage getImage() {
         if (this instanceof PontIGraph) ((PontIGraph) this).getImage();
         else if (this instanceof PontLGraph) ((PontLGraph) this).getImage();
@@ -77,7 +80,7 @@ public class PontGraph{
          }
     }
 
-    static BufferedImage rotate(BufferedImage bimg, double angle){
+    static BufferedImage rotate(BufferedImage bimg, double angle) {
         int w = bimg.getWidth();
         int h = bimg.getHeight();
 
