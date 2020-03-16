@@ -14,6 +14,10 @@ import org.json.*;
 
 class Jeu {
 
+    /**
+     * CASE CLASSE PART
+     */
+
     /* FIXME: vraiment utile ? */
     private class Case {
 
@@ -49,11 +53,9 @@ class Jeu {
     private int compteur;
     private int limite;
 
-    Jeu(Controleur controleur) {
-        this.controleur = controleur;
-    }
-
     /**
+     * AFFICHAGE PART
+     *
      * Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
      * donc on échange les indices i et j pour les afficher correctement
      * */
@@ -67,6 +69,14 @@ class Jeu {
             }
             System.out.println();
         }
+    }
+
+    /**
+     * INIT PART
+     * */
+
+    Jeu(Controleur controleur) {
+        this.controleur = controleur;
     }
 
     /* FIXME: chemin en parametre static ? */
@@ -85,49 +95,16 @@ class Jeu {
         this.parcourchemin();
     }
 
-    void exportNiveau(int number, boolean newNiveau) {
-        String chemin = "resources/export/niveau" + ((newNiveau)? number : this.numNiveau) + ".json";
-        JSONObject fic = this.initJSON();
-        writeFile(fic, chemin);
-    }
-
-    private static void writeFile(JSONObject file, String chemin) {
-        try{
-            FileWriter fichier = new FileWriter(chemin);
-            fichier.write(file.toString());
-            fichier.close();
-        }catch (IOException e){
-            System.out.println("Echec de l'écriture du niveau");
-            System.out.println(e.getStackTrace());
+    private static JSONObject readJSON(String chemin) {
+        try {
+            File f = new File(chemin);
+            return new JSONObject(FileUtils.readFileToString(f, "utf-8"));
+        } catch (NullPointerException n) {
+            System.out.println("Impossible de trouver le fichier de niveau à l'adresse : " + chemin);
+        } catch (IOException i) {
+            System.out.println("Impossible de lire le fichier niveau à l'adresse : " + chemin);
         }
-    }
-
-    /* FIXME factoriser la partie double For dans une autre fonction */
-    private JSONObject initJSON() {
-        JSONObject fic = new JSONObject();
-        fic.put("hauteur", this.getHauteur());
-        fic.put("longueur", this.getLargeur());
-        fic.put("limite", this.compteur);
-        fic.put("mode", this.mode);
-        JSONArray niveau = new JSONArray();
-        for(int i = 0; i < this.getLargeur(); i++){
-            JSONArray ligne = new JSONArray();
-            for(int j = 0; j < this.getHauteur(); j++){
-                Pont modPont = this.getPont(i,j);
-                if(modPont != null){
-                    JSONArray pont = new JSONArray();
-                    pont.put((modPont.forme + ""));
-                    pont.put(modPont.orientation + "");
-                    pont.put(modPont.spe);
-                    ligne.put(pont);
-                }else{
-                    ligne.put((Collection<?>) null);
-                }
-            }
-            niveau.put(ligne);
-        }
-        fic.put("niveau", niveau);
-        return fic;
+        throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
     }
 
     private void initPlateau(int largeur, int hauteur, JSONArray niveau, int numNiveau) {
@@ -165,88 +142,15 @@ class Jeu {
         }
     }
 
-
-    private static ScheduledExecutorService timer;
-    private static ScheduledFuture<?> tache;
-
-    void initTimer() {
-        if (this.controleur.getMode().equals("fuite")) {
-            timer = newScheduledThreadPool(1);
-            Runnable compteSeconde = new Runnable() {
-                @Override
-                public void run() {
-                    if(!isEtanche())
-                        controleur.decrementeCompteur();
-                }
-            };
-            tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS);
-        }
-    }
-
-    void stopTimer() {
-        if(timer != null && !timer.isShutdown()) {
-            tache.cancel(true);
-            timer.shutdown();
-        }
-    }
-
-    private static JSONObject readJSON(String chemin) {
-        try {
-            File f = new File(chemin);
-            return new JSONObject(FileUtils.readFileToString(f, "utf-8"));
-        } catch (NullPointerException n) {
-            System.out.println("Impossible de trouver le fichier de niveau à l'adresse : " + chemin);
-        } catch (IOException i) {
-            System.out.println("Impossible de lire le fichier niveau à l'adresse : " + chemin);
-        }
-        throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
-    }
-
-    Pont getPont(int largeur, int hauteur) {
-        return this.plateau[largeur][hauteur].pont;
-    }
-
-    boolean isMovable(int x,  int y) {
-        Pont p = this.plateau[x][y].pont;
-        return (p != null) && p.isMovable();
-    }
-
-    int getHauteur(){
-        return this.plateau[0].length;
-    }
-
-    int getLargeur(){
-        return this.plateau.length;
-    }
-
-    private boolean isSortie(int x, int y) {
-        return x == this.xSortie && y == this.ySortie;
-    }
-
-    private boolean isEntree(int x, int y) {
-        return x == this.xEntree && y == this.yEntree;
-    }
-
-    String getMode() {
-        return this.mode;
-    }
-
-    int getLimite() {
-        return this.limite;
-    }
-
-    void decrementeCompteur() {
-        this.compteur--;
-        if (this.compteur <= 0) this.controleur.defaite();
-    }
-
     /**
-     * On suppose que l'on tourne les ponts uniquement de 90° ici
+     * ACTUALISATION EAU PART
+     *
+     * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
-    void tournePont(int x, int y) {
-        Pont p = this.plateau[x][y].pont;
-        char newOrientation = Pont.getNextOrientation(p.orientation);
-        p.setOrientation(newOrientation);
+    void parcourchemin() {
+        int x = this.xEntree;
+        int y = this.yEntree;
+        this.detectAdjacents(x, y);
     }
 
     /**
@@ -338,14 +242,86 @@ class Jeu {
     }
 
     /**
-     * Parcours récursif de chaque chemin complet
-     *
-     * FIXME: A refactor c'est très laid (trop long et decoupé)
+     * TIMER PART
+     */
+
+    private static ScheduledExecutorService timer;
+    private static ScheduledFuture<?> tache;
+
+    void initTimer() {
+        if (this.controleur.getMode().equals("fuite")) {
+            timer = newScheduledThreadPool(1);
+            Runnable compteSeconde = new Runnable() {
+                @Override
+                public void run() {
+                    if(!isEtanche())
+                        controleur.decrementeCompteur();
+                }
+            };
+            tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS);
+        }
+    }
+
+    void stopTimer() {
+        if(timer != null && !timer.isShutdown()) {
+            tache.cancel(true);
+            timer.shutdown();
+        }
+    }
+
+    /**
+     * GETTER / INFORMATION PART
      * */
-    void parcourchemin() {
-        int x = this.xEntree;
-        int y = this.yEntree;
-        this.detectAdjacents(x, y);
+
+    int getHauteur(){
+        return this.plateau[0].length;
+    }
+
+    int getLargeur(){
+        return this.plateau.length;
+    }
+
+    String getMode() {
+        return this.mode;
+    }
+
+    int getLimite() {
+        return this.limite;
+    }
+
+    Pont getPont(int largeur, int hauteur) {
+        return this.plateau[largeur][hauteur].pont;
+    }
+
+    boolean isMovable(int x,  int y) {
+        Pont p = this.plateau[x][y].pont;
+        return (p != null) && p.isMovable();
+    }
+
+    private boolean isSortie(int x, int y) {
+        return x == this.xSortie && y == this.ySortie;
+    }
+
+    private boolean isEntree(int x, int y) {
+        return x == this.xEntree && y == this.yEntree;
+    }
+
+    /**
+     * ACTUALISATION PART
+     */
+
+    void decrementeCompteur() {
+        this.compteur--;
+        if (this.compteur <= 0) this.controleur.defaite();
+    }
+
+    /**
+     * On suppose que l'on tourne les ponts uniquement de 90° ici
+     * */
+    void tournePont(int x, int y) {
+        Pont p = this.plateau[x][y].pont;
+        char newOrientation = Pont.getNextOrientation(p.orientation);
+        p.setOrientation(newOrientation);
     }
 
     void resetWater() {
@@ -361,12 +337,9 @@ class Jeu {
     }
 
     /**
-     * Parcours Victoire
+     * PARCOURS VICTOIRE PART
      * */
 
-    /**
-     * FIXME: A refactor c'est très laid (trop long et decoupé)
-     * */
     private static boolean[][] passage;
 
     private static void createPassage(int largeur, int hauteur) {
@@ -386,6 +359,8 @@ class Jeu {
     }
 
     /**
+     * CALCUL ETANCHEITE PART
+     *
      * A vérifié: semble marché en fait voir niveau 4
      * Suppose que Sortie est une ligne droite
      * (ne possède que une sortie connectable avec des ponts)
@@ -398,6 +373,9 @@ class Jeu {
         return this.detectEtancheAdjacents(x, y);
     }
 
+    /**
+     * FIXME: A refactor c'est très laid (trop long et decoupé)
+     * */
     private boolean detectEtancheAdjacents(int x, int y) {
         Pont p = this.plateau[x][y].pont;
         boolean[] sortiesP = p.getSorties();
@@ -471,6 +449,55 @@ class Jeu {
                 return false;
         } else
             return isSortie(x, y) || isEntree(x, y);
+    }
+
+    /**
+     * EXPORT PART
+     * */
+
+    void exportNiveau(int number, boolean newNiveau) {
+        String chemin = "resources/export/niveau" + ((newNiveau)? number : this.numNiveau) + ".json";
+        JSONObject fic = this.createJSON();
+        writeFile(fic, chemin);
+    }
+
+    private static void writeFile(JSONObject file, String chemin) {
+        try{
+            FileWriter fichier = new FileWriter(chemin);
+            fichier.write(file.toString());
+            fichier.close();
+        }catch (IOException e){
+            System.out.println("Echec de l'écriture du niveau");
+            System.out.println(e.getStackTrace());
+        }
+    }
+
+    /* FIXME factoriser la partie double For dans une autre fonction */
+    private JSONObject createJSON() {
+        JSONObject fic = new JSONObject();
+        fic.put("hauteur", this.getHauteur());
+        fic.put("longueur", this.getLargeur());
+        fic.put("limite", this.compteur);
+        fic.put("mode", this.mode);
+        JSONArray niveau = new JSONArray();
+        for(int i = 0; i < this.getLargeur(); i++){
+            JSONArray ligne = new JSONArray();
+            for(int j = 0; j < this.getHauteur(); j++){
+                Pont modPont = this.getPont(i,j);
+                if(modPont != null){
+                    JSONArray pont = new JSONArray();
+                    pont.put((modPont.forme + ""));
+                    pont.put(modPont.orientation + "");
+                    pont.put(modPont.spe);
+                    ligne.put(pont);
+                }else{
+                    ligne.put((Collection<?>) null);
+                }
+            }
+            niveau.put(ligne);
+        }
+        fic.put("niveau", niveau);
+        return fic;
     }
 
 }
