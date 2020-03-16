@@ -7,13 +7,47 @@ import java.io.IOException;
 abstract class PontGraph {
 
     static BufferedImage transp = chargeImage("transp.png");
+
     protected int orientation;
     protected boolean eau;
+
+    /**
+     * INIT PART
+     * */
 
     PontGraph(char orientation, boolean eau) {
         this.orientation = getOrientationFromChar(orientation);
         this.eau = eau;
     }
+
+    static BufferedImage[] chargeImages(String chemin) {
+        BufferedImage imageN = chargeImage(chemin);
+        BufferedImage imageE = rotate(imageN, 90);
+        BufferedImage imageS = rotate(imageE, 90);
+        BufferedImage imageO = rotate(imageS, 90);
+        BufferedImage[] images = new BufferedImage[4];
+        images[0] = imageN;
+        images[1] = imageE;
+        images[2] = imageS;
+        images[3] = imageO;
+        return images;
+    }
+
+    private static BufferedImage chargeImage(String chemin) {
+        String dossierImages = "resources/img/";
+        chemin = dossierImages + chemin;
+        try {
+            return ImageIO.read(new File(chemin));
+        }catch (IOException e) {
+            throw new RuntimeException("Impossible de charger l'image de chemin : " + chemin);
+        }catch (NullPointerException e) {
+            throw new RuntimeException("Impossible de trouver l'image correspondant au chemin : " + chemin);
+        }
+    }
+
+    /**
+     * GETTER PART
+     * */
 
     private static int getOrientationFromChar(char orientation) {
         switch (orientation) {
@@ -23,10 +57,6 @@ abstract class PontGraph {
             case 'O': return 3;
         }
         throw new RuntimeException("Orientation inconnue : " + orientation);
-    }
-
-    void incrementeOrientation() {
-        this.orientation = (++this.orientation)%4;
     }
 
     static PontGraph getPontGraph(Pont p) {
@@ -47,30 +77,17 @@ abstract class PontGraph {
 
     abstract BufferedImage getImage();
 
-    static BufferedImage[] chargeImages(String chemin) {
-        BufferedImage imageN = chargeImage(chemin);
-        BufferedImage imageE = rotate(imageN, 90);
-        BufferedImage imageS = rotate(imageE, 90);
-        BufferedImage imageO = rotate(imageS, 90);
-        BufferedImage[] images = new BufferedImage[4];
-        images[0] = imageN;
-        images[1] = imageE;
-        images[2] = imageS;
-        images[3] = imageO;
-        return images;
+    /**
+     * SETTER PART
+     */
+
+    void incrementeOrientation() {
+        this.orientation = (++this.orientation)%4;
     }
 
-    static BufferedImage chargeImage(String chemin) {
-        String dossierImages = "resources/img/";
-        chemin = dossierImages + chemin;
-        try {
-            return ImageIO.read(new File(chemin));
-        }catch (IOException e) {
-            throw new RuntimeException("Impossible de charger l'image de chemin : " + chemin);
-        }catch (NullPointerException e) {
-            throw new RuntimeException("Impossible de trouver l'image correspondant au chemin : " + chemin);
-        }
-    }
+    /**
+     * ROTATE PART
+     * */
 
     static BufferedImage rotate(BufferedImage bimg, double angle) {
         int w = bimg.getWidth();

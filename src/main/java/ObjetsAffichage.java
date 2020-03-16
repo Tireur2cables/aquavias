@@ -8,6 +8,11 @@ import java.awt.image.BufferedImage;
 class Fenetre extends JFrame {
 
     private Controleur controleur;
+
+    /**
+     * INIT PART
+     */
+
     /**
      * Fenetre pour les tests unitaires
      * */
@@ -36,6 +41,10 @@ class Fenetre extends JFrame {
         });
     }
 
+    /**
+     * DISPLAY POPUP PART
+     */
+
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         EventQueue.invokeLater(() -> {
@@ -48,38 +57,21 @@ class Fenetre extends JFrame {
         });
     }
 
-    void decrementeCompteur() {
-        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
-        int val = Integer.parseInt(compteur.getText());
-        String newVal = String.valueOf(val-1);
-        compteur.setText(newVal);
-    }
-
-    void decrementeProgressBar() {
-		int limite = this.controleur.getLimite();
-        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
-        int val = progressBar.getValue();
-        if(val < (limite/5)){
-			if(val%2==0)
-				 progressBar.setForeground(Color.red);
-			else
-				progressBar.setForeground(Color.blue);
-        }
-        progressBar.setValue(val-1);
-        this.updateBarString(val-1, progressBar);
-    }
-
     void defaite() {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(","",
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(", "",
                     JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
-               this.controleur.backMenu();
+                this.controleur.backMenu();
         });
     }
+
+    /**
+     * ADD PART
+     */
 
     void addCompteur() {
         int limite =  this.controleur.getLimite();
@@ -98,11 +90,36 @@ class Fenetre extends JFrame {
         this.getJMenuBar().add(progressBar);
     }
 
+    /**
+     *  UPADTE PART
+     */
+
     private void updateBarString(int val, JProgressBar progressBar) {
         if (val > 1)
             progressBar.setString(val + "L restants");
         else
             progressBar.setString(val + "L restant");
+    }
+
+    void decrementeCompteur() {
+        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
+        int val = Integer.parseInt(compteur.getText());
+        String newVal = String.valueOf(val-1);
+        compteur.setText(newVal);
+    }
+
+    void decrementeProgressBar() {
+        int limite = this.controleur.getLimite();
+        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
+        int val = progressBar.getValue();
+        if(val < (limite/5)){
+            if(val%2==0)
+                progressBar.setForeground(Color.red);
+            else
+                progressBar.setForeground(Color.blue);
+        }
+        progressBar.setValue(val-1);
+        this.updateBarString(val-1, progressBar);
     }
 
 }

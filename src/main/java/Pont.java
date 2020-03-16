@@ -9,16 +9,15 @@ abstract class Pont {
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
+    /**
+     * INIT PART
+     * */
+
     Pont(JSONArray json) {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
         this.eau = this.isEntree();
-    }
-
-    void setOrientation(char c) {
-        this.orientation = c;
-        this.castAndCalculateSorties();
     }
 
     abstract boolean[] calculSorties();
@@ -28,6 +27,10 @@ abstract class Pont {
         else if (this instanceof PontL) this.sorties = ((PontL) this).calculSorties();
         else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
     }
+
+    /**
+     * GETTER PART
+     * */
 
     char getForme(){
         return this.forme;
@@ -57,10 +60,6 @@ abstract class Pont {
         return this.sorties;
     }
 
-    void setEau(boolean eau) {
-        this.eau = eau;
-    }
-
     static char getNextOrientation(char c) {
         switch (c) {
             case 'N' : return 'E';
@@ -80,5 +79,20 @@ abstract class Pont {
         }
         throw new RuntimeException("char Sortie incorrect : " + c);
     }
+
+    /**
+     * SETTER PART
+     * */
+
+    void setOrientation(char c) {
+        this.orientation = c;
+        this.castAndCalculateSorties();
+    }
+
+    void setEau(boolean eau) {
+        this.eau = eau;
+    }
+
+
 
 }

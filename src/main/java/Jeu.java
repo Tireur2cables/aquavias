@@ -14,10 +14,6 @@ import org.json.*;
 
 class Jeu {
 
-    /**
-     * CASE CLASSE PART
-     */
-
     /* FIXME: vraiment utile ? */
     private class Case {
 
