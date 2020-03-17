@@ -37,7 +37,7 @@ abstract class PontGraph {
         return images;
     }
 
-    private static BufferedImage chargeImage(String chemin) {
+    static BufferedImage chargeImage(String chemin) {
         String dossierImages = "resources/img/";
         chemin = dossierImages + chemin;
         try {
