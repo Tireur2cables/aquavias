@@ -8,16 +8,20 @@ import java.awt.image.BufferedImage;
 class Fenetre extends JFrame {
 
     private Controleur controleur;
+
+    /**
+     * INIT PART
+     */
+
     /**
      * Fenetre pour les tests unitaires
      * */
-    public Fenetre(String titre, BufferedImage image, Controleur controleur) {
+    Fenetre(String titre, BufferedImage image, VueGraphique vue) {
         super();
-        this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle(titre);
-            this.setContentPane(new ImagePane(image, true, controleur, 0, 0));
+            this.setContentPane(new ImagePane(image, true, vue, 0, 0));
             this.pack();
             this.setVisible(true);
         });
@@ -26,16 +30,20 @@ class Fenetre extends JFrame {
     /**
      * Fenetre pour l'affichage du jeu
      * */
-    public Fenetre(Controleur controleur) {
+    Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(EXIT_ON_CLOSE);
             this.setTitle("Aquavias");
-            this.setJMenuBar(Menu.createMenu(this, controleur));
+            this.setJMenuBar(new MenuBar(this, controleur));
             this.setVisible(false);
         });
     }
+
+    /**
+     * DISPLAY POPUP PART
+     */
 
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
@@ -43,48 +51,27 @@ class Fenetre extends JFrame {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagner! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Réessayer */
-                System.out.println("Niveau suivant");
-                //this.controleur.nextLevel();
+                this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
-                System.out.println("Retour au menu");
-                //this.controleur.backMenu();
+                this.controleur.backMenu();
         });
-    }
-
-    void decrementeCompteur() {
-        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
-        int val = Integer.parseInt(compteur.getText());
-        String newVal = String.valueOf(val-1);
-        compteur.setText(newVal);
-    }
-
-    void decrementeProgressBar() {
-		int limite = this.controleur.getLimite();
-        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
-        int val = progressBar.getValue();
-        if(val < (limite/5)){
-			if(val%2==0){
-				 progressBar.setForeground(Color.red);
-			}else{
-				progressBar.setForeground(Color.blue);
-			}
-
-        }
-        progressBar.setValue(val-1);
-        progressBar.setString(val-1 + " secondes restantes");
     }
 
     void defaite() {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(","",
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(", "",
                     JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
-               this.controleur.backMenu();
+                this.controleur.backMenu();
         });
     }
+
+    /**
+     * ADD PART
+     */
 
     void addCompteur() {
         int limite =  this.controleur.getLimite();
@@ -99,19 +86,51 @@ class Fenetre extends JFrame {
         progressBar.setValue(limite);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        progressBar.setString(limite + " secondes restantes");
+        this.updateBarString(limite, progressBar);
         this.getJMenuBar().add(progressBar);
+    }
+
+    /**
+     *  UPADTE PART
+     */
+
+    private void updateBarString(int val, JProgressBar progressBar) {
+        if (val > 1)
+            progressBar.setString(val + "L restants");
+        else
+            progressBar.setString(val + "L restant");
+    }
+
+    void decrementeCompteur() {
+        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
+        int val = Integer.parseInt(compteur.getText());
+        String newVal = String.valueOf(val-1);
+        compteur.setText(newVal);
+    }
+
+    void decrementeProgressBar() {
+        int limite = this.controleur.getLimite();
+        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
+        int val = progressBar.getValue();
+        if(val < (limite/5)){
+            if(val%2==0)
+                progressBar.setForeground(Color.red);
+            else
+                progressBar.setForeground(Color.blue);
+        }
+        progressBar.setValue(val-1);
+        this.updateBarString(val-1, progressBar);
     }
 
 }
 
-class Plateau extends JPanel {
+class Niveau extends JPanel {
 
-    public Plateau(int hauteur, int largeur) {
+    public Niveau(int largeur, int hauteur) {
         super();
         EventQueue.invokeLater(() -> {
-            this.setLayout(new GridLayout(largeur, hauteur));
-            this.setPreferredSize(new Dimension(hauteur*200,largeur*200));
+            this.setLayout(new GridLayout(hauteur, largeur));
+            this.setPreferredSize(new Dimension(largeur*200,hauteur*200));
         });
     }
 }
@@ -121,16 +140,16 @@ class ImagePane extends JPanel {
      private BufferedImage image;
      private int width;
      private int height;
-     private Controleur controleur;
+     private VueGraphique vue;
      private int x;
      private int y;
 
-    ImagePane(BufferedImage image, boolean movable, Controleur controleur, int x, int y) {
+    ImagePane(BufferedImage image, boolean movable, VueGraphique vue, int x, int y) {
         super();
         this.image = image;
         this.width = image.getWidth();
         this.height = image.getHeight();
-        this.controleur = controleur;
+        this.vue = vue;
         this.x = x;
         this.y = y;
         EventQueue.invokeLater(() -> {
@@ -145,10 +164,8 @@ class ImagePane extends JPanel {
 
     void rotateImage() {
         /* On tourne les ponts de 90° */
-        this.image = VueGraphique.rotate(this.image, 90);
-        this.controleur.refreshSorties(this.x,this.y);
-        this.controleur.actualiseAllImages();
-        this.controleur.isVictoire();
+        this.image = this.vue.getNextImage(this.x, this.y);
+        this.vue.rotate(this.x, this.y);
     }
 
     void setImage(BufferedImage image) {
@@ -168,7 +185,7 @@ class ClickListener implements MouseListener {
     private boolean movable;
     private ImagePane imagePane;
 
-    public ClickListener(boolean movable, ImagePane imagePane) {
+    ClickListener(boolean movable, ImagePane imagePane) {
         super();
         this.movable = movable;
         this.imagePane = imagePane;
@@ -196,29 +213,33 @@ class ClickListener implements MouseListener {
 
 }
 
-class Menu extends JMenuBar{
+class MenuBar extends JMenuBar{
 
 
-    public Menu(){
+    MenuBar(Fenetre fenetre, Controleur controleur) {
         super();
+        JMenu charger = this.createChargerMenu();
+        this.add(charger);
+
+        JButton save = this.createSave(fenetre, controleur);
+        this.add(save);
     }
 
-    static Menu createMenu(Fenetre fenetre, Controleur controleur){
-        Menu menuBar = new Menu();
-
+    private JMenu createChargerMenu() {
         JMenu charger = new JMenu("Charger");
         JMenuItem niveau1 = new JMenuItem("Niveau 1");
         charger.add(niveau1);
+        return charger;
+    }
 
-        menuBar.add(charger);
-        JButton bouton = new JButton("Sauvegarder");
-        bouton.addActionListener((ActionEvent e) -> {
+    private JButton createSave(Fenetre fenetre, Controleur controleur) {
+        JButton save = new JButton("Sauvegarder");
+        save.addActionListener((ActionEvent e) -> {
             /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
             controleur.exportNiveau(0, false);
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
-        menuBar.add(bouton);
-        return menuBar;
+        return save;
     }
 
 }

@@ -1,12 +1,7 @@
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
 /* Imports with maven dependecies */
 import org.json.*;
 
-public abstract class Pont {
+abstract class Pont {
 
     protected char forme; /* I, T, L */
     protected char orientation; /* N, E, S, O */
@@ -14,32 +9,18 @@ public abstract class Pont {
     protected boolean eau;
     protected String spe; /* entree, sortie, immobile */
 
-    static BufferedImage transp = chargeImage("transp.png");
+    /**
+     * INIT PART
+     * */
 
-    public Pont(JSONArray json) {
+    Pont(JSONArray json) {
         this.forme = json.getString(0).toUpperCase().charAt(0);
         this.orientation = json.getString(1).toUpperCase().charAt(0);
         this.spe = (!json.isNull(2))?  json.getString(2).toLowerCase() : null;
         this.eau = this.isEntree();
     }
 
-    protected static BufferedImage chargeImage(String chemin) {
-        String dossierImages = "resources/img/";
-        chemin = dossierImages + chemin;
-        try {
-            return ImageIO.read(new File(chemin));
-        }catch (IOException e) {
-            System.out.println("Impossible de charger l'image de chemin : " + chemin);
-        }catch (NullPointerException e) {
-            System.out.println("Impossible de trouver l'image correspondant au chemin : " + chemin);
-        }
-        throw new RuntimeException("Erreur de chargement de l'image");
-    }
-
-    public void setOrientation(char c) {
-        this.orientation = c;
-        this.castAndCalculateSorties();
-    }
+    abstract boolean[] calculSorties();
 
     private void castAndCalculateSorties() {
         if (this instanceof PontI) this.sorties = ((PontI) this).calculSorties();
@@ -47,39 +28,39 @@ public abstract class Pont {
         else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
     }
 
-    public char getForme(){
+    /**
+     * GETTER PART
+     * */
+
+    char getForme(){
         return this.forme;
     }
 
-    public boolean getEau() {
+    boolean getEau() {
         return this.eau;
     }
 
-    public char getOrientation(){
+    char getOrientation(){
         return this.orientation;
     }
 
-    public boolean isMovable() {
+    boolean isMovable() {
         return this.spe == null;
     }
 
-    public boolean isEntree() {
+    boolean isEntree() {
         return this.spe != null && this.spe.equals("entree");
     }
 
-    public boolean isSortie() {
+    boolean isSortie() {
         return this.spe != null && this.spe.equals("sortie");
     }
 
-    public boolean[] getSorties() {
+    boolean[] getSorties() {
         return this.sorties;
     }
 
-    public void setEau(boolean eau) {
-        this.eau = eau;
-    }
-
-    public static char getNextOrientation(char c) {
+    static char getNextOrientation(char c) {
         switch (c) {
             case 'N' : return 'E';
             case 'E' : return 'S';
@@ -89,7 +70,7 @@ public abstract class Pont {
         throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }
 
-    public boolean isAccessibleFrom(char c) {
+    boolean isAccessibleFrom(char c) {
         switch (c) {
             case 'N' : return this.sorties[2]; /* accessible depuis le nord de l'autre pont donc le sud de ce pont etc... */
             case 'E' : return this.sorties[3];
@@ -98,5 +79,20 @@ public abstract class Pont {
         }
         throw new RuntimeException("char Sortie incorrect : " + c);
     }
+
+    /**
+     * SETTER PART
+     * */
+
+    void setOrientation(char c) {
+        this.orientation = c;
+        this.castAndCalculateSorties();
+    }
+
+    void setEau(boolean eau) {
+        this.eau = eau;
+    }
+
+
 
 }

@@ -1,20 +1,14 @@
-import java.awt.image.BufferedImage;
-
 /* Imports with maven dependecies */
 import org.json.JSONArray;
 
+class PontL extends Pont {
 
-public class PontL extends Pont {
-
-    static BufferedImage pontL = chargeImage("LnoO.png");
-    static BufferedImage pontLEau = chargeImage("LwO.png");
-
-    public PontL(JSONArray json) {
+    PontL(JSONArray json) {
         super(json);
         this.sorties = this.calculSorties();
     }
 
-    public boolean[] calculSorties() {
+    protected boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' : {

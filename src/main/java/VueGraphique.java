@@ -1,72 +1,114 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-public class VueGraphique {
+
+class VueGraphique {
 
     private Controleur controleur;
     private Fenetre fenetre;
-    private Plateau plateau;
+    private Niveau niveau;
+    private PontGraph[][] plateau;
 
-    public VueGraphique(Controleur controleur) {
+    /**
+     *  Fonction pour affichage de test unitaire
+     */
+    void affichePont(BufferedImage image) {
+        EventQueue.invokeLater(() -> new Fenetre("Pont", image, this));
+    }
+
+    /**
+     * INIT PART
+     * */
+
+    VueGraphique(Controleur controleur) {
         this.controleur = controleur;
         this.fenetre = new Fenetre(controleur);
     }
 
-    static BufferedImage rotate(BufferedImage bimg, double angle){
-        int w = bimg.getWidth();
-        int h = bimg.getHeight();
-
-        BufferedImage rotated = new BufferedImage(w, h, bimg.getType());
-        Graphics2D graphic = rotated.createGraphics();
-        graphic.rotate(Math.toRadians(angle), w/2, h/2);
-        graphic.drawImage(bimg, null, 0, 0);
-        graphic.dispose();
-
-        /* tentative de libération de la mémoire */
-        bimg = null;
-        System.gc();
-        return rotated;
-    }
-
-    public void setVisible() {
+    /**
+     * remplit le JPanel Niveau avec chaque Pont du plateau de Jeu et entraine l'affichage de la fenêtre
+     * */
+    void afficheNiveau() {
+        int hauteur = this.controleur.getHauteur();
+        int largeur = this.controleur.getLargeur();
+        this.initNiveau(largeur, hauteur);
+        this.setNiveau();
+        for (int j = 0; j < hauteur; j++) {
+            for (int i = 0; i < largeur; i++) {
+                boolean movable = this.controleur.isMovable(i, j);
+                this.addToNiveau(this.getImage(i, j), movable, i, j);
+            }
+        }
+        this.repaint();
         this.fenetre.setVisible(true);
     }
 
-    public void repaint(){
-        this.fenetre.repaint();
-        this.fenetre.pack();
+    private void initNiveau(int largeur, int hauteur) {
+        this.niveau = new Niveau(largeur, hauteur);
+        this.initPlateau(largeur, hauteur);
     }
 
-    public void affichePont(BufferedImage image) {
-        EventQueue.invokeLater(() -> new Fenetre("Pont", image, this.controleur));
+    /**
+     * Initialise la matrice plateau avec les pontsGraphiques dépendants du modèle
+     * */
+    private void initPlateau(int largeur, int hauteur) {
+        this.plateau = new PontGraph[largeur][hauteur];
+        for(int i = 0; i < largeur; i++){
+            for(int j = 0; j < hauteur; j++){
+                this.plateau[i][j] = this.getPontGraphique(i, j);
+            }
+        }
     }
 
-    public void initPlateau(int hauteur, int largeur) {
-        this.plateau = new Plateau(hauteur, largeur);
-    }
-
-    public void afficheNiveau() {
+    /**
+     * Recupère le plateau Graphique et l'affiche, ainsi que les différents modes de jeu
+     * */
+    private void setNiveau() {
         EventQueue.invokeLater(() -> {
-            this.fenetre.setContentPane(this.plateau);
+            this.fenetre.setContentPane(this.niveau);
             if (this.controleur.getMode().equals("compteur"))
                 this.fenetre.addCompteur();
-            else {
+            else if (this.controleur.getMode().equals("fuite")) {
                 this.fenetre.addProgressBar();
                 this.controleur.initTimer();
             }
         });
     }
 
-    public void addToPlateau(BufferedImage image, boolean movable, int x, int y) {
+    /**
+     *  Ajoute une imagePane avec les paramètres récupérés du model :
+     *	-image selon la forme et l'orientation du pont,
+     *	-movable si le pont peut être tourné
+     * */
+    private void addToNiveau(BufferedImage image, boolean movable, int x, int y) {
         EventQueue.invokeLater(() -> {
-            this.plateau.add(new ImagePane(image, movable, this.controleur, x, y));
+            this.niveau.add(new ImagePane(image, movable, this, x, y));
         });
     }
 
-    public void actualiseImage(BufferedImage image, int x, int y) {
-        int largeur = ((GridLayout) this.plateau.getLayout()).getColumns();
-        int indice = y+x*largeur;
-        ((ImagePane) this.plateau.getComponents()[indice]).setImage(image);
+    /**
+     * SETTER PART
+     */
+
+    private void repaint() {
+        this.fenetre.repaint();
+        this.fenetre.pack();
     }
+
+    void setEau(int x, int y, boolean eau) {
+        if (this.plateau != null) this.plateau[x][y].eau = eau;
+    }
+
+    void decrementeCompteur() {
+        this.fenetre.decrementeCompteur();
+    }
+
+    void decrementeProgressBar() {
+        this.fenetre.decrementeProgressBar();
+    }
+
+    /**
+     * DISPLAY POPUP PART
+     */
 
     void victoire() {
         this.fenetre.victoire();
@@ -76,12 +118,52 @@ public class VueGraphique {
         this.fenetre.defaite();
     }
 
-    void decrementeCompteur() {
-        this.fenetre.decrementeCompteur();
+    /**
+     * GETTER PART
+     * */
+
+    BufferedImage getNextImage(int x, int y) {
+        plateau[x][y].incrementeOrientation();
+        return plateau[x][y].getImage();
     }
 
-    void decrementeProgressBar() {
-        this.fenetre.decrementeProgressBar();
+    private BufferedImage getImage(int x, int y) {
+        return (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
+    }
+
+    /**
+     * renvoit un PontGraphique en fonction du pont aux coordonnées i, j dans le plateau de jeu
+     * */
+    private PontGraph getPontGraphique(int i, int j) {
+        Pont p = this.controleur.getPont(i, j);
+        return PontGraph.getPontGraph(p);
+    }
+
+    /**
+     * ACTUALISATION PART
+     * */
+
+    void rotate(int x, int y) {
+        this.controleur.tournePont(x,y);
+        this.actualiseAllImages();
+        this.controleur.isVictoire();
+    }
+
+	/**
+	*   Met à jour l'image a la position x,y avec la nouvelle image image
+	* */
+    private void actualiseImage(BufferedImage image, int x, int y) {
+        int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
+        int indice = x+y*largeur;
+        ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
+    }
+
+    private void actualiseAllImages() {
+        for (int i = 0; i < this.controleur.getLargeur(); i++) {
+            for (int j = 0; j < this.controleur.getHauteur(); j++) {
+                this.actualiseImage(this.getImage(i, j), i, j);
+            }
+        }
     }
 
 }
