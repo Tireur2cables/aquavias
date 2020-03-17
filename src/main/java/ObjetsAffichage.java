@@ -1,8 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -36,7 +34,8 @@ class Fenetre extends JFrame {
         super();
         this.controleur = controleur;
         EventQueue.invokeLater(() -> {
-            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            this.addCloseOperation();
             this.setTitle("Aquavias");
             this.setJMenuBar(new MenuBar(this, controleur));
             this.setVisible(false);
@@ -91,6 +90,21 @@ class Fenetre extends JFrame {
         progressBar.setForeground(Color.blue);
         this.updateBarString(limite, progressBar, debit);
         this.getJMenuBar().add(progressBar);
+    }
+
+    private void addCloseOperation() {
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                /* close frame */
+                dispose();
+
+                /* stop whole program */
+                controleur.exit();
+            }
+
+        });
     }
 
     /**

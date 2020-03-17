@@ -18,6 +18,16 @@ class Controleur {
     }
 
     /**
+     * EXIT PART
+     */
+
+    void exit() {
+        this.stopTimer();
+        System.out.println("Le jeu s'arrète!");
+        System.exit(0);
+    }
+
+    /**
      * REQUETTE PART
      * */
 
@@ -50,7 +60,7 @@ class Controleur {
         this.jeu.initTimer();
     }
 
-    void stopTimer() {
+    private void stopTimer() {
         this.jeu.stopTimer();
     }
 
