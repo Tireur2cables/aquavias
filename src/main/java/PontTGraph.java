@@ -5,8 +5,8 @@ class PontTGraph extends PontGraph {
 	static BufferedImage[] pontT = PontGraph.chargeImages("TnoO.png");
     static BufferedImage[] pontTEau = PontGraph.chargeImages("TwO.png");
     static BufferedImage[] entreeT = PontGraph.chargeImages("TwO.png");
-    static BufferedImage[] sortieT = PontGraph.chargeImages("SortieTwO.png");
-    static BufferedImage[] sortieTEau = PontGraph.chargeImages("SortieTnoO.png");
+    static BufferedImage[] sortieT = PontGraph.chargeImages("SortieTnoO2.png");
+    static BufferedImage[] sortieTEau = PontGraph.chargeImages("SortieTwO2.png");
 
     PontTGraph(char orientation, boolean eau, boolean entree, boolean sortie) {
         super(orientation, eau, entree, sortie);
