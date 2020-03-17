@@ -80,13 +80,14 @@ class Fenetre extends JFrame {
     }
 
     void addProgressBar() {
-        int limite =  this.controleur.getLimite();
+        int limite = this.controleur.getLimite();
+        double debit = this.controleur.getDebit();
         JProgressBar progressBar = new JProgressBar();
 		progressBar.setMaximum(limite);
         progressBar.setValue(limite);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        this.updateBarString(limite, progressBar);
+        this.updateBarString(limite, progressBar, debit);
         this.getJMenuBar().add(progressBar);
     }
 
@@ -94,23 +95,25 @@ class Fenetre extends JFrame {
      *  UPADTE PART
      */
 
-    private void updateBarString(int val, JProgressBar progressBar) {
+    private void updateBarString(double val, JProgressBar progressBar, double debit) {
         if (val > 1)
-            progressBar.setString(val + "L restants");
+            progressBar.setString(val + "L restants | -" + debit + "L/s");
         else
-            progressBar.setString(val + "L restant");
+            progressBar.setString(val + "L restant | -" + debit + "L/s");
     }
 
     void decrementeCompteur() {
         JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
-        int val = Integer.parseInt(compteur.getText());
-        String newVal = String.valueOf(val-1);
+        double val = this.controleur.getCompteur();
+        String newVal = String.valueOf(val);
         compteur.setText(newVal);
     }
 
     void decrementeProgressBar() {
         int limite = this.controleur.getLimite();
         JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
+        double compteur = this.controleur.getCompteur();
+        double debit = this.controleur.getDebit();
         int val = progressBar.getValue();
         if(val < (limite/5)){
             if(val%2==0)
@@ -118,8 +121,8 @@ class Fenetre extends JFrame {
             else
                 progressBar.setForeground(Color.blue);
         }
-        progressBar.setValue(val-1);
-        this.updateBarString(val-1, progressBar);
+        progressBar.setValue((int) compteur);
+        this.updateBarString(compteur, progressBar, debit);
     }
 
 }

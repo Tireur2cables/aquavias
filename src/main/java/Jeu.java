@@ -370,8 +370,9 @@ class Jeu {
     }
 
     boolean calculVictoire(){
+        int trous = this.isEtanche();
         if(this.getPont(this.xSortie, this.ySortie).getEau())
-            return isEtanche() == 0;
+            return trous == 0;
         else
             return false;
     }

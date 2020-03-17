@@ -111,6 +111,14 @@ class Controleur {
         return this.jeu.getLimite();
     }
 
+    double getCompteur() {
+        return this.jeu.getCompteur();
+    }
+
+    double getDebit() {
+        return this.jeu.getDebit();
+    }
+
     void setEau(int x, int y, boolean eau) {
         this.graph.setEau(x, y ,eau);
     }
