@@ -10,14 +10,18 @@ abstract class PontGraph {
 
     protected int orientation;
     protected boolean eau;
+    protected boolean entree;
+    protected boolean sortie;
 
     /**
      * INIT PART
      * */
 
-    PontGraph(char orientation, boolean eau) {
+    PontGraph(char orientation, boolean eau, boolean entree, boolean sortie) {
         this.orientation = getOrientationFromChar(orientation);
         this.eau = eau;
+        this.entree = entree;
+        this.sortie = sortie;
     }
 
     static BufferedImage[] chargeImages(String chemin) {
@@ -33,7 +37,7 @@ abstract class PontGraph {
         return images;
     }
 
-    private static BufferedImage chargeImage(String chemin) {
+    static BufferedImage chargeImage(String chemin) {
         String dossierImages = "resources/img/";
         chemin = dossierImages + chemin;
         try {
@@ -64,11 +68,11 @@ abstract class PontGraph {
         if (p == null) return newP;
         else {
             switch (p.getForme()) {
-                case 'I' : newP = new PontIGraph(p.orientation, p.eau);
+                case 'I' : newP = new PontIGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
                     break;
-                case 'L' : newP = new PontLGraph(p.orientation, p.eau);
+                case 'L' : newP = new PontLGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
                     break;
-                case 'T' : newP = new PontTGraph(p.orientation, p.eau);
+                case 'T' : newP = new PontTGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
                     break;
             }
         }
