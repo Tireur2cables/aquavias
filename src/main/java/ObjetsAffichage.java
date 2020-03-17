@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 class Fenetre extends JFrame {
 
@@ -121,8 +123,19 @@ class Fenetre extends JFrame {
             else
                 progressBar.setForeground(Color.blue);
         }
+        compteur = this.arrondir(compteur);
+        debit = this.arrondir(debit);
         progressBar.setValue((int) compteur);
         this.updateBarString(compteur, progressBar, debit);
+    }
+
+    /**
+     * Arrondir un double à le deuxieme décimale
+     * */
+    private double arrondir(double d) {
+        BigDecimal bd = new BigDecimal(d);
+        bd = bd.setScale(3, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }
