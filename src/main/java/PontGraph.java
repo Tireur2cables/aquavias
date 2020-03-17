@@ -70,9 +70,9 @@ abstract class PontGraph {
             switch (p.getForme()) {
                 case 'I' : newP = new PontIGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
                     break;
-                case 'L' : newP = new PontLGraph(p.orientation, p.eau);
+                case 'L' : newP = new PontLGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
                     break;
-                case 'T' : newP = new PontTGraph(p.orientation, p.eau);
+                case 'T' : newP = new PontTGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
                     break;
             }
         }
