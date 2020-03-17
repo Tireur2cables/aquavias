@@ -50,6 +50,10 @@ class Controleur {
         this.jeu.initTimer();
     }
 
+    void stopTimer() {
+        this.jeu.stopTimer();
+    }
+
     void isVictoire() {
         if (this.jeu.calculVictoire()) {
             this.graph.victoire();
