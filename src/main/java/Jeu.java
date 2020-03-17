@@ -245,6 +245,7 @@ class Jeu {
 
     private static ScheduledExecutorService timer;
     private static ScheduledFuture<?> tache;
+    private static boolean flag; /* décrémente le compteur une dernière fois si le chemin est étanche */
 
     void initTimer() {
         if (this.controleur.getMode().equals("fuite")) {
@@ -252,8 +253,14 @@ class Jeu {
             Runnable compteSeconde = new Runnable() {
                 @Override
                 public void run() {
-                    if(debit != 0)
+                    if(debit != 0) {
                         controleur.decrementeCompteur();
+                        flag = true;
+                    }
+                    else if (flag) {
+                        controleur.decrementeCompteur();
+                        flag = false;
+                    }
                 }
             };
             tache = timer.scheduleAtFixedRate(compteSeconde, 0,1, TimeUnit.SECONDS);
@@ -344,7 +351,8 @@ class Jeu {
     }
 
     private void setDebit(double trous) {
-        if (trous == 0) this.debit = 0;
+        if (trous == 0)
+            this.debit = 0;
         else if (this.mode.equals("compteur")) this.debit = 1;
         else {
             if (this.plateau[xSortie][ySortie].pont.getEau())
