@@ -2,8 +2,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 class Fenetre extends JFrame {
 
@@ -37,7 +42,7 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
-            this.setJMenuBar(new MenuBar(this, controleur));
+            this.setJMenuBar(new MenuBar(this, controleur, true));
             this.setVisible(false);
         });
     }
@@ -245,20 +250,30 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar{
 
+    private static String dossierNiveaux = "resources/niveaux/";
 
-    MenuBar(Fenetre fenetre, Controleur controleur) {
+    MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
         super();
         JMenu charger = this.createChargerMenu();
         this.add(charger);
 
-        JButton save = this.createSave(fenetre, controleur);
-        this.add(save);
+        if (export) {
+            JButton save = this.createSave(fenetre, controleur);
+            this.add(save);
+        }
     }
 
     private JMenu createChargerMenu() {
         JMenu charger = new JMenu("Charger");
-        JMenuItem niveau1 = new JMenuItem("Niveau 1");
-        charger.add(niveau1);
+        File dossier = new File(dossierNiveaux);
+        if (!dossier.exists()) throw new RuntimeException("Can't Find Niveaux folder!");
+        File[] files = dossier.listFiles();
+        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
+        Collections.sort(niveaux);
+        for (File f : niveaux) {
+            JMenuItem niveau = new JMenuItem(f.getName());
+            charger.add(niveau);
+        }
         return charger;
     }
 
