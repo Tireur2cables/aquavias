@@ -86,6 +86,16 @@ class VueGraphique {
     }
 
     /**
+     * MENU PART
+     */
+
+    private void chargeMenu(){
+        EventQueue.invokeLater(()->{
+            this.fenetre.setContentPane(new Menu("bg1.png"));
+        });
+    }
+
+    /**
      * SETTER PART
      */
 

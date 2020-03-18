@@ -1,7 +1,10 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -272,4 +275,20 @@ class MenuBar extends JMenuBar{
         return save;
     }
 
+}
+
+class Menu extends JPanel{
+
+    BufferedImage bg;
+    Menu(String bgS){
+        BufferedImage bg =  PontGraph.chargeImage("bg.png");
+        this.bg = bg;
+        this.setPreferredSize(new Dimension(1000,700));
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(this.bg, 0, 0, this);
+    }
 }
