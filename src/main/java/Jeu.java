@@ -190,7 +190,6 @@ class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.controleur.setEau(x, y-1, true);
                     this.detectAdjacents(x, y-1);
                 }
             }
@@ -204,7 +203,6 @@ class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.controleur.setEau(x+1, y, true);
                     this.detectAdjacents(x+1, y);
                 }
             }
@@ -218,7 +216,6 @@ class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.controleur.setEau(x, y+1, true);
                     this.detectAdjacents(x, y+1);
                 }
             }
@@ -232,7 +229,6 @@ class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.controleur.setEau(x-1, y, true);
                     this.detectAdjacents(x-1, y);
                 }
             }

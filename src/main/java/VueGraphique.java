@@ -31,6 +31,7 @@ class VueGraphique {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
         this.initNiveau(largeur, hauteur);
+        fenetre.setMenuBar(true);
         this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
@@ -64,6 +65,7 @@ class VueGraphique {
      * */
     private void setNiveau() {
         EventQueue.invokeLater(() -> {
+            this.fenetre.getContentPane().removeAll();
             this.fenetre.setContentPane(this.niveau);
             if (this.controleur.getMode().equals("compteur"))
                 this.fenetre.addCompteur();
@@ -86,12 +88,25 @@ class VueGraphique {
     }
 
     /**
+     * MENU PART
+     */
+
+    void chargeMenu(){
+        EventQueue.invokeLater(() -> {
+            this.fenetre.setContentPane(new Accueil());
+            this.fenetre.pack();
+            this.fenetre.repaint();
+            this.fenetre.setVisible(true);
+        });
+    }
+
+    /**
      * SETTER PART
      */
 
     private void repaint() {
         this.fenetre.repaint();
-        this.fenetre.pack();
+        this.fenetre.changeSize(this.controleur.getLargeur(), this.controleur.getHauteur());
     }
 
     void setEau(int x, int y, boolean eau) {
@@ -145,8 +160,19 @@ class VueGraphique {
 
     void rotate(int x, int y) {
         this.controleur.tournePont(x,y);
+        this.refreshEau();
         this.actualiseAllImages();
         this.controleur.isVictoire();
+    }
+
+    void refreshEau(){
+        for(int i = 0; i < this.controleur.getLargeur(); i++){
+            for(int j = 0; j < this.controleur.getHauteur(); j++){
+                if(this.plateau[i][j] != null){
+                    this.setEau(i, j, this.controleur.getPont(i, j).getEau());
+                }
+            }
+        }
     }
 
 	/**

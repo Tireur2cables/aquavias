@@ -12,9 +12,19 @@ class Controleur {
     }
 
     void launch() {
-        this.jeu.initNiveau(5);
-        this.graph.afficheNiveau();
+        this.mainMenu();
         System.out.println("Le jeu se lance!");
+    }
+
+    void mainMenu(){
+        this.graph.chargeMenu();
+    }
+
+    void chargeNiveau(int num){
+        this.stopTimer();
+        this.jeu.initNiveau(num);
+        this.graph.afficheNiveau();
+        System.out.println("Le niveau " + num + " se lance!");
     }
 
     /**
@@ -49,6 +59,9 @@ class Controleur {
     }
 
     void decrementeCompteur() {
+        /**
+         * FIXME : Le dernier coup avant la victoire n'est pas compté
+         * */
         this.jeu.decrementeCompteur();
         if (this.jeu.getMode().equals("compteur"))
             this.graph.decrementeCompteur();

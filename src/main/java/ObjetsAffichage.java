@@ -2,8 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 
 class Fenetre extends JFrame {
 
@@ -33,11 +37,16 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
+            /**
+             * FIXME : Comment on fait
+             * */
+            //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setTitle("Aquavias");
-            this.setJMenuBar(new MenuBar(this, controleur));
+            this.setMenuBar(false);
             this.setVisible(false);
         });
     }
@@ -74,6 +83,12 @@ class Fenetre extends JFrame {
      * ADD PART
      */
 
+    void setMenuBar(boolean export){
+        EventQueue.invokeLater(() -> {
+            this.setJMenuBar(new MenuBar(this, this.controleur, export));
+        });
+    }
+
     void addCompteur() {
         int limite =  this.controleur.getLimite();
         JLabel counter = new JLabel("" + limite);
@@ -97,10 +112,10 @@ class Fenetre extends JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                /* close frame */
+                /* Ferme la fenêtre */
                 dispose();
 
-                /* stop whole program */
+                /* arrête le programme dans son ensemble */
                 controleur.exit();
             }
 
@@ -108,8 +123,15 @@ class Fenetre extends JFrame {
     }
 
     /**
-     *  UPADTE PART
+     *  UPDATE PART
      */
+
+    void changeSize(int largeur, int hauteur) {
+        EventQueue.invokeLater(() -> {
+            this.setSize(largeur*200, hauteur*200);
+            this.pack();
+        });
+    }
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
         if (val > 1)
@@ -245,21 +267,42 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar{
 
+    private static String dossierNiveaux = "resources/niveaux/";
 
-    MenuBar(Fenetre fenetre, Controleur controleur) {
+    MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
         super();
-        JMenu charger = this.createChargerMenu();
+        JMenu charger = this.createChargerMenu(fenetre, controleur);
         this.add(charger);
 
-        JButton save = this.createSave(fenetre, controleur);
-        this.add(save);
+        if (export) {
+            JButton save = this.createSave(fenetre, controleur);
+            this.add(save);
+        }
     }
 
-    private JMenu createChargerMenu() {
+    private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
         JMenu charger = new JMenu("Charger");
-        JMenuItem niveau1 = new JMenuItem("Niveau 1");
-        charger.add(niveau1);
+        File dossier = new File(dossierNiveaux);
+        if (!dossier.exists()) throw new RuntimeException("Can't Find Niveaux folder!");
+        File[] files = dossier.listFiles();
+        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
+        Collections.sort(niveaux);
+        for (File f : niveaux) {
+            String name = this.getFileName(f.getName());
+            JMenuItem niveau = createMenuItem(name, fenetre, controleur);
+            charger.add(niveau);
+        }
         return charger;
+    }
+
+    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur){
+        int num = Integer.parseInt(name.charAt(name.length()-1) + "");
+        JMenuItem item = new JMenuItem(name);
+        item.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(fenetre, "Niveau " + name + " chargé !");
+            controleur.chargeNiveau(num);
+        });
+        return item;
     }
 
     private JButton createSave(Fenetre fenetre, Controleur controleur) {
@@ -272,4 +315,27 @@ class MenuBar extends JMenuBar{
         return save;
     }
 
+    private String getFileName(String name) {
+        String nom = name.substring(0, name.length()-6);
+        String num = "" + name.charAt(name.length()-6);
+        return nom + " " + num;
+    }
+
+}
+
+class Accueil extends JPanel{
+
+    private BufferedImage bg;
+
+    Accueil() {
+        BufferedImage bg =  PontGraph.chargeImage("bg.png");
+        this.bg = bg;
+        this.setPreferredSize(new Dimension(1000,700));
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(this.bg, 0, 0, this);
+    }
 }
