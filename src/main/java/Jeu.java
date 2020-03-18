@@ -356,7 +356,7 @@ class Jeu {
         else if (this.mode.equals("compteur")) this.debit = 1;
         else {
             if (this.plateau[xSortie][ySortie].pont.getEau())
-                this.debit = trous/(trous+1);
+                this.debit = (Math.pow(2, trous) - 1)/Math.pow(2,trous);
             else
                 this.debit = 1;
         }
