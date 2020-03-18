@@ -95,6 +95,7 @@ class VueGraphique {
     void chargeMenu(){
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(new Accueil());
+            this.fenetre.pack();
             this.fenetre.repaint();
             this.fenetre.setVisible(true);
         });

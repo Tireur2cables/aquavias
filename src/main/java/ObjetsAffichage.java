@@ -41,7 +41,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
-            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+            //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setTitle("Aquavias");
             this.setMenuBar(false);
             this.setVisible(false);
@@ -125,7 +125,6 @@ class Fenetre extends JFrame {
 
     void changeSize(int largeur, int hauteur) {
         EventQueue.invokeLater(() -> {
-            this.pack();
             this.setSize(largeur*200, hauteur*200);
             this.pack();
         });
