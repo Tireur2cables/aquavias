@@ -89,9 +89,11 @@ class VueGraphique {
      * MENU PART
      */
 
-    private void chargeMenu(){
+    void chargeMenu(){
         EventQueue.invokeLater(()->{
             this.fenetre.setContentPane(new Menu("bg1.png"));
+            this.fenetre.setVisible(true);
+            this.repaint();
         });
     }
 

@@ -17,7 +17,7 @@ class Controleur {
     }
 
     void mainMenu(){
-
+        this.graph.chargeMenu();
     }
 
     /**
