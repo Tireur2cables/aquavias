@@ -30,6 +30,7 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
+        System.out.println(hauteur + " " + largeur);
         this.initNiveau(largeur, hauteur);
         this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
@@ -103,6 +104,7 @@ class VueGraphique {
      */
 
     private void repaint() {
+        this.fenetre.revalidate();
         this.fenetre.repaint();
         this.fenetre.pack();
     }

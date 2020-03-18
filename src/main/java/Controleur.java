@@ -23,6 +23,7 @@ class Controleur {
     void chargeNiveau(int num){
         this.jeu.initNiveau(num);
         this.graph.afficheNiveau();
+        System.out.println("Le niveau " + num + " se lance!");
     }
 
     /**
