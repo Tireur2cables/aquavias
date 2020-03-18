@@ -291,10 +291,11 @@ class MenuBar extends JMenuBar{
 
 }
 
-class Menu extends JPanel{
+class Accueil extends JPanel{
 
-    BufferedImage bg;
-    Menu(String bgS){
+    private BufferedImage bg;
+
+    Accueil(String bgS){
         BufferedImage bg =  PontGraph.chargeImage("bg.png");
         this.bg = bg;
         this.setPreferredSize(new Dimension(1000,700));
