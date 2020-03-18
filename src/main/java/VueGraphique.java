@@ -38,6 +38,7 @@ class VueGraphique {
                 this.addToNiveau(this.getImage(i, j), movable, i, j);
             }
         }
+        fenetre.setMenuBar(true);
         this.repaint();
         this.fenetre.setVisible(true);
     }

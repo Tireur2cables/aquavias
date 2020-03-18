@@ -44,10 +44,15 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
-            this.setJMenuBar(new MenuBar(this, controleur, true));
+            this.setMenuBar(false);
             this.setVisible(false);
         });
     }
+
+    void setMenuBar(boolean export){
+        this.setJMenuBar(new MenuBar(this, this.controleur, false));
+    }
+
 
     /**
      * DISPLAY POPUP PART
