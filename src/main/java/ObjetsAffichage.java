@@ -319,7 +319,7 @@ class Accueil extends JPanel{
 
     private BufferedImage bg;
 
-    Accueil(String bgS){
+    Accueil() {
         BufferedImage bg =  PontGraph.chargeImage("bg.png");
         this.bg = bg;
         this.setPreferredSize(new Dimension(1000,700));
