@@ -30,7 +30,6 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
-        System.out.println(hauteur + " " + largeur);
         this.initNiveau(largeur, hauteur);
         fenetre.setMenuBar(true);
         this.setNiveau();

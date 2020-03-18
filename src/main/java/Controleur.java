@@ -59,6 +59,9 @@ class Controleur {
     }
 
     void decrementeCompteur() {
+        /**
+         * FIXME : Le dernier coup avant la victoire n'est pas compté
+         * */
         this.jeu.decrementeCompteur();
         if (this.jeu.getMode().equals("compteur"))
             this.graph.decrementeCompteur();

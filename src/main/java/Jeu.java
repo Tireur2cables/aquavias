@@ -92,7 +92,6 @@ class Jeu {
         this.parcourchemin();
         if (this.mode.equals("fuite")) this.isEtanche();
         else this.debit = 1;
-        afficher();
     }
 
     private static JSONObject readJSON(String chemin) {

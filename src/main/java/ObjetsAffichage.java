@@ -41,6 +41,9 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
+            /**
+             * FIXME : Comment on fait
+             * */
             //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setTitle("Aquavias");
             this.setMenuBar(false);
@@ -296,7 +299,6 @@ class MenuBar extends JMenuBar{
         int num = Integer.parseInt(name.charAt(name.length()-1) + "");
         JMenuItem item = new JMenuItem(name);
         item.addActionListener((ActionEvent e) -> {
-            System.out.print(num);
             JOptionPane.showMessageDialog(fenetre, "Niveau " + name + " chargé !");
             controleur.chargeNiveau(num);
         });
