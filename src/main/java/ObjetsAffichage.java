@@ -289,6 +289,7 @@ class MenuBar extends JMenuBar{
         int num = Integer.parseInt(name.charAt(name.length()-1) + "");
         JMenuItem item = new JMenuItem(name);
         item.addActionListener((ActionEvent e) -> {
+            System.out.print(num);
             JOptionPane.showMessageDialog(fenetre, "Niveau " + name + " chargé !");
             controleur.chargeNiveau(num);
         });
