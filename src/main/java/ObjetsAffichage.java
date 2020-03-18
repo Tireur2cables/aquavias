@@ -1,15 +1,12 @@
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 
 class Fenetre extends JFrame {
@@ -40,20 +37,16 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
-            this.setLocationRelativeTo(null);
+            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setTitle("Aquavias");
             this.setMenuBar(false);
             this.setVisible(false);
         });
     }
-
-    void setMenuBar(boolean export){
-        this.setJMenuBar(new MenuBar(this, this.controleur, export));
-    }
-
 
     /**
      * DISPLAY POPUP PART
@@ -86,6 +79,12 @@ class Fenetre extends JFrame {
     /**
      * ADD PART
      */
+
+    void setMenuBar(boolean export){
+        EventQueue.invokeLater(() -> {
+            this.setJMenuBar(new MenuBar(this, this.controleur, export));
+        });
+    }
 
     void addCompteur() {
         int limite =  this.controleur.getLimite();
@@ -123,6 +122,14 @@ class Fenetre extends JFrame {
     /**
      *  UPDATE PART
      */
+
+    void changeSize(int largeur, int hauteur) {
+        EventQueue.invokeLater(() -> {
+            this.pack();
+            this.setSize(largeur*200, hauteur*200);
+            this.pack();
+        });
+    }
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
         if (val > 1)

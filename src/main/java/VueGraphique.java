@@ -93,10 +93,10 @@ class VueGraphique {
      */
 
     void chargeMenu(){
-        EventQueue.invokeLater(()->{
+        EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(new Accueil());
+            this.fenetre.repaint();
             this.fenetre.setVisible(true);
-            this.repaint();
         });
     }
 
@@ -105,9 +105,8 @@ class VueGraphique {
      */
 
     private void repaint() {
-        this.fenetre.revalidate();
         this.fenetre.repaint();
-        this.fenetre.pack();
+        this.fenetre.changeSize(this.controleur.getLargeur(), this.controleur.getHauteur());
     }
 
     void setEau(int x, int y, boolean eau) {
