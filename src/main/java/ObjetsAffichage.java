@@ -261,7 +261,7 @@ class MenuBar extends JMenuBar{
 
     MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
         super();
-        JMenu charger = this.createChargerMenu();
+        JMenu charger = this.createChargerMenu(fenetre, controleur);
         this.add(charger);
 
         if (export) {
@@ -270,7 +270,7 @@ class MenuBar extends JMenuBar{
         }
     }
 
-    private JMenu createChargerMenu() {
+    private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
         JMenu charger = new JMenu("Charger");
         File dossier = new File(dossierNiveaux);
         if (!dossier.exists()) throw new RuntimeException("Can't Find Niveaux folder!");
@@ -279,10 +279,20 @@ class MenuBar extends JMenuBar{
         Collections.sort(niveaux);
         for (File f : niveaux) {
             String name = this.getFileName(f.getName());
-            JMenuItem niveau = new JMenuItem(name);
+            JMenuItem niveau = createMenuItem(name, fenetre, controleur);
             charger.add(niveau);
         }
         return charger;
+    }
+
+    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur){
+        int num = Integer.parseInt(name.charAt(name.length()-1) + "");
+        JMenuItem item = new JMenuItem(name);
+        item.addActionListener((ActionEvent e) -> {
+            JOptionPane.showMessageDialog(fenetre, "Niveau " + name + " chargé !");
+            controleur.chargeNiveau(num);
+        });
+        return item;
     }
 
     private JButton createSave(Fenetre fenetre, Controleur controleur) {

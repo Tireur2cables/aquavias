@@ -20,6 +20,11 @@ class Controleur {
         this.graph.chargeMenu();
     }
 
+    void chargeNiveau(int num){
+        this.jeu.initNiveau(num);
+        this.graph.afficheNiveau();
+    }
+
     /**
      * EXIT PART
      */
