@@ -32,6 +32,7 @@ class VueGraphique {
         int largeur = this.controleur.getLargeur();
         System.out.println(hauteur + " " + largeur);
         this.initNiveau(largeur, hauteur);
+        fenetre.setMenuBar(true);
         this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
@@ -39,7 +40,6 @@ class VueGraphique {
                 this.addToNiveau(this.getImage(i, j), movable, i, j);
             }
         }
-        fenetre.setMenuBar(true);
         this.repaint();
         this.fenetre.setVisible(true);
     }
