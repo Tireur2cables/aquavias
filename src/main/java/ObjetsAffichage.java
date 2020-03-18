@@ -43,6 +43,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
+            this.setLocationRelativeTo(null);
             this.setTitle("Aquavias");
             this.setMenuBar(false);
             this.setVisible(false);
@@ -50,7 +51,7 @@ class Fenetre extends JFrame {
     }
 
     void setMenuBar(boolean export){
-        this.setJMenuBar(new MenuBar(this, this.controleur, false));
+        this.setJMenuBar(new MenuBar(this, this.controleur, export));
     }
 
 

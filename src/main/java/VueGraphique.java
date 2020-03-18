@@ -66,6 +66,7 @@ class VueGraphique {
      * */
     private void setNiveau() {
         EventQueue.invokeLater(() -> {
+            this.fenetre.getContentPane().removeAll();
             this.fenetre.setContentPane(this.niveau);
             if (this.controleur.getMode().equals("compteur"))
                 this.fenetre.addCompteur();
