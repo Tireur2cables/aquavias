@@ -278,7 +278,8 @@ class MenuBar extends JMenuBar{
         ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
         Collections.sort(niveaux);
         for (File f : niveaux) {
-            JMenuItem niveau = new JMenuItem(f.getName());
+            String name = this.getFileName(f.getName());
+            JMenuItem niveau = new JMenuItem(name);
             charger.add(niveau);
         }
         return charger;
@@ -292,6 +293,12 @@ class MenuBar extends JMenuBar{
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;
+    }
+
+    private String getFileName(String name) {
+        String nom = name.substring(0, name.length()-6);
+        String num = "" + name.charAt(name.length()-6);
+        return nom + " " + num;
     }
 
 }
