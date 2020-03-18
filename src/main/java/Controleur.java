@@ -12,9 +12,19 @@ class Controleur {
     }
 
     void launch() {
-        this.jeu.initNiveau(4);
+        this.jeu.initNiveau(5);
         this.graph.afficheNiveau();
         System.out.println("Le jeu se lance!");
+    }
+
+    /**
+     * EXIT PART
+     */
+
+    void exit() {
+        this.stopTimer();
+        System.out.println("Le jeu s'arrète!");
+        System.exit(0);
     }
 
     /**
@@ -48,6 +58,10 @@ class Controleur {
 
     void initTimer() {
         this.jeu.initTimer();
+    }
+
+    private void stopTimer() {
+        this.jeu.stopTimer();
     }
 
     void isVictoire() {
@@ -105,6 +119,14 @@ class Controleur {
 
     int getLimite() {
         return this.jeu.getLimite();
+    }
+
+    double getCompteur() {
+        return this.jeu.getCompteur();
+    }
+
+    double getDebit() {
+        return this.jeu.getDebit();
     }
 
     void setEau(int x, int y, boolean eau) {

@@ -1,9 +1,9 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 class Fenetre extends JFrame {
 
@@ -34,7 +34,8 @@ class Fenetre extends JFrame {
         super();
         this.controleur = controleur;
         EventQueue.invokeLater(() -> {
-            this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+            this.addCloseOperation();
             this.setTitle("Aquavias");
             this.setJMenuBar(new MenuBar(this, controleur));
             this.setVisible(false);
@@ -80,37 +81,55 @@ class Fenetre extends JFrame {
     }
 
     void addProgressBar() {
-        int limite =  this.controleur.getLimite();
+        int limite = this.controleur.getLimite();
+        double debit = this.controleur.getDebit();
         JProgressBar progressBar = new JProgressBar();
 		progressBar.setMaximum(limite);
         progressBar.setValue(limite);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        this.updateBarString(limite, progressBar);
+        this.updateBarString(limite, progressBar, debit);
         this.getJMenuBar().add(progressBar);
+    }
+
+    private void addCloseOperation() {
+        this.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                /* close frame */
+                dispose();
+
+                /* stop whole program */
+                controleur.exit();
+            }
+
+        });
     }
 
     /**
      *  UPADTE PART
      */
 
-    private void updateBarString(int val, JProgressBar progressBar) {
+    private void updateBarString(double val, JProgressBar progressBar, double debit) {
         if (val > 1)
-            progressBar.setString(val + "L restants");
+            progressBar.setString(val + "L restants | -" + debit + "L/s");
         else
-            progressBar.setString(val + "L restant");
+            progressBar.setString(val + "L restant | -" + debit + "L/s");
     }
 
     void decrementeCompteur() {
         JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
-        int val = Integer.parseInt(compteur.getText());
-        String newVal = String.valueOf(val-1);
+        double val = this.controleur.getCompteur();
+        String newVal = String.valueOf(val);
         compteur.setText(newVal);
     }
 
     void decrementeProgressBar() {
         int limite = this.controleur.getLimite();
         JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
+        double compteur = this.controleur.getCompteur();
+        double debit = this.controleur.getDebit();
         int val = progressBar.getValue();
         if(val < (limite/5)){
             if(val%2==0)
@@ -118,8 +137,19 @@ class Fenetre extends JFrame {
             else
                 progressBar.setForeground(Color.blue);
         }
-        progressBar.setValue(val-1);
-        this.updateBarString(val-1, progressBar);
+        compteur = this.arrondir(compteur);
+        debit = this.arrondir(debit);
+        progressBar.setValue((int) compteur);
+        this.updateBarString(compteur, progressBar, debit);
+    }
+
+    /**
+     * Arrondir un double à le deuxieme décimale
+     * */
+    private double arrondir(double d) {
+        BigDecimal bd = new BigDecimal(d);
+        bd = bd.setScale(3, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
 }
