@@ -161,8 +161,19 @@ class VueGraphique {
 
     void rotate(int x, int y) {
         this.controleur.tournePont(x,y);
+        this.refreshEau();
         this.actualiseAllImages();
         this.controleur.isVictoire();
+    }
+
+    void refreshEau(){
+        for(int i = 0; i < this.controleur.getLargeur(); i++){
+            for(int j = 0; j < this.controleur.getHauteur(); j++){
+                if(this.plateau[i][j] != null){
+                    this.setEau(i, j, this.controleur.getPont(i, j).getEau());
+                }
+            }
+        }
     }
 
 	/**
