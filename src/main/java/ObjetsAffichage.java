@@ -97,10 +97,10 @@ class Fenetre extends JFrame {
 
             @Override
             public void windowClosing(WindowEvent e) {
-                /* close frame */
+                /* Ferme la fenêtre */
                 dispose();
 
-                /* stop whole program */
+                /* arrête le programme dans son ensemble */
                 controleur.exit();
             }
 
@@ -108,7 +108,7 @@ class Fenetre extends JFrame {
     }
 
     /**
-     *  UPADTE PART
+     *  UPDATE PART
      */
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {

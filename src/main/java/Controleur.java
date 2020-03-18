@@ -12,9 +12,12 @@ class Controleur {
     }
 
     void launch() {
-        this.jeu.initNiveau(5);
-        this.graph.afficheNiveau();
+        this.mainMenu();
         System.out.println("Le jeu se lance!");
+    }
+
+    void mainMenu(){
+
     }
 
     /**
