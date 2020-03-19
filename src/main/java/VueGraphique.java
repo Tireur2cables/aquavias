@@ -91,7 +91,7 @@ class VueGraphique {
      * MENU PART
      */
 
-    void chargeMenu(){
+    void chargeMenu() {
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(new Accueil());
             this.fenetre.pack();
@@ -162,7 +162,6 @@ class VueGraphique {
         this.controleur.tournePont(x,y);
         this.refreshEau();
         this.actualiseAllImages();
-        this.controleur.isVictoire();
     }
 
     void refreshEau(){
