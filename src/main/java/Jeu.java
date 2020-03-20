@@ -321,8 +321,6 @@ class Jeu {
 
     void decrementeCompteur() {
         this.compteur-=this.debit;
-        if (this.compteur <= 0)
-            this.controleur.defaite();
     }
 
     /**
