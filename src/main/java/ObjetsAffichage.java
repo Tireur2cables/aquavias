@@ -85,20 +85,21 @@ class Fenetre extends JFrame {
     }
 
     void addCompteur() {
-        int limite =  this.controleur.getLimite();
-        JLabel counter = new JLabel("" + limite);
+        int compteur =  (int) this.controleur.getCompteur();
+        JLabel counter = new JLabel("" + compteur);
         this.getJMenuBar().add(counter);
     }
 
     void addProgressBar() {
         int limite = this.controleur.getLimite();
+        double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
         JProgressBar progressBar = new JProgressBar();
 		progressBar.setMaximum(limite);
-        progressBar.setValue(limite);
+        progressBar.setValue((int) compteur);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        this.updateBarString(limite, progressBar, debit);
+        this.updateBarString(compteur, progressBar, debit);
         this.getJMenuBar().add(progressBar);
     }
 
@@ -131,6 +132,8 @@ class Fenetre extends JFrame {
     }
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
+        if (this.controleur.getMode().equals("compteur"))
+            val = (int) val;
         if (val > 1)
             progressBar.setString(val + "L restants | -" + debit + "L/s");
         else
