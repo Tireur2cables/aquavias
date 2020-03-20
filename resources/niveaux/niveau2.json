@@ -1,9 +1,11 @@
 {
-    "hauteur" :3,
-    "longueur" :4,
-    "mode":"compteur",
-    "limite":10,
-    "niveau" :[
+    "num" : 2,
+    "hauteur" : 3,
+    "largeur" : 4,
+    "mode" : "compteur",
+    "limite" : 10,
+    "compteur" : 10,
+    "niveau" : [
         [
             [], ["i", "E", "entree"], []
         ],

@@ -305,8 +305,7 @@ class MenuBar extends JMenuBar{
     private JButton createSave(Fenetre fenetre, Controleur controleur) {
         JButton save = new JButton("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
-            /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
-            controleur.exportNiveau(0, false);
+            controleur.exportNiveau();
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;

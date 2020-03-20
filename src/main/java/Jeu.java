@@ -38,16 +38,16 @@ class Jeu {
 
     }
 
-    private Case[][] plateau;
     private Controleur controleur;
+    private Case[][] plateau;
     private int numNiveau;
     private int xEntree;
     private int yEntree;
     private int xSortie;
     private int ySortie;
     private String mode;
-    private double compteur;
     private int limite;
+    private double compteur;
     private double debit;
 
     /**
@@ -76,38 +76,37 @@ class Jeu {
         this.controleur = controleur;
     }
 
-    /* FIXME: chemin en parametre static ? */
+    private static String niveauxDir = "resources/niveaux/niveau";
+
     void initNiveau(int number) {
-        String chemin = "resources/niveaux/niveau" + number + ".json";
+        this.numNiveau = number;
+        String chemin = niveauxDir + this.numNiveau + ".json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
-        int longueur = json.getInt("longueur");
-        JSONArray niveau = json.getJSONArray("niveau");
-        this.initPlateau(longueur, hauteur, niveau, number);
+        int largeur = json.getInt("largeur");
         this.mode = json.getString("mode");
         this.limite = json.getInt("limite");
-        this.compteur = this.limite;
+        this.compteur = json.getDouble("compteur");
+        JSONArray niveau = json.getJSONArray("niveau");
+        this.initPlateau(largeur, hauteur, niveau);
         this.chercheEntree();
         this.chercheSortie();
         this.parcourchemin();
-        if (this.mode.equals("fuite")) this.isEtanche();
-        else this.debit = 1;
+        this.initDebit();
     }
 
     private static JSONObject readJSON(String chemin) {
         try {
             File f = new File(chemin);
             return new JSONObject(FileUtils.readFileToString(f, "utf-8"));
-        } catch (NullPointerException n) {
-            System.out.println("Impossible de trouver le fichier de niveau à l'adresse : " + chemin);
-        } catch (IOException i) {
-            System.out.println("Impossible de lire le fichier niveau à l'adresse : " + chemin);
+        }catch (NullPointerException n) {
+            throw new RuntimeException("Impossible de trouver le fichier de niveau à l'adresse : " + chemin);
+        }catch (IOException i) {
+            throw new RuntimeException("Impossible de lire le fichier niveau à l'adresse : " + chemin);
         }
-        throw new RuntimeException("Le chargement du fichier de niveau a échoué!");
     }
 
-    private void initPlateau(int largeur, int hauteur, JSONArray niveau, int numNiveau) {
-        this.numNiveau = numNiveau;
+    private void initPlateau(int largeur, int hauteur, JSONArray niveau) {
         this.plateau = new Case[largeur][hauteur];
         for (int i = 0; i < largeur; i++) {
             JSONArray colonne = ((JSONArray) niveau.get(i));
@@ -138,6 +137,15 @@ class Jeu {
                     return;
                 }
             }
+        }
+    }
+
+    private void initDebit() {
+        switch (this.mode) {
+            case "fuite" : this.isEtanche();
+                break;
+            case "compteur" : this.debit = 1;
+                break;
         }
     }
 
@@ -478,33 +486,22 @@ class Jeu {
      * EXPORT PART
      * */
 
-    void exportNiveau(int number, boolean newNiveau) {
-        String chemin = "resources/export/niveau" + ((newNiveau)? number : this.numNiveau) + ".json";
+    private static String exportDir = "resources/export/niveau";
+
+    void exportNiveau() {
+        String chemin = exportDir + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }
 
-    private static void writeFile(JSONObject file, String chemin) {
-        try{
-            FileWriter fichier = new FileWriter(chemin);
-            fichier.write(file.toString());
-            fichier.close();
-        }catch (IOException e){
-            System.out.println("Echec de l'écriture du niveau");
-            System.out.println(e.getStackTrace());
-        }
-    }
-
-    /* FIXME: factoriser la partie double For dans une autre fonction
-    *   Jeu devrait savoir le numéro du niveau ?
-    *   A stocker dans le json de sauvegarde ?
-    *   Pareil pour le compteur de coup qui est un double ?*/
     private JSONObject createJSON() {
         JSONObject fic = new JSONObject();
+        fic.put("num", this.numNiveau);
         fic.put("hauteur", this.getHauteur());
-        fic.put("longueur", this.getLargeur());
-        fic.put("limite", this.limite);
+        fic.put("largeur", this.getLargeur());
         fic.put("mode", this.mode);
+        fic.put("limite", this.limite);
+        fic.put("compteur", this.compteur);
         JSONArray niveau = new JSONArray();
         for(int i = 0; i < this.getLargeur(); i++){
             JSONArray ligne = new JSONArray();
@@ -524,6 +521,16 @@ class Jeu {
         }
         fic.put("niveau", niveau);
         return fic;
+    }
+
+    private static void writeFile(JSONObject file, String chemin) {
+        try {
+            FileWriter fichier = new FileWriter(chemin);
+            fichier.write(file.toString());
+            fichier.close();
+        }catch (IOException e) {
+            throw new RuntimeException("Erreur d'écriture du fichier exporté");
+        }
     }
 
 }
