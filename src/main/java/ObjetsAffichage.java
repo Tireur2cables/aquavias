@@ -285,21 +285,34 @@ class MenuBar extends JMenuBar{
         ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
         Collections.sort(niveaux);
         for (File f : niveaux) {
-            String name = this.getFileName(f.getName());
-            JMenuItem niveau = createMenuItem(name, fenetre, controleur);
+            JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
             charger.add(niveau);
         }
         return charger;
     }
 
-    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur){
-        int num = Integer.parseInt(name.charAt(name.length()-1) + "");
-        JMenuItem item = new JMenuItem(name);
+    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur) {
+        int num = findNum(name);
+        String newName = this.getFileName(name, num);
+        JMenuItem item = new JMenuItem(newName);
         item.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(fenetre, "Niveau " + name + " chargé !");
+            JOptionPane.showMessageDialog(fenetre, "Niveau " + newName + " chargé !");
             controleur.chargeNiveau(num);
         });
         return item;
+    }
+
+    private int findNum(String name) {
+        String num = "";
+        for (int i = 6; name.charAt(i) != '.'; i++) {
+            num = num + name.charAt(i);
+        }
+        return Integer.parseInt(num);
+    }
+
+    private String getFileName(String name, int num) {
+        String nom = name.substring(0, 6);
+        return nom + " " + num;
     }
 
     private JButton createSave(Fenetre fenetre, Controleur controleur) {
@@ -309,12 +322,6 @@ class MenuBar extends JMenuBar{
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;
-    }
-
-    private String getFileName(String name) {
-        String nom = name.substring(0, name.length()-6);
-        String num = "" + name.charAt(name.length()-6);
-        return nom + " " + num;
     }
 
 }
