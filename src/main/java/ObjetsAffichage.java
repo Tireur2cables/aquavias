@@ -37,14 +37,9 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
-            /**
-             * FIXME : Comment on fait
-             * */
-            //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setTitle("Aquavias");
             this.setMenuBar(false);
             this.setVisible(false);
@@ -127,9 +122,11 @@ class Fenetre extends JFrame {
      */
 
     void changeSize(int largeur, int hauteur) {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setSize(largeur*200, hauteur*200);
             this.pack();
+            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         });
     }
 
