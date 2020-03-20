@@ -341,7 +341,7 @@ class Jeu {
     }
 
     void resetWater() {
-        for(int i = 0; i < this.getLargeur(); i++) {
+        for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++ ) {
                 Pont p = this.plateau[i][j].pont;
                 if (p != null && !p.isEntree()) {
@@ -502,25 +502,29 @@ class Jeu {
         fic.put("mode", this.mode);
         fic.put("limite", this.limite);
         fic.put("compteur", this.compteur);
+        JSONArray niveau = this.saveNiveau();
+        fic.put("niveau", niveau);
+        return fic;
+    }
+
+    private JSONArray saveNiveau() {
         JSONArray niveau = new JSONArray();
-        for(int i = 0; i < this.getLargeur(); i++){
+        for (int i = 0; i < this.getLargeur(); i++) {
             JSONArray ligne = new JSONArray();
-            for(int j = 0; j < this.getHauteur(); j++){
+            for (int j = 0; j < this.getHauteur(); j++) {
                 Pont modPont = this.getPont(i,j);
-                if(modPont != null){
+                if (modPont != null) {
                     JSONArray pont = new JSONArray();
                     pont.put((modPont.forme + ""));
                     pont.put(modPont.orientation + "");
                     pont.put(modPont.spe);
                     ligne.put(pont);
-                }else{
+                }else
                     ligne.put((Collection<?>) null);
-                }
             }
             niveau.put(ligne);
         }
-        fic.put("niveau", niveau);
-        return fic;
+        return niveau;
     }
 
     private static void writeFile(JSONObject file, String chemin) {

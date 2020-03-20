@@ -153,16 +153,19 @@ class Fenetre extends JFrame {
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
         int val = progressBar.getValue();
-        if(val < (limite/5)){
-            if(val%2==0)
-                progressBar.setForeground(Color.red);
-            else
-                progressBar.setForeground(Color.blue);
-        }
+        if(val < (limite/5))
+            this.setClignotement(progressBar);
         compteur = this.arrondir(compteur);
         debit = this.arrondir(debit);
         progressBar.setValue((int) compteur);
         this.updateBarString(compteur, progressBar, debit);
+    }
+
+    private void setClignotement(JProgressBar progressBar) {
+            if(progressBar.getValue()%2==0)
+                progressBar.setForeground(Color.red);
+            else
+                progressBar.setForeground(Color.blue);
     }
 
     /**

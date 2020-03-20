@@ -1,1 +1,1 @@
-{"mode":"compteur","largeur":3,"compteur":9,"num":1,"limite":10,"niveau":[[[],["I","E","entree"],[]],[[],["I","E",null],[]],[[],["I","E","sortie"],[]]],"hauteur":3}
+{"mode":"compteur","largeur":3,"compteur":10,"num":1,"limite":10,"niveau":[[[],["I","E","entree"],[]],[[],["I","N",null],[]],[[],["I","E","sortie"],[]]],"hauteur":3}
