@@ -37,14 +37,9 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
-            /**
-             * FIXME : Comment on fait
-             * */
-            //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setTitle("Aquavias");
             this.setMenuBar(false);
             this.setVisible(false);
@@ -60,7 +55,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Réessayer */
+            if (retour == 0) /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
                 this.controleur.backMenu();
@@ -90,20 +85,21 @@ class Fenetre extends JFrame {
     }
 
     void addCompteur() {
-        int limite =  this.controleur.getLimite();
-        JLabel counter = new JLabel("" + limite);
+        int compteur =  (int) this.controleur.getCompteur();
+        JLabel counter = new JLabel("" + compteur);
         this.getJMenuBar().add(counter);
     }
 
     void addProgressBar() {
         int limite = this.controleur.getLimite();
+        double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
         JProgressBar progressBar = new JProgressBar();
 		progressBar.setMaximum(limite);
-        progressBar.setValue(limite);
+        progressBar.setValue((int) compteur);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        this.updateBarString(limite, progressBar, debit);
+        this.updateBarString(compteur, progressBar, debit);
         this.getJMenuBar().add(progressBar);
     }
 
@@ -127,13 +123,17 @@ class Fenetre extends JFrame {
      */
 
     void changeSize(int largeur, int hauteur) {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setSize(largeur*200, hauteur*200);
             this.pack();
+            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
         });
     }
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
+        if (this.controleur.getMode().equals("compteur"))
+            val = (int) val;
         if (val > 1)
             progressBar.setString(val + "L restants | -" + debit + "L/s");
         else
@@ -153,16 +153,19 @@ class Fenetre extends JFrame {
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
         int val = progressBar.getValue();
-        if(val < (limite/5)){
-            if(val%2==0)
-                progressBar.setForeground(Color.red);
-            else
-                progressBar.setForeground(Color.blue);
-        }
+        if(val < (limite/5))
+            this.setClignotement(progressBar);
         compteur = this.arrondir(compteur);
         debit = this.arrondir(debit);
         progressBar.setValue((int) compteur);
         this.updateBarString(compteur, progressBar, debit);
+    }
+
+    private void setClignotement(JProgressBar progressBar) {
+            if(progressBar.getValue()%2==0)
+                progressBar.setForeground(Color.red);
+            else
+                progressBar.setForeground(Color.blue);
     }
 
     /**
@@ -288,37 +291,43 @@ class MenuBar extends JMenuBar{
         ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
         Collections.sort(niveaux);
         for (File f : niveaux) {
-            String name = this.getFileName(f.getName());
-            JMenuItem niveau = createMenuItem(name, fenetre, controleur);
+            JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
             charger.add(niveau);
         }
         return charger;
     }
 
-    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur){
-        int num = Integer.parseInt(name.charAt(name.length()-1) + "");
-        JMenuItem item = new JMenuItem(name);
+    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur) {
+        int num = findNum(name);
+        String newName = this.getFileName(name, num);
+        JMenuItem item = new JMenuItem(newName);
         item.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(fenetre, "Niveau " + name + " chargé !");
+            JOptionPane.showMessageDialog(fenetre, "Niveau " + newName + " chargé !");
             controleur.chargeNiveau(num);
         });
         return item;
     }
 
+    private int findNum(String name) {
+        String num = "";
+        for (int i = 6; name.charAt(i) != '.'; i++) {
+            num = num + name.charAt(i);
+        }
+        return Integer.parseInt(num);
+    }
+
+    private String getFileName(String name, int num) {
+        String nom = name.substring(0, 6);
+        return nom + " " + num;
+    }
+
     private JButton createSave(Fenetre fenetre, Controleur controleur) {
         JButton save = new JButton("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
-            /** FIXME:le numéro du niveau exporté devrait etre le bon ? **/
-            controleur.exportNiveau(0, false);
+            controleur.exportNiveau();
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;
-    }
-
-    private String getFileName(String name) {
-        String nom = name.substring(0, name.length()-6);
-        String num = "" + name.charAt(name.length()-6);
-        return nom + " " + num;
     }
 
 }

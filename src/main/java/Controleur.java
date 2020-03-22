@@ -49,8 +49,15 @@ class Controleur {
         this.detectEauAdjacents();
 
         /* en mode compteur incrémente le compteur */
-        if (this.jeu.getMode().equals("compteur") && !this.jeu.calculVictoire())
+        if (this.jeu.getMode().equals("compteur"))
             this.decrementeCompteur();
+
+        /* verifie si c'est gagné */
+        this.isVictoire();
+
+        /* en mode compteur verifie la defaite à chaque pont tourné */
+        if (this.jeu.getMode().equals("compteur") && this.jeu.getCompteur() <= 0)
+            this.defaite();
     }
 
     void detectEauAdjacents() {
@@ -59,14 +66,14 @@ class Controleur {
     }
 
     void decrementeCompteur() {
-        /**
-         * FIXME : Le dernier coup avant la victoire n'est pas compté
-         * */
         this.jeu.decrementeCompteur();
         if (this.jeu.getMode().equals("compteur"))
             this.graph.decrementeCompteur();
         else
             this.graph.decrementeProgressBar();
+        /* en mode fuite vérifie la défaite à chaque décrémentation */
+        if (this.jeu.getMode().equals("fuite") && this.jeu.getCompteur() <= 0)
+            this.defaite();
     }
 
     void initTimer() {
@@ -146,8 +153,8 @@ class Controleur {
         this.graph.setEau(x, y ,eau);
     }
 
-    void exportNiveau(int number, boolean nouveauNiveau) {
-        this.jeu.exportNiveau(number, nouveauNiveau);
+    void exportNiveau() {
+        this.jeu.exportNiveau();
     }
 
 }

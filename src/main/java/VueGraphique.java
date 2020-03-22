@@ -91,11 +91,13 @@ class VueGraphique {
      * MENU PART
      */
 
-    void chargeMenu(){
+    void chargeMenu() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(new Accueil());
             this.fenetre.pack();
             this.fenetre.repaint();
+            this.fenetre.setLocation(dim.width/2-this.fenetre.getSize().width/2, dim.height/2-this.fenetre.getSize().height/2);
             this.fenetre.setVisible(true);
         });
     }
@@ -162,7 +164,6 @@ class VueGraphique {
         this.controleur.tournePont(x,y);
         this.refreshEau();
         this.actualiseAllImages();
-        this.controleur.isVictoire();
     }
 
     void refreshEau(){
