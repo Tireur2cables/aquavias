@@ -32,7 +32,7 @@ run-fast : clean
 	$(JAVA) $(TARGET1)
 
 genNiveau :
-	cd genNiveaux
+	cd GenNiveaux
 	$(MVN) package assembly:single
 	cp $(JARPATH2) \
    	$(TARGET2)
