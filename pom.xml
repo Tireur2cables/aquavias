@@ -86,19 +86,19 @@
                     <version>2.5.3</version>
                 </plugin>
                 <plugin>
-                  <!-- Afin d'avoir un jar executable-->
-                  <artifactId>maven-assembly-plugin</artifactId>
-                  <version>3.2.0</version>
-                  <configuration>
-                    <archive>
-                      <manifest>
-                          <mainClass>GameLauncher</mainClass>
-                      </manifest>
-                    </archive>
-                    <descriptorRefs>
-                      <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                  </configuration>
+                    <!-- Afin d'avoir un jar executable-->
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.2.0</version>
+                    <configuration>
+                        <archive>
+                        <manifest>
+                            <mainClass>GameLauncher</mainClass>
+                        </manifest>
+                        </archive>
+                        <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                        </descriptorRefs>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
