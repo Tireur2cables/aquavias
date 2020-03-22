@@ -2,11 +2,11 @@
 
 MVN=mvn
 JARPATH1=target/aquavias-0.1-jar-with-dependencies.jar
-JARPATH2=target/GenNiveauw-0.1-jar-with-dependencies.jar
+JARPATH2=target/GenNiveaux-0.1-jar-with-dependencies.jar
 JAVA_OPT=-jar
 JAVA=java $(JAVA_OPT)
 TARGET1=aquavias.jar
-TARGET2=GenNiveauw.jar
+TARGET2=genNiveaux.jar
 
 # Target all builds the project.
 all: clean
@@ -32,7 +32,6 @@ run-fast : clean
 	$(JAVA) $(TARGET1)
 
 genNiveau :
-	cd GenNiveaux
-	$(MVN) package assembly:single
+	cd GenNiveaux && $(MVN) package assembly:single
 	cp $(JARPATH2) \
    	$(TARGET2)
