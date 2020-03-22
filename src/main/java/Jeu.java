@@ -14,30 +14,6 @@ import org.json.*;
 
 class Jeu {
 
-    /*
-    private class Case {
-
-        private Pont pont;
-
-        private Case(int ligne, JSONArray json) {
-            JSONArray tab = ((JSONArray) json.get(ligne));
-            this.pont = (tab.length() <= 0)? null : initPont(tab);
-        }
-
-        private Pont initPont(JSONArray tab) {
-            switch(tab.getString(0).toUpperCase().charAt(0)) {
-                case 'I' :
-                    return new PontI(tab);
-                case 'L' :
-                    return new PontL(tab);
-                case 'T' :
-                    return new PontT(tab);
-            }
-            throw new RuntimeException("char du pont inconnu");
-        }
-
-    }*/
-
     private Controleur controleur;
     private Pont[][] plateau;
     private int numNiveau;
