@@ -280,6 +280,10 @@ class Jeu {
         return this.plateau.length;
     }
 
+    Pont[][] getPlateau(){
+        return this.plateau;
+    }
+
     String getMode() {
         return this.mode;
     }
@@ -305,11 +309,11 @@ class Jeu {
         return (p != null) && p.isMovable();
     }
 
-    private boolean isSortie(int x, int y) {
+    boolean isSortie(int x, int y) {
         return x == this.xSortie && y == this.ySortie;
     }
 
-    private boolean isEntree(int x, int y) {
+    boolean isEntree(int x, int y) {
         return x == this.xEntree && y == this.yEntree;
     }
 
