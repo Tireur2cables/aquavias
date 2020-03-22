@@ -2,11 +2,11 @@
 
 MVN=mvn
 JARPATH1=target/aquavias-0.1-jar-with-dependencies.jar
-JARPATH2=target/genNiveau-0.1-jar-with-dependencies.jar
+JARPATH2=target/GenNiveauw-0.1-jar-with-dependencies.jar
 JAVA_OPT=-jar
 JAVA=java $(JAVA_OPT)
 TARGET1=aquavias.jar
-TARGET2=genNiveau.jar
+TARGET2=GenNiveauw.jar
 
 # Target all builds the project.
 all: clean
