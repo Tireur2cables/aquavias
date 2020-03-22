@@ -153,8 +153,8 @@ class Controleur {
         this.graph.setEau(x, y ,eau);
     }
 
-    void exportNiveau(int number, boolean nouveauNiveau) {
-        this.jeu.exportNiveau(number, nouveauNiveau);
+    void exportNiveau() {
+        this.jeu.exportNiveau();
     }
 
 }

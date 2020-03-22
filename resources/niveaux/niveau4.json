@@ -1,9 +1,11 @@
 {
-    "hauteur" :4,
-    "longueur" :6,
-    "mode":"fuite",
-    "limite":100,
-    "niveau" :[
+    "num" : 4,
+    "hauteur" : 4,
+    "largeur" : 6,
+    "mode" : "fuite",
+    "limite" : 100,
+    "compteur" : 100,
+    "niveau" : [
         [
             [], ["i", "E", "entree"], [], []
         ],
