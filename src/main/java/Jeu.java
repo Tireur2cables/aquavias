@@ -14,7 +14,7 @@ import org.json.*;
 
 class Jeu {
 
-    /* FIXME: vraiment utile ? */
+    /*
     private class Case {
 
         private Pont pont;
@@ -36,10 +36,10 @@ class Jeu {
             throw new RuntimeException("char du pont inconnu");
         }
 
-    }
+    }*/
 
     private Controleur controleur;
-    private Case[][] plateau;
+    private Pont[][] plateau;
     private int numNiveau;
     private int xEntree;
     private int yEntree;
@@ -52,17 +52,14 @@ class Jeu {
 
     /**
      * AFFICHAGE PART
-     *
-     * Avec cette méthode d'affichage les colonnes sont affichées en premières pour chaque lignes
-     * donc on échange les indices i et j pour les afficher correctement
      * */
     private void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
         for (int i = 0; i < this.plateau[0].length; i++) {
-            for (Case[] cases : this.plateau) {
-                if (cases[i].pont == null) System.out.print("- ");
-                else System.out.print(cases[i].pont.getEau() + " ");
+            for (int j = 0; j < this.plateau.length; j++) {
+                if (this.plateau[i][j] == null) System.out.print("- ");
+                else System.out.print(this.plateau[i][j].getEau() + " ");
             }
             System.out.println();
         }
@@ -107,19 +104,36 @@ class Jeu {
     }
 
     private void initPlateau(int largeur, int hauteur, JSONArray niveau) {
-        this.plateau = new Case[largeur][hauteur];
+        this.plateau = new Pont[largeur][hauteur];
         for (int i = 0; i < largeur; i++) {
             JSONArray colonne = ((JSONArray) niveau.get(i));
             for (int j = 0; j < hauteur; j++) {
-                this.plateau[i][j] = new Case(j, colonne);
+                this.plateau[i][j] = this.createPont(j, colonne);
             }
         }
+    }
+
+    private Pont createPont(int ligne, JSONArray json) {
+        JSONArray tab = ((JSONArray) json.get(ligne));
+        return (tab.length() <= 0)? null : castPont(tab);
+    }
+
+    private Pont castPont(JSONArray tab) {
+        switch(tab.getString(0).toUpperCase().charAt(0)) {
+            case 'I' :
+                return new PontI(tab);
+            case 'L' :
+                return new PontL(tab);
+            case 'T' :
+                return new PontT(tab);
+        }
+        throw new RuntimeException("char du pont inconnu");
     }
 
     private void chercheEntree() {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
-                if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isEntree()) {
+                if (this.plateau[i][j] != null && this.plateau[i][j].isEntree()) {
                     this.xEntree = i;
                     this.yEntree = j;
                     return;
@@ -131,7 +145,7 @@ class Jeu {
     private void chercheSortie() {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++) {
-                if (this.plateau[i][j].pont != null && this.plateau[i][j].pont.isSortie()) {
+                if (this.plateau[i][j] != null && this.plateau[i][j].isSortie()) {
                     this.xSortie = i;
                     this.ySortie = j;
                     return;
@@ -164,7 +178,7 @@ class Jeu {
      * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
      * */
     private void detectAdjacents(int x, int y) {
-        Pont p = this.plateau[x][y].pont;
+        Pont p = this.plateau[x][y];
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]) {
@@ -194,7 +208,7 @@ class Jeu {
     private void checkAdjaNord(int x, int y) {
         if (y-1 >= 0) {
             char sortie = 'N';
-            Pont p = this.plateau[x][y-1].pont;
+            Pont p = this.plateau[x][y-1];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
@@ -207,7 +221,7 @@ class Jeu {
     private void checkAdjaEst(int x, int y) {
         if (x+1 < this.getLargeur()) {
             char sortie = 'E';
-            Pont p = this.plateau[x+1][y].pont;
+            Pont p = this.plateau[x+1][y];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
@@ -220,7 +234,7 @@ class Jeu {
     private void checkAdjaSud(int x, int y) {
         if (y+1 < this.getHauteur()) {
             char sortie = 'S';
-            Pont p = this.plateau[x][y+1].pont;
+            Pont p = this.plateau[x][y+1];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
@@ -233,7 +247,7 @@ class Jeu {
     private void checkAdjaOuest(int x, int y) {
         if (x-1 >= 0) {
             char sortie = 'O';
-            Pont p = this.plateau[x-1][y].pont;
+            Pont p = this.plateau[x-1][y];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
@@ -307,11 +321,11 @@ class Jeu {
     }
 
     Pont getPont(int largeur, int hauteur) {
-        return this.plateau[largeur][hauteur].pont;
+        return this.plateau[largeur][hauteur];
     }
 
     boolean isMovable(int x,  int y) {
-        Pont p = this.plateau[x][y].pont;
+        Pont p = this.plateau[x][y];
         return (p != null) && p.isMovable();
     }
 
@@ -335,7 +349,7 @@ class Jeu {
      * On suppose que l'on tourne les ponts uniquement de 90° ici
      * */
     void tournePont(int x, int y) {
-        Pont p = this.plateau[x][y].pont;
+        Pont p = this.plateau[x][y];
         char newOrientation = Pont.getNextOrientation(p.orientation);
         p.setOrientation(newOrientation);
     }
@@ -343,7 +357,7 @@ class Jeu {
     void resetWater() {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++ ) {
-                Pont p = this.plateau[i][j].pont;
+                Pont p = this.plateau[i][j];
                 if (p != null && !p.isEntree()) {
                     p.setEau(false);
                     this.controleur.setEau(i, j, false);
@@ -357,7 +371,7 @@ class Jeu {
             this.debit = 0;
         else if (this.mode.equals("compteur")) this.debit = 1;
         else {
-            if (this.plateau[xSortie][ySortie].pont.getEau())
+            if (this.plateau[xSortie][ySortie].getEau())
                 this.debit = (Math.pow(2, trous) - 1)/Math.pow(2,trous);
             else
                 this.debit = 1;
@@ -408,7 +422,7 @@ class Jeu {
      * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
     private int detectEtancheAdjacents(int x, int y) {
-        Pont p = this.plateau[x][y].pont;
+        Pont p = this.plateau[x][y];
         boolean[] sortiesP = p.getSorties();
         passage[x][y] = true;
         int sortieEtanche = 0;
@@ -433,7 +447,7 @@ class Jeu {
     private int checkEtancheNord(int x, int y) {
         if (y-1 >= 0) {
             char sortie = 'N';
-            Pont p = this.plateau[x][y-1].pont;
+            Pont p = this.plateau[x][y-1];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x][y-1]) return 0;
                 return this.detectEtancheAdjacents(x, y-1);
@@ -446,7 +460,7 @@ class Jeu {
     private int checkEtancheEst(int x, int y) {
         if (x+1 < this.getLargeur()) {
             char sortie = 'E';
-            Pont p = this.plateau[x+1][y].pont;
+            Pont p = this.plateau[x+1][y];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x+1][y]) return 0;
                 return this.detectEtancheAdjacents(x+1, y);
@@ -459,7 +473,7 @@ class Jeu {
     private int checkEtancheSud(int x, int y) {
         if (y+1 < this.getHauteur()) {
             char sortie = 'S';
-            Pont p = this.plateau[x][y+1].pont;
+            Pont p = this.plateau[x][y+1];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x][y+1]) return 0;
                 return this.detectEtancheAdjacents(x, y+1);
@@ -472,7 +486,7 @@ class Jeu {
     private int checkEtancheOuest(int x, int y) {
         if (x-1 >= 0) {
             char sortie = 'O';
-            Pont p = this.plateau[x-1][y].pont;
+            Pont p = this.plateau[x-1][y];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x-1][y]) return 0;
                 return this.detectEtancheAdjacents(x-1, y);
