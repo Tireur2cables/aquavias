@@ -1,4 +1,4 @@
-.PHONY: all run clean
+.PHONY: all run clean run-fast
 
 MVN=mvn
 JARPATH=target/aquavias-0.1-jar-with-dependencies.jar
@@ -21,3 +21,10 @@ run : all
 clean :
 	if [ -e $(TARGET) ]; then rm $(TARGET); fi;
 	$(MVN) clean
+
+# Compile and Run but without testing
+run-fast : clean
+	$(MVN) package assembly:single -DskipTests
+	cp $(JARPATH) \
+   	$(TARGET)
+	$(JAVA) $(TARGET)
