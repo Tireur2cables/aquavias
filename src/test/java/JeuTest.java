@@ -22,5 +22,16 @@ public class JeuTest {
         assert(testJeu.getPont(2, 1).isSortie());
         assert(!testJeu.getPont(0, 1).isMovable());
         assert(!testJeu.getPont(2, 1).isMovable());
+
+        assertNull(testJeu.getPont(0,0));
+        assertNull(testJeu.getPont(0,2));
+        assertNull(testJeu.getPont(1,0));
+        assertNull(testJeu.getPont(1,2));
+        assertNull(testJeu.getPont(2,0));
+        assertNull(testJeu.getPont(2,2));
+        assertEquals(testJeu.getPont(1,1).getForme(), 'I');
+        assertEquals(testJeu.getPont(1,1).getOrientation(), 'N');
+        assertNull(testJeu.getPont(1,1).spe);
+        assertFalse(testJeu.getPont(1,1).eau);
     }
 }
