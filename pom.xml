@@ -89,16 +89,39 @@
                     <!-- Afin d'avoir un jar executable-->
                     <artifactId>maven-assembly-plugin</artifactId>
                     <version>3.2.0</version>
-                    <configuration>
-                        <archive>
-                        <manifest>
-                            <mainClass>GameLauncher</mainClass>
-                        </manifest>
-                        </archive>
-                        <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                        </descriptorRefs>
-                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>GameLauncher</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                            <configuration>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>GameLauncher</mainClass>
+                                    </manifest>
+                                </archive>
+                                <descriptorRefs>
+                                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                            </configuration>
+                        </execution>
+                        <!--<execution>
+                            <id>GenNiveau</id>
+                            <configuration>
+                                <archive>
+                                    <manifest>
+                                        <mainClass>GenNiveau</mainClass>
+                                    </manifest>
+                                </archive>
+                                <descriptorRefs>
+                                    <descriptorRef>jar-with-dependencies</descriptorRef>
+                                </descriptorRefs>
+                                <appendAssemblyId>false</appendAssemblyId>
+                            </configuration>
+                        </execution>-->
+                    </executions>
                 </plugin>
             </plugins>
         </pluginManagement>
