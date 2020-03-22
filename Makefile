@@ -33,5 +33,5 @@ run-fast : clean
 
 genNiveau :
 	cd GenNiveaux && $(MVN) package assembly:single
-	cp $(JARPATH2) \
+	cd GenNiveaux && cp $(JARPATH2) \
    	$(TARGET2)

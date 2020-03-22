@@ -92,7 +92,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>genNiveaux</mainClass>
+                                    <mainClass>GenNiveaux</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
