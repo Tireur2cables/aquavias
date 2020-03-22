@@ -22,8 +22,5 @@ public class JeuTest {
         assert(testJeu.getPont(2, 1).isSortie());
         assert(!testJeu.getPont(0, 1).isMovable());
         assert(!testJeu.getPont(2, 1).isMovable());
-
-
-
     }
 }
