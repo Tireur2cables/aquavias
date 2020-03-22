@@ -55,7 +55,7 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Réessayer */
+            if (retour == 0) /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
                 this.controleur.backMenu();
