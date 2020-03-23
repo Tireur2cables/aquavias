@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>Aquavias1</groupId>
-    <artifactId>aquavias</artifactId>
+    <groupId>aquavias1</groupId>
+    <artifactId>jeu</artifactId>
     <version>0.1</version>
 
     <url>https://gauffre.informatique.univ-paris-diderot.fr/brrlt/aquavias</url>
@@ -92,7 +92,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>GameLauncher</mainClass>
+                                    <mainClass>aquavias.jeu.GameLauncher</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

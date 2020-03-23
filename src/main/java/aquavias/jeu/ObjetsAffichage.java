@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,7 +20,7 @@ class Fenetre extends JFrame {
      */
 
     /**
-     * Fenetre pour les tests unitaires
+     * aquavias.jeu.Fenetre pour les tests unitaires
      * */
     Fenetre(String titre, BufferedImage image, VueGraphique vue) {
         super();
@@ -32,7 +34,7 @@ class Fenetre extends JFrame {
     }
 
     /**
-     * Fenetre pour l'affichage du jeu
+     * aquavias.jeu.Fenetre pour l'affichage du jeu
      * */
     Fenetre(Controleur controleur) {
         super();
@@ -51,11 +53,11 @@ class Fenetre extends JFrame {
      */
 
     void victoire() {
-        String[] choices = {"Niveau Suivant", "Retour au menu"};
+        String[] choices = {"aquavias.jeu.Niveau Suivant", "Retour au menu"};
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Niveau Suivant */
+            if (retour == 0) /* retour = 0 = aquavias.jeu.Niveau Suivant */
                 this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
                 this.controleur.backMenu();
@@ -302,7 +304,7 @@ class MenuBar extends JMenuBar{
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
         item.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(fenetre, "Niveau " + newName + " chargé !");
+            JOptionPane.showMessageDialog(fenetre, "aquavias.jeu.Niveau " + newName + " chargé !");
             controleur.chargeNiveau(num);
         });
         return item;
@@ -325,7 +327,7 @@ class MenuBar extends JMenuBar{
         JButton save = new JButton("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
             controleur.exportNiveau();
-            JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
+            JOptionPane.showMessageDialog(fenetre, "aquavias.jeu.Niveau exporté!");
         });
         return save;
     }

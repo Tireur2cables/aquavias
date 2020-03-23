@@ -1,6 +1,10 @@
+package aquavias.generateur;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collection;
+
+import aquavias.jeu.Pont;
 
 /* Import with maven dependencies */
 import org.json.JSONArray;
@@ -14,8 +18,7 @@ class GenNiveaux {
         System.out.println("je suis gen niveau");
     }
 
-    /*
-
+/*
     private static void exportNiveau() {
         String chemin = exportDir + numNiveau + ".json";
         JSONObject fic = this.createJSON();
@@ -54,8 +57,8 @@ class GenNiveaux {
         }
         return niveau;
     }
-
-    */
+   
+ */
 
     private static void writeFile(JSONObject file, String chemin) {
         try {

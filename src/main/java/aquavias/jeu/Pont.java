@@ -1,7 +1,7 @@
-/* Imports with maven dependecies */
+package aquavias.jeu;/* Imports with maven dependecies */
 import org.json.*;
 
-abstract class Pont {
+public abstract class Pont {
 
     protected char forme; /* I, T, L */
     protected char orientation; /* N, E, S, O */

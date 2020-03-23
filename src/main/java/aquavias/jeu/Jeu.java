@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -417,7 +419,7 @@ class Jeu {
             case 2 : return this.checkEtancheSud(x, y);
             case 3 : return this.checkEtancheOuest(x, y);
         }
-        throw new RuntimeException("Sortie de Pont Inconnue");
+        throw new RuntimeException("Sortie de aquavias.jeu.Pont Inconnue");
     }
 
     private int checkEtancheNord(int x, int y) {

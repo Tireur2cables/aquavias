@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -12,7 +14,7 @@ class VueGraphique {
      *  Fonction pour affichage de test unitaire
      */
     void affichePont(BufferedImage image) {
-        EventQueue.invokeLater(() -> new Fenetre("Pont", image, this));
+        EventQueue.invokeLater(() -> new Fenetre("aquavias.jeu.Pont", image, this));
     }
 
     /**
@@ -25,7 +27,7 @@ class VueGraphique {
     }
 
     /**
-     * remplit le JPanel Niveau avec chaque Pont du plateau de Jeu et entraine l'affichage de la fenêtre
+     * remplit le JPanel aquavias.jeu.Niveau avec chaque aquavias.jeu.Pont du plateau de aquavias.jeu.Jeu et entraine l'affichage de la fenêtre
      * */
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();

@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 class Controleur {
 
     private Jeu jeu;

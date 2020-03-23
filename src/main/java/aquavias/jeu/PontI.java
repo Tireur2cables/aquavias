@@ -1,4 +1,5 @@
-/* Imports with maven dependecies */
+package aquavias.jeu;
+
 import org.json.JSONArray;
 
 class PontI extends Pont {

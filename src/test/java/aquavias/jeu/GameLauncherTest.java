@@ -1,9 +1,12 @@
+package aquavias.jeu;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 import static org.junit.Assert.*;
 
 /* Import with maven dependencies */
+import aquavias.jeu.GameLauncher;
 import org.junit.*;
 
 class GameLauncherTest {

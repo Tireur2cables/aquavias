@@ -1,7 +1,7 @@
 .PHONY: all run clean run-fast genNiveaux clean-GenNiveaux
 
 MVN=mvn
-JARPATH1=target/aquavias-0.1-jar-with-dependencies.jar
+JARPATH1=target/jeu-0.1-jar-with-dependencies.jar
 JARPATH2=GenNiveaux/target/GenNiveaux-0.1-jar-with-dependencies.jar
 JAVA_OPT=-jar
 JAVA=java $(JAVA_OPT)
@@ -10,9 +10,14 @@ TARGET2=genNiveaux.jar
 
 # Target all builds the project.
 all: genNiveaux
-	$(MVN) package assembly:single
+	$(MVN) install assembly:single
 	cp $(JARPATH1) \
 	   $(TARGET1)
+
+aquavias:
+	$(MVN) install assembly:single
+	cp $(JARPATH1) \
+    	   $(TARGET1)
 
 # Target run executes the program and start with target all to build the
 # project. Run just aquavias and not genNiveaux
@@ -26,14 +31,14 @@ clean :
 
 # Compile and Run but without testing and genNiveaux
 run-fast : clean
-	$(MVN) package assembly:single -DskipTests
+	$(MVN) install assembly:single -DskipTests
 	cp $(JARPATH1) \
    	$(TARGET1)
 	$(JAVA) $(TARGET1)
 
 # Target just GenNiveaux
 genNiveaux : clean
-	cd GenNiveaux && $(MVN) package assembly:single
+	cd GenNiveaux && $(MVN) install assembly:single
 	cp $(JARPATH2) \
    	$(TARGET2)
 
