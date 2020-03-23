@@ -219,7 +219,7 @@ class ImagePane extends JPanel {
 
     void rotateImage() {
         /* On tourne les ponts de 90° */
-        this.image = this.vue.getNextImage(this.x, this.y);
+        this.image = this.vue.getImage(this.x, this.y);
         this.vue.rotate(this.x, this.y);
     }
 

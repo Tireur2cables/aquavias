@@ -8,20 +8,14 @@ abstract class PontGraph {
 
     static BufferedImage transp = chargeImage("transp.png");
 
-    protected int orientation;
-    protected boolean eau;
-    protected boolean entree;
-    protected boolean sortie;
+    protected Pont pont;
 
     /**
      * INIT PART
      * */
 
-    PontGraph(char orientation, boolean eau, boolean entree, boolean sortie) {
-        this.orientation = getOrientationFromChar(orientation);
-        this.eau = eau;
-        this.entree = entree;
-        this.sortie = sortie;
+    PontGraph(Pont pont) {
+        this.pont = pont;
     }
 
     static BufferedImage[] chargeImages(String chemin) {
@@ -53,14 +47,16 @@ abstract class PontGraph {
      * GETTER PART
      * */
 
-    private static int getOrientationFromChar(char orientation) {
-        switch (orientation) {
+    abstract BufferedImage getImage();
+
+    protected int getOrientation() {
+        switch (this.pont.orientation) {
             case 'N': return 0;
             case 'E': return 1;
             case 'S': return 2;
             case 'O': return 3;
         }
-        throw new RuntimeException("Orientation inconnue : " + orientation);
+        throw new RuntimeException("Orientation inconnue : " + this.pont.orientation);
     }
 
     static PontGraph getPontGraph(Pont p) {
@@ -68,25 +64,15 @@ abstract class PontGraph {
         if (p == null) return newP;
         else {
             switch (p.getForme()) {
-                case 'I' : newP = new PontIGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
+                case 'I' : newP = new PontIGraph(p);
                     break;
-                case 'L' : newP = new PontLGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
+                case 'L' : newP = new PontLGraph(p);
                     break;
-                case 'T' : newP = new PontTGraph(p.orientation, p.eau, p.isEntree(), p.isSortie());
+                case 'T' : newP = new PontTGraph(p);
                     break;
             }
         }
         return newP;
-    }
-
-    abstract BufferedImage getImage();
-
-    /**
-     * SETTER PART
-     */
-
-    void incrementeOrientation() {
-        this.orientation = (++this.orientation)%4;
     }
 
     /**

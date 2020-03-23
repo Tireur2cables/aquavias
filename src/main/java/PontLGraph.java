@@ -8,10 +8,6 @@ class PontLGraph extends PontGraph {
 	static BufferedImage[] sortieL = chargeImagesSorties(false);
 	static BufferedImage[] sortieLEau = chargeImagesSorties(true);
 
-	PontLGraph(char orientation, boolean eau, boolean entree, boolean sortie) {
-		super(orientation, eau, entree, sortie);
-	}
-
 	static BufferedImage[] chargeImagesSorties(boolean eau) {
 		BufferedImage imageN = PontGraph.chargeImage((eau)?"SortieLwO.png":"SortieLnoO.png");
 		BufferedImage imageE = null;
@@ -25,9 +21,13 @@ class PontLGraph extends PontGraph {
 		return images;
 	}
 
+	PontLGraph(Pont p) {
+		super(p);
+	}
+
 	BufferedImage getImage() {
-		if(super.entree) return entreeL[super.orientation];
-		else if(super.sortie) return (super.eau)? sortieLEau[super.orientation] : sortieL[super.orientation];
-		return (super.eau)? pontLEau[super.orientation] : pontL[super.orientation];
+		if(super.pont.isEntree()) return entreeL[this.getOrientation()];
+		else if(super.pont.isSortie()) return (super.pont.eau)? sortieLEau[this.getOrientation()] : sortieL[this.getOrientation()];
+		return (super.pont.eau)? pontLEau[this.getOrientation()] : pontL[this.getOrientation()];
 	}
 }
