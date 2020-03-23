@@ -55,8 +55,8 @@ class Jeu {
         this.numNiveau = number;
         String chemin = niveauxDir + this.numNiveau + ".json";
         JSONObject json = readJSON(chemin);
-        int hauteur = json.getInt("hauteur");
         int largeur = json.getInt("largeur");
+        int hauteur = json.getInt("hauteur");
         this.mode = json.getString("mode");
         this.limite = json.getInt("limite");
         this.compteur = json.getDouble("compteur");
@@ -338,10 +338,8 @@ class Jeu {
         for (int i = 0; i < this.getLargeur(); i++) {
             for (int j = 0; j < this.getHauteur(); j++ ) {
                 Pont p = this.plateau[i][j];
-                if (p != null && !p.isEntree()) {
+                if (p != null && !p.isEntree())
                     p.setEau(false);
-                    this.controleur.setEau(i, j, false);
-                }
             }
         }
     }
@@ -491,8 +489,8 @@ class Jeu {
     private JSONObject createJSON() {
         JSONObject fic = new JSONObject();
         fic.put("num", this.numNiveau);
-        fic.put("hauteur", this.getHauteur());
         fic.put("largeur", this.getLargeur());
+        fic.put("hauteur", this.getHauteur());
         fic.put("mode", this.mode);
         fic.put("limite", this.limite);
         fic.put("compteur", this.compteur);

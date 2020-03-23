@@ -111,9 +111,6 @@ class VueGraphique {
         this.fenetre.changeSize(this.controleur.getLargeur(), this.controleur.getHauteur());
     }
 
-    void setEau(int x, int y, boolean eau) {
-        if (this.plateau != null) this.plateau[x][y].eau = eau;
-    }
 
     void decrementeCompteur() {
         this.fenetre.decrementeCompteur();
@@ -139,12 +136,7 @@ class VueGraphique {
      * GETTER PART
      * */
 
-    BufferedImage getNextImage(int x, int y) {
-        plateau[x][y].incrementeOrientation();
-        return plateau[x][y].getImage();
-    }
-
-    private BufferedImage getImage(int x, int y) {
+    BufferedImage getImage(int x, int y) {
         return (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
     }
 
@@ -162,27 +154,7 @@ class VueGraphique {
 
     void rotate(int x, int y) {
         this.controleur.tournePont(x,y);
-        this.refreshEau();
         this.actualiseAllImages();
-    }
-
-    void refreshEau(){
-        for(int i = 0; i < this.controleur.getLargeur(); i++){
-            for(int j = 0; j < this.controleur.getHauteur(); j++){
-                if(this.plateau[i][j] != null){
-                    this.setEau(i, j, this.controleur.getPont(i, j).getEau());
-                }
-            }
-        }
-    }
-
-	/**
-	*   Met à jour l'image a la position x,y avec la nouvelle image image
-	* */
-    private void actualiseImage(BufferedImage image, int x, int y) {
-        int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
-        int indice = x+y*largeur;
-        ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
     }
 
     private void actualiseAllImages() {
@@ -191,6 +163,15 @@ class VueGraphique {
                 this.actualiseImage(this.getImage(i, j), i, j);
             }
         }
+    }
+
+	/**
+	*   Met à jour l'image a la position x,y avec la nouvelle image `image`
+	* */
+    private void actualiseImage(BufferedImage image, int x, int y) {
+        int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
+        int indice = x+y*largeur;
+        ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
     }
 
 }

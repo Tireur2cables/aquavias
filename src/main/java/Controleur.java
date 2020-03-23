@@ -149,10 +149,6 @@ class Controleur {
         return this.jeu.getDebit();
     }
 
-    void setEau(int x, int y, boolean eau) {
-        this.graph.setEau(x, y ,eau);
-    }
-
     void exportNiveau() {
         this.jeu.exportNiveau();
     }

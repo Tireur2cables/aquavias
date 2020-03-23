@@ -21,13 +21,14 @@ class PontTGraph extends PontGraph {
         return images;
     }
 
-    PontTGraph(char orientation, boolean eau, boolean entree, boolean sortie) {
-        super(orientation, eau, entree, sortie);
+    PontTGraph(Pont p) {
+        super(p);
     }
 
     BufferedImage getImage() {
-        if(super.entree) return entreeT[super.orientation];
-        else if(super.sortie) return (super.eau)? sortieTEau[super.orientation] : sortieT[super.orientation];
-        return (super.eau)? pontTEau[super.orientation] : pontT[super.orientation];
+        if(super.pont.isEntree()) return entreeT[this.getOrientation()];
+        else if(super.pont.isSortie()) return (super.pont.eau)? sortieTEau[this.getOrientation()] : sortieT[this.getOrientation()];
+        return (super.pont.eau)? pontTEau[this.getOrientation()] : pontT[this.getOrientation()];
     }
+
 }

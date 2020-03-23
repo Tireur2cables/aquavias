@@ -8,14 +8,14 @@ class PontIGraph extends PontGraph {
     static BufferedImage[] sortieI = PontGraph.chargeImages("SortieInoO.png");
     static BufferedImage[] sortieIEau = PontGraph.chargeImages("SortieIwO.png");
 
-	PontIGraph(char orientation, boolean eau, boolean entree, boolean sortie) {
-		super(orientation, eau, entree, sortie);
+	PontIGraph(Pont p) {
+		super(p);
 	}
 
 	BufferedImage getImage() {
-		if(super.entree) return entreeI[super.orientation];
-		else if(super.sortie) return (super.eau)? sortieIEau[super.orientation] : sortieI[super.orientation];
-		return (super.eau)? pontIEau[super.orientation] : pontI[super.orientation];
+		if(super.pont.isEntree()) return entreeI[this.getOrientation()];
+		else if(super.pont.isSortie()) return (super.pont.eau)? sortieIEau[this.getOrientation()] : sortieI[this.getOrientation()];
+		return (super.pont.eau)? pontIEau[this.getOrientation()] : pontI[this.getOrientation()];
 	}
 
 }
