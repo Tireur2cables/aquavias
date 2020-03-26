@@ -14,7 +14,7 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
 
-class Jeu {
+public class Jeu {
 
     private Controleur controleur;
     private Pont[][] plateau;

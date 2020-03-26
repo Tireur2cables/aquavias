@@ -2,7 +2,7 @@ package aquavias.jeu;
 
 import org.json.JSONArray;
 
-class PontI extends Pont {
+public class PontI extends Pont {
 
     PontI(JSONArray json) {
         super(json);
