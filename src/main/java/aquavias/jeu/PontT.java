@@ -9,6 +9,11 @@ public class PontT extends Pont {
         this.sorties = this.calculSorties();
     }
 
+    public PontT(char Orientation, String spe){
+        super('T', Orientation, spe);
+        this.sorties = this.calculSorties();
+    }
+
     protected boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
