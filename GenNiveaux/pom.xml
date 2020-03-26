@@ -98,7 +98,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>GenNiveaux</mainClass>
+                                    <mainClass>aquavias.generateur.GenNiveaux</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>
