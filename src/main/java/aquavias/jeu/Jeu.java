@@ -24,9 +24,9 @@ class Jeu {
     private int xSortie;
     private int ySortie;
     private String mode;
-    private int limite;
-    private double compteur;
-    private double debit;
+    private int limite; //Nombre de coup / temps
+    private double compteur; //Commence à la limite et décrémente à chaque coups / seconde
+    private double debit; //1 pour mode coups / calcul la vitesse de vidage de l'eau en mode fuite
 
     /**
      * AFFICHAGE PART
@@ -49,6 +49,11 @@ class Jeu {
 
     Jeu(Controleur controleur) {
         this.controleur = controleur;
+    }
+
+    Jeu(Pont[][] plateau, int numNiveau, String mode, int limite, double compteur){
+        this.plateau = plateau;
+        this.numNiveau = numNiveau;
     }
 
     private static String niveauxDir = "resources/niveaux/niveau";
