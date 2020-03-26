@@ -10,11 +10,12 @@ class GenNiveaux {
         System.out.println("je suis gen niveau");
     }
 
-    private void createJeu(int largeur, int hauteur, int numNiveau) {
+    private void exportNiveau(int largeur, int hauteur, int numNiveau) {
         Plateau p = new Plateau(largeur, hauteur);
         String mode = this.chooseMode();
         int limite = this.chooseLimite();
         Jeu jeu = new Jeu(p.getPlateau(), numNiveau, mode, limite);
+        jeu.exportNiveau();
     }
 
     private String chooseMode() {
