@@ -47,7 +47,7 @@ public abstract class Pont {
         return this.eau;
     }
 
-    char getOrientation(){
+    public char getOrientation(){
         return this.orientation;
     }
 

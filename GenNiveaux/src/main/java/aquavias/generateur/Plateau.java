@@ -66,15 +66,29 @@ class Plateau {
         }
         throw new RuntimeException("Random int out of bounds");
     }
-
-    /* FIXME: les orientation ne sont pas forcément bonne */
+    
     private void placerEntreeSortie() {
         int i = 0;
         int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.plateau[i][j] = this.createPont("entree");
+        this.makePontAccessibleFrom(i, j, 'E');
+
         i = this.getLargeur()-1;
         j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.plateau[i][j] = this.createPont("sortie");
+        this.makePontAccessibleFrom(i, j, 'O');
+    }
+
+    /**
+     * VERIF PART
+     */
+
+    private void makePontAccessibleFrom(int i, int j, char sortie) {
+        Pont p = this.plateau[i][j];
+        while (!p.isAccessibleFrom(sortie)) {
+            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
+            p.setOrientation(nextOrientation);
+        }
     }
 
     /**
