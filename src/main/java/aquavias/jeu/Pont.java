@@ -67,7 +67,7 @@ public abstract class Pont {
         return this.sorties;
     }
 
-    static char getNextOrientation(char c) {
+    public static char getNextOrientation(char c) {
         switch (c) {
             case 'N' : return 'E';
             case 'E' : return 'S';
@@ -77,7 +77,7 @@ public abstract class Pont {
         throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }
 
-    boolean isAccessibleFrom(char c) {
+    public boolean isAccessibleFrom(char c) {
         switch (c) {
             case 'N' : return this.sorties[2]; /* accessible depuis le nord de l'autre pont donc le sud de ce pont etc... */
             case 'E' : return this.sorties[3];
@@ -91,7 +91,7 @@ public abstract class Pont {
      * SETTER PART
      * */
 
-    void setOrientation(char c) {
+    public void setOrientation(char c) {
         this.orientation = c;
         this.castAndCalculateSorties();
     }
