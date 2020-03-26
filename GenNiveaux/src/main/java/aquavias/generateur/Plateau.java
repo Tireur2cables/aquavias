@@ -73,7 +73,7 @@ class Plateau {
         int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.plateau[i][j] = this.createPont("entree");
         i = this.getLargeur()-1;
-        int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+        j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.plateau[i][j] = this.createPont("sortie");
     }
 
