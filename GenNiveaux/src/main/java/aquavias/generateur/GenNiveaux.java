@@ -1,16 +1,8 @@
 package aquavias.generateur;
 
 import aquavias.jeu.Jeu;
-import aquavias.jeu.Pont;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
-
-/* Import with maven dependencies */
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 class GenNiveaux {
 
