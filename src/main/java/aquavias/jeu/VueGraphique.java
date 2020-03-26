@@ -27,7 +27,7 @@ class VueGraphique {
     }
 
     /**
-     * remplit le JPanel aquavias.jeu.Niveau avec chaque aquavias.jeu.Pont du plateau de aquavias.jeu.Jeu et entraine l'affichage de la fenêtre
+     * remplit le JPanel Niveau avec chaque Pont du plateau de Jeu et entraine l'affichage de la fenêtre
      * */
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
