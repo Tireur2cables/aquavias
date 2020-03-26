@@ -1,4 +1,4 @@
-.PHONY: all run clean-aquavias run-fast genNiveaux clean-GenNiveaux
+.PHONY: all run clean-aquavias run-fast genNiveaux clean-GenNiveaux clean
 
 MVN=mvn
 JARPATH1=target/jeu-0.1-jar-with-dependencies.jar
@@ -9,8 +9,9 @@ TARGET1=aquavias.jar
 TARGET2=genNiveaux.jar
 
 # Target all builds the project.
-all: aquavias genNiveaux
+all: aquavias GenNiveaux
 
+#Target and Build just aquavias
 aquavias: clean-aquavias
 	$(MVN) install assembly:single
 	cp $(JARPATH1) \
@@ -34,7 +35,7 @@ run-fast : clean-aquavias
 	$(JAVA) $(TARGET1)
 
 # Target just GenNiveaux
-genNiveaux : clean-GenNiveaux
+GenNiveaux : clean-GenNiveaux
 	cd GenNiveaux && $(MVN) install assembly:single
 	cp $(JARPATH2) \
    	$(TARGET2)
@@ -43,3 +44,6 @@ genNiveaux : clean-GenNiveaux
 clean-GenNiveaux :
 	if [ -e $(TARGET2) ]; then rm $(TARGET2); fi;
 	cd GenNiveaux && $(MVN) clean
+
+#Target clean removes all files produced during build for both GenNiveaux and aquavias
+clean : clean-aquavias clean-GenNiveaux
