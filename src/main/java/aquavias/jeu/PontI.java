@@ -9,6 +9,11 @@ public class PontI extends Pont {
         this.sorties = this.calculSorties();
     }
 
+    PontI(char Orientation, String spe){
+        super(Orientation, spe);
+        this.sorties = this.calculSorties();
+    }
+
     protected boolean[] calculSorties() {
         boolean[] tab = new boolean[4];
         for(int i = 0 ; i < tab.length ; i++) {
