@@ -1,16 +1,8 @@
 package aquavias.generateur;
 
 import aquavias.jeu.Jeu;
-import aquavias.jeu.Pont;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
-
-/* Import with maven dependencies */
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 class GenNiveaux {
 
@@ -18,11 +10,12 @@ class GenNiveaux {
         System.out.println("je suis gen niveau");
     }
 
-    private Jeu createJeu(int largeur, int hauteur, int numNiveau) {
+    private void exportNiveau(int largeur, int hauteur, int numNiveau) {
         Plateau p = new Plateau(largeur, hauteur);
         String mode = this.chooseMode();
         int limite = this.chooseLimite();
-        return new Jeu(p.getPlateau(), numNiveau, mode, limite);
+        Jeu jeu = new Jeu(p.getPlateau(), numNiveau, mode, limite);
+        jeu.exportNiveau();
     }
 
     private String chooseMode() {
