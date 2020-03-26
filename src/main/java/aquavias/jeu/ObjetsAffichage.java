@@ -16,7 +16,7 @@ class Fenetre extends JFrame {
     private Controleur controleur;
 
     /**
-     * INIT PART    
+     * INIT PART
      */
 
     /**
