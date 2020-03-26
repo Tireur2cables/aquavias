@@ -29,12 +29,6 @@ public abstract class Pont {
 
     abstract boolean[] calculSorties();
 
-    private void castAndCalculateSorties() {
-        if (this instanceof PontI) this.sorties = ((PontI) this).calculSorties();
-        else if (this instanceof PontL) this.sorties = ((PontL) this).calculSorties();
-        else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
-    }
-
     /**
      * GETTER PART
      * */
@@ -93,7 +87,7 @@ public abstract class Pont {
 
     public void setOrientation(char c) {
         this.orientation = c;
-        this.castAndCalculateSorties();
+        this.sorties = this.calculSorties();
     }
 
     void setEau(boolean eau) {
