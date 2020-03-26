@@ -19,31 +19,31 @@ class GenNiveaux {
     }
 
 /*
-    private static void exportNiveau() {
+    private static void exportNiveau(int numNiveau) {
         String chemin = exportDir + numNiveau + ".json";
-        JSONObject fic = this.createJSON();
+        JSONObject fic = this.createJSON(numNiveau);
         writeFile(fic, chemin);
     }
 
-    private static JSONObject createJSON() {
+    private static JSONObject createJSON(int numNiveau) {
         JSONObject fic = new JSONObject();
-        fic.put("num", this.numNiveau);
-        fic.put("hauteur", this.getHauteur());
-        fic.put("largeur", this.getLargeur());
-        fic.put("mode", this.mode);
-        fic.put("limite", this.limite);
-        fic.put("compteur", this.compteur);
-        JSONArray niveau = this.saveNiveau();
+        fic.put("num", numNiveau);
+        fic.put("hauteur", getHauteur());
+        fic.put("largeur", getLargeur());
+        fic.put("mode", mode);
+        fic.put("limite", limite);
+        fic.put("compteur", compteur);
+        JSONArray niveau = saveNiveau();
         fic.put("niveau", niveau);
         return fic;
     }
 
     private static JSONArray saveNiveau() {
         JSONArray niveau = new JSONArray();
-        for (int i = 0; i < this.getLargeur(); i++) {
+        for (int i = 0; i < getLargeur(); i++) {
             JSONArray ligne = new JSONArray();
-            for (int j = 0; j < this.getHauteur(); j++) {
-                Pont modPont = this.getPont(i,j);
+            for (int j = 0; j < getHauteur(); j++) {
+                Pont modPont = getPont(i,j);
                 if (modPont != null) {
                     JSONArray pont = new JSONArray();
                     pont.put((modPont.forme + ""));
@@ -57,8 +57,7 @@ class GenNiveaux {
         }
         return niveau;
     }
-   
- */
+    */
 
     private static void writeFile(JSONObject file, String chemin) {
         try {
