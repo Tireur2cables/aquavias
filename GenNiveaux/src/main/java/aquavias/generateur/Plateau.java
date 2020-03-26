@@ -19,7 +19,7 @@ class Plateau {
         this.plateau = new Pont[largeur][hauteur];
         for (int i = 0; i < largeur; i++) {
             for (int j = 0; j < hauteur; j++) {
-                this.plateau[i][j] = this.createPont(null);
+                this.plateau[i][j] = null;
             }
         }
         this.placerEntreeSortie();
@@ -67,11 +67,14 @@ class Plateau {
         throw new RuntimeException("Random int out of bounds");
     }
 
+    /* FIXME: les orientation ne sont pas forcément bonne */
     private void placerEntreeSortie() {
-        int i = ThreadLocalRandom.current().nextInt(0,this.getLargeur());
+        int i = 0;
         int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
-        this.plateau[i][j] = this.createPont("Entree");
-        this.plateau[i][j] = this.createPont("Sortie");
+        this.plateau[i][j] = this.createPont("entree");
+        i = this.getLargeur()-1;
+        int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+        this.plateau[i][j] = this.createPont("sortie");
     }
 
     /**
