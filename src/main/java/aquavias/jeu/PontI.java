@@ -9,8 +9,8 @@ public class PontI extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    PontI(char Orientation, String spe){
-        super(Orientation, spe);
+    public PontI(char Orientation, String spe){
+        super('I', Orientation, spe);
         this.sorties = this.calculSorties();
     }
 

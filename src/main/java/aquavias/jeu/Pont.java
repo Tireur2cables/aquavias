@@ -24,6 +24,7 @@ public abstract class Pont {
         this.forme = forme;
         this.orientation = orientation;
         this.spe = spe;
+        this.eau = this.isEntree();
     }
 
     abstract boolean[] calculSorties();

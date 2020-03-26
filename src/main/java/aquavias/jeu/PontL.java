@@ -9,6 +9,11 @@ public class PontL extends Pont {
         this.sorties = this.calculSorties();
     }
 
+    public PontL(char Orientation, String spe){
+        super('L', Orientation, spe);
+        this.sorties = this.calculSorties();
+    }
+
     protected boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {

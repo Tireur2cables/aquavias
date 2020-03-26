@@ -51,7 +51,7 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    Jeu(Pont[][] plateau, int numNiveau, String mode, int limite){
+    public Jeu(Pont[][] plateau, int numNiveau, String mode, int limite){
         this.numNiveau = numNiveau;
         this.plateau = plateau;
         this.mode = mode;
