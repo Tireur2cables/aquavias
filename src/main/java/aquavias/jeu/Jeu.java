@@ -491,7 +491,7 @@ public class Jeu {
 
     private static String exportDir = "resources/export/niveau";
 
-    void exportNiveau() {
+    public void exportNiveau() {
         String chemin = exportDir + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
