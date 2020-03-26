@@ -51,9 +51,15 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    Jeu(Pont[][] plateau, int numNiveau, String mode, int limite, double compteur){
-        this.plateau = plateau;
+    Jeu(Pont[][] plateau, int numNiveau, String mode, int limite){
         this.numNiveau = numNiveau;
+        this.plateau = plateau;
+        this.mode = mode;
+        this.limite = limite;
+        this.compteur = limite;
+        this.chercheEntree();
+        this.chercheSortie();
+        this.initDebit();
     }
 
     private static String niveauxDir = "resources/niveaux/niveau";

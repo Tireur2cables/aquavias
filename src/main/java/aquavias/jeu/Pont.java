@@ -20,6 +20,12 @@ public abstract class Pont {
         this.eau = this.isEntree();
     }
 
+    Pont(char forme, char orientation, String spe){
+        this.forme = forme;
+        this.orientation = orientation;
+        this.spe = spe;
+    }
+
     abstract boolean[] calculSorties();
 
     private void castAndCalculateSorties() {
