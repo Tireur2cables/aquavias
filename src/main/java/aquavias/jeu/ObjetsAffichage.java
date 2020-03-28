@@ -272,8 +272,6 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar{
 
-    private static String dossierNiveaux = "resources/niveaux/";
-
     MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
         super();
         JMenu charger = this.createChargerMenu(fenetre, controleur);
@@ -287,11 +285,7 @@ class MenuBar extends JMenuBar{
 
     private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
         JMenu charger = new JMenu("Charger");
-        File dossier = new File(dossierNiveaux);
-        if (!dossier.exists()) throw new RuntimeException("Can't Find Niveaux folder!");
-        File[] files = dossier.listFiles();
-        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        Collections.sort(niveaux);
+        ArrayList<File> niveaux = Accueil.getListNiveau();
         for (File f : niveaux) {
             JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
             charger.add(niveau);
@@ -349,4 +343,20 @@ class Accueil extends JPanel{
         super.paintComponent(g);
         g.drawImage(this.bg, 0, 0, this);
     }
+
+    private static String dossierNiveaux = "resources/niveaux/";
+    /*
+    * FONCTION STATIC QUE JE RAJOUTE ICI CAR JE SAIS PAS VRAIMENT OU LA METTRE
+    * **/
+
+    protected static ArrayList<File> getListNiveau(){
+        File dossier = new File(dossierNiveaux);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + dossierNiveaux);
+        File[] files = dossier.listFiles();
+        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + dossierNiveaux);
+        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
+        Collections.sort(niveaux);
+        return niveaux;
+    }
+
 }

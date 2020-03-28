@@ -98,14 +98,11 @@ class Controleur {
         this.jeu.stopTimer();
     }
 
-    /**
-     * WIP
-     */
     void retry() {
         int numNiveau = this.jeu.getNumNiveau();
         this.chargeNiveau(numNiveau);
     }
-    
+
     void backMenu() {
         this.graph.chargeMenu();
     }
