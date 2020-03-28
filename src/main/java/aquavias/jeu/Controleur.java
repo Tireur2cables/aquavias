@@ -107,11 +107,17 @@ class Controleur {
         this.graph.chargeMenu();
     }
 
-    /**
-     * WIP
-     */
     void nextLevel() {
-        System.out.println("Niveau suivant");
+        int numNiveau = this.jeu.getNumNiveau();
+        if(numNiveau < getNombreNiveaux()){
+            this.chargeNiveau(numNiveau + 1);
+        }else{
+            this.graph.erreurChargementNiveau("Vous êtes arrivé au dernier niveau ! Bien joué !");
+        }
+    }
+
+    int getNombreNiveaux(){
+        return Accueil.getListNiveau().size();
     }
 
     Pont getPont(int x, int y) {

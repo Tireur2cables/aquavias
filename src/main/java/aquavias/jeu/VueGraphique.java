@@ -138,6 +138,8 @@ class VueGraphique {
         this.fenetre.defaite();
     }
 
+    void erreurChargementNiveau(String info) { this.fenetre.erreurChargementNiveau(info); }
+
     /**
      * GETTER PART
      * */

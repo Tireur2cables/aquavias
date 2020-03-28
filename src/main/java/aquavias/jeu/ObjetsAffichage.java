@@ -65,13 +65,15 @@ class Fenetre extends JFrame {
     }
 
     void defaite() {
-        String[] choices = {"Réessayer!", "Retour au menu"};
+
+    }
+
+    void erreurChargementNiveau(String info){
+        String[] choices = {"Retour au menu"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(", "",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Réessayer */
-                this.controleur.retry();
-            else /* retour = 1 = Retour au menu */
+            int retour = JOptionPane.showOptionDialog(this, info,"",
+                    JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, "Retour au menu");
+            if (retour == 0) /* retour au menu */
                 this.controleur.backMenu();
         });
     }
