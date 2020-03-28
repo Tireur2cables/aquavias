@@ -102,12 +102,10 @@ class Controleur {
      * WIP
      */
     void retry() {
-        System.out.println("Réessayer");
+        int numNiveau = this.jeu.getNumNiveau();
+        this.chargeNiveau(numNiveau);
     }
-
-    /**
-     * WIP
-     */
+    
     void backMenu() {
         this.graph.chargeMenu();
     }

@@ -309,6 +309,8 @@ public class Jeu {
         return this.compteur;
     }
 
+    int getNumNiveau() { return this.numNiveau; }
+
     Pont getPont(int largeur, int hauteur) {
         return this.plateau[largeur][hauteur];
     }
