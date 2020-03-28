@@ -109,7 +109,7 @@ class Controleur {
      * WIP
      */
     void backMenu() {
-        System.out.println("Retour Menu");
+        this.graph.chargeMenu();
     }
 
     /**
