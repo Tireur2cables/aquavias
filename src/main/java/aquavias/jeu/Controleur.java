@@ -111,6 +111,7 @@ class Controleur {
         int numNiveau = this.jeu.getNumNiveau();
         if(numNiveau < getNombreNiveaux()){
             this.chargeNiveau(numNiveau + 1);
+            this.graph.niveauCharge(String.valueOf(numNiveau)); /* utile ? */
         }else{
             this.graph.erreurChargementNiveau("Vous êtes arrivé au dernier niveau ! Bien joué !");
         }

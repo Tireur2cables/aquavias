@@ -140,6 +140,10 @@ class VueGraphique {
 
     void erreurChargementNiveau(String info) { this.fenetre.erreurChargementNiveau(info); }
 
+    void niveauCharge(String newName){
+        this.fenetre.niveauCharge(newName);
+    }
+
     /**
      * GETTER PART
      * */
