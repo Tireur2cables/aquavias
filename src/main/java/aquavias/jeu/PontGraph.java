@@ -10,10 +10,10 @@ abstract class PontGraph {
 
     static BufferedImage transp = chargeImage("transp.png");
 
-    protected int orientation;
-    protected boolean eau;
-    protected boolean entree;
-    protected boolean sortie;
+    int orientation;
+    boolean eau;
+    boolean entree;
+    boolean sortie;
 
     /**
      * INIT PART

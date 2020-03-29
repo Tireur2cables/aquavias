@@ -97,6 +97,7 @@ class VueGraphique {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(new Accueil());
+            this.fenetre.setMenuBar(false);
             this.fenetre.pack();
             this.fenetre.repaint();
             this.fenetre.setLocation(dim.width/2-this.fenetre.getSize().width/2, dim.height/2-this.fenetre.getSize().height/2);
@@ -136,6 +137,8 @@ class VueGraphique {
     void defaite() {
         this.fenetre.defaite();
     }
+
+    void infoRetourMenu(String info) { this.fenetre.infoRetourMenu(info); }
 
     /**
      * GETTER PART

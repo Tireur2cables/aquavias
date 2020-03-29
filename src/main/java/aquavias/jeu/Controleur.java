@@ -1,5 +1,10 @@
 package aquavias.jeu;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 class Controleur {
 
     private Jeu jeu;
@@ -26,7 +31,6 @@ class Controleur {
         this.stopTimer();
         this.jeu.initNiveau(num);
         this.graph.afficheNiveau();
-        System.out.println("Le niveau " + num + " se lance!");
     }
 
     /**
@@ -93,30 +97,39 @@ class Controleur {
         }
     }
 
+    private void endGame() {
+        //Ajouter le générique ici!
+        this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
+    }
+
     void defaite() {
         this.graph.defaite();
         this.jeu.stopTimer();
     }
 
-    /**
-     * WIP
-     */
     void retry() {
-        System.out.println("Réessayer");
+        int numNiveau = this.jeu.getNumNiveau();
+        this.chargeNiveau(numNiveau);
     }
 
-    /**
-     * WIP
-     */
     void backMenu() {
-        System.out.println("Retour Menu");
+        this.graph.chargeMenu();
     }
 
-    /**
-     * WIP
-     */
     void nextLevel() {
-        System.out.println("Niveau suivant");
+        int numNiveau = this.jeu.getNumNiveau();
+        if(numNiveau < getNombreNiveaux())
+            this.chargeNiveau(numNiveau + 1);
+        else
+            this.endGame();
+    }
+
+    int getNombreNiveaux() {
+        return Jeu.getListNiveau().size();
+    }
+
+    static ArrayList<File> getListNiveau(){
+       return Jeu.getListNiveau();
     }
 
     Pont getPont(int x, int y) {

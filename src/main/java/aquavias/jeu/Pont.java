@@ -3,11 +3,11 @@ import org.json.*;
 
 public abstract class Pont {
 
-    protected char forme; /* I, T, L */
-    protected char orientation; /* N, E, S, O */
-    protected boolean[] sorties; /* [N, E, S, O] */
-    protected boolean eau;
-    protected String spe; /* entree, sortie, immobile */
+    char forme; /* I, T, L */
+    char orientation; /* N, E, S, O */
+    boolean[] sorties; /* [N, E, S, O] */
+    boolean eau;
+    String spe; /* entree, sortie, immobile */
 
     /**
      * INIT PART

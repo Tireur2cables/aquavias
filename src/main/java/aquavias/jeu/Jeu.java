@@ -3,7 +3,10 @@ package aquavias.jeu;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -62,11 +65,21 @@ public class Jeu {
         this.initDebit();
     }
 
-    private static String niveauxDir = "resources/niveaux/niveau";
+    private static String niveauxDir = "resources/niveaux/";
+
+    static ArrayList<File> getListNiveau(){
+        File dossier = new File(niveauxDir);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
+        File[] files = dossier.listFiles();
+        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
+        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
+        Collections.sort(niveaux);
+        return niveaux;
+    }
 
     void initNiveau(int number) {
         this.numNiveau = number;
-        String chemin = niveauxDir + this.numNiveau + ".json";
+        String chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
         int largeur = json.getInt("largeur");
@@ -309,6 +322,8 @@ public class Jeu {
         return this.compteur;
     }
 
+    int getNumNiveau() { return this.numNiveau; }
+
     Pont getPont(int largeur, int hauteur) {
         return this.plateau[largeur][hauteur];
     }
@@ -489,10 +504,10 @@ public class Jeu {
      * EXPORT PART
      * */
 
-    private static String exportDir = "resources/export/niveau";
+    private static String exportDir = "resources/export/";
 
     public void exportNiveau() {
-        String chemin = exportDir + this.numNiveau + ".json";
+        String chemin = exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }
