@@ -138,7 +138,7 @@ class VueGraphique {
         this.fenetre.defaite();
     }
 
-    void erreurChargementNiveau(String info) { this.fenetre.erreurChargementNiveau(info); }
+    void infoRetourMenu(String info) { this.fenetre.infoRetourMenu(info); }
 
     void niveauCharge(String newName){
         this.fenetre.niveauCharge(newName);

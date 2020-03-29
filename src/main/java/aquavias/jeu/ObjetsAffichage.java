@@ -76,7 +76,7 @@ class Fenetre extends JFrame {
         });
     }
 
-    void erreurChargementNiveau(String info) {
+    void infoRetourMenu(String info) {
         String[] choices = {"Retour au menu"};
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, info,"",

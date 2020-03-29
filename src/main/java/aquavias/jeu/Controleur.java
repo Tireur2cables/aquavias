@@ -113,7 +113,7 @@ class Controleur {
             this.chargeNiveau(numNiveau + 1);
             this.graph.niveauCharge(String.valueOf(numNiveau+1)); /* utile ? */
         }else {
-            this.graph.erreurChargementNiveau("Vous êtes arrivé au dernier niveau ! Bien joué !");
+            this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
         }
     }
 
