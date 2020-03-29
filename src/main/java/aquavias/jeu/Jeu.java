@@ -65,7 +65,7 @@ public class Jeu {
         this.initDebit();
     }
 
-    private static String niveauxDir = "resources/niveaux/niveau";
+    private static String niveauxDir = "resources/niveaux/";
 
     static ArrayList<File> getListNiveau(){
         File dossier = new File(niveauxDir);
@@ -79,7 +79,7 @@ public class Jeu {
 
     void initNiveau(int number) {
         this.numNiveau = number;
-        String chemin = niveauxDir + this.numNiveau + ".json";
+        String chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
         JSONObject json = readJSON(chemin);
         int hauteur = json.getInt("hauteur");
         int largeur = json.getInt("largeur");
@@ -504,10 +504,10 @@ public class Jeu {
      * EXPORT PART
      * */
 
-    private static String exportDir = "resources/export/niveau";
+    private static String exportDir = "resources/export/";
 
     public void exportNiveau() {
-        String chemin = exportDir + this.numNiveau + ".json";
+        String chemin = exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }
