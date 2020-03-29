@@ -86,10 +86,6 @@ class Fenetre extends JFrame {
         });
     }
 
-    void niveauCharge(String newName){
-        JOptionPane.showMessageDialog(this, "Niveau " + newName + " chargé !");
-    }
-
     /**
      * ADD PART
      */
@@ -312,7 +308,6 @@ class MenuBar extends JMenuBar{
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
         item.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(fenetre, "Niveau " + newName + " chargé !");
             controleur.chargeNiveau(num);
         });
         return item;

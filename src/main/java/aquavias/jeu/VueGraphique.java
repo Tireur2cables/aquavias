@@ -140,10 +140,6 @@ class VueGraphique {
 
     void infoRetourMenu(String info) { this.fenetre.infoRetourMenu(info); }
 
-    void niveauCharge(String newName){
-        this.fenetre.niveauCharge(newName);
-    }
-
     /**
      * GETTER PART
      * */

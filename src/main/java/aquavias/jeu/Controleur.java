@@ -98,6 +98,11 @@ class Controleur {
         }
     }
 
+    private void endGame() {
+        //Ajouter le générique ici!
+        this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
+    }
+
     void defaite() {
         this.graph.defaite();
         this.jeu.stopTimer();
@@ -114,12 +119,10 @@ class Controleur {
 
     void nextLevel() {
         int numNiveau = this.jeu.getNumNiveau();
-        if(numNiveau < getNombreNiveaux()) {
+        if(numNiveau < getNombreNiveaux())
             this.chargeNiveau(numNiveau + 1);
-            this.graph.niveauCharge(String.valueOf(numNiveau+1)); /* utile ? */
-        }else {
-            this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
-        }
+        else
+            this.endGame();
     }
 
     int getNombreNiveaux() {
