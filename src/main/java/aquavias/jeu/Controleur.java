@@ -31,7 +31,6 @@ class Controleur {
         this.stopTimer();
         this.jeu.initNiveau(num);
         this.graph.afficheNiveau();
-        System.out.println("Le niveau " + num + " se lance!");
     }
 
     /**
