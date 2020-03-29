@@ -1,5 +1,10 @@
 package aquavias.jeu;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 class Controleur {
 
     private Jeu jeu;
@@ -118,7 +123,11 @@ class Controleur {
     }
 
     int getNombreNiveaux() {
-        return Accueil.getListNiveau().size();
+        return Jeu.getListNiveau().size();
+    }
+
+    static ArrayList<File> getListNiveau(){
+       return Jeu.getListNiveau();
     }
 
     Pont getPont(int x, int y) {

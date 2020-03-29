@@ -299,7 +299,7 @@ class MenuBar extends JMenuBar{
 
     private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
         JMenu charger = new JMenu("Charger");
-        ArrayList<File> niveaux = Accueil.getListNiveau();
+        ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
             JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
             charger.add(niveau);
@@ -356,21 +356,6 @@ class Accueil extends JPanel{
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(this.bg, 0, 0, this);
-    }
-
-    private static String dossierNiveaux = "resources/niveaux/";
-    /*
-    * FONCTION STATIC QUE JE RAJOUTE ICI CAR JE SAIS PAS VRAIMENT OU LA METTRE
-    * **/
-
-    protected static ArrayList<File> getListNiveau(){
-        File dossier = new File(dossierNiveaux);
-        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + dossierNiveaux);
-        File[] files = dossier.listFiles();
-        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + dossierNiveaux);
-        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        Collections.sort(niveaux);
-        return niveaux;
     }
 
 }
