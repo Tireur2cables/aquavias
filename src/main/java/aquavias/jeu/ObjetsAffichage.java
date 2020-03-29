@@ -76,11 +76,11 @@ class Fenetre extends JFrame {
         });
     }
 
-    void erreurChargementNiveau(String info){
+    void erreurChargementNiveau(String info) {
         String[] choices = {"Retour au menu"};
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, info,"",
-                    JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
             if (retour == 0) /* retour au menu */
                 this.controleur.backMenu();
         });

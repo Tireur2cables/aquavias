@@ -109,15 +109,15 @@ class Controleur {
 
     void nextLevel() {
         int numNiveau = this.jeu.getNumNiveau();
-        if(numNiveau < getNombreNiveaux()){
+        if(numNiveau < getNombreNiveaux()) {
             this.chargeNiveau(numNiveau + 1);
-            this.graph.niveauCharge(String.valueOf(numNiveau)); /* utile ? */
-        }else{
+            this.graph.niveauCharge(String.valueOf(numNiveau+1)); /* utile ? */
+        }else {
             this.graph.erreurChargementNiveau("Vous êtes arrivé au dernier niveau ! Bien joué !");
         }
     }
 
-    int getNombreNiveaux(){
+    int getNombreNiveaux() {
         return Accueil.getListNiveau().size();
     }
 
