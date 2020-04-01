@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -8,7 +10,7 @@ abstract class PontGraph {
 
     static BufferedImage transp = chargeImage("transp.png");
 
-    protected Pont pont;
+    Pont pont;
 
     /**
      * INIT PART
@@ -91,5 +93,5 @@ abstract class PontGraph {
 
         return rotated;
     }
-	
+
 }

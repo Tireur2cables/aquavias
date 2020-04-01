@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -70,6 +72,16 @@ class Fenetre extends JFrame {
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
+                this.controleur.backMenu();
+        });
+    }
+
+    void infoRetourMenu(String info) {
+        String[] choices = {"Retour au menu"};
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, info,"",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
+            if (retour == 0) /* retour au menu */
                 this.controleur.backMenu();
         });
     }
@@ -270,8 +282,6 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar{
 
-    private static String dossierNiveaux = "resources/niveaux/";
-
     MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
         super();
         JMenu charger = this.createChargerMenu(fenetre, controleur);
@@ -285,11 +295,7 @@ class MenuBar extends JMenuBar{
 
     private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
         JMenu charger = new JMenu("Charger");
-        File dossier = new File(dossierNiveaux);
-        if (!dossier.exists()) throw new RuntimeException("Can't Find Niveaux folder!");
-        File[] files = dossier.listFiles();
-        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        Collections.sort(niveaux);
+        ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
             JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
             charger.add(niveau);
@@ -302,7 +308,6 @@ class MenuBar extends JMenuBar{
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
         item.addActionListener((ActionEvent e) -> {
-            JOptionPane.showMessageDialog(fenetre, "Niveau " + newName + " chargé !");
             controleur.chargeNiveau(num);
         });
         return item;
@@ -347,4 +352,5 @@ class Accueil extends JPanel{
         super.paintComponent(g);
         g.drawImage(this.bg, 0, 0, this);
     }
+
 }

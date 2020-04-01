@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>aquavias1</groupId>
-    <artifactId>jeu</artifactId>
+    <artifactId>generateur</artifactId>
     <version>0.1</version>
 
     <url>https://gauffre.informatique.univ-paris-diderot.fr/brrlt/aquavias</url>
@@ -31,6 +31,12 @@
         </dependency>
 
         <dependency>
+            <groupId>aquavias1</groupId>
+            <artifactId>jeu</artifactId>
+            <version>0.1</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
             <version>20190722</version>
@@ -40,13 +46,13 @@
     <build>
         <resources>
             <resource>
-                <directory>resources</directory>
+                <directory>../resources</directory>
             </resource>
         </resources>
 
         <testResources>
             <testResource>
-                <directory>resources</directory>
+                <directory>../resources</directory>
             </testResource>
         </testResources>
 
@@ -92,7 +98,7 @@
                         <configuration>
                             <archive>
                                 <manifest>
-                                    <mainClass>aquavias.jeu.GameLauncher</mainClass>
+                                    <mainClass>aquavias.generateur.GenNiveaux</mainClass>
                                 </manifest>
                             </archive>
                             <descriptorRefs>

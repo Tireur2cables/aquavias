@@ -1,12 +1,15 @@
-import static org.junit.Assert.*;
-
-import org.junit.*;
+package aquavias.jeu;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import static org.junit.Assert.*;
 
-public class GameLauncherTest {
+/* Import with maven dependencies */
+import aquavias.jeu.GameLauncher;
+import org.junit.*;
+
+class GameLauncherTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();

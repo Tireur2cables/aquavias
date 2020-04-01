@@ -1,13 +1,13 @@
-/* Imports with maven dependecies */
+package aquavias.jeu;/* Imports with maven dependecies */
 import org.json.*;
 
-abstract class Pont {
+public abstract class Pont {
 
-    protected char forme; /* I, T, L */
-    protected char orientation; /* N, E, S, O */
-    protected boolean[] sorties; /* [N, E, S, O] */
-    protected boolean eau;
-    protected String spe; /* entree, sortie, immobile */
+    char forme; /* I, T, L */
+    char orientation; /* N, E, S, O */
+    boolean[] sorties; /* [N, E, S, O] */
+    boolean eau;
+    String spe; /* entree, sortie, immobile */
 
     /**
      * INIT PART
@@ -20,13 +20,14 @@ abstract class Pont {
         this.eau = this.isEntree();
     }
 
-    abstract boolean[] calculSorties();
-
-    private void castAndCalculateSorties() {
-        if (this instanceof PontI) this.sorties = ((PontI) this).calculSorties();
-        else if (this instanceof PontL) this.sorties = ((PontL) this).calculSorties();
-        else if (this instanceof PontT) this.sorties = ((PontT) this).calculSorties();
+    Pont(char forme, char orientation, String spe){
+        this.forme = forme;
+        this.orientation = orientation;
+        this.spe = spe;
+        this.eau = this.isEntree();
     }
+
+    abstract boolean[] calculSorties();
 
     /**
      * GETTER PART
@@ -40,7 +41,7 @@ abstract class Pont {
         return this.eau;
     }
 
-    char getOrientation(){
+    public char getOrientation(){
         return this.orientation;
     }
 
@@ -60,7 +61,7 @@ abstract class Pont {
         return this.sorties;
     }
 
-    static char getNextOrientation(char c) {
+    public static char getNextOrientation(char c) {
         switch (c) {
             case 'N' : return 'E';
             case 'E' : return 'S';
@@ -70,7 +71,7 @@ abstract class Pont {
         throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }
 
-    boolean isAccessibleFrom(char c) {
+    public boolean isAccessibleFrom(char c) {
         switch (c) {
             case 'N' : return this.sorties[2]; /* accessible depuis le nord de l'autre pont donc le sud de ce pont etc... */
             case 'E' : return this.sorties[3];
@@ -84,15 +85,13 @@ abstract class Pont {
      * SETTER PART
      * */
 
-    void setOrientation(char c) {
+    public void setOrientation(char c) {
         this.orientation = c;
-        this.castAndCalculateSorties();
+        this.sorties = this.calculSorties();
     }
 
     void setEau(boolean eau) {
         this.eau = eau;
     }
-
-
 
 }

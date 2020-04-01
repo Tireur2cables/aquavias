@@ -1,10 +1,16 @@
-/* Imports with maven dependecies */
+package aquavias.jeu;
+
 import org.json.JSONArray;
 
-class PontT extends Pont {
+public class PontT extends Pont {
 
     PontT(JSONArray json) {
         super(json);
+        this.sorties = this.calculSorties();
+    }
+
+    public PontT(char Orientation, String spe){
+        super('T', Orientation, spe);
         this.sorties = this.calculSorties();
     }
 

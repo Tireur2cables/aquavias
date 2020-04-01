@@ -1,7 +1,12 @@
+package aquavias.jeu;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +17,7 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
 
-class Jeu {
+public class Jeu {
 
     private Controleur controleur;
     private Pont[][] plateau;
@@ -22,9 +27,9 @@ class Jeu {
     private int xSortie;
     private int ySortie;
     private String mode;
-    private int limite;
-    private double compteur;
-    private double debit;
+    private int limite; //Nombre de coup / temps
+    private double compteur; //Commence à la limite et décrémente à chaque coups / seconde
+    private double debit; //1 pour mode coups / calcul la vitesse de vidage de l'eau en mode fuite
 
     /**
      * AFFICHAGE PART
@@ -49,11 +54,32 @@ class Jeu {
         this.controleur = controleur;
     }
 
-    private static String niveauxDir = "resources/niveaux/niveau";
+    public Jeu(Pont[][] plateau, int numNiveau, String mode, int limite){
+        this.numNiveau = numNiveau;
+        this.plateau = plateau;
+        this.mode = mode;
+        this.limite = limite;
+        this.compteur = limite;
+        this.chercheEntree();
+        this.chercheSortie();
+        this.initDebit();
+    }
+
+    private static String niveauxDir = "resources/niveaux/";
+
+    static ArrayList<File> getListNiveau(){
+        File dossier = new File(niveauxDir);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
+        File[] files = dossier.listFiles();
+        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
+        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
+        Collections.sort(niveaux);
+        return niveaux;
+    }
 
     void initNiveau(int number) {
         this.numNiveau = number;
-        String chemin = niveauxDir + this.numNiveau + ".json";
+        String chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
         JSONObject json = readJSON(chemin);
         int largeur = json.getInt("largeur");
         int hauteur = json.getInt("hauteur");
@@ -300,6 +326,8 @@ class Jeu {
         return this.compteur;
     }
 
+    int getNumNiveau() { return this.numNiveau; }
+
     Pont getPont(int largeur, int hauteur) {
         return this.plateau[largeur][hauteur];
     }
@@ -419,7 +447,7 @@ class Jeu {
             case 2 : return this.checkEtancheSud(x, y);
             case 3 : return this.checkEtancheOuest(x, y);
         }
-        throw new RuntimeException("Sortie de Pont Inconnue");
+        throw new RuntimeException("Sortie de aquavias.jeu.Pont Inconnue");
     }
 
     private int checkEtancheNord(int x, int y) {
@@ -478,10 +506,10 @@ class Jeu {
      * EXPORT PART
      * */
 
-    private static String exportDir = "resources/export/niveau";
+    private static String exportDir = "resources/export/";
 
-    void exportNiveau() {
-        String chemin = exportDir + this.numNiveau + ".json";
+    public void exportNiveau() {
+        String chemin = exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }

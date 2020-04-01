@@ -1,3 +1,5 @@
+package aquavias.jeu;
+
 import java.awt.image.BufferedImage;
 
 class PontTGraph extends PontGraph {
