@@ -9,6 +9,8 @@ class VueGraphique {
     private Fenetre fenetre;
     private Niveau niveau;
     private PontGraph[][] plateau;
+    private int imageW;
+    private int imageH;
 
     /**
      *  Fonction pour affichage de test unitaire
@@ -48,6 +50,7 @@ class VueGraphique {
     private void initNiveau(int largeur, int hauteur) {
         this.niveau = new Niveau(largeur, hauteur);
         this.initPlateau(largeur, hauteur);
+        this.calculImageSize(largeur, hauteur);
     }
 
     /**
@@ -55,11 +58,32 @@ class VueGraphique {
      * */
     private void initPlateau(int largeur, int hauteur) {
         this.plateau = new PontGraph[largeur][hauteur];
+        this.imageW = 0;
+        this.imageH = 0;
         for(int i = 0; i < largeur; i++){
             for(int j = 0; j < hauteur; j++){
                 this.plateau[i][j] = this.getPontGraphique(i, j);
             }
         }
+    }
+
+    /**
+     * Suppose que toutes les images sont de la même taille que l'image de pont transparente
+     * */
+    private void calculImageSize(int largeur, int hauteur) {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.imageW = PontGraph.transp.getWidth();
+        this.imageH = PontGraph.transp.getHeight();
+
+        this.imageW = this.imageW * largeur;
+        int diff = Math.abs(this.imageW - dim.width)/largeur;
+        this.imageW = this.imageW / largeur;
+        this.imageW = (this.imageW > dim.width)? this.imageW-diff : this.imageW+diff;
+
+        this.imageH = this.imageH * hauteur;
+        diff = Math.abs(this.imageH - dim.height)/hauteur;
+        this.imageH = this.imageH / hauteur;
+        this.imageH = (this.imageH > dim.height)? this.imageH-diff : this.imageH+diff;
     }
 
     /**
@@ -95,8 +119,10 @@ class VueGraphique {
 
     void chargeMenu() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.imageW = dim.width;
+        this.imageH = dim.height;
         EventQueue.invokeLater(() -> {
-            this.fenetre.setContentPane(new Accueil());
+            this.fenetre.setContentPane(new Accueil(this.imageW, this.imageH));
             this.fenetre.setMenuBar(false);
             this.fenetre.pack();
             this.fenetre.repaint();
@@ -123,6 +149,17 @@ class VueGraphique {
         this.fenetre.decrementeProgressBar();
     }
 
+    static BufferedImage resizeImage(BufferedImage img, int newW, int newH) {
+        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
+        return dimg;
+    }
+
     /**
      * DISPLAY POPUP PART
      */
@@ -142,7 +179,8 @@ class VueGraphique {
      * */
 
     BufferedImage getImage(int x, int y) {
-        return (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
+        BufferedImage image = (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
+        return resizeImage(image, this.imageW, this.imageH);
     }
 
     /**

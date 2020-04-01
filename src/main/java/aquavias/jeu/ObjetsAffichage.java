@@ -30,6 +30,7 @@ class Fenetre extends JFrame {
             this.setContentPane(new ImagePane(image, true, vue, 0, 0));
             this.pack();
             this.setVisible(true);
+            this.setResizable(false);
         });
     }
 
@@ -43,8 +44,8 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
-            this.setMenuBar(false);
             this.setVisible(false);
+            this.setResizable(false); // Le jeu se joue en plein écran pour le moment
         });
     }
 
@@ -90,9 +91,9 @@ class Fenetre extends JFrame {
      * ADD PART
      */
 
-    void setMenuBar(boolean export){
+    void setMenuBar(boolean inNiveau){
         EventQueue.invokeLater(() -> {
-            this.setJMenuBar(new MenuBar(this, this.controleur, export));
+            this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau));
         });
     }
 
@@ -139,7 +140,8 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setSize(largeur*200, hauteur*200);
             this.pack();
-            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+            //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+            this.setLocationRelativeTo(null);
         });
     }
 
@@ -195,9 +197,10 @@ class Niveau extends JPanel {
 
     public Niveau(int largeur, int hauteur) {
         super();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(hauteur, largeur));
-            this.setPreferredSize(new Dimension(largeur*200,hauteur*200));
+            this.setPreferredSize(new Dimension(dim.width,dim.height));
         });
     }
 }
@@ -282,28 +285,28 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar{
 
-    MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
+    MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
-        JMenu charger = this.createChargerMenu(fenetre, controleur);
+        JMenu charger = this.createChargerMenu(controleur);
         this.add(charger);
 
-        if (export) {
+        if (inNiveau) {
             JButton save = this.createSave(fenetre, controleur);
             this.add(save);
         }
     }
 
-    private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
+    private JMenu createChargerMenu(Controleur controleur) {
         JMenu charger = new JMenu("Charger");
         ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
-            JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
+            JMenuItem niveau = createMenuItem(f.getName(), controleur);
             charger.add(niveau);
         }
         return charger;
     }
 
-    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur) {
+    private JMenuItem createMenuItem(String name, Controleur controleur) {
         int num = findNum(name);
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
@@ -337,14 +340,14 @@ class MenuBar extends JMenuBar{
 
 }
 
-class Accueil extends JPanel{
+class Accueil extends JPanel {
 
     private BufferedImage bg;
 
-    Accueil() {
+    Accueil(int largeur, int hauteur) {
         BufferedImage bg =  PontGraph.chargeImage("bg.png");
-        this.bg = bg;
-        this.setPreferredSize(new Dimension(1000,700));
+        this.bg = VueGraphique.resizeImage(bg, largeur, hauteur);
+        this.setPreferredSize(new Dimension(largeur,hauteur));
     }
 
     @Override
