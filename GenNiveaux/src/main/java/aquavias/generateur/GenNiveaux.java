@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 class GenNiveaux {
 
     public static void main(String[] args) {
-        System.out.println("je suis gen niveau");
+        System.out.println("gen niveau -> WIP cf. branche GenererNiveaux");
     }
 
     private void exportNiveau(int largeur, int hauteur, int numNiveau) {
