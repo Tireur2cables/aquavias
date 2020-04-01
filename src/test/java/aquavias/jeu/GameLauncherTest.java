@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 import aquavias.jeu.GameLauncher;
 import org.junit.*;
 
-class GameLauncherTest {
+public class GameLauncherTest {
 
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final ByteArrayOutputStream errContent = new ByteArrayOutputStream();
