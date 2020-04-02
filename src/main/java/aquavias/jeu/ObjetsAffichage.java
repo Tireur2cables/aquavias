@@ -205,11 +205,10 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    public Niveau(int largeur, int hauteur, Fenetre fenetre) {
+    public Niveau(Fenetre fenetre) {
         super();
         Dimension frameDim = this.getEffectiveFrameSize(fenetre);
         EventQueue.invokeLater(() -> {
-            //this.setLayout(new GridLayout(hauteur+1, largeur+1));
             this.setLayout(new GridBagLayout());
             this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });

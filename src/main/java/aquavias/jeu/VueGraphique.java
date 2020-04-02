@@ -50,7 +50,7 @@ class VueGraphique {
     }
 
     private void initNiveau(int largeur, int hauteur) {
-        this.niveau = new Niveau(largeur, hauteur, this.fenetre);
+        this.niveau = new Niveau(this.fenetre);
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
         this.calculCalleSize(largeur, hauteur);
