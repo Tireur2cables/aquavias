@@ -340,7 +340,6 @@ public class Jeu {
         File[] files = dossier.listFiles();
         if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
         ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        System.out.print(niveaux);
         niveaux.sort(getNiveauComparator()); //FIXME: le tri ne tri pas les dizaines correctement
         return niveaux;
     }
@@ -349,12 +348,9 @@ public class Jeu {
         return new Comparator<File>(){
             @Override
             public int compare(File f1, File f2){
-                System.out.println(f1.getName());
                 String f1name = f1.getName().substring(6, f1.getName().length() - 5);
                 String f2name = f2.getName().substring(6, f2.getName().length() - 5);
                 try{
-                    System.out.println(f1name);
-                    System.out.println(f2name);
                     int f1num = Integer.parseInt(f1name);
                     int f2num = Integer.parseInt(f2name);
                     return f1num - f2num;
