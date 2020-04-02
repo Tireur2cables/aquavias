@@ -130,7 +130,6 @@ class VueGraphique {
         gbc.gridy = y;
         EventQueue.invokeLater(() -> {
             this.niveau.add(new ImagePane(image, movable, this, x, y), gbc);
-            //this.niveau.add(new ImagePane(image, movable, this, x, y));
         });
     }
 
@@ -172,9 +171,7 @@ class VueGraphique {
             BufferedImage image = PontGraph.chargeImage("bg.png");
             this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));
             this.fenetre.setMenuBar(false);
-            this.fenetre.pack();
-            this.fenetre.repaint();
-            this.fenetre.changeSize();
+            this.repaint();
         });
     }
 
@@ -183,7 +180,6 @@ class VueGraphique {
      */
 
     private void repaint() {
-        this.fenetre.pack();
         this.fenetre.repaint();
         this.fenetre.changeSize();
     }

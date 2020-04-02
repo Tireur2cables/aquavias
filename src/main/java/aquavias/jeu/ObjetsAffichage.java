@@ -133,11 +133,13 @@ class Fenetre extends JFrame {
      *  UPDATE PART
      */
 
-    /** FIXME: utile? */
     void changeSize() {
+        Dimension screenDim = this.getEffectiveScreenSize();
+        int largeur = screenDim.width;
+        int hauteur = screenDim.height;
         EventQueue.invokeLater(() -> {
-            this.pack();
-            this.setLocationRelativeTo(null); //place la fenetre au centre car la taille de la fenetre occupe tout l'écran
+            this.pack(); //permet l'affichage
+            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
         });
     }
 
@@ -185,6 +187,18 @@ class Fenetre extends JFrame {
         BigDecimal bd = new BigDecimal(d);
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    /**
+     * GETTER PART
+     * */
+
+    private Dimension getEffectiveScreenSize() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        int width = screenSize.width - (screenInsets.left + screenInsets.right);
+        int height = screenSize.height - (screenInsets.bottom + screenInsets.top);
+        return new Dimension(width,height);
     }
 
 }
