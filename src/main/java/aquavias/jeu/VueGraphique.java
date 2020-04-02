@@ -1,5 +1,6 @@
 package aquavias.jeu;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -72,18 +73,21 @@ class VueGraphique {
      * */
     private void calculImageSize(int largeur, int hauteur) {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        int width = dim.width - (insets.left + insets.right);
+        int height = dim.height - (insets.bottom + insets.top);
         this.imageW = PontGraph.transp.getWidth();
         this.imageH = PontGraph.transp.getHeight();
 
         this.imageW = this.imageW * largeur;
-        int diff = Math.abs(this.imageW - dim.width)/largeur;
+        int diff = Math.abs(this.imageW - width)/largeur;
         this.imageW = this.imageW / largeur;
-        this.imageW = (this.imageW > dim.width)? this.imageW-diff : this.imageW+diff;
+        this.imageW = (this.imageW > width)? this.imageW-diff : this.imageW+diff;
 
         this.imageH = this.imageH * hauteur;
-        diff = Math.abs(this.imageH - dim.height)/hauteur;
+        diff = Math.abs(this.imageH - height)/hauteur;
         this.imageH = this.imageH / hauteur;
-        this.imageH = (this.imageH > dim.height)? this.imageH-diff : this.imageH+diff;
+        this.imageH = (this.imageH > height)? this.imageH-diff : this.imageH+diff;
     }
 
     /**
@@ -119,14 +123,16 @@ class VueGraphique {
 
     void chargeMenu() {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        this.imageW = dim.width;
-        this.imageH = dim.height;
+        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        this.imageW = dim.width - (insets.left + insets.right);
+        this.imageH = dim.height - (insets.bottom + insets.top);
         EventQueue.invokeLater(() -> {
             this.fenetre.setContentPane(new Accueil(this.imageW, this.imageH));
             this.fenetre.setMenuBar(false);
             this.fenetre.pack();
             this.fenetre.repaint();
-            this.fenetre.setLocation(dim.width/2-this.fenetre.getSize().width/2, dim.height/2-this.fenetre.getSize().height/2);
+            this.fenetre.changeSize(this.imageW,this.imageH);
+            //this.fenetre.setLocation(dim.width/2-this.fenetre.getSize().width/2, dim.height/2-this.fenetre.getSize().height/2);
             this.fenetre.setVisible(true);
         });
     }
@@ -137,7 +143,7 @@ class VueGraphique {
 
     private void repaint() {
         this.fenetre.repaint();
-        this.fenetre.changeSize(this.controleur.getLargeur(), this.controleur.getHauteur());
+        this.fenetre.changeSize(this.controleur.getLargeur()*this.imageW, this.controleur.getHauteur()*this.imageH);
     }
 
 

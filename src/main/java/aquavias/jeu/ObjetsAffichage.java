@@ -136,9 +136,9 @@ class Fenetre extends JFrame {
      */
 
     void changeSize(int largeur, int hauteur) {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
-            this.setSize(largeur*200, hauteur*200);
+            //this.setSize(largeur*200, hauteur*200);
             this.pack();
             //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
             this.setLocationRelativeTo(null);
@@ -197,10 +197,13 @@ class Niveau extends JPanel {
 
     public Niveau(int largeur, int hauteur) {
         super();
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        int width = screenSize.width - (insets.left + insets.right);
+        int height = screenSize.height - (insets.bottom + insets.top);
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(hauteur, largeur));
-            this.setPreferredSize(new Dimension(dim.width,dim.height));
+            this.setPreferredSize(new Dimension(width, height));
         });
     }
 }
