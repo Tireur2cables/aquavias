@@ -1,67 +1,28 @@
 {
   "num" : 1,
-  "hauteur" : 10,
-  "largeur" : 19,
+  "hauteur" : 11,
+  "largeur" : 6,
   "mode" : "compteur",
   "limite" : 10,
   "compteur" : 10,
   "niveau" : [
       [
-        [], ["i", "E", "entree"], [], [], [], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
+        [], ["i", "E", "entree"], [], [], [], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
       ],
       [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
+        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
       ],
       [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
+        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
       ],
       [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
+        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
       ],
       [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
+        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
       ],
       [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
-      ],
-      [
-        [], ["i", "E", "sortie"], [], [], [], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
+        [], ["i", "E", "sortie"], [], [], [], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]
       ]
   ]
 }

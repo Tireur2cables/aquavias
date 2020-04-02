@@ -83,15 +83,15 @@ class VueGraphique {
         int imageH = PontGraph.transp.getHeight();
 
         this.imageW = this.imageW * largeur;
-        double diff = Math.abs(this.imageW - width)/largeur;
+        double diff = Math.abs(this.imageW - width) / largeur;
         this.imageW = this.imageW / largeur;
-        this.imageW = (int) Math.round((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
+        this.imageW = (int) Math.floor((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
 
         imageH = imageH * hauteur;
-        diff = Math.abs(imageH - height)/hauteur;
+        diff = Math.abs(imageH - height) / hauteur;
         imageH = imageH / hauteur;
-        imageH = (int) Math.round((imageH*hauteur > height)? imageH-diff : imageH+diff);
-        this.imageW = Math.min(this.imageW, imageH); //permet aux ponts d'être carrés
+        imageH = (int) Math.floor((imageH*hauteur > height)? imageH-diff : imageH+diff);
+        this.imageW = Math.min(this.imageW, imageH) - 1; //permet aux ponts d'être carrés
     }
 
     /**
