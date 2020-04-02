@@ -1,6 +1,5 @@
 package aquavias.jeu;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
@@ -11,7 +10,8 @@ class VueGraphique {
     private Niveau niveau;
     private PontGraph[][] plateau;
     private int imageW;
-    private int imageH;
+    private int calleW;
+    private int calleH;
 
     /**
      *  Fonction pour affichage de test unitaire
@@ -42,8 +42,10 @@ class VueGraphique {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
                 this.addToNiveau(this.getImage(i, j), movable, i, j);
+                if (i == largeur-1) this.addCalleLargeur(i+1, j);
             }
         }
+        this.addCallesHauteur(largeur, hauteur);
         this.repaint();
     }
 
@@ -51,6 +53,7 @@ class VueGraphique {
         this.niveau = new Niveau(largeur, hauteur, this.fenetre);
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
+        this.calculCalleSize(largeur, hauteur);
     }
 
     /**
@@ -59,7 +62,8 @@ class VueGraphique {
     private void initPlateau(int largeur, int hauteur) {
         this.plateau = new PontGraph[largeur][hauteur];
         this.imageW = 0;
-        this.imageH = 0;
+        this.calleW = 0;
+        this.calleH = 0;
         for(int i = 0; i < largeur; i++){
             for(int j = 0; j < hauteur; j++){
                 this.plateau[i][j] = this.getPontGraphique(i, j);
@@ -71,21 +75,32 @@ class VueGraphique {
      * Suppose que toutes les images sont de la même taille que l'image de pont transparente
      * */
     private void calculImageSize(int largeur, int hauteur) {
-        Dimension dim = this.getEffectiveFrameWidth();
+        Dimension dim = this.getEffectiveFrameSize();
         double width = dim.width;
         double height = dim.height;
         this.imageW = PontGraph.transp.getWidth();
-        this.imageH = PontGraph.transp.getHeight();
+        int imageH = PontGraph.transp.getHeight();
 
         this.imageW = this.imageW * largeur;
         double diff = Math.abs(this.imageW - width)/largeur;
         this.imageW = this.imageW / largeur;
         this.imageW = (int) Math.round((this.imageW > width)? this.imageW-diff : this.imageW+diff);
 
-        this.imageH = this.imageH * hauteur;
-        diff = Math.abs(this.imageH - height)/hauteur;
-        this.imageH = this.imageH / hauteur;
-        this.imageH = (int) Math.round((this.imageH > height)? this.imageH-diff : this.imageH+diff);
+        imageH = imageH * hauteur;
+        diff = Math.abs(imageH - height)/hauteur;
+        imageH = imageH / hauteur;
+        imageH = (int) Math.round((imageH > height)? imageH-diff : imageH+diff);
+
+        //permet aux ponts d'être carrés
+        this.imageW = Math.min(this.imageW, imageH);
+    }
+
+    private void calculCalleSize(int largeur, int hauteur) {
+        Dimension screenDim = this.getEffectiveFrameSize();
+        int width = screenDim.width;
+        int height = screenDim.height;
+        this.calleW = Math.max(width - (this.imageW * largeur), 1);
+        this.calleH = Math.max(height - (this.imageW * hauteur), 1);
     }
 
     /**
@@ -110,9 +125,39 @@ class VueGraphique {
      *	-movable si le pont peut être tourné
      * */
     private void addToNiveau(BufferedImage image, boolean movable, int x, int y) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
         EventQueue.invokeLater(() -> {
-            this.niveau.add(new ImagePane(image, movable, this, x, y));
+            this.niveau.add(new ImagePane(image, movable, this, x, y), gbc);
+            //this.niveau.add(new ImagePane(image, movable, this, x, y));
         });
+    }
+
+    private void addCalleLargeur(int x, int y) {
+        BufferedImage image = PontGraph.transp;
+        Accueil jpanel = new Accueil(resizeImage(image, this.calleW, this.imageW));
+        GridBagConstraints gbc = new GridBagConstraints();
+        if (x == this.plateau.length) gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        EventQueue.invokeLater(() -> {
+            this.niveau.add(jpanel, gbc);
+        });
+    }
+
+    private void addCallesHauteur(int largeur, int hauteur) {
+        BufferedImage image = PontGraph.transp;
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = hauteur;
+        for (int i = 0; i < largeur + 1; i++) {
+            if (i == largeur) gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.gridx = i;
+            Accueil jpanel = new Accueil(resizeImage(image, this.imageW, this.calleH));
+            EventQueue.invokeLater(() -> {
+                this.niveau.add(jpanel, gbc);
+            });
+        }
     }
 
     /**
@@ -120,12 +165,12 @@ class VueGraphique {
      */
 
     void chargeMenu() {
-        Dimension dim = this.getEffectiveFrameWidth();
+        Dimension dim = this.getEffectiveFrameSize();
         this.imageW = dim.width;
-        this.imageH = dim.height;
+        int imageH = dim.height;
         EventQueue.invokeLater(() -> {
             BufferedImage image = PontGraph.chargeImage("bg.png");
-            this.fenetre.setContentPane(new Accueil(this.resizeImage(image)));
+            this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));
             this.fenetre.setMenuBar(false);
             this.fenetre.pack();
             this.fenetre.repaint();
@@ -138,6 +183,7 @@ class VueGraphique {
      */
 
     private void repaint() {
+        this.fenetre.pack();
         this.fenetre.repaint();
         this.fenetre.changeSize();
     }
@@ -151,9 +197,9 @@ class VueGraphique {
         this.fenetre.decrementeProgressBar();
     }
 
-    private BufferedImage resizeImage(BufferedImage img) {
-        Image tmp = img.getScaledInstance(this.imageW, this.imageH, Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(this.imageW, this.imageH, BufferedImage.TYPE_INT_ARGB);
+    private BufferedImage resizeImage(BufferedImage img, int newW, int newH) {
+        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2d = dimg.createGraphics();
         g2d.drawImage(tmp, 0, 0, null);
@@ -182,7 +228,7 @@ class VueGraphique {
 
     BufferedImage getImage(int x, int y) {
         BufferedImage image = (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
-        return this.resizeImage(image);
+        return this.resizeImage(image, this.imageW, this.imageW);
     }
 
     /**
@@ -193,7 +239,7 @@ class VueGraphique {
         return PontGraph.getPontGraph(p);
     }
 
-    private Dimension getEffectiveFrameWidth() {
+    private Dimension getEffectiveFrameSize() {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
         Insets frameInsets = this.fenetre.getInsets();
@@ -220,11 +266,11 @@ class VueGraphique {
         }
     }
 
-	/**
-	*   Met à jour l'image a la position x,y avec la nouvelle image `image`
-	* */
+    /**
+     *   Met à jour l'image a la position x,y avec la nouvelle image `image`
+     * */
     private void actualiseImage(BufferedImage image, int x, int y) {
-        int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
+        int largeur = ((GridBagLayout) this.niveau.getLayout()).getLayoutDimensions()[0].length;
         int indice = x+y*largeur;
         ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
     }

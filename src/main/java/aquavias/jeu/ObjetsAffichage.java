@@ -193,14 +193,15 @@ class Niveau extends JPanel {
 
     public Niveau(int largeur, int hauteur, Fenetre fenetre) {
         super();
-        Dimension frameDim = this.getEffectiveFrameWidth(fenetre);
+        Dimension frameDim = this.getEffectiveFrameSize(fenetre);
         EventQueue.invokeLater(() -> {
-            this.setLayout(new GridLayout(hauteur, largeur));
-            this.setPreferredSize(new Dimension(frameDim.width, frameDim.height));
+            //this.setLayout(new GridLayout(hauteur+1, largeur+1));
+            this.setLayout(new GridBagLayout());
+            this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });
     }
 
-    private Dimension getEffectiveFrameWidth(Fenetre fenetre) {
+    private Dimension getEffectiveFrameSize(Fenetre fenetre) {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
         Insets frameInsets = fenetre.getInsets();
