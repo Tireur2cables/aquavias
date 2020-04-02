@@ -537,7 +537,6 @@ public class Jeu {
 
     private JSONObject createJSON() {
         JSONObject fic = new JSONObject();
-        fic.put("num", this.numNiveau);
         fic.put("largeur", this.getLargeur());
         fic.put("hauteur", this.getHauteur());
         fic.put("mode", this.mode);
