@@ -9,6 +9,9 @@ class VueGraphique {
     private Fenetre fenetre;
     private Niveau niveau;
     private PontGraph[][] plateau;
+    private int imageW;
+    private int calleW;
+    private int calleH;
 
     /**
      *  Fonction pour affichage de test unitaire
@@ -39,15 +42,18 @@ class VueGraphique {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
                 this.addToNiveau(this.getImage(i, j), movable, i, j);
+                if (i == largeur-1) this.addCalleLargeur(i+1, j);
             }
         }
+        this.addCallesHauteur(largeur, hauteur);
         this.repaint();
-        this.fenetre.setVisible(true);
     }
 
     private void initNiveau(int largeur, int hauteur) {
-        this.niveau = new Niveau(largeur, hauteur);
+        this.niveau = new Niveau(this.fenetre);
         this.initPlateau(largeur, hauteur);
+        this.calculImageSize(largeur, hauteur);
+        this.calculCalleSize(largeur, hauteur);
     }
 
     /**
@@ -55,11 +61,48 @@ class VueGraphique {
      * */
     private void initPlateau(int largeur, int hauteur) {
         this.plateau = new PontGraph[largeur][hauteur];
+        this.imageW = 0;
+        this.calleW = 0;
+        this.calleH = 0;
         for(int i = 0; i < largeur; i++){
             for(int j = 0; j < hauteur; j++){
                 this.plateau[i][j] = this.getPontGraphique(i, j);
             }
         }
+    }
+
+    /**
+     * Calcul la taille que doivent faire les images
+     * Suppose que toutes les images sont de la même taille que l'image de pont transparente
+     * */
+    private void calculImageSize(int largeur, int hauteur) {
+        Dimension dim = this.getEffectiveFrameSize();
+        double width = dim.width;
+        double height = dim.height;
+        this.imageW = PontGraph.transp.getWidth();
+        int imageH = PontGraph.transp.getHeight();
+
+        this.imageW = this.imageW * largeur;
+        double diff = Math.abs(this.imageW - width) / largeur;
+        this.imageW = this.imageW / largeur;
+        this.imageW = (int) Math.floor((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
+        /** Math.floor arrondi a l'entier EN DESSOUS */
+        imageH = imageH * hauteur;
+        diff = Math.abs(imageH - height) / hauteur;
+        imageH = imageH / hauteur;
+        imageH = (int) Math.floor((imageH*hauteur > height)? imageH-diff : imageH+diff);
+        this.imageW = Math.min(this.imageW, imageH) - 1; //permet aux ponts d'être carrés
+    }
+
+    /**
+     * Calcul la taille que doivent faire les "Calles" pour que la fentre soit totalement remplie
+     * */
+    private void calculCalleSize(int largeur, int hauteur) {
+        Dimension screenDim = this.getEffectiveFrameSize();
+        int width = screenDim.width;
+        int height = screenDim.height;
+        this.calleW = Math.max(width - (this.imageW * largeur), 1);
+        this.calleH = Math.max(height - (this.imageW * hauteur), 1);
     }
 
     /**
@@ -84,9 +127,38 @@ class VueGraphique {
      *	-movable si le pont peut être tourné
      * */
     private void addToNiveau(BufferedImage image, boolean movable, int x, int y) {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = x;
+        gbc.gridy = y;
         EventQueue.invokeLater(() -> {
-            this.niveau.add(new ImagePane(image, movable, this, x, y));
+            this.niveau.add(new ImagePane(image, movable, this, x, y), gbc);
         });
+    }
+
+    private void addCalleLargeur(int x, int y) {
+        BufferedImage image = PontGraph.transp;
+        Accueil jpanel = new Accueil(resizeImage(image, this.calleW, this.imageW));
+        GridBagConstraints gbc = new GridBagConstraints();
+        if (x == this.plateau.length) gbc.gridwidth = GridBagConstraints.REMAINDER;
+        gbc.gridx = x;
+        gbc.gridy = y;
+        EventQueue.invokeLater(() -> {
+            this.niveau.add(jpanel, gbc);
+        });
+    }
+
+    private void addCallesHauteur(int largeur, int hauteur) {
+        BufferedImage image = PontGraph.transp;
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridy = hauteur;
+        for (int i = 0; i < largeur + 1; i++) {
+            if (i == largeur) gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.gridx = i;
+            Accueil jpanel = new Accueil(resizeImage(image, this.imageW, this.calleH));
+            EventQueue.invokeLater(() -> {
+                this.niveau.add(jpanel, gbc);
+            });
+        }
     }
 
     /**
@@ -94,14 +166,14 @@ class VueGraphique {
      */
 
     void chargeMenu() {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        Dimension dim = this.getEffectiveFrameSize();
+        this.imageW = dim.width;
+        int imageH = dim.height;
         EventQueue.invokeLater(() -> {
-            this.fenetre.setContentPane(new Accueil());
+            BufferedImage image = PontGraph.chargeImage("bg.png");
+            this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));
             this.fenetre.setMenuBar(false);
-            this.fenetre.pack();
-            this.fenetre.repaint();
-            this.fenetre.setLocation(dim.width/2-this.fenetre.getSize().width/2, dim.height/2-this.fenetre.getSize().height/2);
-            this.fenetre.setVisible(true);
+            this.repaint();
         });
     }
 
@@ -111,7 +183,7 @@ class VueGraphique {
 
     private void repaint() {
         this.fenetre.repaint();
-        this.fenetre.changeSize(this.controleur.getLargeur(), this.controleur.getHauteur());
+        this.fenetre.changeSize();
     }
 
 
@@ -121,6 +193,17 @@ class VueGraphique {
 
     void decrementeProgressBar() {
         this.fenetre.decrementeProgressBar();
+    }
+
+    private BufferedImage resizeImage(BufferedImage img, int newW, int newH) {
+        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
+        return dimg;
     }
 
     /**
@@ -142,7 +225,8 @@ class VueGraphique {
      * */
 
     BufferedImage getImage(int x, int y) {
-        return (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
+        BufferedImage image = (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
+        return this.resizeImage(image, this.imageW, this.imageW);
     }
 
     /**
@@ -151,6 +235,16 @@ class VueGraphique {
     private PontGraph getPontGraphique(int i, int j) {
         Pont p = this.controleur.getPont(i, j);
         return PontGraph.getPontGraph(p);
+    }
+
+    private Dimension getEffectiveFrameSize() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        Insets frameInsets = this.fenetre.getInsets();
+        int jMenuBarHeight = frameInsets.top; //aproximation
+        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
+        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
+        return new Dimension(width,height);
     }
 
     /**
@@ -170,11 +264,11 @@ class VueGraphique {
         }
     }
 
-	/**
-	*   Met à jour l'image a la position x,y avec la nouvelle image `image`
-	* */
+    /**
+     *   Met à jour l'image a la position x,y avec la nouvelle image `image`
+     * */
     private void actualiseImage(BufferedImage image, int x, int y) {
-        int largeur = ((GridLayout) this.niveau.getLayout()).getColumns();
+        int largeur = ((GridBagLayout) this.niveau.getLayout()).getLayoutDimensions()[0].length;
         int indice = x+y*largeur;
         ((ImagePane) this.niveau.getComponents()[indice]).setImage(image);
     }

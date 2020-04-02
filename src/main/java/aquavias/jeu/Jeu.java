@@ -65,18 +65,6 @@ public class Jeu {
         this.initDebit();
     }
 
-    private static String niveauxDir = "resources/niveaux/";
-
-    static ArrayList<File> getListNiveau(){
-        File dossier = new File(niveauxDir);
-        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
-        File[] files = dossier.listFiles();
-        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
-        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        Collections.sort(niveaux);
-        return niveaux;
-    }
-
     void initNiveau(int number) {
         this.numNiveau = number;
         String chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
@@ -343,6 +331,18 @@ public class Jeu {
 
     boolean isEntree(int x, int y) {
         return x == this.xEntree && y == this.yEntree;
+    }
+
+    private static String niveauxDir = "resources/niveaux/";
+
+    static ArrayList<File> getListNiveau(){
+        File dossier = new File(niveauxDir);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
+        File[] files = dossier.listFiles();
+        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
+        ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
+        Collections.sort(niveaux); //FIXME: le tri ne tri pas les dizaines correctement
+        return niveaux;
     }
 
     /**

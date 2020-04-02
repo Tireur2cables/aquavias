@@ -8,8 +8,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 class Fenetre extends JFrame {
 
@@ -29,6 +27,7 @@ class Fenetre extends JFrame {
             this.setTitle(titre);
             this.setContentPane(new ImagePane(image, true, vue, 0, 0));
             this.pack();
+            this.setResizable(false);
             this.setVisible(true);
         });
     }
@@ -43,8 +42,8 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
-            this.setMenuBar(false);
-            this.setVisible(false);
+            this.setResizable(false); // Le jeu se joue en plein écran pour le moment
+            this.setVisible(true);
         });
     }
 
@@ -90,9 +89,9 @@ class Fenetre extends JFrame {
      * ADD PART
      */
 
-    void setMenuBar(boolean export){
+    void setMenuBar(boolean inNiveau){
         EventQueue.invokeLater(() -> {
-            this.setJMenuBar(new MenuBar(this, this.controleur, export));
+            this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau));
         });
     }
 
@@ -134,12 +133,13 @@ class Fenetre extends JFrame {
      *  UPDATE PART
      */
 
-    void changeSize(int largeur, int hauteur) {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+    void changeSize() {
+        Dimension screenDim = this.getEffectiveScreenSize();
+        int largeur = screenDim.width;
+        int hauteur = screenDim.height;
         EventQueue.invokeLater(() -> {
-            this.setSize(largeur*200, hauteur*200);
-            this.pack();
-            this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
+            this.pack(); //permet l'affichage
+            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
         });
     }
 
@@ -189,16 +189,39 @@ class Fenetre extends JFrame {
         return bd.doubleValue();
     }
 
+    /**
+     * GETTER PART
+     * */
+
+    private Dimension getEffectiveScreenSize() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        int width = screenSize.width - (screenInsets.left + screenInsets.right);
+        int height = screenSize.height - (screenInsets.bottom + screenInsets.top);
+        return new Dimension(width,height);
+    }
+
 }
 
 class Niveau extends JPanel {
 
-    public Niveau(int largeur, int hauteur) {
+    public Niveau(Fenetre fenetre) {
         super();
+        Dimension frameDim = this.getEffectiveFrameSize(fenetre);
         EventQueue.invokeLater(() -> {
-            this.setLayout(new GridLayout(hauteur, largeur));
-            this.setPreferredSize(new Dimension(largeur*200,hauteur*200));
+            this.setLayout(new GridBagLayout());
+            this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });
+    }
+
+    private Dimension getEffectiveFrameSize(Fenetre fenetre) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        Insets frameInsets = fenetre.getInsets();
+        int jMenuBarHeight = frameInsets.top; // approximation
+        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
+        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
+        return new Dimension(width,height);
     }
 }
 
@@ -282,28 +305,28 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar{
 
-    MenuBar(Fenetre fenetre, Controleur controleur, boolean export) {
+    MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
-        JMenu charger = this.createChargerMenu(fenetre, controleur);
+        JMenu charger = this.createChargerMenu(controleur);
         this.add(charger);
 
-        if (export) {
+        if (inNiveau) {
             JButton save = this.createSave(fenetre, controleur);
             this.add(save);
         }
     }
 
-    private JMenu createChargerMenu(Fenetre fenetre, Controleur controleur) {
+    private JMenu createChargerMenu(Controleur controleur) {
         JMenu charger = new JMenu("Charger");
         ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
-            JMenuItem niveau = createMenuItem(f.getName(), fenetre, controleur);
+            JMenuItem niveau = createMenuItem(f.getName(), controleur);
             charger.add(niveau);
         }
         return charger;
     }
 
-    private JMenuItem createMenuItem(String name, Fenetre fenetre, Controleur controleur) {
+    private JMenuItem createMenuItem(String name, Controleur controleur) {
         int num = findNum(name);
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
@@ -337,14 +360,13 @@ class MenuBar extends JMenuBar{
 
 }
 
-class Accueil extends JPanel{
+class Accueil extends JPanel {
 
     private BufferedImage bg;
 
-    Accueil() {
-        BufferedImage bg =  PontGraph.chargeImage("bg.png");
+    Accueil(BufferedImage bg) {
         this.bg = bg;
-        this.setPreferredSize(new Dimension(1000,700));
+        this.setPreferredSize(new Dimension(this.bg.getWidth(), this.bg.getHeight()));
     }
 
     @Override
