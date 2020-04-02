@@ -3,10 +3,7 @@ package aquavias.jeu;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
@@ -16,6 +13,8 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 /* Imports with maven dependecies */
 import org.apache.commons.io.FileUtils;
 import org.json.*;
+
+import javax.management.RuntimeMBeanException;
 
 public class Jeu {
 
@@ -341,8 +340,30 @@ public class Jeu {
         File[] files = dossier.listFiles();
         if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
         ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        Collections.sort(niveaux); //FIXME: le tri ne tri pas les dizaines correctement
+        System.out.print(niveaux);
+        niveaux.sort(getNiveauComparator()); //FIXME: le tri ne tri pas les dizaines correctement
         return niveaux;
+    }
+
+    static Comparator<File> getNiveauComparator(){
+        return new Comparator<File>(){
+            @Override
+            public int compare(File f1, File f2){
+                System.out.println(f1.getName());
+                String f1name = f1.getName().substring(6, f1.getName().length() - 5);
+                String f2name = f2.getName().substring(6, f2.getName().length() - 5);
+                try{
+                    System.out.println(f1name);
+                    System.out.println(f2name);
+                    int f1num = Integer.parseInt(f1name);
+                    int f2num = Integer.parseInt(f2name);
+                    return f1num - f2num;
+                }catch (NumberFormatException e){
+                    System.out.println(Arrays.toString(e.getStackTrace()));
+                    throw new RuntimeException("Erreur dans le nom du fichier !");
+                }
+            }
+        };
     }
 
     /**
