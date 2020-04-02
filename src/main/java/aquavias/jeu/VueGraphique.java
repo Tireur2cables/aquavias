@@ -72,6 +72,7 @@ class VueGraphique {
     }
 
     /**
+     * Calcul la taille que doivent faire les images
      * Suppose que toutes les images sont de la même taille que l'image de pont transparente
      * */
     private void calculImageSize(int largeur, int hauteur) {
@@ -84,17 +85,18 @@ class VueGraphique {
         this.imageW = this.imageW * largeur;
         double diff = Math.abs(this.imageW - width)/largeur;
         this.imageW = this.imageW / largeur;
-        this.imageW = (int) Math.round((this.imageW > width)? this.imageW-diff : this.imageW+diff);
+        this.imageW = (int) Math.round((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
 
         imageH = imageH * hauteur;
         diff = Math.abs(imageH - height)/hauteur;
         imageH = imageH / hauteur;
-        imageH = (int) Math.round((imageH > height)? imageH-diff : imageH+diff);
-
-        //permet aux ponts d'être carrés
-        this.imageW = Math.min(this.imageW, imageH);
+        imageH = (int) Math.round((imageH*hauteur > height)? imageH-diff : imageH+diff);
+        this.imageW = Math.min(this.imageW, imageH); //permet aux ponts d'être carrés
     }
 
+    /**
+     * Calcul la taille que doivent faire les "Calles" pour que la fentre soit totalement remplie
+     * */
     private void calculCalleSize(int largeur, int hauteur) {
         Dimension screenDim = this.getEffectiveFrameSize();
         int width = screenDim.width;
