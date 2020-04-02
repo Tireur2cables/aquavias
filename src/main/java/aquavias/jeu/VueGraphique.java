@@ -74,20 +74,20 @@ class VueGraphique {
     private void calculImageSize(int largeur, int hauteur) {
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        int width = dim.width - (insets.left + insets.right);
-        int height = dim.height - (insets.bottom + insets.top);
+        double width = dim.width - (insets.left + insets.right);
+        double height = dim.height - (insets.bottom + insets.top);
         this.imageW = PontGraph.transp.getWidth();
         this.imageH = PontGraph.transp.getHeight();
 
         this.imageW = this.imageW * largeur;
-        int diff = Math.abs(this.imageW - width)/largeur;
+        double diff = Math.abs(this.imageW - width)/largeur;
         this.imageW = this.imageW / largeur;
-        this.imageW = (this.imageW > width)? this.imageW-diff : this.imageW+diff;
+        this.imageW = (int) Math.round((this.imageW > width)? this.imageW-diff : this.imageW+diff);
 
         this.imageH = this.imageH * hauteur;
         diff = Math.abs(this.imageH - height)/hauteur;
         this.imageH = this.imageH / hauteur;
-        this.imageH = (this.imageH > height)? this.imageH-diff : this.imageH+diff;
+        this.imageH = (int) Math.round((this.imageH > height)? this.imageH-diff : this.imageH+diff);
     }
 
     /**
@@ -127,12 +127,12 @@ class VueGraphique {
         this.imageW = dim.width - (insets.left + insets.right);
         this.imageH = dim.height - (insets.bottom + insets.top);
         EventQueue.invokeLater(() -> {
-            this.fenetre.setContentPane(new Accueil(this.imageW, this.imageH));
+            BufferedImage image = PontGraph.chargeImage("bg.png");
+            this.fenetre.setContentPane(new Accueil(this.resizeImage(image)));
             this.fenetre.setMenuBar(false);
             this.fenetre.pack();
             this.fenetre.repaint();
-            this.fenetre.changeSize(this.imageW,this.imageH);
-            //this.fenetre.setLocation(dim.width/2-this.fenetre.getSize().width/2, dim.height/2-this.fenetre.getSize().height/2);
+            this.fenetre.changeSize(this.imageW, this.imageH);
             this.fenetre.setVisible(true);
         });
     }
@@ -155,9 +155,9 @@ class VueGraphique {
         this.fenetre.decrementeProgressBar();
     }
 
-    static BufferedImage resizeImage(BufferedImage img, int newW, int newH) {
-        Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+    private BufferedImage resizeImage(BufferedImage img) {
+        Image tmp = img.getScaledInstance(this.imageW, this.imageH, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(this.imageW, this.imageH, BufferedImage.TYPE_INT_ARGB);
 
         Graphics2D g2d = dimg.createGraphics();
         g2d.drawImage(tmp, 0, 0, null);
@@ -186,7 +186,7 @@ class VueGraphique {
 
     BufferedImage getImage(int x, int y) {
         BufferedImage image = (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
-        return resizeImage(image, this.imageW, this.imageH);
+        return this.resizeImage(image);
     }
 
     /**

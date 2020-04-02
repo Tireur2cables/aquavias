@@ -136,12 +136,9 @@ class Fenetre extends JFrame {
      */
 
     void changeSize(int largeur, int hauteur) {
-        //Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         EventQueue.invokeLater(() -> {
-            //this.setSize(largeur*200, hauteur*200);
             this.pack();
-            //this.setLocation(dim.width/2-this.getSize().width/2, dim.height/2-this.getSize().height/2);
-            this.setLocationRelativeTo(null);
+            this.setLocationRelativeTo(null); //place la fenetre au centre car la taille de la fenetre occupe tout l'écran
         });
     }
 
@@ -347,10 +344,9 @@ class Accueil extends JPanel {
 
     private BufferedImage bg;
 
-    Accueil(int largeur, int hauteur) {
-        BufferedImage bg =  PontGraph.chargeImage("bg.png");
-        this.bg = VueGraphique.resizeImage(bg, largeur, hauteur);
-        this.setPreferredSize(new Dimension(largeur,hauteur));
+    Accueil(BufferedImage bg) {
+        this.bg = bg;
+        this.setPreferredSize(new Dimension(this.bg.getWidth(), this.bg.getHeight()));
     }
 
     @Override
