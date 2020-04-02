@@ -8,8 +8,6 @@ import java.io.File;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 class Fenetre extends JFrame {
 
@@ -29,8 +27,8 @@ class Fenetre extends JFrame {
             this.setTitle(titre);
             this.setContentPane(new ImagePane(image, true, vue, 0, 0));
             this.pack();
-            this.setVisible(true);
             this.setResizable(false);
+            this.setVisible(true);
         });
     }
 
@@ -44,8 +42,8 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
-            this.setVisible(false);
             this.setResizable(false); // Le jeu se joue en plein écran pour le moment
+            this.setVisible(true);
         });
     }
 
@@ -135,7 +133,8 @@ class Fenetre extends JFrame {
      *  UPDATE PART
      */
 
-    void changeSize(int largeur, int hauteur) {
+    /** FIXME: utile? */
+    void changeSize() {
         EventQueue.invokeLater(() -> {
             this.pack();
             this.setLocationRelativeTo(null); //place la fenetre au centre car la taille de la fenetre occupe tout l'écran
@@ -192,16 +191,23 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    public Niveau(int largeur, int hauteur) {
+    public Niveau(int largeur, int hauteur, Fenetre fenetre) {
         super();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        int width = screenSize.width - (insets.left + insets.right);
-        int height = screenSize.height - (insets.bottom + insets.top);
+        Dimension frameDim = this.getEffectiveFrameWidth(fenetre);
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridLayout(hauteur, largeur));
-            this.setPreferredSize(new Dimension(width, height));
+            this.setPreferredSize(new Dimension(frameDim.width, frameDim.height));
         });
+    }
+
+    private Dimension getEffectiveFrameWidth(Fenetre fenetre) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        Insets frameInsets = fenetre.getInsets();
+        int jMenuBarHeight = frameInsets.top; // approximation
+        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
+        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
+        return new Dimension(width,height);
     }
 }
 

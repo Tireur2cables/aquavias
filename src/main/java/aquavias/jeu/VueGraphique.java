@@ -45,11 +45,10 @@ class VueGraphique {
             }
         }
         this.repaint();
-        this.fenetre.setVisible(true);
     }
 
     private void initNiveau(int largeur, int hauteur) {
-        this.niveau = new Niveau(largeur, hauteur);
+        this.niveau = new Niveau(largeur, hauteur, this.fenetre);
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
     }
@@ -72,10 +71,9 @@ class VueGraphique {
      * Suppose que toutes les images sont de la même taille que l'image de pont transparente
      * */
     private void calculImageSize(int largeur, int hauteur) {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        double width = dim.width - (insets.left + insets.right);
-        double height = dim.height - (insets.bottom + insets.top);
+        Dimension dim = this.getEffectiveFrameWidth();
+        double width = dim.width;
+        double height = dim.height;
         this.imageW = PontGraph.transp.getWidth();
         this.imageH = PontGraph.transp.getHeight();
 
@@ -122,18 +120,16 @@ class VueGraphique {
      */
 
     void chargeMenu() {
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        this.imageW = dim.width - (insets.left + insets.right);
-        this.imageH = dim.height - (insets.bottom + insets.top);
+        Dimension dim = this.getEffectiveFrameWidth();
+        this.imageW = dim.width;
+        this.imageH = dim.height;
         EventQueue.invokeLater(() -> {
             BufferedImage image = PontGraph.chargeImage("bg.png");
             this.fenetre.setContentPane(new Accueil(this.resizeImage(image)));
             this.fenetre.setMenuBar(false);
             this.fenetre.pack();
             this.fenetre.repaint();
-            this.fenetre.changeSize(this.imageW, this.imageH);
-            this.fenetre.setVisible(true);
+            this.fenetre.changeSize();
         });
     }
 
@@ -143,7 +139,7 @@ class VueGraphique {
 
     private void repaint() {
         this.fenetre.repaint();
-        this.fenetre.changeSize(this.controleur.getLargeur()*this.imageW, this.controleur.getHauteur()*this.imageH);
+        this.fenetre.changeSize();
     }
 
 
@@ -195,6 +191,16 @@ class VueGraphique {
     private PontGraph getPontGraphique(int i, int j) {
         Pont p = this.controleur.getPont(i, j);
         return PontGraph.getPontGraph(p);
+    }
+
+    private Dimension getEffectiveFrameWidth() {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
+        Insets frameInsets = this.fenetre.getInsets();
+        int jMenuBarHeight = frameInsets.top; //aproximation
+        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
+        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
+        return new Dimension(width,height);
     }
 
     /**
