@@ -10,6 +10,10 @@ import java.util.concurrent.ThreadLocalRandom;
 class Plateau {
 
     private Pont[][] plateau;
+    private int xEntree;
+    private int yEntree;
+    private int xSortie;
+    private int ySortie;
 
     /**
      * INIT PART
@@ -23,6 +27,19 @@ class Plateau {
             }
         }
         this.placerEntreeSortie();
+    }
+
+    private int getMinimalPont(){
+        Pont entree = this.getEntree();
+        Pont sortie = this.getSortie();
+
+        boolean[] tabsortie = sortie.calculSorties();
+        boolean[] tabentree = entree.calculSorties();
+
+        if(tabentree[0]){ //IL Y A UN ACCES AU NORD
+
+        }
+
     }
 
     private Pont createPont(String spe) {
@@ -72,11 +89,15 @@ class Plateau {
         int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.plateau[i][j] = this.createPont("entree");
         this.makePontAccessibleFrom(i, j, 'E');
+        this.xEntree = i;
+        this.yEntree = j;
 
         i = this.getLargeur()-1;
         j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.plateau[i][j] = this.createPont("sortie");
         this.makePontAccessibleFrom(i, j, 'O');
+        this.xSortie = i;
+        this.ySortie = j;
     }
 
     /**
@@ -105,6 +126,14 @@ class Plateau {
 
     private int getHauteur() {
         return this.plateau[0].length;
+    }
+
+    private Pont getEntree(){
+        return plateau[yEntree][xEntree];
+    }
+
+    private Pont getSortie(){
+        return plateau[ySortie][xSortie];
     }
 
 }
