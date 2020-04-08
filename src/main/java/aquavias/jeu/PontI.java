@@ -14,7 +14,7 @@ public class PontI extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    protected boolean[] calculSorties() {
+    public boolean[] calculSorties() {
         boolean[] tab = new boolean[4];
         for(int i = 0 ; i < tab.length ; i++) {
             tab[i] = ((this.orientation == 'N' || this.orientation == 'S') && i%2 == 0)

@@ -27,7 +27,7 @@ public abstract class Pont {
         this.eau = this.isEntree();
     }
 
-    abstract boolean[] calculSorties();
+    public abstract boolean[] calculSorties();
 
     /**
      * GETTER PART
