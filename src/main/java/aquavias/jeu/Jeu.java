@@ -340,7 +340,7 @@ public class Jeu {
         File[] files = dossier.listFiles();
         if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
         ArrayList<File> niveaux = new ArrayList<>(Arrays.asList(files));
-        niveaux.sort(getNiveauComparator()); //FIXME: le tri ne tri pas les dizaines correctement
+        niveaux.sort(getNiveauComparator());
         return niveaux;
     }
 
