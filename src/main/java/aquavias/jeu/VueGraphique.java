@@ -86,7 +86,8 @@ class VueGraphique {
         double diff = Math.abs(this.imageW - width) / largeur;
         this.imageW = this.imageW / largeur;
         this.imageW = (int) Math.floor((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
-        /** Math.floor arrondi a l'entier EN DESSOUS */
+        // Math.floor arrondi a l'entier EN DESSOUS
+        
         imageH = imageH * hauteur;
         diff = Math.abs(imageH - height) / hauteur;
         imageH = imageH / hauteur;

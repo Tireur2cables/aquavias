@@ -344,17 +344,17 @@ public class Jeu {
         return niveaux;
     }
 
-    static Comparator<File> getNiveauComparator(){
-        return new Comparator<File>(){
+    static Comparator<File> getNiveauComparator() {
+        return new Comparator<File>() {
             @Override
-            public int compare(File f1, File f2){
+            public int compare(File f1, File f2) {
                 String f1name = f1.getName().substring(6, f1.getName().length() - 5);
                 String f2name = f2.getName().substring(6, f2.getName().length() - 5);
-                try{
+                try {
                     int f1num = Integer.parseInt(f1name);
                     int f2num = Integer.parseInt(f2name);
                     return f1num - f2num;
-                }catch (NumberFormatException e){
+                }catch (NumberFormatException e) {
                     System.out.println(Arrays.toString(e.getStackTrace()));
                     throw new RuntimeException("Erreur dans le nom du fichier !");
                 }
