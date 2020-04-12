@@ -145,6 +145,7 @@ class Fenetre extends JFrame {
 //            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
             this.setState(NORMAL);
             this.setExtendedState(MAXIMIZED_BOTH);
+            System.out.println("Largeur : " + this.getWidth() + "  Hauteur : " + this.getHeight());
         });
     }
 
