@@ -174,7 +174,7 @@ class Fenetre extends JFrame {
     }
 
     private void setClignotement(JProgressBar progressBar) {
-            if(progressBar.getValue()%2==0)
+            if(progressBar.getForeground().getRGB() == Color.blue.getRGB())
                 progressBar.setForeground(Color.red);
             else
                 progressBar.setForeground(Color.blue);
