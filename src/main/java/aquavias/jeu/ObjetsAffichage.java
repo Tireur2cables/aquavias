@@ -42,8 +42,11 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
-            this.setResizable(false); // Le jeu se joue en plein écran pour le moment
             this.setVisible(true);
+            this.setState(NORMAL);
+            this.setExtendedState(MAXIMIZED_BOTH);
+            // impossible d'utiliser sinon on perd l'image pour une raison inconnue
+            //this.setResizable(false); // Le jeu se joue en plein écran pour le moment
         });
     }
 
@@ -134,12 +137,14 @@ class Fenetre extends JFrame {
      */
 
     void changeSize() {
-        Dimension screenDim = this.getEffectiveScreenSize();
+        /*Dimension screenDim = this.getEffectiveScreenSize();
         int largeur = screenDim.width;
-        int hauteur = screenDim.height;
+        int hauteur = screenDim.height;*/
         EventQueue.invokeLater(() -> {
             this.pack(); //permet l'affichage
-            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
+//            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
+            this.setState(NORMAL);
+            this.setExtendedState(MAXIMIZED_BOTH);
         });
     }
 
