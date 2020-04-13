@@ -15,14 +15,14 @@ class GenNiveaux {
 
     private static void exportNiveau(int largeur, int hauteur, int numNiveau) {
         Plateau p = new Plateau(largeur, hauteur);
-        String mode = chooseMode();
+        String mode = chooseMode(true);
         int limite = chooseLimite();
         Jeu jeu = new Jeu(p.getPlateau(), numNiveau, mode, limite);
         jeu.exportNiveau();
     }
 
-    private static String chooseMode() {
-        return (ThreadLocalRandom.current().nextBoolean())? "compteur" : "fuite";
+    private static String chooseMode(boolean flag) {
+        return (flag)?"compteur":(ThreadLocalRandom.current().nextBoolean())? "compteur" : "fuite";
     }
 
     private static int chooseLimite() {

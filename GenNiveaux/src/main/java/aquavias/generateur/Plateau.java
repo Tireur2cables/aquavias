@@ -27,19 +27,39 @@ class Plateau {
             }
         }
         this.placerEntreeSortie();
+        this.getCheminPont();
     }
 
-    private int getMinimalPont(){
+    private void getCheminPont(){
         Pont entree = this.getEntree();
         Pont sortie = this.getSortie();
+        //On considére point le moment uniquement l'entrée et la sortie aux points xEntree, yEntree, xSortie, ySortie
+        //On génère un nombre aléatoire pour prendre le y du pont en coordonné xEntree +1
+        //On complete le chemin entre le pont d'entree et le nouveau pont
 
-        boolean[] tabsortie = sortie.calculSorties();
-        boolean[] tabentree = entree.calculSorties();
+        /**
+         * TODO :
+         *  -Il faut considérer les différents points d'entrées (forme du pont d'entrée)
+         *  -Il faut considérer la liaisons avec les ponts créés pendant la compléttion du chemin
+         *
+         * */
+        int newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+        System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
+        System.out.println("Nouveau y : " + newY);
+        plateau[newY][xEntree+1] = createPont(null);
+        completeChemin(xEntree, newY);
 
-        if(tabentree[0]){ //IL Y A UN ACCES AU NORD
+    }
 
+    private void completeChemin(int x, int y){
+        int i = yEntree;
+        while(i != y){
+            System.out.println("Completion du chemin x - y : " + x + " - " + i);
+            if ((i > y)) i--;
+            else i++;
+            //WIP : il faut traiter les ponts !
+            plateau[i][x] = createPont(null);
         }
-
     }
 
     private Pont createPont(String spe) {
