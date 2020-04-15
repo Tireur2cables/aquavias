@@ -523,7 +523,7 @@ public class Jeu {
      * EXPORT PART
      * */
 
-    private static String exportDir = "resources/export/";
+    private static String exportDir = "resources/niveaux/";
 
     public void exportNiveau() {
         String chemin = exportDir + "niveau" + this.numNiveau + ".json";

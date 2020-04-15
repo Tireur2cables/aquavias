@@ -43,22 +43,31 @@ class Plateau {
          *  -Il faut considérer la liaisons avec les ponts créés pendant la compléttion du chemin
          *
          * */
-        int newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+
+        //int newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+        int newY = 0;
         System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
         System.out.println("Nouveau y : " + newY);
-        plateau[newY][xEntree+1] = createPont(null);
-        completeChemin(xEntree, newY);
+        plateau[xEntree+1][newY] = createPont(null);
+        completeChemin(xEntree, yEntree, newY);
+        /*newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
+        newY = 3;
+        System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
+        System.out.println("Nouveau y : " + newY);
+        plateau[xEntree+2][newY] = createPont(null);
+        completeChemin(xEntree+1,0, newY);
 
     }
 
-    private void completeChemin(int x, int y){
-        int i = yEntree;
-        while(i != y){
+    private void completeChemin(int x, int y, int newY){
+        int i = y;
+        System.out.println("newY : " + newY);
+        while(i != newY){
             System.out.println("Completion du chemin x - y : " + x + " - " + i);
-            if ((i > y)) i--;
+            if ((i > newY)) i--;
             else i++;
             //WIP : il faut traiter les ponts !
-            plateau[i][x] = createPont(null);
+            plateau[x][i] = createPont(null);
         }
     }
 
@@ -106,14 +115,16 @@ class Plateau {
     
     private void placerEntreeSortie() {
         int i = 0;
-        int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+        /*int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
+        int j = 2;
         this.plateau[i][j] = this.createPont("entree");
         this.makePontAccessibleFrom(i, j, 'E');
         this.xEntree = i;
         this.yEntree = j;
 
         i = this.getLargeur()-1;
-        j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+        /*j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
+        j = 1;
         this.plateau[i][j] = this.createPont("sortie");
         this.makePontAccessibleFrom(i, j, 'O');
         this.xSortie = i;
