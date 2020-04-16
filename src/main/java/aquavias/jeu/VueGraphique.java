@@ -168,11 +168,11 @@ class VueGraphique {
 
     void chargeMenu() {
         this.fenetre.setMenuBar(false);
+        BufferedImage image = PontGraph.chargeImage("bg.png");
         EventQueue.invokeLater(() -> {
             Dimension dim = this.getEffectiveFrameSize();
             this.imageW = dim.width;
             int imageH = dim.height;
-            BufferedImage image = PontGraph.chargeImage("bg.png");
             this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));
             this.repaint();
         });
