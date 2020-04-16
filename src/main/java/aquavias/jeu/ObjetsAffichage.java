@@ -100,9 +100,7 @@ class Fenetre extends JFrame {
     void addCompteur() {
         int compteur =  (int) this.controleur.getCompteur();
         JLabel counter = new JLabel("" + compteur);
-        EventQueue.invokeLater(() -> {
-            this.getJMenuBar().add(counter);
-        });
+        this.getJMenuBar().add(counter);
     }
 
     void addProgressBar() {
@@ -115,9 +113,9 @@ class Fenetre extends JFrame {
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
         this.updateBarString(compteur, progressBar, debit);
-        EventQueue.invokeLater(() -> {
-            this.getJMenuBar().add(progressBar);
-        });
+
+        this.getJMenuBar().add(progressBar);
+
     }
 
     private void addCloseOperation() {
