@@ -113,9 +113,7 @@ class Fenetre extends JFrame {
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
         this.updateBarString(compteur, progressBar, debit);
-
         this.getJMenuBar().add(progressBar);
-
     }
 
     private void addCloseOperation() {
@@ -139,13 +137,9 @@ class Fenetre extends JFrame {
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
         if (val > 1)
-            EventQueue.invokeLater(() -> {
-                progressBar.setString(val + "L restants | -" + debit + "L/s");
-            });
+            progressBar.setString(val + "L restants | -" + debit + "L/s");
         else
-            EventQueue.invokeLater(() -> {
-                progressBar.setString(val + "L restant | -" + debit + "L/s");
-            });
+            progressBar.setString(val + "L restant | -" + debit + "L/s");
     }
 
     void decrementeCompteur() {
@@ -165,12 +159,12 @@ class Fenetre extends JFrame {
         int val = progressBar.getValue();
         if(val < (limite/5))
             this.setClignotement(progressBar);
-        int compteurArrondi = (int) this.arrondir(compteur);
-        debit = this.arrondir(debit);
+        double compteurArrondi = this.arrondir(compteur);
+        double debitArr = this.arrondir(debit);
         EventQueue.invokeLater(() -> {
-            progressBar.setValue(compteurArrondi);
+            progressBar.setValue((int) compteurArrondi);
+            this.updateBarString(compteurArrondi, progressBar, debitArr);
         });
-        this.updateBarString(compteur, progressBar, debit);
     }
 
     private void setClignotement(JProgressBar progressBar) {
