@@ -47,11 +47,11 @@ class Controleur {
             this.decrementeCompteur();
 
         /* verifie si c'est gagné */
-        this.isVictoire();
-
-        /* en mode compteur verifie la defaite à chaque pont tourné */
-        if (this.jeu.getMode().equals("compteur") && this.jeu.getCompteur() <= 0)
-            this.defaite();
+        if (!this.isVictoire()) {
+            /* en mode compteur verifie la defaite à chaque pont tourné */
+            if (this.jeu.getMode().equals("compteur") && this.jeu.getCompteur() <= 0)
+                this.defaite();
+        }
     }
 
     void detectEauAdjacents() {
@@ -78,22 +78,24 @@ class Controleur {
         this.jeu.stopTimer();
     }
 
-    void isVictoire() {
+    private boolean isVictoire() {
         if (this.jeu.calculVictoire()) {
-            this.graph.victoire();
             this.stopTimer();
+            this.graph.victoire();
+            return true;
         }
+        return false;
     }
 
     private void endGame() {
         //Ajouter le générique ici!
-        this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
         this.stopTimer();
+        this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
     }
 
-    void defaite() {
-        this.graph.defaite();
+    private void defaite() {
         this.jeu.stopTimer();
+        this.graph.defaite();
     }
 
     void retry() {
