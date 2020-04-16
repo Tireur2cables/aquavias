@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 
 class VueGraphique {
 
-    private Controleur controleur;
-    private Fenetre fenetre;
+    private final Controleur controleur;
+    private final Fenetre fenetre;
     private Niveau niveau;
     private PontGraph[][] plateau;
     private int imageW;

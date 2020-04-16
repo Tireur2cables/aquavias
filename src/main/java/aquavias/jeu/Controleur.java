@@ -2,13 +2,11 @@ package aquavias.jeu;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 class Controleur {
 
-    private Jeu jeu;
-    private VueGraphique graph;
+    private final Jeu jeu;
+    private final VueGraphique graph;
 
     /**
      * INIT PART
@@ -21,16 +19,6 @@ class Controleur {
     void launch() {
         this.mainMenu();
         System.out.println("Le jeu se lance!");
-    }
-
-    void mainMenu(){
-        this.graph.chargeMenu();
-    }
-
-    void chargeNiveau(int num){
-        this.stopTimer();
-        this.jeu.initNiveau(num);
-        this.graph.afficheNiveau();
     }
 
     /**
@@ -93,13 +81,14 @@ class Controleur {
     void isVictoire() {
         if (this.jeu.calculVictoire()) {
             this.graph.victoire();
-            this.jeu.stopTimer();
+            this.stopTimer();
         }
     }
 
     private void endGame() {
         //Ajouter le générique ici!
         this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
+        this.stopTimer();
     }
 
     void defaite() {
@@ -112,8 +101,15 @@ class Controleur {
         this.chargeNiveau(numNiveau);
     }
 
-    void backMenu() {
+    void mainMenu(){
         this.graph.chargeMenu();
+        this.stopTimer();
+    }
+
+    void chargeNiveau(int num){
+        this.stopTimer();
+        this.jeu.initNiveau(num);
+        this.graph.afficheNiveau();
     }
 
     void nextLevel() {

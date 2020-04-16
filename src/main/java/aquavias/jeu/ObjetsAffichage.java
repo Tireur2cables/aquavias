@@ -64,7 +64,7 @@ class Fenetre extends JFrame {
             if (retour == 0) /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
-                this.controleur.backMenu();
+                this.controleur.mainMenu();
         });
     }
 
@@ -76,7 +76,7 @@ class Fenetre extends JFrame {
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
-                this.controleur.backMenu();
+                this.controleur.mainMenu();
         });
     }
 
@@ -86,7 +86,7 @@ class Fenetre extends JFrame {
             int retour = JOptionPane.showOptionDialog(this, info,"",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
             if (retour == 0) /* retour au menu */
-                this.controleur.backMenu();
+                this.controleur.mainMenu();
         });
     }
 
@@ -297,10 +297,8 @@ class MenuBar extends JMenuBar{
         JMenu charger = this.createChargerMenu(controleur);
         this.add(charger);
 
-        if (inNiveau) {
-            JButton save = this.createSave(fenetre, controleur);
-            this.add(save);
-        }
+        JMenu options = this.createOptionsMenu(controleur, fenetre, inNiveau);
+        this.add(options);
     }
 
     private JMenu createChargerMenu(Controleur controleur) {
@@ -336,13 +334,42 @@ class MenuBar extends JMenuBar{
         return nom + " " + num;
     }
 
-    private JButton createSave(Fenetre fenetre, Controleur controleur) {
-        JButton save = new JButton("Sauvegarder");
+    private JMenu createOptionsMenu(Controleur controleur, Fenetre fenetre, boolean inNiveau) {
+        JMenu menu = new JMenu("Options");
+        if (inNiveau) {
+            JMenuItem mainMenu = this.createMainMenu(controleur);
+            menu.add(mainMenu);
+            JMenuItem save = this.createSave(fenetre, controleur);
+            menu.add(save);
+        }
+        JMenuItem exit = this.createExit(controleur);
+        menu.add(exit);
+        return menu;
+    }
+
+    private JMenuItem createMainMenu(Controleur controleur) {
+        JMenuItem mainMenu = new JMenuItem("Menu principal");
+        mainMenu.addActionListener((ActionEvent e) -> {
+            controleur.mainMenu();
+        });
+        return mainMenu;
+    }
+
+    private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
+        JMenuItem save = new JMenuItem("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
             controleur.exportNiveau();
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;
+    }
+
+    private JMenuItem createExit(Controleur controleur) {
+        JMenuItem exit = new JMenuItem("Quitter");
+        exit.addActionListener((ActionEvent e) -> {
+            controleur.exit();
+        });
+        return exit;
     }
 
 }
