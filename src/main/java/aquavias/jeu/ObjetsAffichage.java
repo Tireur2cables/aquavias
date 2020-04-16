@@ -167,7 +167,7 @@ class Fenetre extends JFrame {
         int val = progressBar.getValue();
         if(val < (limite/5))
             this.setClignotement(progressBar);
-        int compteurArrondi = (int) Double.this.arrondir(compteur);
+        int compteurArrondi = (int) this.arrondir(compteur);
         debit = this.arrondir(debit);
         EventQueue.invokeLater(() -> {
             progressBar.setValue(compteurArrondi);
