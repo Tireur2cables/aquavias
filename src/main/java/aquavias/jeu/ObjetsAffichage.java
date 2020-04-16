@@ -12,6 +12,7 @@ import java.util.ArrayList;
 class Fenetre extends JFrame {
 
     private Controleur controleur;
+    private final static GraphicsDevice graphDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
     /**
      * INIT PART
@@ -38,13 +39,14 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
+        graphDevice.setFullScreenWindow(this);
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
             this.addCloseOperation();
             this.setTitle("Aquavias");
             this.setVisible(true);
-            this.setState(NORMAL);
-            this.setExtendedState(MAXIMIZED_BOTH);
+            //this.setState(NORMAL);
+            //this.setExtendedState(MAXIMIZED_BOTH);
             // impossible d'utiliser sinon on perd l'image pour une raison inconnue
             //this.setResizable(false); // Le jeu se joue en plein écran pour le moment
         });
@@ -143,9 +145,9 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.pack(); //permet l'affichage
 //            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
-            this.setState(NORMAL);
-            this.setExtendedState(MAXIMIZED_BOTH);
-            System.out.println("Largeur : " + this.getWidth() + "  Hauteur : " + this.getHeight());
+//            this.setState(NORMAL);
+//            this.setExtendedState(MAXIMIZED_BOTH);
+//            System.out.println("Largeur : " + this.getWidth() + "  Hauteur : " + this.getHeight());
         });
     }
 
@@ -195,40 +197,19 @@ class Fenetre extends JFrame {
         return bd.doubleValue();
     }
 
-    /**
-     * GETTER PART
-     * */
-
-    private Dimension getEffectiveScreenSize() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        int width = screenSize.width - (screenInsets.left + screenInsets.right);
-        int height = screenSize.height - (screenInsets.bottom + screenInsets.top);
-        return new Dimension(width,height);
-    }
-
 }
 
 class Niveau extends JPanel {
 
     public Niveau(Fenetre fenetre) {
         super();
-        Dimension frameDim = this.getEffectiveFrameSize(fenetre);
+        Dimension frameDim = fenetre.getSize();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridBagLayout());
             this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });
     }
 
-    private Dimension getEffectiveFrameSize(Fenetre fenetre) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        Insets frameInsets = fenetre.getInsets();
-        int jMenuBarHeight = frameInsets.top; // approximation
-        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
-        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
-        return new Dimension(width,height);
-    }
 }
 
 class ImagePane extends JPanel {

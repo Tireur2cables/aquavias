@@ -76,7 +76,7 @@ class VueGraphique {
      * Suppose que toutes les images sont de la même taille que l'image de pont transparente
      * */
     private void calculImageSize(int largeur, int hauteur) {
-        Dimension dim = this.getEffectiveFrameSize();
+        Dimension dim = this.fenetre.getSize();
         double width = dim.width;
         double height = dim.height;
         this.imageW = PontGraph.transp.getWidth();
@@ -99,9 +99,9 @@ class VueGraphique {
      * Calcul la taille que doivent faire les "Calles" pour que la fentre soit totalement remplie
      * */
     private void calculCalleSize(int largeur, int hauteur) {
-        Dimension screenDim = this.getEffectiveFrameSize();
-        int width = screenDim.width;
-        int height = screenDim.height;
+        Dimension frameDim = this.fenetre.getSize();
+        int width = frameDim.width;
+        int height = frameDim.height;
         this.calleW = Math.max(width - (this.imageW * largeur), 1);
         this.calleH = Math.max(height - (this.imageW * hauteur), 1);
     }
@@ -167,7 +167,7 @@ class VueGraphique {
      */
 
     void chargeMenu() {
-        Dimension dim = this.getEffectiveFrameSize();
+        Dimension dim = this.fenetre.getSize();
         this.imageW = dim.width;
         int imageH = dim.height;
         EventQueue.invokeLater(() -> {
@@ -236,16 +236,6 @@ class VueGraphique {
     private PontGraph getPontGraphique(int i, int j) {
         Pont p = this.controleur.getPont(i, j);
         return PontGraph.getPontGraph(p);
-    }
-
-    private Dimension getEffectiveFrameSize() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        Insets frameInsets = this.fenetre.getInsets();
-        int jMenuBarHeight = frameInsets.top; //aproximation
-        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
-        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
-        return new Dimension(width,height);
     }
 
     /**
