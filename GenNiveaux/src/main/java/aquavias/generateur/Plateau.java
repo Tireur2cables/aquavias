@@ -44,18 +44,18 @@ class Plateau {
          *
          * */
 
-        //int newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         int newY = 0;
-        System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
-        System.out.println("Nouveau y : " + newY);
-        plateau[xEntree+1][newY] = createPont(null);
-        completeChemin(xEntree, yEntree, newY);
-        /*newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
-        newY = 3;
-        System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
-        System.out.println("Nouveau y : " + newY);
-        plateau[xEntree+2][newY] = createPont(null);
-        completeChemin(xEntree+1,0, newY);
+        int oldY = yEntree;
+        for(int i = xEntree+1; i < this.getLargeur()-1; i++){
+            newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
+            System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
+            System.out.println("Nouveau y : " + newY);
+            plateau[i][newY] = createPont(null);
+            completeChemin(xEntree, oldY, newY);
+            oldY = newY;
+
+        }
+        completeChemin(xSortie-1,oldY, ySortie);
 
     }
 

@@ -1,1 +1,1 @@
-{"mode":"compteur","largeur":4,"compteur":100,"limite":100,"niveau":[[["T","N",null],["L","O",null],["L","E","entree"],[]],[["I","S",null],["T","O",null],["I","S",null],["T","S",null]],[[],[],[],["T","S",null]],[[],["I","O","sortie"],[],[]]],"hauteur":4}
+{"mode":"compteur","largeur":4,"compteur":100,"limite":100,"niveau":[[[],[],["L","E","entree"],[]],[[],[],["L","S",null],[]],[[],["L","O",null],["I","O",null],[]],[[],["T","O","sortie"],[],[]]],"hauteur":4}
