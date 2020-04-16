@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -45,10 +46,6 @@ class Fenetre extends JFrame {
             this.addCloseOperation();
             this.setTitle("Aquavias");
             this.setVisible(true);
-            //this.setState(NORMAL);
-            //this.setExtendedState(MAXIMIZED_BOTH);
-            // impossible d'utiliser sinon on perd l'image pour une raison inconnue
-            //this.setResizable(false); // Le jeu se joue en plein écran pour le moment
         });
     }
 
@@ -94,7 +91,7 @@ class Fenetre extends JFrame {
      * ADD PART
      */
 
-    void setMenuBar(boolean inNiveau){
+    void setMenuBar(boolean inNiveau) {
         EventQueue.invokeLater(() -> {
             this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau));
         });
@@ -103,7 +100,9 @@ class Fenetre extends JFrame {
     void addCompteur() {
         int compteur =  (int) this.controleur.getCompteur();
         JLabel counter = new JLabel("" + compteur);
-        this.getJMenuBar().add(counter);
+        EventQueue.invokeLater(() -> {
+            this.getJMenuBar().add(counter);
+        });
     }
 
     void addProgressBar() {
@@ -111,12 +110,14 @@ class Fenetre extends JFrame {
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
         JProgressBar progressBar = new JProgressBar();
-		progressBar.setMaximum(limite);
+        progressBar.setMaximum(limite);
         progressBar.setValue((int) compteur);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
         this.updateBarString(compteur, progressBar, debit);
-        this.getJMenuBar().add(progressBar);
+        EventQueue.invokeLater(() -> {
+            this.getJMenuBar().add(progressBar);
+        });
     }
 
     private void addCloseOperation() {
@@ -138,33 +139,24 @@ class Fenetre extends JFrame {
      *  UPDATE PART
      */
 
-    void changeSize() {
-        /*Dimension screenDim = this.getEffectiveScreenSize();
-        int largeur = screenDim.width;
-        int hauteur = screenDim.height;*/
-        EventQueue.invokeLater(() -> {
-            this.pack(); //permet l'affichage
-//            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
-//            this.setState(NORMAL);
-//            this.setExtendedState(MAXIMIZED_BOTH);
-//            System.out.println("Largeur : " + this.getWidth() + "  Hauteur : " + this.getHeight());
-        });
-    }
-
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
-        if (this.controleur.getMode().equals("compteur"))
-            val = (int) val;
         if (val > 1)
-            progressBar.setString(val + "L restants | -" + debit + "L/s");
+            EventQueue.invokeLater(() -> {
+                progressBar.setString(val + "L restants | -" + debit + "L/s");
+            });
         else
-            progressBar.setString(val + "L restant | -" + debit + "L/s");
+            EventQueue.invokeLater(() -> {
+                progressBar.setString(val + "L restant | -" + debit + "L/s");
+            });
     }
 
     void decrementeCompteur() {
         JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
         double val = this.controleur.getCompteur();
         String newVal = String.valueOf(val);
-        compteur.setText(newVal);
+        EventQueue.invokeLater(() -> {
+            compteur.setText(newVal);
+        });
     }
 
     void decrementeProgressBar() {
@@ -175,17 +167,23 @@ class Fenetre extends JFrame {
         int val = progressBar.getValue();
         if(val < (limite/5))
             this.setClignotement(progressBar);
-        compteur = this.arrondir(compteur);
+        int compteurArrondi = (int) Double.this.arrondir(compteur);
         debit = this.arrondir(debit);
-        progressBar.setValue((int) compteur);
+        EventQueue.invokeLater(() -> {
+            progressBar.setValue(compteurArrondi);
+        });
         this.updateBarString(compteur, progressBar, debit);
     }
 
     private void setClignotement(JProgressBar progressBar) {
             if(progressBar.getForeground().getRGB() == Color.blue.getRGB())
-                progressBar.setForeground(Color.red);
+                EventQueue.invokeLater(() -> {
+                    progressBar.setForeground(Color.red);
+                });
             else
-                progressBar.setForeground(Color.blue);
+                EventQueue.invokeLater(() -> {
+                    progressBar.setForeground(Color.blue);
+                });
     }
 
     /**
@@ -203,11 +201,17 @@ class Niveau extends JPanel {
 
     public Niveau(Fenetre fenetre) {
         super();
-        Dimension frameDim = fenetre.getSize();
+        Dimension frameDim = this.getEffectiveFrameSize(fenetre);
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridBagLayout());
             this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });
+    }
+
+    private Dimension getEffectiveFrameSize(Fenetre fenetre) {
+        int width = fenetre.getWidth() - (fenetre.getInsets().left + fenetre.getInsets().right);
+        int height = fenetre.getHeight() - (fenetre.getInsets().bottom + fenetre.getInsets().top) - fenetre.getJMenuBar().getPreferredSize().height;
+        return new Dimension(width, height);
     }
 
 }

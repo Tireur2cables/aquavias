@@ -35,8 +35,8 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
+        this.fenetre.setMenuBar(true);
         this.initNiveau(largeur, hauteur);
-        fenetre.setMenuBar(true);
         this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
@@ -76,7 +76,7 @@ class VueGraphique {
      * Suppose que toutes les images sont de la même taille que l'image de pont transparente
      * */
     private void calculImageSize(int largeur, int hauteur) {
-        Dimension dim = this.fenetre.getSize();
+        Dimension dim = this.getEffectiveFrameSize();
         double width = dim.width;
         double height = dim.height;
         this.imageW = PontGraph.transp.getWidth();
@@ -99,7 +99,7 @@ class VueGraphique {
      * Calcul la taille que doivent faire les "Calles" pour que la fentre soit totalement remplie
      * */
     private void calculCalleSize(int largeur, int hauteur) {
-        Dimension frameDim = this.fenetre.getSize();
+        Dimension frameDim = this.getEffectiveFrameSize();
         int width = frameDim.width;
         int height = frameDim.height;
         this.calleW = Math.max(width - (this.imageW * largeur), 1);
@@ -167,13 +167,13 @@ class VueGraphique {
      */
 
     void chargeMenu() {
-        Dimension dim = this.fenetre.getSize();
-        this.imageW = dim.width;
-        int imageH = dim.height;
+        this.fenetre.setMenuBar(false);
         EventQueue.invokeLater(() -> {
+            Dimension dim = this.getEffectiveFrameSize();
+            this.imageW = dim.width;
+            int imageH = dim.height;
             BufferedImage image = PontGraph.chargeImage("bg.png");
             this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));
-            this.fenetre.setMenuBar(false);
             this.repaint();
         });
     }
@@ -183,8 +183,10 @@ class VueGraphique {
      */
 
     private void repaint() {
-        this.fenetre.repaint();
-        this.fenetre.changeSize();
+        EventQueue.invokeLater(() -> {
+            this.fenetre.pack();
+            this.fenetre.repaint();
+        });
     }
 
 
@@ -219,11 +221,19 @@ class VueGraphique {
         this.fenetre.defaite();
     }
 
-    void infoRetourMenu(String info) { this.fenetre.infoRetourMenu(info); }
+    void infoRetourMenu(String info) {
+        this.fenetre.infoRetourMenu(info);
+    }
 
     /**
      * GETTER PART
      * */
+
+    private Dimension getEffectiveFrameSize() {
+        int width = this.fenetre.getWidth() - (this.fenetre.getInsets().left + this.fenetre.getInsets().right);
+        int height = this.fenetre.getHeight() - (this.fenetre.getInsets().bottom + this.fenetre.getInsets().top) - this.fenetre.getJMenuBar().getPreferredSize().height;
+        return new Dimension(width, height);
+    }
 
     BufferedImage getImage(int x, int y) {
         BufferedImage image = (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
