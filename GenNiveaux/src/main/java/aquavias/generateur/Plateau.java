@@ -44,6 +44,14 @@ class Plateau {
          *
          * */
 
+        /**
+         * TODO
+         *  - SI : pont entrée à sortie y+1 et newPont est placé en newY <= y ==> il faut faire une courbe
+         *  - SI : pont entrée à sortie y-1 et newPont placé en newY <= y => simple
+         *          same si sortie = y+1 et newY => y
+         *  - SI : pont entrée = y / x+1 et entrée newY = x-1 ==> il faut faire une courbe
+         *          sinon simple
+         */
         int newY = 0;
         int oldY = yEntree;
         for(int i = xEntree+1; i < this.getLargeur()-1; i++){
