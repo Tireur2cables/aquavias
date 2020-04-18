@@ -99,20 +99,23 @@ class Fenetre extends JFrame {
     void addCompteur() {
         int compteur =  (int) this.controleur.getCompteur();
         JLabel counter = new JLabel("" + compteur);
-        this.getJMenuBar().add(counter);
+        EventQueue.invokeLater(() -> {
+            this.getJMenuBar().add(counter);
+        });
     }
 
     void addProgressBar() {
         int limite = this.controleur.getLimite();
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
-        JProgressBar progressBar = new JProgressBar();
-        progressBar.setMaximum(limite);
+        JProgressBar progressBar = new JProgressBar(0, limite);
         progressBar.setValue((int) compteur);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
-        this.updateBarString(compteur, progressBar, debit);
-        this.getJMenuBar().add(progressBar);
+        EventQueue.invokeLater(() -> {
+            this.updateBarString(compteur, progressBar, debit);
+            this.getJMenuBar().add(progressBar);
+        });
     }
 
     private void addCloseOperation() {
@@ -142,8 +145,9 @@ class Fenetre extends JFrame {
     }
 
     void decrementeCompteur() {
-        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
-        double val = this.controleur.getCompteur();
+        int indice = this.getIndiceCompteur();
+        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[indice]);
+        int val = (int) this.controleur.getCompteur();
         String newVal = String.valueOf(val);
         EventQueue.invokeLater(() -> {
             compteur.setText(newVal);
@@ -151,13 +155,17 @@ class Fenetre extends JFrame {
     }
 
     void decrementeProgressBar() {
+        int indice = this.getIndiceProgressBar();
+        System.out.println(indice);
+        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[indice]);
         int limite = this.controleur.getLimite();
-        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
         int val = progressBar.getValue();
         if(val < (limite/5))
-            this.setClignotement(progressBar);
+            EventQueue.invokeLater(() -> {
+                this.setClignotement(progressBar);
+            });
         double compteurArrondi = arrondir(compteur);
         double debitArr = arrondir(debit);
         EventQueue.invokeLater(() -> {
@@ -167,14 +175,10 @@ class Fenetre extends JFrame {
     }
 
     private void setClignotement(JProgressBar progressBar) {
-            if(progressBar.getForeground().getRGB() == Color.blue.getRGB())
-                EventQueue.invokeLater(() -> {
-                    progressBar.setForeground(Color.red);
-                });
-            else
-                EventQueue.invokeLater(() -> {
-                    progressBar.setForeground(Color.blue);
-                });
+        if(progressBar.getForeground().getRGB() == Color.blue.getRGB())
+            progressBar.setForeground(Color.red);
+        else
+            progressBar.setForeground(Color.blue);
     }
 
     /**
@@ -184,6 +188,26 @@ class Fenetre extends JFrame {
         BigDecimal bd = new BigDecimal(d);
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    /**
+     *  GETTER PART
+     */
+
+    private int getIndiceCompteur() {
+        Component[] tab = this.getJMenuBar().getComponents();
+        for (int i = 0; i < tab.length; i++) {
+            if (tab[i] instanceof JLabel) return i; //suppose qu'il n'y a qu'un seul jlabell dans la jmenubar
+        }
+        throw new RuntimeException("Impossible de trouver le compteur dans la jmenubarre");
+    }
+
+    private int getIndiceProgressBar() {
+        Component[] tab = this.getJMenuBar().getComponents();
+        for (int i = 0; i < tab.length; i++) {
+            if (tab[i] instanceof JProgressBar) return i; //suppose qu'il n'y a qu'une seule jprogressbar dans la jmenubar
+        }
+        throw new RuntimeException("Impossible de trouver la progressbar dans la jmenubarre");
     }
 
 }

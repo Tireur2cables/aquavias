@@ -113,13 +113,13 @@ class VueGraphique {
         EventQueue.invokeLater(() -> {
             this.fenetre.getContentPane().removeAll();
             this.fenetre.setContentPane(this.niveau);
-            if (this.controleur.getMode().equals("compteur"))
-                this.fenetre.addCompteur();
-            else if (this.controleur.getMode().equals("fuite")) {
-                this.fenetre.addProgressBar();
-                this.controleur.initTimer();
-            }
         });
+        if (this.controleur.getMode().equals("compteur"))
+            this.fenetre.addCompteur();
+        else if (this.controleur.getMode().equals("fuite")) {
+            this.fenetre.addProgressBar();
+            this.controleur.initTimer();
+        }
     }
 
     /**
