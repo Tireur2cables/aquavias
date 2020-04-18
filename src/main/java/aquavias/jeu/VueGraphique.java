@@ -37,23 +37,23 @@ class VueGraphique {
         int largeur = this.controleur.getLargeur();
         this.fenetre.setMenuBar(true);
         this.initNiveau(largeur, hauteur);
-        this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
-                this.addToNiveau(this.getImage(i, j), movable, i, j);
-                if (i == largeur-1) this.addCalleLargeur(i+1, j);
+                this.addToNiveau(this.getImage(i, j), movable, i, j); //ajout des images dans la grille niveau
+                if (i == largeur-1) this.addCalleLargeur(i+1, j); //ajoute les calles a la fin de chaque ligne
             }
         }
-        this.addCallesHauteur(largeur, hauteur);
-        this.repaint();
+        this.addCallesHauteur(largeur, hauteur); //ajoute les calles à la fin de chaque colonne
+        this.repaint(); //affiche le niveau
     }
 
     private void initNiveau(int largeur, int hauteur) {
-        this.niveau = new Niveau(this.fenetre);
+        this.niveau = new Niveau();
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
         this.calculCalleSize(largeur, hauteur);
+        this.setNiveau();
     }
 
     /**
@@ -170,7 +170,7 @@ class VueGraphique {
         this.fenetre.setMenuBar(false);
         BufferedImage image = PontGraph.chargeImage("bg.png");
         EventQueue.invokeLater(() -> {
-            Dimension dim = this.getEffectiveFrameSize();
+            Dimension dim = this.getEffectiveFrameSize(); // doit etre dans le eventqeue pour avoir la taille dela jmenubar prise en compte
             this.imageW = dim.width;
             int imageH = dim.height;
             this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));

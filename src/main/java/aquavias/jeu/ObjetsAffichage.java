@@ -158,8 +158,8 @@ class Fenetre extends JFrame {
         int val = progressBar.getValue();
         if(val < (limite/5))
             this.setClignotement(progressBar);
-        double compteurArrondi = this.arrondir(compteur);
-        double debitArr = this.arrondir(debit);
+        double compteurArrondi = arrondir(compteur);
+        double debitArr = arrondir(debit);
         EventQueue.invokeLater(() -> {
             progressBar.setValue((int) compteurArrondi);
             this.updateBarString(compteurArrondi, progressBar, debitArr);
@@ -180,7 +180,7 @@ class Fenetre extends JFrame {
     /**
      * Arrondir un double à le deuxieme décimale
      * */
-    private double arrondir(double d) {
+    private static double arrondir(double d) {
         BigDecimal bd = new BigDecimal(d);
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
@@ -190,19 +190,11 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    public Niveau(Fenetre fenetre) {
+    public Niveau() {
         super();
-        Dimension frameDim = this.getEffectiveFrameSize(fenetre);
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridBagLayout());
-            this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });
-    }
-
-    private Dimension getEffectiveFrameSize(Fenetre fenetre) {
-        int width = fenetre.getWidth() - (fenetre.getInsets().left + fenetre.getInsets().right);
-        int height = fenetre.getHeight() - (fenetre.getInsets().bottom + fenetre.getInsets().top) - fenetre.getJMenuBar().getPreferredSize().height;
-        return new Dimension(width, height);
     }
 
 }
@@ -210,11 +202,12 @@ class Niveau extends JPanel {
 class ImagePane extends JPanel {
 
      private BufferedImage image;
-     private int width;
-     private int height;
-     private VueGraphique vue;
-     private int x;
-     private int y;
+     private final int width;
+     private final int height;
+     private final VueGraphique vue;
+     private final int x;
+     private final int y;
+     private boolean movable;
 
     ImagePane(BufferedImage image, boolean movable, VueGraphique vue, int x, int y) {
         super();
@@ -224,18 +217,22 @@ class ImagePane extends JPanel {
         this.vue = vue;
         this.x = x;
         this.y = y;
+        this.movable = movable;
         EventQueue.invokeLater(() -> {
             this.setPreferredSize(new Dimension(this.width, this.height));
         });
 
         EventQueue.invokeLater(() -> {
-            this.addMouseListener(new ClickListener(movable, this));
+            this.addMouseListener(new ClickListener(this));
         });
 
     }
 
+    boolean isMovable() {
+        return this.movable;
+    }
+
     void rotateImage() {
-        /* On tourne les ponts de 90° */
         this.image = this.vue.getImage(this.x, this.y);
         this.vue.rotate(this.x, this.y);
     }
@@ -254,21 +251,16 @@ class ImagePane extends JPanel {
 
 class ClickListener implements MouseListener {
 
-    private boolean movable;
-    private ImagePane imagePane;
+    private final ImagePane imagePane;
 
-    ClickListener(boolean movable, ImagePane imagePane) {
+    ClickListener(ImagePane imagePane) {
         super();
-        this.movable = movable;
         this.imagePane = imagePane;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (this.movable) {
-            this.imagePane.rotateImage();
-            this.imagePane.repaint();
-        }
+        if (this.imagePane.isMovable()) this.imagePane.rotateImage();
     }
 
     @Override
@@ -285,7 +277,7 @@ class ClickListener implements MouseListener {
 
 }
 
-class MenuBar extends JMenuBar{
+class MenuBar extends JMenuBar {
 
     MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
