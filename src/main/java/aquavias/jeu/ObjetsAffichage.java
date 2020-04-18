@@ -39,10 +39,9 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
-        graphDevice.setFullScreenWindow(this);
+        graphDevice.setFullScreenWindow(this); //plein écran
         EventQueue.invokeLater(() -> {
-            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            this.addCloseOperation();
+            this.addCloseOperation(); //inutil en plein écran
             this.setTitle("Aquavias");
             this.setVisible(true);
         });
@@ -114,11 +113,12 @@ class Fenetre extends JFrame {
         progressBar.setForeground(Color.blue);
         EventQueue.invokeLater(() -> {
             this.updateBarString(compteur, progressBar, debit);
-            this.getJMenuBar().add(progressBar);
+            this.getJMenuBar().add(progressBar); //FIXME: probleme ici cete action n'est effectué que lrosqu'on recharge un niveau avec progressbar
         });
     }
 
     private void addCloseOperation() {
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
 
             @Override
@@ -156,8 +156,7 @@ class Fenetre extends JFrame {
 
     void decrementeProgressBar() {
         int indice = this.getIndiceProgressBar();
-        System.out.println(indice);
-        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[indice]);
+        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[indice]); //FIXME: erreur ici le composant n'est pas le bon puisque la progressbar n'est pas dedans au début
         int limite = this.controleur.getLimite();
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
@@ -353,7 +352,7 @@ class MenuBar extends JMenuBar {
             JMenuItem save = this.createSave(fenetre, controleur);
             menu.add(save);
         }
-        JMenuItem exit = this.createExit(controleur);
+        JMenuItem exit = this.createExit(fenetre, controleur);
         menu.add(exit);
         return menu;
     }
@@ -375,9 +374,10 @@ class MenuBar extends JMenuBar {
         return save;
     }
 
-    private JMenuItem createExit(Controleur controleur) {
+    private JMenuItem createExit(Fenetre fenetre, Controleur controleur) {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
+            fenetre.dispose();
             controleur.exit();
         });
         return exit;
