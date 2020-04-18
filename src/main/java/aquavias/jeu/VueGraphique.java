@@ -10,8 +10,6 @@ class VueGraphique {
     private Niveau niveau;
     private PontGraph[][] plateau;
     private int imageW;
-    private int calleW;
-    private int calleH;
 
     /**
      *  Fonction pour affichage de test unitaire
@@ -41,10 +39,8 @@ class VueGraphique {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
                 this.addToNiveau(this.getImage(i, j), movable, i, j); //ajout des images dans la grille niveau
-                if (i == largeur-1) this.addCalleLargeur(i+1, j); //ajoute les calles a la fin de chaque ligne
             }
         }
-        this.addCallesHauteur(largeur, hauteur); //ajoute les calles à la fin de chaque colonne
         this.repaint(); //affiche le niveau
     }
 
@@ -52,7 +48,6 @@ class VueGraphique {
         this.niveau = new Niveau();
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
-        this.calculCalleSize(largeur, hauteur);
         this.setNiveau();
     }
 
@@ -62,8 +57,6 @@ class VueGraphique {
     private void initPlateau(int largeur, int hauteur) {
         this.plateau = new PontGraph[largeur][hauteur];
         this.imageW = 0;
-        this.calleW = 0;
-        this.calleH = 0;
         for(int i = 0; i < largeur; i++){
             for(int j = 0; j < hauteur; j++){
                 this.plateau[i][j] = this.getPontGraphique(i, j);
@@ -96,17 +89,6 @@ class VueGraphique {
     }
 
     /**
-     * Calcul la taille que doivent faire les "Calles" pour que la fentre soit totalement remplie
-     * */
-    private void calculCalleSize(int largeur, int hauteur) {
-        Dimension frameDim = this.getEffectiveFrameSize();
-        int width = frameDim.width;
-        int height = frameDim.height;
-        this.calleW = Math.max(width - (this.imageW * largeur), 1);
-        this.calleH = Math.max(height - (this.imageW * hauteur), 1);
-    }
-
-    /**
      * Recupère le plateau Graphique et l'affiche, ainsi que les différents modes de jeu
      * */
     private void setNiveau() {
@@ -134,32 +116,6 @@ class VueGraphique {
         EventQueue.invokeLater(() -> {
             this.niveau.add(new ImagePane(image, movable, this, x, y), gbc);
         });
-    }
-
-    private void addCalleLargeur(int x, int y) {
-        BufferedImage image = PontGraph.transp;
-        Accueil jpanel = new Accueil(resizeImage(image, this.calleW, this.imageW));
-        GridBagConstraints gbc = new GridBagConstraints();
-        if (x == this.plateau.length) gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridx = x;
-        gbc.gridy = y;
-        EventQueue.invokeLater(() -> {
-            this.niveau.add(jpanel, gbc);
-        });
-    }
-
-    private void addCallesHauteur(int largeur, int hauteur) {
-        BufferedImage image = PontGraph.transp;
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = hauteur;
-        for (int i = 0; i < largeur + 1; i++) {
-            if (i == largeur) gbc.gridwidth = GridBagConstraints.REMAINDER;
-            gbc.gridx = i;
-            Accueil jpanel = new Accueil(resizeImage(image, this.imageW, this.calleH));
-            EventQueue.invokeLater(() -> {
-                this.niveau.add(jpanel, gbc);
-            });
-        }
     }
 
     /**

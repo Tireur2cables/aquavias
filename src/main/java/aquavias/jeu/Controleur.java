@@ -63,7 +63,7 @@ class Controleur {
         this.jeu.decrementeCompteur();
         if (this.jeu.getMode().equals("compteur"))
             this.graph.decrementeCompteur();
-        else
+        else if (this.jeu.getMode().equals("fuite"))
             this.graph.decrementeProgressBar();
         /* en mode fuite vérifie la défaite à chaque décrémentation */
         if (this.jeu.getMode().equals("fuite") && this.jeu.getCompteur() <= 0)
@@ -108,7 +108,7 @@ class Controleur {
         this.stopTimer();
     }
 
-    void chargeNiveau(int num){
+    void chargeNiveau(int num) {
         this.stopTimer();
         this.jeu.initNiveau(num);
         this.graph.afficheNiveau();

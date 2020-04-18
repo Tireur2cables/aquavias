@@ -91,6 +91,7 @@ class Fenetre extends JFrame {
 
     void setMenuBar(boolean inNiveau) {
         EventQueue.invokeLater(() -> {
+            this.setJMenuBar(null);
             this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau));
         });
     }
@@ -111,9 +112,9 @@ class Fenetre extends JFrame {
         progressBar.setValue((int) compteur);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
+        this.updateBarString(compteur, progressBar, debit);
         EventQueue.invokeLater(() -> {
-            this.updateBarString(compteur, progressBar, debit);
-            this.getJMenuBar().add(progressBar); //FIXME: probleme ici cete action n'est effectué que lrosqu'on recharge un niveau avec progressbar
+            this.getJMenuBar().add(progressBar);
         });
     }
 
@@ -155,19 +156,17 @@ class Fenetre extends JFrame {
     }
 
     void decrementeProgressBar() {
-        int indice = this.getIndiceProgressBar();
-        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[indice]); //FIXME: erreur ici le composant n'est pas le bon puisque la progressbar n'est pas dedans au début
-        int limite = this.controleur.getLimite();
-        double compteur = this.controleur.getCompteur();
-        double debit = this.controleur.getDebit();
-        int val = progressBar.getValue();
-        if(val < (limite/5))
-            EventQueue.invokeLater(() -> {
+        EventQueue.invokeLater(() -> { // il faut tout englober car la méthode est utilisée par le thread du timer ce qui pose probleme si il ne passe pas par l'EDT
+            int indice = this.getIndiceProgressBar();
+            JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[indice]);
+            int limite = this.controleur.getLimite();
+            double compteur = this.controleur.getCompteur();
+            double debit = this.controleur.getDebit();
+            int val = progressBar.getValue();
+            if(val < (limite/5))
                 this.setClignotement(progressBar);
-            });
-        double compteurArrondi = arrondir(compteur);
-        double debitArr = arrondir(debit);
-        EventQueue.invokeLater(() -> {
+            double compteurArrondi = arrondir(compteur);
+            double debitArr = arrondir(debit);
             progressBar.setValue((int) compteurArrondi);
             this.updateBarString(compteurArrondi, progressBar, debitArr);
         });
@@ -256,7 +255,6 @@ class ImagePane extends JPanel {
     }
 
     void rotateImage() {
-        this.image = this.vue.getImage(this.x, this.y);
         this.vue.rotate(this.x, this.y);
     }
 
