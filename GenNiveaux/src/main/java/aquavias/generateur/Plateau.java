@@ -67,6 +67,21 @@ class Plateau {
 
     }
 
+    private boolean verifMur(Plateau plateau, int x, int y){
+        boolean[] sorties = plateau.getPlateau()[x][y].calculSorties();
+        int nord = y - ((sorties[0])?1:0);
+        int est = x + ((sorties[1])?1:0);
+        int sud = y + ((sorties[2])?1:0);
+        int ouest = x - ((sorties[3])?1:0);
+        int[] coordSorties = {nord, est, sud, ouest};
+        for(int i = 0; i < coordSorties.length; i++){
+            if(coordSorties[i] < 0) return false;
+            if(i%2 == 0 && coordSorties[i] >= plateau.getHauteur()) return false;
+            if(i%2 == 1 && coordSorties[i] >= plateau.getLargeur()) return false;
+        }
+        return true;
+    }
+
     private void completeChemin(int x, int y, int newY){
         int i = y;
         System.out.println("newY : " + newY);
@@ -145,6 +160,9 @@ class Plateau {
 
     private void makePontAccessibleFrom(int i, int j, char sortie) {
         Pont p = this.plateau[i][j];
+        /*
+         * fixme : pour les ponts I -> Les tournes dans le mauvais sens car ils ont deux sorties : Place donc la sortie "cachée" comme entrée
+         * */
         while (!p.isAccessibleFrom(sortie)) {
             char nextOrientation = Pont.getNextOrientation(p.getOrientation());
             p.setOrientation(nextOrientation);
