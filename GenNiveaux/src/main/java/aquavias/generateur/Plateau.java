@@ -59,6 +59,9 @@ class Plateau {
             System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
             System.out.println("Nouveau y : " + newY);
             plateau[i][newY] = createPont(null);
+            while(!verifMur(i, newY)){
+
+            }
             completeChemin(xEntree, oldY, newY);
             oldY = newY;
 
@@ -67,8 +70,8 @@ class Plateau {
 
     }
 
-    private boolean verifMur(Plateau plateau, int x, int y){
-        boolean[] sorties = plateau.getPlateau()[x][y].calculSorties();
+    private boolean verifMur(int x, int y){
+        boolean[] sorties = plateau[x][y].calculSorties();
         int nord = y - ((sorties[0])?1:0);
         int est = x + ((sorties[1])?1:0);
         int sud = y + ((sorties[2])?1:0);
@@ -76,8 +79,8 @@ class Plateau {
         int[] coordSorties = {nord, est, sud, ouest};
         for(int i = 0; i < coordSorties.length; i++){
             if(coordSorties[i] < 0) return false;
-            if(i%2 == 0 && coordSorties[i] >= plateau.getHauteur()) return false;
-            if(i%2 == 1 && coordSorties[i] >= plateau.getLargeur()) return false;
+            if(i%2 == 0 && coordSorties[i] >= this.getHauteur()) return false;
+            if(i%2 == 1 && coordSorties[i] >= this.getLargeur()) return false;
         }
         return true;
     }
