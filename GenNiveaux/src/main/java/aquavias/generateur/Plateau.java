@@ -60,9 +60,10 @@ class Plateau {
             System.out.println("Nouveau y : " + newY);
             plateau[i][newY] = createPont(null);
             while(!verifMur(i, newY)){
-
+                char nextOrientation = Pont.getNextOrientation(plateau[i][newY].getOrientation());
+                plateau[i][newY].setOrientation(nextOrientation);
             }
-            completeChemin(xEntree, oldY, newY);
+            completeChemin(i, oldY, newY);
             oldY = newY;
 
         }
@@ -76,6 +77,7 @@ class Plateau {
         int est = x + ((sorties[1])?1:0);
         int sud = y + ((sorties[2])?1:0);
         int ouest = x - ((sorties[3])?1:0);
+        System.out.println("pont en " + x + " - " + y + " a pour coord sorties " + nord + " " + est + " " + sud + " " + ouest);
         int[] coordSorties = {nord, est, sud, ouest};
         for(int i = 0; i < coordSorties.length; i++){
             if(coordSorties[i] < 0) return false;
