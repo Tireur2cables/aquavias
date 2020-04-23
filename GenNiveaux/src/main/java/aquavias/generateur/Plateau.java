@@ -63,7 +63,7 @@ class Plateau {
                 char nextOrientation = Pont.getNextOrientation(plateau[i][newY].getOrientation());
                 plateau[i][newY].setOrientation(nextOrientation);
             }
-            completeChemin(i, oldY, newY);
+            completeChemin(i-1, oldY, newY);
             oldY = newY;
 
         }
@@ -90,12 +90,28 @@ class Plateau {
     private void completeChemin(int x, int y, int newY){
         int i = y;
         System.out.println("newY : " + newY);
+        /*
+         * On part du pont en (x y) et on veut créer un chemin jusqu'au pont en (x+1 y)
+         * fixme : il faut traiter tous les cas non triviaux
+         * */
         while(i != newY){
             System.out.println("Completion du chemin x - y : " + x + " - " + i);
             if ((i > newY)) i--;
             else i++;
             //WIP : il faut traiter les ponts !
             plateau[x][i] = createPont(null);
+            /*
+            * On fait en sorte que le pont ne dirige pas une de ses sorties vers le bord du plateau
+            * */
+            int g = 0;
+            while(!verifMur(x, i)){
+                g++;
+                char nextOrientation = Pont.getNextOrientation(plateau[x][i].getOrientation());
+                plateau[x][i].setOrientation(nextOrientation);
+                if(g > 5){
+                    return;
+                }
+            }
         }
     }
 
