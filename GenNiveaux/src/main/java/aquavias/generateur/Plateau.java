@@ -59,32 +59,29 @@ class Plateau {
             System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
             System.out.println("Nouveau y : " + newY);
             plateau[i][newY] = createPont(null);
-            while(!verifMur(i, newY)){
-                char nextOrientation = Pont.getNextOrientation(plateau[i][newY].getOrientation(), true);
-                plateau[i][newY].setOrientation(nextOrientation);
-            }
+            traitementMur(i, newY);
             completeChemin(i-1, oldY, newY);
             oldY = newY;
-
         }
         completeChemin(xSortie-1,oldY, ySortie);
 
     }
+    /**
+     * ALGO PART
+      */
 
-    private boolean verifMur(int x, int y){
-        boolean[] sorties = plateau[x][y].calculSorties();
-        int nord = y - ((sorties[0])?1:0);
-        int est = x + ((sorties[1])?1:0);
-        int sud = y + ((sorties[2])?1:0);
-        int ouest = x - ((sorties[3])?1:0);
-        System.out.println("pont en " + x + " - " + y + " a pour coord sorties " + nord + " " + est + " " + sud + " " + ouest);
-        int[] coordSorties = {nord, est, sud, ouest};
-        for(int i = 0; i < coordSorties.length; i++){
-            if(coordSorties[i] < 0) return false;
-            if(i%2 == 0 && coordSorties[i] >= this.getHauteur()) return false;
-            if(i%2 == 1 && coordSorties[i] >= this.getLargeur()) return false;
+    private void traitementMur(int x, int y){
+        int g = 0;
+        while(!verifMur(x, y)){
+            g++;
+            char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation(), true);
+            plateau[x][y].setOrientation(nextOrientation);
+            if(g == 4){ //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T dans un angle
+                plateau[x][y] = createPont(null);
+                traitementMur(x, y);
+            }
+
         }
-        return true;
     }
 
     private void completeChemin(int x, int y, int newY){
@@ -98,22 +95,14 @@ class Plateau {
             System.out.println("Completion du chemin x - y : " + x + " - " + i);
             if ((i > newY)) i--;
             else i++;
-            //WIP : il faut traiter les ponts !
             plateau[x][i] = createPont(null);
-            /*
-            * On fait en sorte que le pont ne dirige pas une de ses sorties vers le bord du plateau
-            * */
-            int g = 0;
-            while(!verifMur(x, i)){
-                g++;
-                char nextOrientation = Pont.getNextOrientation(plateau[x][i].getOrientation(), true);
-                plateau[x][i].setOrientation(nextOrientation);
-                if(g > 5){
-                    return;
-                }
-            }
+            traitementMur(x, i);
         }
     }
+
+    /**
+     * Fonction simple
+     * */
 
     private Pont createPont(String spe) {
         char forme = this.chooseForme();
@@ -188,6 +177,22 @@ class Plateau {
             char nextOrientation = Pont.getNextOrientation(p.getOrientation(), false);
             p.setOrientation(nextOrientation);
         }
+    }
+
+    private boolean verifMur(int x, int y){
+        boolean[] sorties = plateau[x][y].calculSorties();
+        int nord = y - ((sorties[0])?1:0);
+        int est = x + ((sorties[1])?1:0);
+        int sud = y + ((sorties[2])?1:0);
+        int ouest = x - ((sorties[3])?1:0);
+        System.out.println("pont en " + x + " - " + y + " a pour coord sorties " + nord + " " + est + " " + sud + " " + ouest);
+        int[] coordSorties = {nord, est, sud, ouest};
+        for(int i = 0; i < coordSorties.length; i++){
+            if(coordSorties[i] < 0) return false;
+            if(i%2 == 0 && coordSorties[i] >= this.getHauteur()) return false;
+            if(i%2 == 1 && coordSorties[i] >= this.getLargeur()) return false;
+        }
+        return true;
     }
 
     /**
