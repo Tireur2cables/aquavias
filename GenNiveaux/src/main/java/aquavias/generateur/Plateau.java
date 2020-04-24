@@ -58,7 +58,7 @@ class Plateau {
             newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
             System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
             System.out.println("Nouveau y : " + newY);
-            plateau[i][newY] = createPont(null);
+            plateau[i][newY] = createPont('O', null);
             traitementMur(i, newY);
             completeChemin(i-1, oldY, newY);
             oldY = newY;
@@ -77,11 +77,17 @@ class Plateau {
             char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation(), true);
             plateau[x][y].setOrientation(nextOrientation);
             if(g == 4){ //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T dans un angle
-                plateau[x][y] = createPont(null);
+                plateau[x][y] = createPont('L', null);
                 traitementMur(x, y);
             }
 
         }
+    }
+
+    private void verifCompletChemin(int x1, int y1, int x2, int y2){
+        /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
+        int[] acces = getAcces(x1, y1);
+
     }
 
     private void completeChemin(int x, int y, int newY){
@@ -95,7 +101,7 @@ class Plateau {
             System.out.println("Completion du chemin x - y : " + x + " - " + i);
             if ((i > newY)) i--;
             else i++;
-            plateau[x][i] = createPont(null);
+            plateau[x][i] = createPont('O', null);
             traitementMur(x, i);
         }
     }
@@ -104,8 +110,10 @@ class Plateau {
      * Fonction simple
      * */
 
-    private Pont createPont(String spe) {
-        char forme = this.chooseForme();
+    private Pont createPont(char forme, String spe) {
+        if(forme == 'O') {
+            forme = this.chooseForme();
+        }
         char orientation = this.chooseOrientation();
         switch(forme) {
             case 'I' :
@@ -150,7 +158,7 @@ class Plateau {
         int i = 0;
         /*int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
         int j = 2;
-        this.plateau[i][j] = this.createPont("entree");
+        this.plateau[i][j] = this.createPont('O',"entree");
         this.makePontAccessibleFrom(i, j, 'E');
         this.xEntree = i;
         this.yEntree = j;
@@ -158,7 +166,7 @@ class Plateau {
         i = this.getLargeur()-1;
         /*j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
         j = 1;
-        this.plateau[i][j] = this.createPont("sortie");
+        this.plateau[i][j] = this.createPont('O', "sortie");
         this.makePontAccessibleFrom(i, j, 'O');
         this.xSortie = i;
         this.ySortie = j;
@@ -180,17 +188,11 @@ class Plateau {
     }
 
     private boolean verifMur(int x, int y){
-        boolean[] sorties = plateau[x][y].calculSorties();
-        int nord = y - ((sorties[0])?1:0);
-        int est = x + ((sorties[1])?1:0);
-        int sud = y + ((sorties[2])?1:0);
-        int ouest = x - ((sorties[3])?1:0);
-        System.out.println("pont en " + x + " - " + y + " a pour coord sorties " + nord + " " + est + " " + sud + " " + ouest);
-        int[] coordSorties = {nord, est, sud, ouest};
-        for(int i = 0; i < coordSorties.length; i++){
-            if(coordSorties[i] < 0) return false;
-            if(i%2 == 0 && coordSorties[i] >= this.getHauteur()) return false;
-            if(i%2 == 1 && coordSorties[i] >= this.getLargeur()) return false;
+        int[] acces = getAcces(x, y);
+        for(int i = 0; i < acces.length; i++){
+            if(acces[i] < 0) return false;
+            if(i%2 == 0 && acces[i] >= this.getHauteur()) return false;
+            if(i%2 == 1 && acces[i] >= this.getLargeur()) return false;
         }
         return true;
     }
@@ -198,6 +200,15 @@ class Plateau {
     /**
      * GETTEUR PART
      */
+    int[] getAcces(int x, int y){
+        boolean[] sorties = plateau[x][y].calculSorties();
+        int nord = y - ((sorties[0])?1:0);
+        int est = x + ((sorties[1])?1:0);
+        int sud = y + ((sorties[2])?1:0);
+        int ouest = x - ((sorties[3])?1:0);
+        System.out.println("pont en " + x + " - " + y + " a pour coord acces " + nord + " " + est + " " + sud + " " + ouest);
+        return new int[]{nord, est, sud, ouest};
+    }
 
     Pont[][] getPlateau() {
         return this.plateau;
