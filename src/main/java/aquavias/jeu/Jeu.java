@@ -158,6 +158,7 @@ public class Jeu {
      * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
     void parcourchemin() {
+        this.resetWater();
         int x = this.xEntree;
         int y = this.yEntree;
         this.detectAdjacents(x, y);
@@ -377,6 +378,11 @@ public class Jeu {
         Pont p = this.plateau[x][y];
         char newOrientation = Pont.getNextOrientation(p.orientation);
         p.setOrientation(newOrientation);
+        this.parcourchemin();
+        if (this.mode.equals("compteur"))
+            this.controleur.decrementeCompteur();
+        else if (this.mode.equals("fuite"))
+            this.controleur.isVictoire();
     }
 
     void resetWater() {
