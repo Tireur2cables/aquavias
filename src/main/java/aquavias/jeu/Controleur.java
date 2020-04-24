@@ -34,40 +34,22 @@ class Controleur {
     /**
      * REQUETTE PART
      * */
-
+    //FIXME: ici
     void tournePont(int x, int y) {
         /* change les sorties du pont et l'orientation */
         this.jeu.tournePont(x, y);
-
-        /* change l'attribut eau des ponts */
-        this.detectEauAdjacents();
-
-        /* en mode compteur incrémente le compteur */
-        if (this.jeu.getMode().equals("compteur"))
-            this.decrementeCompteur();
-
-        /* verifie si c'est gagné */
-        if (!this.isVictoire()) {
-            /* en mode compteur verifie la defaite à chaque pont tourné */
-            if (this.jeu.getMode().equals("compteur") && this.jeu.getCompteur() <= 0)
-                this.defaite();
-        }
     }
 
-    void detectEauAdjacents() {
-        this.jeu.resetWater();
-        this.jeu.parcourchemin();
-    }
-
+    //FIXME: ici
     void decrementeCompteur() {
+        boolean victory = true;
         this.jeu.decrementeCompteur();
-        if (this.jeu.getMode().equals("compteur"))
+        if (this.jeu.getMode().equals("compteur")) {
             this.graph.decrementeCompteur();
-        else if (this.jeu.getMode().equals("fuite"))
+            victory = this.isVictoire();
+        }else if (this.jeu.getMode().equals("fuite"))
             this.graph.decrementeProgressBar();
-        /* en mode fuite vérifie la défaite à chaque décrémentation */
-        if (this.jeu.getMode().equals("fuite") && this.jeu.getCompteur() <= 0)
-            this.defaite();
+        if (!victory) this.isDefaite();
     }
 
     void initTimer() {
@@ -78,7 +60,12 @@ class Controleur {
         this.jeu.stopTimer();
     }
 
-    private boolean isVictoire() {
+    private void isDefaite() {
+        if (this.jeu.getCompteur() <= 0)
+            this.defaite();
+    }
+
+    boolean isVictoire() {
         if (this.jeu.calculVictoire()) {
             this.stopTimer();
             this.graph.victoire();

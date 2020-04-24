@@ -6,7 +6,7 @@
     "compteur" : 120,
     "niveau" : [
         [
-            ["l", "O", null], ["t", "E", "entree"], ["l", "N", null]
+            ["l", "O", null], ["l", "N", "entree"], ["l", "N", null]
         ],
         [
             [], ["i", "E", null], ["i", "E", null]
