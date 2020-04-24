@@ -60,7 +60,7 @@ class Plateau {
             System.out.println("Nouveau y : " + newY);
             plateau[i][newY] = createPont(null);
             while(!verifMur(i, newY)){
-                char nextOrientation = Pont.getNextOrientation(plateau[i][newY].getOrientation());
+                char nextOrientation = Pont.getNextOrientation(plateau[i][newY].getOrientation(), true);
                 plateau[i][newY].setOrientation(nextOrientation);
             }
             completeChemin(i-1, oldY, newY);
@@ -106,7 +106,7 @@ class Plateau {
             int g = 0;
             while(!verifMur(x, i)){
                 g++;
-                char nextOrientation = Pont.getNextOrientation(plateau[x][i].getOrientation());
+                char nextOrientation = Pont.getNextOrientation(plateau[x][i].getOrientation(), true);
                 plateau[x][i].setOrientation(nextOrientation);
                 if(g > 5){
                     return;
@@ -185,7 +185,7 @@ class Plateau {
          * fixme : pour les ponts I -> Les tournes dans le mauvais sens car ils ont deux sorties : Place donc la sortie "cachée" comme entrée
          * */
         while (!p.isAccessibleFrom(sortie)) {
-            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
+            char nextOrientation = Pont.getNextOrientation(p.getOrientation(), false);
             p.setOrientation(nextOrientation);
         }
     }
