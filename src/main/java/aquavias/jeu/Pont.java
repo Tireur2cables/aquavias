@@ -33,7 +33,7 @@ public abstract class Pont {
      * GETTER PART
      * */
 
-    char getForme(){
+    public char getForme(){
         return this.forme;
     }
 

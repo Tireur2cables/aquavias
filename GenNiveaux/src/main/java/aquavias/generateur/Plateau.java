@@ -60,7 +60,12 @@ class Plateau {
             System.out.println("Nouveau y : " + newY);
             plateau[i][newY] = createPont('O', null);
             traitementMur(i, newY);
-            completeChemin(i-1, oldY, newY);
+            if(plateau[i][newY].getForme() == 'L'){ //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite
+                completeChemin(i, oldY, newY);
+            }
+            else{
+                completeChemin(i-1, oldY, newY);
+            }
             oldY = newY;
         }
         completeChemin(xSortie-1,oldY, ySortie);
@@ -83,12 +88,15 @@ class Plateau {
 
         }
     }
-
+    /**
+     * fixme : WIP
+     * */
     private void verifCompletChemin(int x1, int y1, int x2, int y2){
         /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
         int[] acces = getAcces(x1, y1);
-
     }
+
+
 
     private void completeChemin(int x, int y, int newY){
         int i = y;
