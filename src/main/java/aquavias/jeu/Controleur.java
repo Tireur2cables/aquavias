@@ -2,13 +2,11 @@ package aquavias.jeu;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 class Controleur {
 
-    private Jeu jeu;
-    private VueGraphique graph;
+    private final Jeu jeu;
+    private final VueGraphique graph;
 
     /**
      * INIT PART
@@ -21,16 +19,6 @@ class Controleur {
     void launch() {
         this.mainMenu();
         System.out.println("Le jeu se lance!");
-    }
-
-    void mainMenu(){
-        this.graph.chargeMenu();
-    }
-
-    void chargeNiveau(int num){
-        this.stopTimer();
-        this.jeu.initNiveau(num);
-        this.graph.afficheNiveau();
     }
 
     /**
@@ -46,40 +34,22 @@ class Controleur {
     /**
      * REQUETTE PART
      * */
-
+    //FIXME: ici
     void tournePont(int x, int y) {
         /* change les sorties du pont et l'orientation */
         this.jeu.tournePont(x, y);
-
-        /* change l'attribut eau des ponts */
-        this.detectEauAdjacents();
-
-        /* en mode compteur incrémente le compteur */
-        if (this.jeu.getMode().equals("compteur"))
-            this.decrementeCompteur();
-
-        /* verifie si c'est gagné */
-        this.isVictoire();
-
-        /* en mode compteur verifie la defaite à chaque pont tourné */
-        if (this.jeu.getMode().equals("compteur") && this.jeu.getCompteur() <= 0)
-            this.defaite();
     }
 
-    void detectEauAdjacents() {
-        this.jeu.resetWater();
-        this.jeu.parcourchemin();
-    }
-
+    //FIXME: ici
     void decrementeCompteur() {
+        boolean victory = true;
         this.jeu.decrementeCompteur();
-        if (this.jeu.getMode().equals("compteur"))
+        if (this.jeu.getMode().equals("compteur")) {
             this.graph.decrementeCompteur();
-        else
+            victory = this.isVictoire();
+        }else if (this.jeu.getMode().equals("fuite"))
             this.graph.decrementeProgressBar();
-        /* en mode fuite vérifie la défaite à chaque décrémentation */
-        if (this.jeu.getMode().equals("fuite") && this.jeu.getCompteur() <= 0)
-            this.defaite();
+        if (!victory) this.isDefaite();
     }
 
     void initTimer() {
@@ -90,21 +60,29 @@ class Controleur {
         this.jeu.stopTimer();
     }
 
-    void isVictoire() {
+    private void isDefaite() {
+        if (this.jeu.getCompteur() <= 0)
+            this.defaite();
+    }
+
+    boolean isVictoire() {
         if (this.jeu.calculVictoire()) {
+            this.stopTimer();
             this.graph.victoire();
-            this.jeu.stopTimer();
+            return true;
         }
+        return false;
     }
 
     private void endGame() {
         //Ajouter le générique ici!
+        this.stopTimer();
         this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
     }
 
-    void defaite() {
-        this.graph.defaite();
+    private void defaite() {
         this.jeu.stopTimer();
+        this.graph.defaite();
     }
 
     void retry() {
@@ -112,8 +90,15 @@ class Controleur {
         this.chargeNiveau(numNiveau);
     }
 
-    void backMenu() {
+    void mainMenu(){
         this.graph.chargeMenu();
+        this.stopTimer();
+    }
+
+    void chargeNiveau(int num) {
+        this.stopTimer();
+        this.jeu.initNiveau(num);
+        this.graph.afficheNiveau();
     }
 
     void nextLevel() {

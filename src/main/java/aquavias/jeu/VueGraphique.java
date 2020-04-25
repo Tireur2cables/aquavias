@@ -5,13 +5,11 @@ import java.awt.image.BufferedImage;
 
 class VueGraphique {
 
-    private Controleur controleur;
-    private Fenetre fenetre;
+    private final Controleur controleur;
+    private final Fenetre fenetre;
     private Niveau niveau;
     private PontGraph[][] plateau;
     private int imageW;
-    private int calleW;
-    private int calleH;
 
     /**
      *  Fonction pour affichage de test unitaire
@@ -35,25 +33,22 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
+        this.fenetre.setMenuBar(true);
         this.initNiveau(largeur, hauteur);
-        fenetre.setMenuBar(true);
-        this.setNiveau();
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
                 boolean movable = this.controleur.isMovable(i, j);
-                this.addToNiveau(this.getImage(i, j), movable, i, j);
-                if (i == largeur-1) this.addCalleLargeur(i+1, j);
+                this.addToNiveau(this.getImage(i, j), movable, i, j); //ajout des images dans la grille niveau
             }
         }
-        this.addCallesHauteur(largeur, hauteur);
-        this.repaint();
+        this.repaint(); //affiche le niveau
     }
 
     private void initNiveau(int largeur, int hauteur) {
-        this.niveau = new Niveau(this.fenetre);
+        this.niveau = new Niveau();
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
-        this.calculCalleSize(largeur, hauteur);
+        this.setNiveau();
     }
 
     /**
@@ -62,8 +57,6 @@ class VueGraphique {
     private void initPlateau(int largeur, int hauteur) {
         this.plateau = new PontGraph[largeur][hauteur];
         this.imageW = 0;
-        this.calleW = 0;
-        this.calleH = 0;
         for(int i = 0; i < largeur; i++){
             for(int j = 0; j < hauteur; j++){
                 this.plateau[i][j] = this.getPontGraphique(i, j);
@@ -86,23 +79,13 @@ class VueGraphique {
         double diff = Math.abs(this.imageW - width) / largeur;
         this.imageW = this.imageW / largeur;
         this.imageW = (int) Math.floor((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
-        /** Math.floor arrondi a l'entier EN DESSOUS */
+        // Math.floor arrondi a l'entier EN DESSOUS
+        
         imageH = imageH * hauteur;
         diff = Math.abs(imageH - height) / hauteur;
         imageH = imageH / hauteur;
         imageH = (int) Math.floor((imageH*hauteur > height)? imageH-diff : imageH+diff);
         this.imageW = Math.min(this.imageW, imageH) - 1; //permet aux ponts d'être carrés
-    }
-
-    /**
-     * Calcul la taille que doivent faire les "Calles" pour que la fentre soit totalement remplie
-     * */
-    private void calculCalleSize(int largeur, int hauteur) {
-        Dimension screenDim = this.getEffectiveFrameSize();
-        int width = screenDim.width;
-        int height = screenDim.height;
-        this.calleW = Math.max(width - (this.imageW * largeur), 1);
-        this.calleH = Math.max(height - (this.imageW * hauteur), 1);
     }
 
     /**
@@ -112,13 +95,13 @@ class VueGraphique {
         EventQueue.invokeLater(() -> {
             this.fenetre.getContentPane().removeAll();
             this.fenetre.setContentPane(this.niveau);
-            if (this.controleur.getMode().equals("compteur"))
-                this.fenetre.addCompteur();
-            else if (this.controleur.getMode().equals("fuite")) {
-                this.fenetre.addProgressBar();
-                this.controleur.initTimer();
-            }
         });
+        if (this.controleur.getMode().equals("compteur"))
+            this.fenetre.addCompteur();
+        else if (this.controleur.getMode().equals("fuite")) {
+            this.fenetre.addProgressBar();
+            this.controleur.initTimer();
+        }
     }
 
     /**
@@ -135,44 +118,18 @@ class VueGraphique {
         });
     }
 
-    private void addCalleLargeur(int x, int y) {
-        BufferedImage image = PontGraph.transp;
-        Accueil jpanel = new Accueil(resizeImage(image, this.calleW, this.imageW));
-        GridBagConstraints gbc = new GridBagConstraints();
-        if (x == this.plateau.length) gbc.gridwidth = GridBagConstraints.REMAINDER;
-        gbc.gridx = x;
-        gbc.gridy = y;
-        EventQueue.invokeLater(() -> {
-            this.niveau.add(jpanel, gbc);
-        });
-    }
-
-    private void addCallesHauteur(int largeur, int hauteur) {
-        BufferedImage image = PontGraph.transp;
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridy = hauteur;
-        for (int i = 0; i < largeur + 1; i++) {
-            if (i == largeur) gbc.gridwidth = GridBagConstraints.REMAINDER;
-            gbc.gridx = i;
-            Accueil jpanel = new Accueil(resizeImage(image, this.imageW, this.calleH));
-            EventQueue.invokeLater(() -> {
-                this.niveau.add(jpanel, gbc);
-            });
-        }
-    }
-
     /**
      * MENU PART
      */
 
     void chargeMenu() {
-        Dimension dim = this.getEffectiveFrameSize();
-        this.imageW = dim.width;
-        int imageH = dim.height;
+        this.fenetre.setMenuBar(false);
+        BufferedImage image = PontGraph.chargeImage("bg.png");
         EventQueue.invokeLater(() -> {
-            BufferedImage image = PontGraph.chargeImage("bg.png");
+            Dimension dim = this.getEffectiveFrameSize(); // doit etre dans le eventqeue pour avoir la taille dela jmenubar prise en compte
+            this.imageW = dim.width;
+            int imageH = dim.height;
             this.fenetre.setContentPane(new Accueil(this.resizeImage(image, this.imageW, imageH)));
-            this.fenetre.setMenuBar(false);
             this.repaint();
         });
     }
@@ -182,8 +139,10 @@ class VueGraphique {
      */
 
     private void repaint() {
-        this.fenetre.repaint();
-        this.fenetre.changeSize();
+        EventQueue.invokeLater(() -> {
+            this.fenetre.pack();
+            this.fenetre.repaint();
+        });
     }
 
 
@@ -218,11 +177,19 @@ class VueGraphique {
         this.fenetre.defaite();
     }
 
-    void infoRetourMenu(String info) { this.fenetre.infoRetourMenu(info); }
+    void infoRetourMenu(String info) {
+        this.fenetre.infoRetourMenu(info);
+    }
 
     /**
      * GETTER PART
      * */
+
+    private Dimension getEffectiveFrameSize() {
+        int width = this.fenetre.getWidth() - (this.fenetre.getInsets().left + this.fenetre.getInsets().right);
+        int height = this.fenetre.getHeight() - (this.fenetre.getInsets().bottom + this.fenetre.getInsets().top) - this.fenetre.getJMenuBar().getPreferredSize().height;
+        return new Dimension(width, height);
+    }
 
     BufferedImage getImage(int x, int y) {
         BufferedImage image = (this.plateau[x][y] == null)? PontGraph.transp : this.plateau[x][y].getImage();
@@ -235,16 +202,6 @@ class VueGraphique {
     private PontGraph getPontGraphique(int i, int j) {
         Pont p = this.controleur.getPont(i, j);
         return PontGraph.getPontGraph(p);
-    }
-
-    private Dimension getEffectiveFrameSize() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        Insets frameInsets = this.fenetre.getInsets();
-        int jMenuBarHeight = frameInsets.top; //aproximation
-        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
-        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
-        return new Dimension(width,height);
     }
 
     /**

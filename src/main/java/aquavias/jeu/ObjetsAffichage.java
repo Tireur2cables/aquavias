@@ -12,6 +12,7 @@ import java.util.ArrayList;
 class Fenetre extends JFrame {
 
     private Controleur controleur;
+    private final static GraphicsDevice graphDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
 
     /**
      * INIT PART
@@ -38,11 +39,10 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
+        graphDevice.setFullScreenWindow(this); //plein écran
         EventQueue.invokeLater(() -> {
-            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-            this.addCloseOperation();
+            this.addCloseOperation(); //inutil en plein écran
             this.setTitle("Aquavias");
-            this.setResizable(false); // Le jeu se joue en plein écran pour le moment
             this.setVisible(true);
         });
     }
@@ -59,7 +59,7 @@ class Fenetre extends JFrame {
             if (retour == 0) /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
-                this.controleur.backMenu();
+                this.controleur.mainMenu();
         });
     }
 
@@ -71,7 +71,7 @@ class Fenetre extends JFrame {
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
-                this.controleur.backMenu();
+                this.controleur.mainMenu();
         });
     }
 
@@ -81,7 +81,7 @@ class Fenetre extends JFrame {
             int retour = JOptionPane.showOptionDialog(this, info,"",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
             if (retour == 0) /* retour au menu */
-                this.controleur.backMenu();
+                this.controleur.mainMenu();
         });
     }
 
@@ -89,8 +89,9 @@ class Fenetre extends JFrame {
      * ADD PART
      */
 
-    void setMenuBar(boolean inNiveau){
+    void setMenuBar(boolean inNiveau) {
         EventQueue.invokeLater(() -> {
+            this.setJMenuBar(null);
             this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau));
         });
     }
@@ -98,23 +99,27 @@ class Fenetre extends JFrame {
     void addCompteur() {
         int compteur =  (int) this.controleur.getCompteur();
         JLabel counter = new JLabel("" + compteur);
-        this.getJMenuBar().add(counter);
+        EventQueue.invokeLater(() -> {
+            this.getJMenuBar().add(counter);
+        });
     }
 
     void addProgressBar() {
         int limite = this.controleur.getLimite();
         double compteur = this.controleur.getCompteur();
         double debit = this.controleur.getDebit();
-        JProgressBar progressBar = new JProgressBar();
-		progressBar.setMaximum(limite);
+        JProgressBar progressBar = new JProgressBar(0, limite);
         progressBar.setValue((int) compteur);
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
         this.updateBarString(compteur, progressBar, debit);
-        this.getJMenuBar().add(progressBar);
+        EventQueue.invokeLater(() -> {
+            this.getJMenuBar().add(progressBar);
+        });
     }
 
     private void addCloseOperation() {
+        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
 
             @Override
@@ -133,19 +138,7 @@ class Fenetre extends JFrame {
      *  UPDATE PART
      */
 
-    void changeSize() {
-        Dimension screenDim = this.getEffectiveScreenSize();
-        int largeur = screenDim.width;
-        int hauteur = screenDim.height;
-        EventQueue.invokeLater(() -> {
-            this.pack(); //permet l'affichage
-            this.setBounds(new Rectangle(0, 0, largeur, hauteur)); //redimensionne si besoin et place en haut à gauche
-        });
-    }
-
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
-        if (this.controleur.getMode().equals("compteur"))
-            val = (int) val;
         if (val > 1)
             progressBar.setString(val + "L restants | -" + debit + "L/s");
         else
@@ -153,86 +146,90 @@ class Fenetre extends JFrame {
     }
 
     void decrementeCompteur() {
-        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[2]);
-        double val = this.controleur.getCompteur();
+        int indice = this.getIndiceCompteur();
+        JLabel compteur = ((JLabel) this.getJMenuBar().getComponents()[indice]);
+        int val = (int) this.controleur.getCompteur();
         String newVal = String.valueOf(val);
-        compteur.setText(newVal);
+        EventQueue.invokeLater(() -> {
+            compteur.setText(newVal);
+        });
     }
 
     void decrementeProgressBar() {
-        int limite = this.controleur.getLimite();
-        JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[2]);
-        double compteur = this.controleur.getCompteur();
-        double debit = this.controleur.getDebit();
-        int val = progressBar.getValue();
-        if(val < (limite/5))
-            this.setClignotement(progressBar);
-        compteur = this.arrondir(compteur);
-        debit = this.arrondir(debit);
-        progressBar.setValue((int) compteur);
-        this.updateBarString(compteur, progressBar, debit);
+        EventQueue.invokeLater(() -> { // il faut tout englober car la méthode est utilisée par le thread du timer ce qui pose probleme si il ne passe pas par l'EDT
+            int indice = this.getIndiceProgressBar();
+            JProgressBar progressBar = ((JProgressBar) this.getJMenuBar().getComponents()[indice]);
+            int limite = this.controleur.getLimite();
+            double compteur = this.controleur.getCompteur();
+            double debit = this.controleur.getDebit();
+            int val = progressBar.getValue();
+            if(val < (limite/5))
+                this.setClignotement(progressBar);
+            double compteurArrondi = arrondir(compteur);
+            double debitArr = arrondir(debit);
+            progressBar.setValue((int) compteurArrondi);
+            this.updateBarString(compteurArrondi, progressBar, debitArr);
+        });
     }
 
     private void setClignotement(JProgressBar progressBar) {
-            if(progressBar.getValue()%2==0)
-                progressBar.setForeground(Color.red);
-            else
-                progressBar.setForeground(Color.blue);
+        if(progressBar.getForeground().getRGB() == Color.blue.getRGB())
+            progressBar.setForeground(Color.red);
+        else
+            progressBar.setForeground(Color.blue);
     }
 
     /**
      * Arrondir un double à le deuxieme décimale
      * */
-    private double arrondir(double d) {
+    private static double arrondir(double d) {
         BigDecimal bd = new BigDecimal(d);
         bd = bd.setScale(3, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
 
     /**
-     * GETTER PART
-     * */
+     *  GETTER PART
+     */
 
-    private Dimension getEffectiveScreenSize() {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        int width = screenSize.width - (screenInsets.left + screenInsets.right);
-        int height = screenSize.height - (screenInsets.bottom + screenInsets.top);
-        return new Dimension(width,height);
+    private int getIndiceCompteur() {
+        Component[] tab = this.getJMenuBar().getComponents();
+        for (int i = 0; i < tab.length; i++) {
+            if (tab[i] instanceof JLabel) return i; //suppose qu'il n'y a qu'un seul jlabell dans la jmenubar
+        }
+        throw new RuntimeException("Impossible de trouver le compteur dans la jmenubarre");
+    }
+
+    private int getIndiceProgressBar() {
+        Component[] tab = this.getJMenuBar().getComponents();
+        for (int i = 0; i < tab.length; i++) {
+            if (tab[i] instanceof JProgressBar) return i; //suppose qu'il n'y a qu'une seule jprogressbar dans la jmenubar
+        }
+        throw new RuntimeException("Impossible de trouver la progressbar dans la jmenubarre");
     }
 
 }
 
 class Niveau extends JPanel {
 
-    public Niveau(Fenetre fenetre) {
+    public Niveau() {
         super();
-        Dimension frameDim = this.getEffectiveFrameSize(fenetre);
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridBagLayout());
-            this.setPreferredSize(new Dimension(frameDim.width, frameDim.height)); //permet de faire fonctionner le setpositionrelativeto correctement
         });
     }
 
-    private Dimension getEffectiveFrameSize(Fenetre fenetre) {
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        Insets screenInsets = Toolkit.getDefaultToolkit().getScreenInsets(GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration());
-        Insets frameInsets = fenetre.getInsets();
-        int jMenuBarHeight = frameInsets.top; // approximation
-        int width = screenSize.width - (screenInsets.left + screenInsets.right) - (frameInsets.left + frameInsets.right);
-        int height = screenSize.height - (screenInsets.bottom + screenInsets.top) - (frameInsets.bottom + frameInsets.top) - jMenuBarHeight;
-        return new Dimension(width,height);
-    }
 }
 
 class ImagePane extends JPanel {
 
      private BufferedImage image;
-     private int width;
-     private int height;
-     private VueGraphique vue;
-     private int x;
-     private int y;
+     private final int width;
+     private final int height;
+     private final VueGraphique vue;
+     private final int x;
+     private final int y;
+     private boolean movable;
 
     ImagePane(BufferedImage image, boolean movable, VueGraphique vue, int x, int y) {
         super();
@@ -242,19 +239,22 @@ class ImagePane extends JPanel {
         this.vue = vue;
         this.x = x;
         this.y = y;
+        this.movable = movable;
         EventQueue.invokeLater(() -> {
             this.setPreferredSize(new Dimension(this.width, this.height));
         });
 
         EventQueue.invokeLater(() -> {
-            this.addMouseListener(new ClickListener(movable, this));
+            this.addMouseListener(new ClickListener(this));
         });
 
     }
 
+    boolean isMovable() {
+        return this.movable;
+    }
+
     void rotateImage() {
-        /* On tourne les ponts de 90° */
-        this.image = this.vue.getImage(this.x, this.y);
         this.vue.rotate(this.x, this.y);
     }
 
@@ -272,21 +272,16 @@ class ImagePane extends JPanel {
 
 class ClickListener implements MouseListener {
 
-    private boolean movable;
-    private ImagePane imagePane;
+    private final ImagePane imagePane;
 
-    ClickListener(boolean movable, ImagePane imagePane) {
+    ClickListener(ImagePane imagePane) {
         super();
-        this.movable = movable;
         this.imagePane = imagePane;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (this.movable) {
-            this.imagePane.rotateImage();
-            this.imagePane.repaint();
-        }
+        if (this.imagePane.isMovable()) this.imagePane.rotateImage();
     }
 
     @Override
@@ -303,17 +298,15 @@ class ClickListener implements MouseListener {
 
 }
 
-class MenuBar extends JMenuBar{
+class MenuBar extends JMenuBar {
 
     MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
         JMenu charger = this.createChargerMenu(controleur);
         this.add(charger);
 
-        if (inNiveau) {
-            JButton save = this.createSave(fenetre, controleur);
-            this.add(save);
-        }
+        JMenu options = this.createOptionsMenu(controleur, fenetre, inNiveau);
+        this.add(options);
     }
 
     private JMenu createChargerMenu(Controleur controleur) {
@@ -349,13 +342,43 @@ class MenuBar extends JMenuBar{
         return nom + " " + num;
     }
 
-    private JButton createSave(Fenetre fenetre, Controleur controleur) {
-        JButton save = new JButton("Sauvegarder");
+    private JMenu createOptionsMenu(Controleur controleur, Fenetre fenetre, boolean inNiveau) {
+        JMenu menu = new JMenu("Options");
+        if (inNiveau) {
+            JMenuItem mainMenu = this.createMainMenu(controleur);
+            menu.add(mainMenu);
+            JMenuItem save = this.createSave(fenetre, controleur);
+            menu.add(save);
+        }
+        JMenuItem exit = this.createExit(fenetre, controleur);
+        menu.add(exit);
+        return menu;
+    }
+
+    private JMenuItem createMainMenu(Controleur controleur) {
+        JMenuItem mainMenu = new JMenuItem("Menu principal");
+        mainMenu.addActionListener((ActionEvent e) -> {
+            controleur.mainMenu();
+        });
+        return mainMenu;
+    }
+
+    private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
+        JMenuItem save = new JMenuItem("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
             controleur.exportNiveau();
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;
+    }
+
+    private JMenuItem createExit(Fenetre fenetre, Controleur controleur) {
+        JMenuItem exit = new JMenuItem("Quitter");
+        exit.addActionListener((ActionEvent e) -> {
+            fenetre.dispose();
+            controleur.exit();
+        });
+        return exit;
     }
 
 }
