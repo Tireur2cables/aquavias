@@ -26,6 +26,8 @@ public class PontT extends Pont {
             case 'O' : tab[2] = false;
                 break;
         }
+        if (this.spe != null && this.spe.equals("sortie"))
+            tab[1] = false;
         return tab;
     }
 

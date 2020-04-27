@@ -109,12 +109,9 @@ public class Jeu {
 
     private Pont castPont(JSONArray tab) {
         switch(tab.getString(0).toUpperCase().charAt(0)) {
-            case 'I' :
-                return new PontI(tab);
-            case 'L' :
-                return new PontL(tab);
-            case 'T' :
-                return new PontT(tab);
+            case 'I' : return new PontI(tab);
+            case 'L' : return new PontL(tab);
+            case 'T' : return new PontT(tab);
         }
         throw new RuntimeException("char du pont inconnu");
     }
