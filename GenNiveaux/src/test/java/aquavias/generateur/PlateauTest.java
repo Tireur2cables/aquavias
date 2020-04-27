@@ -13,7 +13,7 @@ import java.io.IOException;
 public class PlateauTest{
     @Test
     public void catchExceptionFromGenerating(){
-        for(int i = 0; i < 15; i++){
+        for(int i = 0; i < 50; i++){
             Plateau p = new Plateau(6, 6);
             String mode = "compteur";
             int limite = 100;
