@@ -148,7 +148,7 @@ class Plateau {
                 int j = sortie[1];
                 while (i != newX || j != newY) {
                     System.out.println("Completion du chemin x - y : " + x + " - " + i);
-                    if (this.plateau[i][j] != null) {
+                    if (this.plateau[i][j] == null) {
                         this.plateau[i][j] = createPont('O', null);
                         this.traitementMur(i, j);
                     }
