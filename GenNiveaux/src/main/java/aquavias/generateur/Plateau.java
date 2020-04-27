@@ -15,22 +15,29 @@ class Plateau {
     private int xSortie;
     private int ySortie;
 
+    private static int[][] nbConnex;
+
     /**
      * INIT PART
      * */
 
     Plateau(int largeur, int hauteur) {
+        nbConnex = new int[largeur][hauteur];
+        for (int i = 0; i < largeur ; i++)
+            for (int j = 0; j < hauteur; j++)
+                nbConnex[i][j] = 0;
+
         this.plateau = new Pont[largeur][hauteur];
-        for (int i = 0; i < largeur; i++) {
-            for (int j = 0; j < hauteur; j++) {
+        for (int i = 0; i < largeur; i++)
+            for (int j = 0; j < hauteur; j++)
                 this.plateau[i][j] = null;
-            }
-        }
+
         this.placerEntreeSortie();
-        this.getCheminPont();
+
+        this.setCheminPont();
     }
 
-    private void getCheminPont(){
+    private void setCheminPont(){
         Pont entree = this.getEntree();
         Pont sortie = this.getSortie();
         //On considére point le moment uniquement l'entrée et la sortie aux points xEntree, yEntree, xSortie, ySortie
@@ -52,82 +59,18 @@ class Plateau {
          *  - SI : pont entrée = y / x+1 et entrée newY = x-1 ==> il faut faire une courbe
          *          sinon simple
          */
-        System.out.println("X entree - Y entree" + xEntree + " - " + yEntree);
-        int oldY = yEntree;
-        for (int i = xEntree+1; i < this.getLargeur()-1; i++) {
-            int newY = this.placePillierSuivant(i-1, oldY); //this.placeAleaPont(i, 0, this.getHauteur());
-            this.traitementMur(i, newY);
-            //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite ? Je ne pense plus ça nécéssaire maintenant
-            this.completeChemin(i-1, oldY, i, newY);
-            oldY = newY;
+        System.out.println("X entree - Y entree" + this.xEntree + " - " + this.yEntree);
+        int oldY = this.yEntree;
+        for (int i = this.xEntree+1; i < this.getLargeur()-1; i++) {
+            oldY = this.placePillierSuivant(i-1, oldY);
         }
-        completeChemin(xSortie-1, oldY, xSortie, ySortie);
-
+        this.completeChemin(this.xSortie-1, oldY, this.xSortie, this.ySortie);
+        this.cheminInverse(this.xSortie, this.ySortie);
     }
+
     /**
      * ALGO PART
       */
-
-    private void completeChemin(int x, int y, int newX, int newY) {
-        System.out.println("newY : " + newY);
-        /*
-         * On part du pont en (x y) et on veut créer un chemin jusqu'au pont en (x+1 y)
-         * fixme : il faut traiter tous les cas non triviaux
-         * */
-        int[][] acces = this.getAcces(x, y);
-        for (int[] sortie : acces) {
-            if (sortie[0] != x || sortie[1] != y) {
-                int i = sortie[0];
-                int j = sortie[1];
-                while (i != newX || j != newY) {
-                    if (this.plateau[i][j] == null) {
-                        System.out.println("Completion du chemin x - y : " + x + " - " + i);
-                        this.plateau[i][j] = createPont('O', null);
-                        this.traitementMur(i, j);
-                    }else break;
-
-                    this.completeChemin(i,j, newX, newY);
-
-                    if (ThreadLocalRandom.current().nextBoolean()) {
-                        if (i > newX) i--;
-                        else if (i < newX) i++;
-                        else {
-                            if (j > newY) j--;
-                            else j++;
-                        }
-                    }else {
-                        if (j > newY) j--;
-                        else if (j < newY) j++;
-                        else {
-                            if (i > newX) i--;
-                            else i++;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private void traitementMur(int x, int y){
-        int g = 0;
-        while(!verifMur(x, y)){
-            g++;
-            char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation());
-            plateau[x][y].setOrientation(nextOrientation);
-            if(g == 4){ //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T dans un angle
-                plateau[x][y] = createPont('L', null);
-                traitementMur(x, y);
-            }
-
-        }
-    }
-    /**
-     * fixme : WIP
-     * */
-    private void verifCompletChemin(int x1, int y1, int x2, int y2){
-        /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
-        int[][] acces = getAcces(x1, y1);
-    }
 
     private int placePillierSuivant(int x, int y) {
         int newY;
@@ -138,11 +81,9 @@ class Plateau {
                 break;
             case 2: newY = this.placeAleaPont(x+1, y+1, this.getHauteur());
                 break;
-            case 3 : System.out.println("debug, y-1 = " + (y-1));
-                newY = this.placeAleaPont(x+1,0, y-1);
+            case 3 : newY = this.placeAleaPont(x+1,0, y-1);
                 break;
-            case 4 : System.out.println("debug, y+2 = " + (y+2));
-                newY = this.placeAleaPont(x+1,y+2, this.getHauteur());
+            case 4 : newY = this.placeAleaPont(x+1,y+2, this.getHauteur());
                 break;
             default: throw new RuntimeException("traitementEntree retourne une valeure différente de 0, 1 ou 2");
         }
@@ -150,6 +91,7 @@ class Plateau {
         this.completeChemin(x, y, x+1, newY);
         return newY;
     }
+
     private int traitementPontPrecedent(int x, int y) {
         /*
          * vocation a disparaitre un jour
@@ -185,14 +127,109 @@ class Plateau {
         return 0;
     }
 
+    private void traitementMur(int x, int y) {
+        int compteur = 0;
+        while (!verifMur(x, y)) {
+            compteur++;
+            char nextOrientation = Pont.getNextOrientation(this.plateau[x][y].getOrientation());
+            this.plateau[x][y].setOrientation(nextOrientation);
+            if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T ou en I dans un angle
+                this.plateau[x][y] = this.createPont('L', null);
+                compteur = 0;
+            }
+        }
+    }
+
+    private void completeChemin(int x, int y, int newX, int newY) {
+        System.out.println("newY : " + newY);
+        /*
+         * On part du pont en (x y) et on veut créer un chemin jusqu'au pont en (x+1 y)
+         * fixme : il faut traiter tous les cas non triviaux
+         * */
+        int oldX = x;
+        int oldY = y;
+        int[][] acces = this.getAcces(x, y);
+        for (int[] sortie : acces) {
+            if (sortie[0] != x || sortie[1] != y) {
+                int i = sortie[0];
+                int j = sortie[1];
+                while (i < newX || j != newY) {
+                    //visiblement oldx et  old y gere mal la recursion
+                    if ((Math.abs(x-i) < Math.abs(oldX-i) && x != i) || oldX == i) oldX = x;
+                    if ((Math.abs(y-j) < Math.abs(oldY-j) && y != j) || oldY == j) oldY = y;
+
+                    if (this.plateau[i][j] == null) {
+                        System.out.println("Completion du chemin oldX - oldY -> i - j: " + oldX + " - " + oldY + " -> " + i + " - " + j);
+                        this.plateau[i][j] = this.createPont('O', null);
+                        this.lierPontWith(i, j, oldX, oldY);
+                    }else break;
+
+                    this.completeChemin(i, j, newX, newY);
+
+                    oldX = i;
+                    oldY = j;
+                    if (ThreadLocalRandom.current().nextBoolean()) {
+                        if (i < newX) i++;
+                        else {
+                            if (j > newY) j--;
+                            else j++;
+                        }
+                    }else {
+                        if (j > newY) j--;
+                        else if (j < newY) j++;
+                        else i++;
+                    }
+                }
+            }
+        }
+    }
+
+    private void cheminInverse(int x, int y) {
+//FIXME: wip
+    }
+
+    /**
+     * fixme : WIP
+     * */
+    private void verifCompletChemin(int x1, int y1, int x2, int y2){
+        /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
+        int[][] acces = this.getAcces(x1, y1);
+    }
+
     /**
      * Fonction simple
      * */
 
+    private void lierPontWith(int x, int y, int oldX, int oldY) {
+        Pont pont = this.plateau[x][y];
+        char sortie;
+        if (x == oldX+1) {
+            sortie = 'O';
+        }else if (x == oldX-1) {
+            sortie = 'E';
+        }else if (y == oldY+1) {
+            sortie = 'S';
+        }else if (y == oldY-1) {
+            sortie = 'N';
+        }else {
+            throw new RuntimeException("Les ponts (" + oldX + ", " + oldY + ") et (" + x + ", " + y + ") ne peuvent pas etre lier aussi simplement");
+        }
+        int compteur = 0;
+        while (!pont.isAccessibleFrom(sortie) || !verifMur(x, y)) {
+            compteur++;
+            char newOrientation = Pont.getNextOrientation(pont.getOrientation());
+            pont.setOrientation(newOrientation);
+            if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T ou en I dans un angle
+                this.plateau[x][y] = this.createPont('L', null);
+                compteur = 0;
+            }
+        }
+    }
+
     private int placeAleaPont(int x, int borneMinY, int borneMaxY) {
         int newY = ThreadLocalRandom.current().nextInt(borneMinY, borneMaxY);
         System.out.println("Nouveau y : " + newY);
-        plateau[x][newY] = createPont('O', null);
+        this.plateau[x][newY] = this.createPont('O', null);
         return newY;
     }
 
@@ -213,13 +250,13 @@ class Plateau {
     }
 
     private char chooseForme() {
-        int random = ThreadLocalRandom.current().nextInt(0, 3);
+        int random = ThreadLocalRandom.current().nextInt(0, 5);
         switch (random) {
-            case 0 :
+            case 0: case 1:
                 return 'I';
-            case 1 :
+            case 2: case 3:
                 return 'L';
-            case 2 :
+            case 4 : //moins de probabilité d'avoir un T que d'avoir les autres
                 return 'T';
         }
         throw new RuntimeException("Random int out of bounds");
@@ -271,8 +308,8 @@ class Plateau {
      */
 
     private boolean verifMur(int x, int y) {
-        int[][] acces = getAcces(x, y);
-        for(int i = 0; i < acces.length; i++){
+        int[][] acces = this.getAcces(x, y);
+        for (int i = 0; i < acces.length; i++) {
             if(acces[i][0] < 0 || acces[i][1] < 0 || acces[i][0] >= this.getLargeur() || acces[i][1] >= this.getHauteur()) return false;
         }
         return true;
@@ -282,7 +319,7 @@ class Plateau {
      * GETTEUR PART
      */
     int[][] getAcces(int x, int y) {
-        boolean[] sorties = plateau[x][y].calculSorties();
+        boolean[] sorties = this.plateau[x][y].calculSorties();
         int[] nord = {x, y - ((sorties[0])? 1 : 0)};
         int[] est = {x + ((sorties[1])? 1 : 0), y};
         int[] sud = {x, y + ((sorties[2])? 1 : 0)};
