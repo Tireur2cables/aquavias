@@ -93,7 +93,20 @@ class Plateau {
      * */
     private void verifCompletChemin(int x1, int y1, int x2, int y2){
         /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
-        int[] acces = getAcces(x1, y1);
+        int[][] acces = getAcces(x1, y1);
+    }
+
+    private boolean traitementEntree(){
+        Pont entree = plateau[xEntree][yEntree];
+        int[][] acces = getAcces(xEntree, yEntree);
+        boolean[] sortie = entree.calculSorties();
+        if (entree.getForme() == 'L'){
+            for(int i = 0; i < sortie.length; i++){
+                if (sortie[i]) {
+                }
+            }
+        }
+    return true;
     }
 
 
@@ -196,11 +209,9 @@ class Plateau {
     }
 
     private boolean verifMur(int x, int y){
-        int[] acces = getAcces(x, y);
+        int[][] acces = getAcces(x, y);
         for(int i = 0; i < acces.length; i++){
-            if(acces[i] < 0) return false;
-            if(i%2 == 0 && acces[i] >= this.getHauteur()) return false;
-            if(i%2 == 1 && acces[i] >= this.getLargeur()) return false;
+            if(acces[i][0] < 0 || acces[i][1] < 0 || acces[i][0] > this.getLargeur() || acces[i][1] > this.getHauteur()) return false;
         }
         return true;
     }
@@ -208,14 +219,14 @@ class Plateau {
     /**
      * GETTEUR PART
      */
-    int[] getAcces(int x, int y){
+    int[][] getAcces(int x, int y){
         boolean[] sorties = plateau[x][y].calculSorties();
-        int nord = y - ((sorties[0])?1:0);
-        int est = x + ((sorties[1])?1:0);
-        int sud = y + ((sorties[2])?1:0);
-        int ouest = x - ((sorties[3])?1:0);
+        int[] nord = {x, y - ((sorties[0])?1:0)};
+        int[] est = {x + ((sorties[1])?1:0),y};
+        int[] sud = {x, y + ((sorties[2])?1:0)};
+        int[] ouest = {x - ((sorties[3])?1:0),y};
         System.out.println("pont en " + x + " - " + y + " a pour coord acces " + nord + " " + est + " " + sud + " " + ouest);
-        return new int[]{nord, est, sud, ouest};
+        return new int[][]{nord, est, sud, ouest};
     }
 
     Pont[][] getPlateau() {
