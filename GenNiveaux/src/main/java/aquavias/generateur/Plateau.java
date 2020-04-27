@@ -55,19 +55,19 @@ class Plateau {
         System.out.println("X entree - Y entree" + xEntree + " - " + yEntree);
         int newY = placeSuivantEntree();
         int oldY = yEntree;
-        completeChemin(xEntree+1, oldY, newY);
-        for(int i = xEntree+2; i < this.getLargeur()-1; i++){
+        completeChemin(xEntree, oldY, xEntree+1, newY);
+        for (int i = xEntree+2; i < this.getLargeur()-1; i++) {
             newY = placeAleaPont(i, 0, this.getHauteur());
             traitementMur(i, newY);
-            if(plateau[i][newY].getForme() == 'L'){ //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite
-                completeChemin(i, oldY, newY);
+            if (plateau[i][newY].getForme() == 'L') { //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite
+                completeChemin(i-1, oldY, i, newY);
             }
-            else{
-                completeChemin(i-1, oldY, newY);
+            else {
+                completeChemin(i-1, oldY, i, newY); //le deuxieme i devrait etre i-1 ? a voir avec completechemin
             }
             oldY = newY;
         }
-        completeChemin(xSortie-1,oldY, ySortie);
+        completeChemin(xSortie-1,oldY, xSortie, ySortie);
 
     }
     /**
@@ -95,7 +95,7 @@ class Plateau {
         int[][] acces = getAcces(x1, y1);
     }
 
-    private int placeSuivantEntree(){
+    private int placeSuivantEntree() {
         int y = -1;
         switch (traitementEntree()){
             case 0: y = placeAleaPont(xEntree+1, 0, this.getHauteur());
@@ -105,7 +105,8 @@ class Plateau {
             case 2: y = placeAleaPont(xEntree+1, yEntree+1, this.getHauteur());
                     break;
         }
-        completeChemin(xEntree, yEntree, y);
+        traitementMur(xEntree+1, y);
+        completeChemin(xEntree, yEntree, xEntree+1, y);
         return y;
     }
     private int traitementEntree(){
@@ -134,19 +135,32 @@ class Plateau {
     return 0;
     }
 
-    private void completeChemin(int x, int y, int newY){
-        int i = y;
+    private void completeChemin(int x, int y, int newX, int newY) {
+        int[][] acces = this.getAcces(x, y);
         System.out.println("newY : " + newY);
         /*
          * On part du pont en (x y) et on veut créer un chemin jusqu'au pont en (x+1 y)
          * fixme : il faut traiter tous les cas non triviaux
          * */
-        while(i != newY){
-            System.out.println("Completion du chemin x - y : " + x + " - " + i);
-            if ((i > newY)) i--;
-            else i++;
-            plateau[x][i] = createPont('O', null);
-            traitementMur(x, i);
+        for (int[] sortie : acces) {
+            if (sortie[0] != x || sortie[1] != y) {
+                int i = sortie[0];
+                int j = sortie[1];
+                while (i != newX || j != newY) {
+                    System.out.println("Completion du chemin x - y : " + x + " - " + i);
+                    if (this.plateau[i][j] != null) {
+                        this.plateau[i][j] = createPont('O', null);
+                        this.traitementMur(i, j);
+                    }
+                    if (ThreadLocalRandom.current().nextBoolean()) {
+                        if (i > newX) i--;
+                        else if (i < newX) i++;
+                    }else {
+                        if (j > newY) j--;
+                        else if (j < newY) j++;
+                    }
+                }
+            }
         }
     }
 
