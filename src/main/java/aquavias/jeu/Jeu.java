@@ -528,7 +528,7 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    private JSONObject createJSON() {
+    public JSONObject createJSON() {
         JSONObject fic = new JSONObject();
         fic.put("largeur", this.getLargeur());
         fic.put("hauteur", this.getHauteur());
@@ -564,6 +564,7 @@ public class Jeu {
         try {
             FileWriter fichier = new FileWriter(chemin);
             fichier.write(file.toString());
+            fichier.flush();
             fichier.close();
         }catch (IOException e) {
             throw new RuntimeException("Erreur d'écriture du fichier exporté");

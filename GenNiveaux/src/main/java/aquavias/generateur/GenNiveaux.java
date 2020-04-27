@@ -13,7 +13,7 @@ class GenNiveaux {
 
     }
 
-    private static void exportNiveau(int largeur, int hauteur, int numNiveau) {
+    static void exportNiveau(int largeur, int hauteur, int numNiveau) {
         Plateau p = new Plateau(largeur, hauteur);
         String mode = chooseMode(true);
         int limite = chooseLimite();
