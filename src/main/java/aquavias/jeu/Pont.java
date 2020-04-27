@@ -81,6 +81,19 @@ public abstract class Pont {
         throw new RuntimeException("char Sortie incorrect : " + c);
     }
 
+    /* Should only be used on entree and sortie */
+    public boolean isOrientationCorrecteEntreeSortie() {
+        switch (this.forme) {
+            case 'I' :
+                return this.orientation == 'E';
+            case 'T' :
+                return (this.spe.equals("entree"))? this.orientation == 'N' : this.orientation != 'S' ;
+            case 'L' :
+                return (this.spe.equals("entree"))? (this.orientation == 'N' || this.orientation == 'O') : (this.orientation != 'E' && this.orientation != 'S');
+        }
+        throw new RuntimeException("Forme Pont Incorrecte : " + this.forme);
+    }
+
     /**
      * SETTER PART
      * */

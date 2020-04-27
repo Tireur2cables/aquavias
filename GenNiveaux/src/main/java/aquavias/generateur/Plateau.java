@@ -227,25 +227,13 @@ class Plateau {
         Pont p;
         do {
             p = this.createPont('O', (entree)? "entree" : "sortie");
-        }while (!this.isCorrectEntreeSortie(p, entree));
+        }while (!p.isOrientationCorrecteEntreeSortie());
         return p;
     }
 
     /**
      * VERIF PART
      */
-
-    private boolean isCorrectEntreeSortie(Pont p, boolean entree) {
-        switch (p.getForme()) {
-            case 'I' :
-                return p.getOrientation() == 'E';
-            case 'T' :
-                return (entree)? p.getOrientation() == 'N' : p.getOrientation() != 'S' ;
-            case 'L' :
-                return (entree)? (p.getOrientation() == 'N' || p.getOrientation() == 'O') : (p.getOrientation() != 'E' && p.getOrientation() != 'S');
-        }
-        throw new RuntimeException("Forme Pont Incorrecte : " + p.getForme());
-    }
 
     private boolean verifMur(int x, int y){
         int[][] acces = getAcces(x, y);
