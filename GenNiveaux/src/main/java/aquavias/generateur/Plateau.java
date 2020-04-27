@@ -52,13 +52,12 @@ class Plateau {
          *  - SI : pont entrée = y / x+1 et entrée newY = x-1 ==> il faut faire une courbe
          *          sinon simple
          */
-        int newY = 0;
+        System.out.println("X entree - Y entree" + xEntree + " - " + yEntree);
+        int newY = placeSuivantEntree();
         int oldY = yEntree;
-        for(int i = xEntree+1; i < this.getLargeur()-1; i++){
-            newY = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
-            System.out.println("xEntree, yEntree : " + xEntree + " " + yEntree);
-            System.out.println("Nouveau y : " + newY);
-            plateau[i][newY] = createPont('O', null);
+        completeChemin(xEntree+1, oldY, newY);
+        for(int i = xEntree+2; i < this.getLargeur()-1; i++){
+            newY = placeAleaPont(i, 0, this.getHauteur());
             traitementMur(i, newY);
             if(plateau[i][newY].getForme() == 'L'){ //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite
                 completeChemin(i, oldY, newY);
@@ -93,10 +92,47 @@ class Plateau {
      * */
     private void verifCompletChemin(int x1, int y1, int x2, int y2){
         /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
-        int[] acces = getAcces(x1, y1);
+        int[][] acces = getAcces(x1, y1);
     }
 
+    private int placeSuivantEntree(){
+        int y = -1;
+        switch (traitementEntree()){
+            case 0: y = placeAleaPont(xEntree+1, 0, this.getHauteur());
+                    break;
+            case 1: y = placeAleaPont(xEntree+1, 0, yEntree-1);
+                    break;
+            case 2: y = placeAleaPont(xEntree+1, yEntree+1, this.getHauteur());
+                    break;
+        }
+        completeChemin(xEntree, yEntree, y);
+        return y;
+    }
+    private int traitementEntree(){
+        /*
+         * 0 -> pas de traitement spécial
+         * 1 -> entrée est dirigée vers le Nord
+         * 2 -> entrée est dirigée vers le Sud
+         * */
+        Pont entree = plateau[xEntree][yEntree];
+        int[][] acces = getAcces(xEntree, yEntree);
+        boolean[] sortie = entree.calculSorties();
+        if (entree.getForme() == 'L'){
+            for(int i = 0; i < sortie.length; i++){
+                if (sortie[i]) {
+                    int[] coord = acces[i];
+                    if(coord[1] == yEntree){
+                        /*vide on est dans la partie horizontale du pont L*/
+                    }
+                    else{
+                        return (coord[1] < yEntree)?(1):(2);
+                    }
 
+                }
+            }
+        }
+    return 0;
+    }
 
     private void completeChemin(int x, int y, int newY){
         int i = y;
@@ -117,6 +153,13 @@ class Plateau {
     /**
      * Fonction simple
      * */
+
+    private int placeAleaPont(int x, int borneMinY, int borneMaxY){
+        int newY = ThreadLocalRandom.current().nextInt(borneMinY, borneMaxY);
+        System.out.println("Nouveau y : " + newY);
+        plateau[x][newY] = createPont('O', null);
+        return newY;
+    }
 
     private Pont createPont(char forme, String spe) {
         if(forme == 'O') {
@@ -196,11 +239,9 @@ class Plateau {
     }
 
     private boolean verifMur(int x, int y){
-        int[] acces = getAcces(x, y);
+        int[][] acces = getAcces(x, y);
         for(int i = 0; i < acces.length; i++){
-            if(acces[i] < 0) return false;
-            if(i%2 == 0 && acces[i] >= this.getHauteur()) return false;
-            if(i%2 == 1 && acces[i] >= this.getLargeur()) return false;
+            if(acces[i][0] < 0 || acces[i][1] < 0 || acces[i][0] > this.getLargeur() || acces[i][1] > this.getHauteur()) return false;
         }
         return true;
     }
@@ -208,14 +249,14 @@ class Plateau {
     /**
      * GETTEUR PART
      */
-    int[] getAcces(int x, int y){
+    int[][] getAcces(int x, int y){
         boolean[] sorties = plateau[x][y].calculSorties();
-        int nord = y - ((sorties[0])?1:0);
-        int est = x + ((sorties[1])?1:0);
-        int sud = y + ((sorties[2])?1:0);
-        int ouest = x - ((sorties[3])?1:0);
-        System.out.println("pont en " + x + " - " + y + " a pour coord acces " + nord + " " + est + " " + sud + " " + ouest);
-        return new int[]{nord, est, sud, ouest};
+        int[] nord = {x, y - ((sorties[0])?1:0)};
+        int[] est = {x + ((sorties[1])?1:0),y};
+        int[] sud = {x, y + ((sorties[2])?1:0)};
+        int[] ouest = {x - ((sorties[3])?1:0),y};
+        //System.out.println("pont en " + x + " - " + y + " a pour coord acces " + nord + " " + est + " " + sud + " " + ouest);
+        return new int[][]{nord, est, sud, ouest};
     }
 
     Pont[][] getPlateau() {
