@@ -53,87 +53,20 @@ class Plateau {
          *          sinon simple
          */
         System.out.println("X entree - Y entree" + xEntree + " - " + yEntree);
-        int newY = placeSuivantEntree();
         int oldY = yEntree;
-        completeChemin(xEntree, oldY, xEntree+1, newY);
-        for (int i = xEntree+2; i < this.getLargeur()-1; i++) {
-            newY = placeAleaPont(i, 0, this.getHauteur());
-            traitementMur(i, newY);
-            if (plateau[i][newY].getForme() == 'L') { //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite
-                completeChemin(i-1, oldY, i, newY);
-            }
-            else {
-                completeChemin(i-1, oldY, i, newY); //le deuxieme i devrait etre i-1 ? a voir avec completechemin
-            }
+        for (int i = xEntree+1; i < this.getLargeur()-1; i++) {
+            int newY = this.placePillierSuivant(i-1, oldY); //this.placeAleaPont(i, 0, this.getHauteur());
+            this.traitementMur(i, newY);
+            //Si le pont est en L (sortie dans la direction du chemin a complété, on complete le chemin décalé d'une colonne vers la droite ? Je ne pense plus ça nécéssaire maintenant
+            this.completeChemin(i-1, oldY, i, newY);
             oldY = newY;
         }
-        completeChemin(xSortie-1,oldY, xSortie, ySortie);
+        completeChemin(xSortie-1, oldY, xSortie, ySortie);
 
     }
     /**
      * ALGO PART
       */
-
-    private void traitementMur(int x, int y){
-        int g = 0;
-        while(!verifMur(x, y)){
-            g++;
-            char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation());
-            plateau[x][y].setOrientation(nextOrientation);
-            if(g == 4){ //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T dans un angle
-                plateau[x][y] = createPont('L', null);
-                traitementMur(x, y);
-            }
-
-        }
-    }
-    /**
-     * fixme : WIP
-     * */
-    private void verifCompletChemin(int x1, int y1, int x2, int y2){
-        /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
-        int[][] acces = getAcces(x1, y1);
-    }
-
-    private int placeSuivantEntree() {
-        int y = -1;
-        switch (traitementEntree()){
-            case 0: y = placeAleaPont(xEntree+1, 0, this.getHauteur());
-                    break;
-            case 1: y = placeAleaPont(xEntree+1, 0, yEntree-1);
-                    break;
-            case 2: y = placeAleaPont(xEntree+1, yEntree+1, this.getHauteur());
-                    break;
-        }
-        traitementMur(xEntree+1, y);
-        completeChemin(xEntree, yEntree, xEntree+1, y);
-        return y;
-    }
-    private int traitementEntree(){
-        /*
-         * 0 -> pas de traitement spécial
-         * 1 -> entrée est dirigée vers le Nord
-         * 2 -> entrée est dirigée vers le Sud
-         * */
-        Pont entree = plateau[xEntree][yEntree];
-        int[][] acces = getAcces(xEntree, yEntree);
-        boolean[] sortie = entree.calculSorties();
-        if (entree.getForme() == 'L'){
-            for(int i = 0; i < sortie.length; i++){
-                if (sortie[i]) {
-                    int[] coord = acces[i];
-                    if(coord[1] == yEntree){
-                        /*vide on est dans la partie horizontale du pont L*/
-                    }
-                    else{
-                        return (coord[1] < yEntree)?(1):(2);
-                    }
-
-                }
-            }
-        }
-    return 0;
-    }
 
     private void completeChemin(int x, int y, int newX, int newY) {
         System.out.println("newY : " + newY);
@@ -173,6 +106,83 @@ class Plateau {
                 }
             }
         }
+    }
+
+    private void traitementMur(int x, int y){
+        int g = 0;
+        while(!verifMur(x, y)){
+            g++;
+            char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation());
+            plateau[x][y].setOrientation(nextOrientation);
+            if(g == 4){ //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T dans un angle
+                plateau[x][y] = createPont('L', null);
+                traitementMur(x, y);
+            }
+
+        }
+    }
+    /**
+     * fixme : WIP
+     * */
+    private void verifCompletChemin(int x1, int y1, int x2, int y2){
+        /* on suppose pour le moment que (x1 y1) (x2 y2) sont à coté l'un de l'autre*/
+        int[][] acces = getAcces(x1, y1);
+    }
+
+    private int placePillierSuivant(int x, int y) {
+        int newY;
+        switch (this.traitementPontPrecedent(x, y)) {
+            case 0: newY = this.placeAleaPont(x+1, 0, this.getHauteur());
+                break;
+            case 1: newY = this.placeAleaPont(x+1, 0, y);
+                break;
+            case 2: newY = this.placeAleaPont(x+1, y+1, this.getHauteur());
+                break;
+            case 3 : System.out.println("debug, y-1 = " + (y-1));
+                newY = this.placeAleaPont(x+1,0, y-1);
+                break;
+            case 4 : System.out.println("debug, y+2 = " + (y+2));
+                newY = this.placeAleaPont(x+1,y+2, this.getHauteur());
+                break;
+            default: throw new RuntimeException("traitementEntree retourne une valeure différente de 0, 1 ou 2");
+        }
+        this.traitementMur(x+1, newY);
+        this.completeChemin(x, y, x+1, newY);
+        return newY;
+    }
+    private int traitementPontPrecedent(int x, int y) {
+        /*
+         * vocation a disparaitre un jour
+         * 0 -> pas de traitement spécial
+         * 1 -> pont precedent est dirigée vers le Nord
+         * 2 -> pont precedent est dirigée vers le Sud
+         * 3 -> pont suivant ne doit pas etre generer un cran en dessous (ou un cran au dessus) et un cran a droite donc sera generer au dessous (tiré aleatoirement (si possible) entre cas 3 et 4)
+         * 4 -> pont suivant ne doit pas etre generer un cran en dessous (ou un cran au dessus) et un cran a droite donc sera generer au dessus (tiré aleatoirement (si possible) entre cas 3 et 4)
+         * */
+        Pont precedent = this.plateau[x][y];
+        int[][] acces = this.getAcces(x, y);
+        boolean[] sorties = precedent.calculSorties();
+        if (precedent.getForme() == 'L') {
+            for (int i = 0; i < sorties.length; i++) {
+                if (sorties[i]) {
+                    int[] coord = acces[i];
+                    if (coord[1] != y) //savoir si le pont doit etre generer au dessus ou en dessous du pont d'avant
+                        return (coord[1] < y)? 1 : 2;
+                }
+            }
+        }else if (precedent.getForme() == 'I') {
+            if (precedent.getOrientation() == 'O' || precedent.getOrientation() == 'E') {
+                if (y+2 >= this.getHauteur() && y-1 > 0)
+                    return 3;
+                else if (y-1 <= 0 && y+2 < this.getHauteur())
+                    return 4;
+                else if (y-1 > 0 && y+2 < this.getHauteur())
+                    return ThreadLocalRandom.current().nextBoolean() ? 3 : 4;
+                else
+                    throw new RuntimeException("ALERTE O GOGOL JE NE SAIS PAS QUOI FAIRE SI ON ARRIVE ICI");
+            }
+        }
+        return 0;
     }
 
     /**
