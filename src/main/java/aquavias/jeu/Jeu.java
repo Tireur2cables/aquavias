@@ -372,7 +372,7 @@ public class Jeu {
      * */
     void tournePont(int x, int y) {
         Pont p = this.plateau[x][y];
-        char newOrientation = Pont.getNextOrientation(p.orientation, true);
+        char newOrientation = Pont.getNextOrientation(p.orientation);
         p.setOrientation(newOrientation);
     }
 

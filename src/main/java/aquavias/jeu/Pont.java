@@ -61,12 +61,12 @@ public abstract class Pont {
         return this.sorties;
     }
 
-    public static char getNextOrientation(char c, boolean sens) {
+    public static char getNextOrientation(char c) {
         switch (c) {
-            case 'N' : return (sens)?'E':'O';
-            case 'E' : return (sens)?'S':'N';
-            case 'S' : return (sens)?'O':'E';
-            case 'O' : return (sens)?'N':'S';
+            case 'N' : return 'E';
+            case 'E' : return 'S';
+            case 'S' : return 'O';
+            case 'O' : return 'N';
         }
         throw new RuntimeException("Calcul nouvelle orientation incorrect, Orientation = " + c);
     }

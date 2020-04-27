@@ -78,7 +78,7 @@ class Plateau {
         int g = 0;
         while(!verifMur(x, y)){
             g++;
-            char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation(), true);
+            char nextOrientation = Pont.getNextOrientation(plateau[x][y].getOrientation());
             plateau[x][y].setOrientation(nextOrientation);
             if(g == 4){ //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T dans un angle
                 plateau[x][y] = createPont('L', null);
@@ -209,34 +209,62 @@ class Plateau {
         int i = 0;
         /*int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
         int j = 2;
-        this.plateau[i][j] = this.createPont('O',"entree");
-        this.makePontAccessibleFrom(i, j, 'E');
+        Pont entree = this.creerEntree();
+        this.plateau[i][j] = entree;
         this.xEntree = i;
         this.yEntree = j;
 
         i = this.getLargeur()-1;
         /*j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
         j = 1;
-        this.plateau[i][j] = this.createPont('O', "sortie");
-        this.makePontAccessibleFrom(i, j, 'O');
+        Pont sortie = this.creerSortie();
+        this.plateau[i][j] = sortie;
         this.xSortie = i;
         this.ySortie = j;
+    }
+
+    private Pont creerEntree() {
+        Pont p;
+        do {
+            p = this.createPont('O', "entree");
+        }while (!isCorrect(p)/*p.isAccessibleFrom('E')*/);
+        return p;
+    }
+
+    private Pont creerSortie() {
+        Pont p;
+        do {
+            p = this.createPont('O', "sortie");
+        }while (p.isAccessibleFrom('O')); //fixme: devrait utiliser la fonction iscorrect()
+        return p;
     }
 
     /**
      * VERIF PART
      */
 
-    private void makePontAccessibleFrom(int i, int j, char sortie) {
+    private boolean isCorrect(Pont p) { //fixme: par finit ici
+        switch (p.getForme()) {
+            case 'I' : return p.getOrientation() == 'E';
+            case 'T' : return p.getOrientation() == ;
+            case 'L' : return p.getOrientation() == ;
+        }
+        throw new RuntimeException("Forme Pont Incorrecte : " + p.getForme());
+    }
+
+    private void makePontVers(int i, int j, char sortie, boolean connect) {
         Pont p = this.plateau[i][j];
         /*
          * fixme : pour les ponts I -> Les tournes dans le mauvais sens car ils ont deux sorties : Place donc la sortie "cachée" comme entrée
          * */
-        while (!p.isAccessibleFrom(sortie)) {
-            char nextOrientation = Pont.getNextOrientation(p.getOrientation(), false);
+        sortie = Pont.getNextOrientation(sortie);
+        sortie = Pont.getNextOrientation(sortie);
+        while ((connect) != p.isAccessibleFrom(sortie)) {
+            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
             p.setOrientation(nextOrientation);
         }
     }
+
 
     private boolean verifMur(int x, int y){
         int[][] acces = getAcces(x, y);
