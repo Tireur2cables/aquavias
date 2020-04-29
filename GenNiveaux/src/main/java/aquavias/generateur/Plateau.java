@@ -16,6 +16,7 @@ class Plateau {
     private int ySortie;
 
     private static int[][] nbConnex;
+    private static boolean[][] passage;
 
     /**
      * INIT PART
@@ -27,6 +28,11 @@ class Plateau {
             for (int j = 0; j < hauteur; j++)
                 nbConnex[i][j] = 0;
 
+        passage = new boolean[largeur][hauteur];
+        for (int i = 0; i < largeur ; i++)
+            for (int j = 0; j < hauteur; j++)
+                passage[i][j] = false;
+
         this.plateau = new Pont[largeur][hauteur];
         for (int i = 0; i < largeur; i++)
             for (int j = 0; j < hauteur; j++)
@@ -34,30 +40,47 @@ class Plateau {
 
         this.placerEntreeSortie();
         this.genererChemin(this.xEntree, this.yEntree);
+
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
+                System.out.print(nbConnex[j][i] + " ");
+            }
+            System.out.println();
+        }
+
+        for (int i = 0; i < largeur; i++) {
+            for (int j = 0; j < hauteur; j++) {
+                System.out.print(passage[j][i] + " ");
+            }
+            System.out.println();
+        }
     }
 
     /**
      * Algo Part
      * */
 
+    //fixme: il faut encore diriger si possible la création de pont vers la sortie et regler le probleme de rotation
     private void genererChemin(int x, int y) {
+        passage[x][y] = true;
         boolean[] sorties = this.plateau[x][y].calculSorties();
-        int[][] acces = getAcces(x, y);
+        int[][] acces = this.getAcces(x, y);
         for (int i = 0; i < sorties.length; i++) {
             if (sorties[i]) {
                 int newX = acces[i][0];
                 int newY = acces[i][1];
-                nbConnex[acces[i][0]][acces[i][1]]++;
+                nbConnex[x][y]++;
+                nbConnex[newX][newY]++;
                 if (this.plateau[newX][newY] == null) {
                     this.plateau[newX][newY] = createPont('O', null);
-                    lierPontWith(newX, newY, x, y);
-                    genererChemin(newX, newY);
+                    this.lierPontWith(newX, newY, x, y);
+                    this.genererChemin(newX, newY);
                 }else {
                     if (this.plateau[newX][newY].getForme() == 'T') {
-                        System.out.println("on mettra un = en : " + newX + " " + newY);
+                        System.out.println("on mettra un + en : " + newX + " " + newY);
                     }else {
-                        this.plateau[newX][newY] = createPont('T', null);
-                        satisfaitSortiesPont(newX, newY);
+                        this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe());
+                        this.satisfaitSortiesPont(newX, newY);
                     }
                 }
             }
@@ -68,10 +91,10 @@ class Plateau {
      * Fonction simple
      * */
 
-    private void satisfaitSortiesPont(int x, int y){
+    private void satisfaitSortiesPont(int x, int y) {
         Pont pont = this.plateau[x][y];
         int compteur = 0;
-        while(!sortiesSatisfaites(x, y)){
+        while (!this.sortiesSatisfaites(x, y)) {
             compteur++;
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
@@ -81,14 +104,14 @@ class Plateau {
         }
     }
 
-    private boolean sortiesSatisfaites(int x, int y){
+    private boolean sortiesSatisfaites(int x, int y) {
         boolean[] sorties = this.plateau[x][y].calculSorties();
-        int[][] acces = getAcces(x, y);
+        int[][] acces = this.getAcces(x, y);
         for (int i = 0; i < sorties.length; i++) {
             if (sorties[i]) {
                 int newX = acces[i][0];
                 int newY = acces[i][1];
-                if(newX < 0 || newX >= this.getLargeur() || newY < 0 || newY >= this.getHauteur() || this.plateau[newX][newY] == null){
+                if (newX < 0 || newX >= this.getLargeur() || newY < 0 || newY >= this.getHauteur() || this.plateau[newX][newY] == null) {
                     return false;
                 }
             }
@@ -129,6 +152,7 @@ class Plateau {
         return newY;
     }
 
+    //FIXME : devrait etre dans aquavias
     private Pont createPont(char forme, String spe) {
         if(forme == 'O') {
             forme = this.chooseForme();
@@ -214,7 +238,8 @@ class Plateau {
     /**
      * GETTEUR PART
      */
-    int[][] getAcces(int x, int y) {
+
+    private int[][] getAcces(int x, int y) {
         boolean[] sorties = this.plateau[x][y].calculSorties();
         int[] nord = {x, y - ((sorties[0])? 1 : 0)};
         int[] est = {x + ((sorties[1])? 1 : 0), y};
