@@ -45,13 +45,21 @@ class Plateau {
         int[][] acces = getAcces(x, y);
         for (int i = 0; i < sorties.length; i++) {
             if (sorties[i]) {
-                if (this.plateau[acces[i][0]][acces[i][1]] == null) {
-                    this.plateau[acces[i][0]][acces[i][1]] = createPont('O', null);
-                    lierPontWith(acces[i][0], acces[i][1], x, y);
-                    nbConnex[acces[i][0]][acces[i][1]]++;
-                    genererChemin(acces[i][0], acces[i][1]);
+                int newX = acces[i][0];
+                int newY = acces[i][1];
+                nbConnex[acces[i][0]][acces[i][1]]++;
+                if (this.plateau[newX][newY] == null) {
+                    this.plateau[newX][newY] = createPont('O', null);
+                    lierPontWith(newX, newY, x, y);
+                    genererChemin(newX, newY);
+                }else {
+                    if (this.plateau[newX][newY].getForme() == 'T') {
+                        System.out.println("on mettra un = en : " + newX + " " + newY);
+                    }else {
+                        this.plateau[newX][newY] = createPont('T', null);
+                        //faire la jointure
+                    }
                 }
-
             }
         }
     }
