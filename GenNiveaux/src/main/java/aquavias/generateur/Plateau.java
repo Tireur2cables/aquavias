@@ -79,8 +79,9 @@ class Plateau {
                     if (this.plateau[newX][newY].getForme() == 'T') {
                         System.out.println("on mettra un + en : " + newX + " " + newY);
                     }else {
-                        this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe());
-                        this.satisfaitSortiesPont(newX, newY);
+                        System.out.println("on mettra un T en : " + newX + " " + newY);
+                        this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe(), this.plateau[newX][newY].getOrientation());
+                        //this.satisfaitSortiesPont(newX, newY);
                     }
                 }
             }
@@ -91,6 +92,35 @@ class Plateau {
      * Fonction simple
      * */
 
+    private int nombreSorties(int x, int y){
+        int compteur = 0;
+        boolean[] sorties = plateau[x][y].calculSorties();
+        for(int i = 0; i < sorties.length; i++){
+            if(sorties[i]){
+                compteur++;
+            }
+        }
+        return compteur;
+    }
+    private int nombrePontVoisin(int x, int y){
+        int[][] acces = this.getAcces(x, y);
+        int compteur = 0;
+        for(int i = 0; i < acces.length; i++){
+            int newX = acces[i][0];
+            int newY = acces[i][1];
+            if(newX != x &&  newY != y){
+                if(estDansPlateau(newX, newY) && plateau[newX][newY] != null){
+                    compteur++;
+                }
+            }
+        }
+        return compteur;
+    }
+
+    private boolean estDansPlateau(int x, int y){
+        return x >= 0 && x < this.getLargeur() && y >= 0 && y < this.getHauteur();
+    }
+
     private void satisfaitSortiesPont(int x, int y) {
         Pont pont = this.plateau[x][y];
         int compteur = 0;
@@ -99,7 +129,8 @@ class Plateau {
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
             if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : C'est normalement impossible
-                throw new RuntimeException("Erreur de rotation du pont");
+                System.out.println("Erreur en " + x + " " + y);
+                return;
             }
         }
     }
@@ -158,6 +189,21 @@ class Plateau {
             forme = this.chooseForme();
         }
         char orientation = this.chooseOrientation();
+        switch(forme) {
+            case 'I' :
+                return new PontI(orientation, spe);
+            case 'L' :
+                return new PontL(orientation, spe);
+            case 'T' :
+                return new PontT(orientation, spe);
+        }
+        throw new RuntimeException("char du pont inconnu");
+    }
+
+    private Pont createPont(char forme, String spe, char orientation) {
+        if(forme == 'O') {
+            forme = this.chooseForme();
+        }
         switch(forme) {
             case 'I' :
                 return new PontI(orientation, spe);
