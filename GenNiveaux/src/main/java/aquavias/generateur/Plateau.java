@@ -33,6 +33,14 @@ class Plateau {
                 this.plateau[i][j] = null;
 
         this.placerEntreeSortie();
+        this.generateChemin();
+    }
+
+    /**
+     * Algo Part
+     * */
+
+    private void generateChemin() {
         
     }
 
