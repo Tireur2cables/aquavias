@@ -57,7 +57,7 @@ class Plateau {
                         System.out.println("on mettra un = en : " + newX + " " + newY);
                     }else {
                         this.plateau[newX][newY] = createPont('T', null);
-                        //faire la jointure
+                        satisfaitSortiesPont(newX, newY);
                     }
                 }
             }
@@ -67,6 +67,32 @@ class Plateau {
     /**
      * Fonction simple
      * */
+
+    private void satisfaitSortiesPont(int x, int y){
+        Pont pont = this.plateau[x][y];
+        int compteur = 0;
+        while(sortiesSatisfaites(x, y)){
+            compteur++;
+            char newOrientation = Pont.getNextOrientation(pont.getOrientation());
+            pont.setOrientation(newOrientation);
+            if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : C'est normalement impossible
+                throw new RuntimeException("Erreur de rotation du pont");
+            }
+        }
+    }
+
+    private boolean sortiesSatisfaites(int x, int y){
+        boolean[] sorties = this.plateau[x][y].calculSorties();
+        int[][] acces = getAcces(x, y);
+        for (int i = 0; i < sorties.length; i++) {
+            if (sorties[i]) {
+                if(this.plateau[acces[i][0]][acces[i][1]] == null){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
     private void lierPontWith(int x, int y, int oldX, int oldY) {
         Pont pont = this.plateau[x][y];
