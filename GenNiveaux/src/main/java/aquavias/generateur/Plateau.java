@@ -33,20 +33,25 @@ class Plateau {
                 this.plateau[i][j] = null;
 
         this.placerEntreeSortie();
-        this.generateChemin();
+        this.genererChemin(this.xEntree, this.yEntree);
     }
 
     /**
      * Algo Part
      * */
 
-    private void generateChemin() {
-        boolean[] sorties = this.plateau[xEntree][yEntree].calculSorties();
-        int[][] acces = getAcces(xEntree, yEntree);
+    private void genererChemin(int x, int y) {
+        boolean[] sorties = this.plateau[x][y].calculSorties();
+        int[][] acces = getAcces(x, y);
         for(int i = 0; i < sorties.length; i++){
             if(sorties[i]){
-                plateau[acces[i][0]][acces[i][1]] = createPont('O', null);
-                lierPontWith(acces[i][0], acces[i][1], xEntree, yEntree);
+                if(plateau[acces[i][0]][acces[i][1]] == null){
+                    plateau[acces[i][0]][acces[i][1]] = createPont('O', null);
+                    lierPontWith(acces[i][0], acces[i][1], x, y);
+                    nbConnex[acces[i][0]][acces[i][1]]++;
+                    genererChemin(acces[i][0], acces[i][0]);
+                }
+
             }
         }
     }
