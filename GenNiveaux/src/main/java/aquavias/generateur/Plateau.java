@@ -41,7 +41,9 @@ class Plateau {
      * */
 
     private void generateChemin() {
-        
+        boolean[] sorties = this.plateau[xEntree][yEntree].calculSorties();
+        int[][] acces = getAcces(xEntree, yEntree);
+
     }
 
     /**
