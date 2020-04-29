@@ -45,7 +45,8 @@ class Plateau {
         int[][] acces = getAcces(xEntree, yEntree);
         for(int i = 0; i < sorties.length; i++){
             if(sorties[i]){
-                //traitement
+                plateau[acces[i][0]][acces[i][1]] = createPont('O', null);
+                lierPontWith(acces[i][0], acces[i][1], xEntree, yEntree);
             }
         }
     }
