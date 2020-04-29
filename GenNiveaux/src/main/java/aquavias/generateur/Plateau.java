@@ -71,7 +71,7 @@ class Plateau {
     private void satisfaitSortiesPont(int x, int y){
         Pont pont = this.plateau[x][y];
         int compteur = 0;
-        while(sortiesSatisfaites(x, y)){
+        while(!sortiesSatisfaites(x, y)){
             compteur++;
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
@@ -86,7 +86,9 @@ class Plateau {
         int[][] acces = getAcces(x, y);
         for (int i = 0; i < sorties.length; i++) {
             if (sorties[i]) {
-                if(this.plateau[acces[i][0]][acces[i][1]] == null){
+                int newX = acces[i][0];
+                int newY = acces[i][1];
+                if(newX < 0 || newX >= this.getLargeur() || newY < 0 || newY >= this.getHauteur() || this.plateau[newX][newY] == null){
                     return false;
                 }
             }
