@@ -43,7 +43,11 @@ class Plateau {
     private void generateChemin() {
         boolean[] sorties = this.plateau[xEntree][yEntree].calculSorties();
         int[][] acces = getAcces(xEntree, yEntree);
-
+        for(int i = 0; i < sorties.length; i++){
+            if(sorties[i]){
+                //traitement
+            }
+        }
     }
 
     /**
