@@ -43,13 +43,13 @@ class Plateau {
     private void genererChemin(int x, int y) {
         boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] acces = getAcces(x, y);
-        for(int i = 0; i < sorties.length; i++){
-            if(sorties[i]){
-                if(plateau[acces[i][0]][acces[i][1]] == null){
-                    plateau[acces[i][0]][acces[i][1]] = createPont('O', null);
+        for (int i = 0; i < sorties.length; i++) {
+            if (sorties[i]) {
+                if (this.plateau[acces[i][0]][acces[i][1]] == null) {
+                    this.plateau[acces[i][0]][acces[i][1]] = createPont('O', null);
                     lierPontWith(acces[i][0], acces[i][1], x, y);
                     nbConnex[acces[i][0]][acces[i][1]]++;
-                    genererChemin(acces[i][0], acces[i][0]);
+                    genererChemin(acces[i][0], acces[i][1]);
                 }
 
             }
