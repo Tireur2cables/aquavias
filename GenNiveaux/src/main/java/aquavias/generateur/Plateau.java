@@ -59,9 +59,9 @@ class Plateau {
         Pont pont = this.plateau[x][y];
         char sortie;
         if (x == oldX+1) {
-            sortie = 'O';
-        }else if (x == oldX-1) {
             sortie = 'E';
+        }else if (x == oldX-1) {
+            sortie = 'O';
         }else if (y == oldY+1) {
             sortie = 'S';
         }else if (y == oldY-1) {
