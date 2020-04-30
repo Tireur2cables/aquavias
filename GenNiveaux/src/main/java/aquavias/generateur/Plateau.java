@@ -73,7 +73,7 @@ class Plateau {
                 nbConnex[x][y]++;
                 nbConnex[newX][newY]++;
                 if (this.plateau[newX][newY] == null) {
-                    this.plateau[newX][newY] = this.createPontBiaiser(newX, newY, x, y);
+                    this.ajouterPontBiaiser(newX, newY, x, y);
                     this.lierPontWith(newX, newY, x, y);
                     this.genererChemin(newX, newY);
                 }else {
@@ -96,21 +96,21 @@ class Plateau {
      * Fonction simple
      * */
 
-    private Pont createPontBiaiser(int x, int y, int oldX, int oldY) {
-        Pont p = createPont('O', null);
-        boolean[] sorties = p.calculSorties();
+    private void ajouterPontBiaiser(int x, int y, int oldX, int oldY) {
+        this.plateau[x][y] = createPont('O', null);
+        boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] acces = this.getAcces(x, y);
         if (sorties[3]) {
             if (acces[3][0] != oldX || acces[3][1] != oldX) {
                 int random = ThreadLocalRandom.current().nextInt(2);
                 if (random == 1) {
-                    if (p.getForme() == 'T') {
+                    if (this.plateau[x][y].getForme() == 'T') {
                         while (sorties[3]) {
-                            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
-                            p.setOrientation(nextOrientation);
-                            sorties = p.calculSorties();
+                            char nextOrientation = Pont.getNextOrientation(this.plateau[x][y].getOrientation());
+                            this.plateau[x][y].setOrientation(nextOrientation);
+                            sorties = this.plateau[x][y].calculSorties();
                         }
-                    }else if (p.getForme() == 'L') {
+                    }else if (this.plateau[x][y].getForme() == 'L') {
                         int old = -1;
                         for (int i = 0; i < acces.length; i++) {
                             if (acces[i][0] == oldX && acces[i][1] == oldY)
@@ -118,15 +118,14 @@ class Plateau {
                         }
                         if (old == -1) throw new RuntimeException("le pont en L ne peut pas etre retourné");
                         while (sorties[3] || !sorties[old]) {
-                            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
-                            p.setOrientation(nextOrientation);
-                            sorties = p.calculSorties();
+                            char nextOrientation = Pont.getNextOrientation(this.plateau[x][y].getOrientation());
+                            this.plateau[x][y].setOrientation(nextOrientation);
+                            sorties = this.plateau[x][y].calculSorties();
                         }
                     }
                 }
             }
         }
-        return p;
     }
 
     private boolean isConnected(int x, int y, int newX, int newY) {
