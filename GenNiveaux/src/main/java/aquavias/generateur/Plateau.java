@@ -66,10 +66,11 @@ class Plateau {
                             System.out.println("on mettra un + en : " + newX + " " + newY);
                         }else {
                             System.out.println("on mettra un T en : " + newX + " " + newY);
-                            this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe());
-                            if (this.plateau[newX][newY].getSpe() == null)
+                            if (this.plateau[newX][newY].getSpe() == null) {
+                                this.plateau[newX][newY] = this.createPont('T', null);
                                 this.satisfaitSortiesPont(newX, newY);
-                            else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie"))
+                            }else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie"))
+                                this.plateau[newX][newY] = this.creerEntreeSortie('T', (this.plateau[newX][newY].getSpe().equals("entree")));
                                 this.satisfaitEntreeSorties(newX, newY);
                         }
                     }
@@ -325,7 +326,7 @@ class Plateau {
         int i = 0;
         /*int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
         int j = 2;
-        Pont entree = this.creerEntreeSortie(true);
+        Pont entree = this.creerEntreeSortie('O', true);
         this.plateau[i][j] = entree;
         this.xEntree = i;
         this.yEntree = j;
@@ -333,16 +334,16 @@ class Plateau {
         i = this.getLargeur()-1;
         /*j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
         j = 1;
-        Pont sortie = this.creerEntreeSortie(false);
+        Pont sortie = this.creerEntreeSortie('O', false);
         this.plateau[i][j] = sortie;
         this.xSortie = i;
         this.ySortie = j;
     }
 
-    private Pont creerEntreeSortie(boolean entree) {
+    private Pont creerEntreeSortie(char forme, boolean entree) {
         Pont p;
         do {
-            p = this.createPont('O', (entree)? "entree" : "sortie");
+            p = this.createPont(forme, (entree)? "entree" : "sortie");
         }while (!p.isOrientationCorrecteEntreeSortie());
         return p;
     }
