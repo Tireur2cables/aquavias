@@ -69,9 +69,10 @@ class Plateau {
                             if (this.plateau[newX][newY].getSpe() == null) {
                                 this.plateau[newX][newY] = this.createPont('T', null);
                                 this.satisfaitSortiesPont(newX, newY);
-                            }else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie"))
+                            }else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie")) {
                                 this.plateau[newX][newY] = this.creerEntreeSortie('T', (this.plateau[newX][newY].getSpe().equals("entree")));
                                 this.satisfaitEntreeSorties(newX, newY);
+                            }
                         }
                     }
                 }
