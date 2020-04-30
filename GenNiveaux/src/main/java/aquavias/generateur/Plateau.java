@@ -73,12 +73,12 @@ class Plateau {
                 nbConnex[x][y]++;
                 nbConnex[newX][newY]++;
                 if (this.plateau[newX][newY] == null) {
-                    this.plateau[newX][newY] = createPont('O', null);
+                    this.plateau[newX][newY] = this.createPontBiaiser(newX, newY, x, y);
                     this.lierPontWith(newX, newY, x, y);
                     this.genererChemin(newX, newY);
                 }else {
 
-                    if (!isConnected(x, y, newX, newY)) {
+                    if (!this.isConnected(x, y, newX, newY)) {
                         if (this.plateau[newX][newY].getForme() == 'T') {
                             System.out.println("on mettra un + en : " + newX + " " + newY);
                         }else {
@@ -95,11 +95,45 @@ class Plateau {
     /**
      * Fonction simple
      * */
-    private boolean isConnected(int x, int y, int newX, int newY){
+
+    private Pont createPontBiaiser(int x, int y, int oldX, int oldY) {
+        Pont p = createPont('O', null);
+        boolean[] sorties = p.calculSorties();
+        int[][] acces = this.getAcces(x, y);
+        if (sorties[3]) {
+            if (acces[3][0] != oldX || acces[3][1] != oldX) {
+                int random = ThreadLocalRandom.current().nextInt(2);
+                if (random == 1) {
+                    if (p.getForme() == 'T') {
+                        while (sorties[3]) {
+                            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
+                            p.setOrientation(nextOrientation);
+                            sorties = p.calculSorties();
+                        }
+                    }else if (p.getForme() == 'L') {
+                        int old = -1;
+                        for (int i = 0; i < acces.length; i++) {
+                            if (acces[i][0] == oldX && acces[i][1] == oldY)
+                                old = i;
+                        }
+                        if (old == -1) throw new RuntimeException("le pont en L ne peut pas etre retourné");
+                        while (sorties[3] || !sorties[old]) {
+                            char nextOrientation = Pont.getNextOrientation(p.getOrientation());
+                            p.setOrientation(nextOrientation);
+                            sorties = p.calculSorties();
+                        }
+                    }
+                }
+            }
+        }
+        return p;
+    }
+
+    private boolean isConnected(int x, int y, int newX, int newY) {
         int[][] acces = this.getAcces(x,y);
-        boolean[] sorties = plateau[x][y].calculSorties();
+        boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] newAcces = this.getAcces(newX, newY);
-        boolean[] newSorties = plateau[newX][newY].calculSorties();
+        boolean[] newSorties = this.plateau[newX][newY].calculSorties();
         for(int i = 0; i < sorties.length; i++){
             for(int j = 0; j < sorties.length; j++){
                 if(sorties[i] && newSorties[j]){
@@ -113,6 +147,7 @@ class Plateau {
         System.out.println("is Connected : " + x + " " + y + " " + newX + " " + newY + " false");
         return false;
     }
+
     private int nombreSorties(int x, int y){
         int compteur = 0;
         boolean[] sorties = plateau[x][y].calculSorties();
@@ -123,6 +158,7 @@ class Plateau {
         }
         return compteur;
     }
+
     private int nombrePontVoisin(int x, int y){
         int[][] acces = this.getAcces(x, y);
         int compteur = 0;
@@ -225,15 +261,22 @@ class Plateau {
         if(forme == 'O') {
             forme = this.chooseForme();
         }
+        Pont p;
         switch(forme) {
             case 'I' :
-                return new PontI(orientation, spe);
+                p = new PontI(orientation, spe);
+                break;
             case 'L' :
-                return new PontL(orientation, spe);
+                p = new PontL(orientation, spe);
+                break;
             case 'T' :
-                return new PontT(orientation, spe);
+                p = new PontT(orientation, spe);
+                break;
+            default :
+                throw new RuntimeException("char du pont inconnu");
         }
-        throw new RuntimeException("char du pont inconnu");
+        p.setOrientation(orientation);
+        return p;
     }
 
     private char chooseForme() {
