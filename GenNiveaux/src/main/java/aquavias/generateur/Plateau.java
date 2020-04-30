@@ -40,6 +40,7 @@ class Plateau {
 
         this.placerEntreeSortie();
         this.genererChemin(this.xEntree, this.yEntree);
+        this.genererChemin(this.xSortie, this.ySortie);
 
         for (int i = 0; i < largeur; i++) {
             for (int j = 0; j < hauteur; j++) {
@@ -83,7 +84,7 @@ class Plateau {
                         }else {
                             System.out.println("on mettra un T en : " + newX + " " + newY);
                             this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe(), this.plateau[newX][newY].getOrientation());
-                            //this.satisfaitSortiesPont(newX, newY);
+                            this.satisfaitSortiesPont(newX, newY);
                         }
                     }
                 }
