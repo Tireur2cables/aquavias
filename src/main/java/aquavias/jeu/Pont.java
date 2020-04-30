@@ -45,6 +45,10 @@ public abstract class Pont {
         return this.orientation;
     }
 
+    public String getSpe() {
+        return this.spe;
+    }
+
     boolean isMovable() {
         return this.spe == null;
     }
