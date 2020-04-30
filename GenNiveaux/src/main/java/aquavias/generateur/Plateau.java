@@ -41,6 +41,8 @@ class Plateau {
         this.placerEntreeSortie();
         this.genererChemin(this.xEntree, this.yEntree);
         this.genererChemin(this.xSortie, this.ySortie);
+        this.rotateAleaPont();
+        this.placerPontInutile();
 
     }
 
@@ -76,6 +78,38 @@ class Plateau {
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void rotateAleaPont(){
+        for(int i = 0; i < this.getLargeur(); i++){
+            for(int j = 0; j < this.getHauteur(); j++){
+                if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
+                    this.plateau[i][j].setOrientation(this.getRandomOrientation());
+                }
+            }
+        }
+    }
+
+    private char getRandomOrientation(){
+        int random = ThreadLocalRandom.current().nextInt(0, 4);
+        switch (random){
+            case 0 : return 'N';
+            case 1 : return 'E';
+            case 2 : return 'S';
+            case 3 : return 'O';
+        }
+        throw new RuntimeException("Valeur aléatoire d'orientation inconnue");
+    }
+
+    private void placerPontInutile(){
+        int random = ThreadLocalRandom.current().nextInt(1, this.getHauteur()*2);
+        for(int i = 0; i < random; i++){
+            int x = ThreadLocalRandom.current().nextInt(0, this.getLargeur()-1);
+            int y = ThreadLocalRandom.current().nextInt(0, this.getHauteur()-1);
+            if(this.plateau[x][y] == null){
+                this.plateau[x][y] = createPont('O', null);
             }
         }
     }
