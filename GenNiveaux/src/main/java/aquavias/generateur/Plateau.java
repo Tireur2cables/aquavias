@@ -74,7 +74,6 @@ class Plateau {
                 nbConnex[newX][newY]++;
                 if (this.plateau[newX][newY] == null) {
                     this.ajouterPontBiaiser(newX, newY, x, y);
-                    this.lierPontWith(newX, newY, x, y);
                     this.genererChemin(newX, newY);
                 }else {
 
@@ -98,6 +97,7 @@ class Plateau {
 
     private void ajouterPontBiaiser(int x, int y, int oldX, int oldY) {
         this.plateau[x][y] = createPont('O', null);
+        this.lierPontWith(x, y, oldX, oldY);
         boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] acces = this.getAcces(x, y);
         if (sorties[3]) {
