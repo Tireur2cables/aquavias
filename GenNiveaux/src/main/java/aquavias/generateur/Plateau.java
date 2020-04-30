@@ -66,8 +66,11 @@ class Plateau {
                             System.out.println("on mettra un + en : " + newX + " " + newY);
                         }else {
                             System.out.println("on mettra un T en : " + newX + " " + newY);
-                            this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe(), this.plateau[newX][newY].getOrientation());
-                            this.satisfaitSortiesPont(newX, newY);
+                            this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe());
+                            if (this.plateau[newX][newY].getSpe() == null)
+                                this.satisfaitSortiesPont(newX, newY);
+                            else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie"))
+                                this.satisfaitEntreeSorties(newX, newY);
                         }
                     }
                 }
@@ -170,8 +173,21 @@ class Plateau {
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
             if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : C'est normalement impossible
-                System.out.println("Erreur en " + x + " " + y);
-                return;
+                throw new RuntimeException("Erreur les sorties ne peuvent pas etre toutes satisfaites");
+            }
+        }
+    }
+
+    private void satisfaitEntreeSorties(int x, int y) {
+        //fixme : wip
+        Pont pont = this.plateau[x][y];
+        int compteur = 0;
+        while (!this.sortiesSatisfaites(x, y)) {
+            compteur++;
+            char newOrientation = Pont.getNextOrientation(pont.getOrientation());
+            pont.setOrientation(newOrientation);
+            if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : C'est normalement impossible
+                throw new RuntimeException("Erreur les sorties ne peuvent pas etre toutes satisfaites");
             }
         }
     }
