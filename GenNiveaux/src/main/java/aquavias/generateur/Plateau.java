@@ -168,7 +168,7 @@ class Plateau {
     private void satisfaitSortiesPont(int x, int y) {
         Pont pont = this.plateau[x][y];
         int compteur = 0;
-        while (!this.sortiesSatisfaites(x, y)) {
+        while (!this.sortiesSatisfaites(x, y, false)) {
             compteur++;
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
@@ -181,8 +181,19 @@ class Plateau {
     private void satisfaitEntreeSorties(int x, int y) {
         //fixme : wip
         Pont pont = this.plateau[x][y];
+        boolean isEnCours = false;
+        if (pont.getSpe().equals("entree") || pont.getSpe().equals("sortie")) {
+            boolean[] sorties = pont.calculSorties();
+            int[][] acces = this.getAcces(x, y);
+            for (int i = 0; i < sorties.length; i++) {
+                if (sorties[i]) {
+                    if (this.plateau[acces[i][0]][acces[i][1]] == null)
+                        isEnCours = true;
+                }
+            }
+        }
         int compteur = 0;
-        while (!this.sortiesSatisfaites(x, y)) {
+        while (!this.sortiesSatisfaites(x, y, isEnCours)) {
             compteur++;
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
@@ -192,14 +203,17 @@ class Plateau {
         }
     }
 
-    private boolean sortiesSatisfaites(int x, int y) {
+    private boolean sortiesSatisfaites(int x, int y, boolean entree) {
         boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] acces = this.getAcces(x, y);
         for (int i = 0; i < sorties.length; i++) {
             if (sorties[i]) {
                 int newX = acces[i][0];
                 int newY = acces[i][1];
-                if (newX < 0 || newX >= this.getLargeur() || newY < 0 || newY >= this.getHauteur() || this.plateau[newX][newY] == null) {
+                if (newX < 0 || newX >= this.getLargeur() || newY < 0 || newY >= this.getHauteur()) {
+                    return false;
+                }
+                if (this.plateau[newX][newY] == null && !entree) {
                     return false;
                 }
             }
