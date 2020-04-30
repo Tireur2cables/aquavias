@@ -76,12 +76,15 @@ class Plateau {
                     this.lierPontWith(newX, newY, x, y);
                     this.genererChemin(newX, newY);
                 }else {
-                    if (this.plateau[newX][newY].getForme() == 'T') {
-                        System.out.println("on mettra un + en : " + newX + " " + newY);
-                    }else {
-                        System.out.println("on mettra un T en : " + newX + " " + newY);
-                        this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe(), this.plateau[newX][newY].getOrientation());
-                        //this.satisfaitSortiesPont(newX, newY);
+
+                    if (!isConnected(x, y, newX, newY)) {
+                        if (this.plateau[newX][newY].getForme() == 'T') {
+                            System.out.println("on mettra un + en : " + newX + " " + newY);
+                        }else {
+                            System.out.println("on mettra un T en : " + newX + " " + newY);
+                            this.plateau[newX][newY] = this.createPont('T', this.plateau[newX][newY].getSpe(), this.plateau[newX][newY].getOrientation());
+                            //this.satisfaitSortiesPont(newX, newY);
+                        }
                     }
                 }
             }
@@ -91,7 +94,24 @@ class Plateau {
     /**
      * Fonction simple
      * */
-
+    private boolean isConnected(int x, int y, int newX, int newY){
+        int[][] acces = this.getAcces(x,y);
+        boolean[] sorties = plateau[x][y].calculSorties();
+        int[][] newAcces = this.getAcces(newX, newY);
+        boolean[] newSorties = plateau[newX][newY].calculSorties();
+        for(int i = 0; i < sorties.length; i++){
+            for(int j = 0; j < sorties.length; j++){
+                if(sorties[i] && newSorties[j]){
+                    if(acces[i][0] == newX && acces[i][1] == newY && newAcces[j][0] == x && newAcces[j][1] == y){
+                        System.out.println("is Connected : " + x + " " + y + " " + newX + " " + newY + " true");
+                        return true;
+                    }
+                }
+            }
+        }
+        System.out.println("is Connected : " + x + " " + y + " " + newX + " " + newY + " false");
+        return false;
+    }
     private int nombreSorties(int x, int y){
         int compteur = 0;
         boolean[] sorties = plateau[x][y].calculSorties();
