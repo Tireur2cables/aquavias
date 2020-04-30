@@ -22,7 +22,7 @@ class Plateau {
      * INIT PART
      * */
 
-    Plateau(int largeur, int hauteur) {
+    Plateau(int largeur, int hauteur, boolean melange) {
         nbConnex = new int[largeur][hauteur];
         for (int i = 0; i < largeur ; i++)
             for (int j = 0; j < hauteur; j++)
@@ -41,8 +41,10 @@ class Plateau {
         this.placerEntreeSortie();
         this.genererChemin(this.xEntree, this.yEntree);
         this.genererChemin(this.xSortie, this.ySortie);
-        this.rotateAleaPont();
-        this.placerPontInutile();
+        //fixme : ajouter ici la vérification que le niveau est faisable
+        if(melange){
+           this.melange();
+        }
 
     }
 
@@ -50,7 +52,7 @@ class Plateau {
      * Algo Part
      * */
 
-    //fixme: il faut encore diriger si possible la création de pont vers la sortie et regler le probleme de rotation
+    //fixme: bug de la rotation et direction des ponts
     private void genererChemin(int x, int y) {
         passage[x][y] = true;
         boolean[] sorties = this.plateau[x][y].calculSorties();
@@ -88,28 +90,6 @@ class Plateau {
                 if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
                     this.plateau[i][j].setOrientation(this.getRandomOrientation());
                 }
-            }
-        }
-    }
-
-    private char getRandomOrientation(){
-        int random = ThreadLocalRandom.current().nextInt(0, 4);
-        switch (random){
-            case 0 : return 'N';
-            case 1 : return 'E';
-            case 2 : return 'S';
-            case 3 : return 'O';
-        }
-        throw new RuntimeException("Valeur aléatoire d'orientation inconnue");
-    }
-
-    private void placerPontInutile(){
-        int random = ThreadLocalRandom.current().nextInt(1, this.getHauteur()*2);
-        for(int i = 0; i < random; i++){
-            int x = ThreadLocalRandom.current().nextInt(0, this.getLargeur()-1);
-            int y = ThreadLocalRandom.current().nextInt(0, this.getHauteur()-1);
-            if(this.plateau[x][y] == null){
-                this.plateau[x][y] = createPont('O', null);
             }
         }
     }
@@ -171,6 +151,17 @@ class Plateau {
         return false;
     }
 
+    private void placerPontInutile(){
+        int random = ThreadLocalRandom.current().nextInt(1, this.getHauteur()*2);
+        for(int i = 0; i < random; i++){
+            int x = ThreadLocalRandom.current().nextInt(0, this.getLargeur()-1);
+            int y = ThreadLocalRandom.current().nextInt(0, this.getHauteur()-1);
+            if(this.plateau[x][y] == null){
+                this.plateau[x][y] = createPont('O', null);
+            }
+        }
+    }
+
     private int nombreSorties(int x, int y){
         int compteur = 0;
         boolean[] sorties = plateau[x][y].calculSorties();
@@ -197,11 +188,14 @@ class Plateau {
         return compteur;
     }
 
-    private boolean estDansPlateau(int x, int y){
-        return x >= 0 && x < this.getLargeur() && y >= 0 && y < this.getHauteur();
+
+    private void melange(){
+        this.rotateAleaPont();
+        this.placerPontInutile();
     }
 
     private void satisfaitSortiesPont(int x, int y) {
+        //fixme : bug dans la rotation dans certain cas
         Pont pont = this.plateau[x][y];
         int compteur = 0;
         while (!this.sortiesSatisfaites(x, y, false)) {
@@ -216,7 +210,6 @@ class Plateau {
     }
 
     private void satisfaitEntreeSorties(int x, int y) {
-        //fixme : wip
         Pont pont = this.plateau[x][y];
         boolean isEnCours = false;
         if (pont.getSpe().equals("entree") || pont.getSpe().equals("sortie")) {
@@ -289,6 +282,17 @@ class Plateau {
         System.out.println("Nouveau y : " + newY);
         this.plateau[x][newY] = this.createPont('O', null);
         return newY;
+    }
+
+    private char getRandomOrientation(){
+        int random = ThreadLocalRandom.current().nextInt(0, 4);
+        switch (random){
+            case 0 : return 'N';
+            case 1 : return 'E';
+            case 2 : return 'S';
+            case 3 : return 'O';
+        }
+        throw new RuntimeException("Valeur aléatoire d'orientation inconnue");
     }
 
     //FIXME : devrait etre dans aquavias
@@ -408,6 +412,10 @@ class Plateau {
         int[] ouest = {x - ((sorties[3])? 1 : 0), y};
         //System.out.println("pont en " + x + " - " + y + " a pour coord acces " + nord + " " + est + " " + sud + " " + ouest);
         return new int[][]{nord, est, sud, ouest};
+    }
+
+    private boolean estDansPlateau(int x, int y){
+        return x >= 0 && x < this.getLargeur() && y >= 0 && y < this.getHauteur();
     }
 
     Pont[][] getPlateau() {
