@@ -175,7 +175,8 @@ class Plateau {
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
             if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : C'est normalement impossible
-                throw new RuntimeException("Erreur les sorties ne peuvent pas etre toutes satisfaites");
+                System.out.println("Erreur les sorties ne peuvent pas etre toutes satisfaites");
+                return;
             }
         }
     }
