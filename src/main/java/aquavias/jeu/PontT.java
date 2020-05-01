@@ -14,7 +14,7 @@ public class PontT extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    protected boolean[] calculSorties() {
+    public boolean[] calculSorties() {
         boolean[] tab = {true,true,true,true};
         switch (this.orientation) {
             case 'N' : tab[3] = false;
@@ -26,6 +26,8 @@ public class PontT extends Pont {
             case 'O' : tab[2] = false;
                 break;
         }
+        if (this.spe != null && this.spe.equals("sortie"))
+            tab[1] = false;
         return tab;
     }
 

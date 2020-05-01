@@ -7,23 +7,35 @@ import java.util.concurrent.ThreadLocalRandom;
 class GenNiveaux {
 
     public static void main(String[] args) {
-        System.out.println("gen niveau -> WIP cf. branche GenererNiveaux");
+        int nbNiveaux;
+        if (args.length == 1) {
+            try {
+                nbNiveaux = Integer.parseInt(args[0]);
+            }catch (NumberFormatException e) {
+                nbNiveaux = 1;
+            }
+        }else {
+            nbNiveaux = 1;
+        }
+        int numNiveau = Jeu.getListNiveau().size();
+        for (int i = 0; i < nbNiveaux; i++) {
+            exportNiveau(chooseDim(), chooseDim(), ++numNiveau);
+        }
     }
 
-    private void exportNiveau(int largeur, int hauteur, int numNiveau) {
-        Plateau p = new Plateau(largeur, hauteur);
-        String mode = this.chooseMode();
-        int limite = this.chooseLimite();
-        Jeu jeu = new Jeu(p.getPlateau(), numNiveau, mode, limite);
-        jeu.exportNiveau();
+    private static void exportNiveau(int largeur, int hauteur, int numNiveau) {
+        String mode = chooseMode();
+        Jeu jeu = new Jeu(numNiveau, mode);
+        Plateau p = new Plateau(largeur, hauteur, true, jeu, mode);
+        p.exportNiveau();
     }
 
-    private String chooseMode() {
+    private static String chooseMode() {
         return (ThreadLocalRandom.current().nextBoolean())? "compteur" : "fuite";
     }
 
-    private int chooseLimite() {
-        return 100;
+    private static int chooseDim(){
+        return ThreadLocalRandom.current().nextInt(3, 11);
     }
 
 }

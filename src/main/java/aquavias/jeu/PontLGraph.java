@@ -32,4 +32,5 @@ class PontLGraph extends PontGraph {
 		else if(super.pont.isSortie()) return (super.pont.eau)? sortieLEau[this.getOrientation()] : sortieL[this.getOrientation()];
 		return (super.pont.eau)? pontLEau[this.getOrientation()] : pontL[this.getOrientation()];
 	}
+
 }
