@@ -6,8 +6,8 @@ public class PontXGraph extends PontGraph {
 
     static BufferedImage pontX = PontGraph.chargeImage("XnoO.png");
     static BufferedImage pontXEau = PontGraph.chargeImage("XwO.png");
-    static BufferedImage sortieX = PontGraph.chargeImage("XnoO.png");
-    static BufferedImage sortieXEau = PontGraph.chargeImage("XwO.png");
+    static BufferedImage sortieX = PontGraph.chargeImage("SortieXnoO.png");
+    static BufferedImage sortieXEau = PontGraph.chargeImage("SortieXwO.png");
 
     PontXGraph(Pont p) {
         super(p);

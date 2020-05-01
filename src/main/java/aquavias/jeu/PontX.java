@@ -16,7 +16,7 @@ public class PontX extends Pont{
 
     @Override
     public boolean[] calculSorties() {
-         boolean[] tab = new boolean[]{true, true, true, true};
+        boolean[] tab = new boolean[]{true, true, true, true};
         if (this.spe != null && this.spe.equals("sortie"))
             tab[1] = false;
         return tab;
