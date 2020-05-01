@@ -7,8 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 class GenNiveaux {
 
     public static void main(String[] args) {
-        System.out.println("gen niveau -> WIP cf. branche GenererNiveaux");
-        System.out.println("Pour le moment, le niveau est entièrement générer au hasard");
         int nbNiveaux;
         if (args.length == 1) {
             try {

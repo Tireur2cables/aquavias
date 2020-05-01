@@ -26,8 +26,6 @@ class Plateau {
                 for (int j = 0; j < hauteur; j++)
                     this.plateau[i][j] = null;
             this.placerEntreeSortie();
-            System.out.println("entree en " + this.plateau[this.xEntree][this.yEntree].getForme() + " orientation " + this.plateau[this.xEntree][this.yEntree].getOrientation() + " en " + this.xEntree + " " + this.yEntree);
-            System.out.println("sortie en " + this.plateau[this.xSortie][this.ySortie].getForme() + " orientation " + this.plateau[this.xSortie][this.ySortie].getOrientation() + " en " + this.xSortie + " " + this.ySortie);
             this.genererChemin(this.xEntree, this.yEntree);
             this.genererChemin(this.xSortie, this.ySortie);
             this.jeu.setPlateau(this.plateau);
@@ -62,7 +60,6 @@ class Plateau {
                 int newY = acces[i][1];
                 if (this.plateau[newX][newY] == null) {
                     this.ajouterPontBiaiser(newX, newY, x, y);
-                    System.out.println("ajout d'un pont en " + this.plateau[newX][newY].getForme() + " orientation " + this.plateau[newX][newY].getOrientation() + " en " + newX + " " + newY);
                     this.genererChemin(newX, newY);
                 }else {
                     if (!this.isConnected(x, y, newX, newY)) {
@@ -83,7 +80,6 @@ class Plateau {
                                 this.satisfaitSortiesPontIO(newX, newY, x, y, oldSorties);
                             }
                         }
-                        System.out.println("ajout d'un pont en " + this.plateau[newX][newY].getForme() + " orientation " + this.plateau[newX][newY].getOrientation() + " en " + newX + " " + newY);
                     }
                 }
             }
@@ -148,8 +144,8 @@ class Plateau {
         int[][] acces = this.getAcces(x, y);
         if (sorties[3]) {
             if (acces[3][0] != oldX || acces[3][1] != oldY) {
-                int random = ThreadLocalRandom.current().nextInt(2); // probabilité 1/2
-                if (random == 1) {
+                int random = ThreadLocalRandom.current().nextInt(3); //probabilité 1/3 de revenir sur soit meme
+                if (random != 1) {
                     if (this.plateau[x][y].getForme() == 'T') {
                         while (sorties[3]) {
                             char nextOrientation = Pont.getNextOrientation(this.plateau[x][y].getOrientation());
