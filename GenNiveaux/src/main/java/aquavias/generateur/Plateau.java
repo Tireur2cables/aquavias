@@ -308,7 +308,7 @@ class Plateau {
         Pont p;
         do {
             p = Pont.createPont(forme, (entree)? "entree" : "sortie");
-        }while (!p.isOrientationCorrecteEntreeSortie() || !this.verifMur(x, y));
+        }while (!p.isOrientationCorrecteEntreeSortie() || !this.verifMur(x, y, p));
         return p;
     }
 
@@ -328,6 +328,14 @@ class Plateau {
         return true;
     }
 
+    private boolean verifMur(int x, int y, Pont p) {
+        int[][] acces = this.getAcces(x, y, p);
+        for (int i = 0; i < acces.length; i++) {
+            if(acces[i][0] < 0 || acces[i][1] < 0 || acces[i][0] >= this.getLargeur() || acces[i][1] >= this.getHauteur()) return false;
+        }
+        return true;
+    }
+
     /**
      * GETTEUR PART
      */
@@ -338,7 +346,15 @@ class Plateau {
         int[] est = {x + ((sorties[1])? 1 : 0), y};
         int[] sud = {x, y + ((sorties[2])? 1 : 0)};
         int[] ouest = {x - ((sorties[3])? 1 : 0), y};
-        //System.out.println("pont en " + x + " - " + y + " a pour coord acces " + nord + " " + est + " " + sud + " " + ouest);
+        return new int[][]{nord, est, sud, ouest};
+    }
+
+    private int[][] getAcces(int x, int y, Pont p){
+        boolean[] sorties = p.calculSorties();
+        int[] nord = {x, y - ((sorties[0])? 1 : 0)};
+        int[] est = {x + ((sorties[1])? 1 : 0), y};
+        int[] sud = {x, y + ((sorties[2])? 1 : 0)};
+        int[] ouest = {x - ((sorties[3])? 1 : 0), y};
         return new int[][]{nord, est, sud, ouest};
     }
 
