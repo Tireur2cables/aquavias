@@ -17,7 +17,7 @@ class GenNiveaux {
         String mode = chooseMode(true);
         int limite = chooseLimite();
         Jeu jeu = new Jeu(numNiveau, mode, limite);
-        Plateau p = new Plateau(largeur, hauteur, false, jeu);
+        Plateau p = new Plateau(largeur, hauteur, true, jeu);
         p.exportNiveau();
     }
 

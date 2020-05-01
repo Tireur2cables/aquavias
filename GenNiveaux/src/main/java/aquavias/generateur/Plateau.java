@@ -402,7 +402,7 @@ class Plateau {
         return new int[][]{nord, est, sud, ouest};
     }
 
-    Pont[][] getPlateau() {
+    public Pont[][] getPlateau() {
         return this.plateau;
     }
 
