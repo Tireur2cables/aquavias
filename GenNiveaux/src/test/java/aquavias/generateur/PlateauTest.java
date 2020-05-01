@@ -1,31 +1,22 @@
 package aquavias.generateur;
 
 import aquavias.jeu.Jeu;
-import org.json.JSONObject;
 import org.junit.Test;
-import static org.junit.Assert.*;
-import static org.junit.Assert.*;
-import org.junit.*;
-
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class PlateauTest{
     @Test
-    public void catchExceptionFromGenerating(){
-        try{
-            for(int i = 0; i < 50; i++){
-                Plateau p = new Plateau(6, 6, false);
+    public void catchExceptionFromGenerating() {
+        try {
+            for (int i = 0; i < 100; i++) {
                 String mode = "compteur";
                 int limite = 100;
-                Jeu jeu = new Jeu(p.getPlateau(), 16, mode, limite);
+                Jeu jeu = new Jeu(16, mode, limite);
+                Plateau p = new Plateau(6, 6, false, jeu);
+                //p.exportNiveau(); fixme erreur lorsqu'on essaye de faire ça mais au final est-ce qu'on veut vraiment faire ça dans les tests ? je ne pense pas
             }
-        }catch(RuntimeException e){
+        }catch (RuntimeException e) {
             e.printStackTrace();
-            System.exit(0);
+            System.exit(1);
         }
-
-
-
     }
 }
