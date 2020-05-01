@@ -9,9 +9,8 @@ public class PlateauTest{
         try {
             for (int i = 0; i < 100; i++) {
                 String mode = "compteur";
-                int limite = 100;
-                Jeu jeu = new Jeu(16, mode, limite);
-                Plateau p = new Plateau(6, 6, false, jeu);
+                Jeu jeu = new Jeu(16, mode);
+                Plateau p = new Plateau(6, 6, false, jeu, mode);
             }
         }catch (RuntimeException e) {
             e.printStackTrace();
