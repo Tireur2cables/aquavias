@@ -34,7 +34,10 @@ class Plateau {
         }while (!this.jeu.calculVictoire());
 
         if(melange){
-           this.melange();
+           int limite = this.melange();
+           this.jeu.setLimite(limite);
+        }else{
+            this.jeu.setLimite(100);
         }
 
     }
@@ -177,34 +180,55 @@ class Plateau {
         return false;
     }
 
-    private void placerPontInutile() {
+    private int placerPontInutile() {
+        int compteur = 0;
         //On parcourt le tableau, et pour chaque cases vides, on a 1 chances sur 3 de placer un pont inutile à cette position
         for(int i = 0; i < this.getLargeur(); i++){
             for(int j = 0; j < this.getHauteur(); j++){
                 if (this.plateau[i][j] == null) {
                     if(ThreadLocalRandom.current().nextInt(0, 3) == 0){
                         this.plateau[i][j] = Pont.createPont('O', null);
+                        compteur += 4;
                     }
-
+                }
+                else{
+                    compteur++;
                 }
             }
         }
+        return compteur;
     }
 
-    private void rotateAleaPont(){
+    private int rotateAleaPont(){
         //On parcourt le tableau, et pour chaque cases contenant un pont, on lui donne une nouvelle orientation aléatoire
+        int total = 0;
         for(int i = 0; i < this.getLargeur(); i++){
             for(int j = 0; j < this.getHauteur(); j++){
                 if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
-                    this.plateau[i][j].setOrientation(Pont.getRandomOrientation());
+                    char orientation = this.plateau[i][j].getOrientation();
+                    char nextOrientation = Pont.getRandomOrientation();
+                    total += this.calculDistanceRotation(orientation, nextOrientation);
+                    this.plateau[i][j].setOrientation(nextOrientation);
                 }
             }
         }
+        return total;
     }
 
-    private void melange(){
-        this.rotateAleaPont();
-        this.placerPontInutile();
+    private int calculDistanceRotation(char orientation, char nextOrientation){
+        int compteur = 0;
+        if(orientation == nextOrientation) return compteur;
+        while(orientation != nextOrientation){
+            orientation = Pont.getNextOrientation(orientation);
+            compteur++;
+        }
+        return compteur;
+    }
+
+    private int melange(){
+        int total = this.rotateAleaPont();
+        total += this.placerPontInutile();
+        return total;
     }
 
     private boolean conserveConnexion(int x, int y, boolean[] oldConnex) {

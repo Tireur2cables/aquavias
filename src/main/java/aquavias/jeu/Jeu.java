@@ -64,6 +64,11 @@ public class Jeu {
         this.chercheEntree();
         this.chercheSortie();
         this.parcourchemin();
+    }
+
+    public void setLimite(int limite){
+        this.limite = limite;
+        this.compteur = limite;
         this.initDebit();
     }
 
