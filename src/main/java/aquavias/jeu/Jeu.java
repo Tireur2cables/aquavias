@@ -52,7 +52,7 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    public Jeu(int numNiveau, String mode){
+    public Jeu(int numNiveau, String mode) {
         this.numNiveau = numNiveau;
         this.mode = mode;
     }
@@ -64,7 +64,7 @@ public class Jeu {
         this.parcourchemin();
     }
 
-    public void setLimite(int limite){
+    public void setLimite(int limite) {
         this.limite = limite;
         this.compteur = limite;
         this.initDebit();

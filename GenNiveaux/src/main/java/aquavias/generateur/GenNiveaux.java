@@ -16,7 +16,7 @@ class GenNiveaux {
     static void exportNiveau(int largeur, int hauteur, int numNiveau) {
         String mode = chooseMode(true);
         Jeu jeu = new Jeu(numNiveau, mode);
-        Plateau p = new Plateau(largeur, hauteur, true, jeu);
+        Plateau p = new Plateau(largeur, hauteur, true, jeu, mode);
         p.exportNiveau();
     }
 

@@ -18,7 +18,7 @@ class Plateau {
      * INIT PART
      * */
 
-    Plateau(int largeur, int hauteur, boolean melange, Jeu jeu) {
+    Plateau(int largeur, int hauteur, boolean melange, Jeu jeu, String mode) {
         this.plateau = new Pont[largeur][hauteur];
         this.jeu = jeu;
         do {
@@ -33,12 +33,19 @@ class Plateau {
             this.jeu.setPlateau(this.plateau);
         }while (!this.jeu.calculVictoire());
 
-        if(melange){
-           int limite = this.melange();
-           this.jeu.setLimite(limite);
-        }else{
-            this.jeu.setLimite(100);
+        int limite;
+        if (melange) {
+           limite = this.melange();
+
+        }else {
+           limite = 100;
         }
+        if (mode.equals("compteur")) {
+            this.jeu.setLimite(limite);
+        }else if (mode.equals("fuite")) {
+            this.jeu.setLimite(limite*2);
+        }
+
 
     }
 
@@ -183,15 +190,14 @@ class Plateau {
     private int placerPontInutile() {
         int compteur = 0;
         //On parcourt le tableau, et pour chaque cases vides, on a 1 chances sur 3 de placer un pont inutile à cette position
-        for(int i = 0; i < this.getLargeur(); i++){
-            for(int j = 0; j < this.getHauteur(); j++){
+        for (int i = 0; i < this.getLargeur(); i++) {
+            for (int j = 0; j < this.getHauteur(); j++) {
                 if (this.plateau[i][j] == null) {
-                    if(ThreadLocalRandom.current().nextInt(0, 3) == 0){
+                    if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {
                         this.plateau[i][j] = Pont.createPont('O', null);
                         compteur += 4;
                     }
-                }
-                else{
+                }else {
                     compteur++;
                 }
             }
