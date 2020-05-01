@@ -197,8 +197,6 @@ class Plateau {
                         this.plateau[i][j] = Pont.createPont('O', null);
                         compteur += 4;
                     }
-                }else {
-                    compteur++;
                 }
             }
         }
@@ -213,7 +211,7 @@ class Plateau {
                 if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
                     char orientation = this.plateau[i][j].getOrientation();
                     char nextOrientation = Pont.getRandomOrientation();
-                    total += this.calculDistanceRotation(orientation, nextOrientation);
+                    total += this.calculDistanceRotation(orientation, nextOrientation) + 1;
                     this.plateau[i][j].setOrientation(nextOrientation);
                 }
             }
