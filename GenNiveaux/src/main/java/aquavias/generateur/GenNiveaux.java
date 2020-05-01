@@ -9,7 +9,20 @@ class GenNiveaux {
     public static void main(String[] args) {
         System.out.println("gen niveau -> WIP cf. branche GenererNiveaux");
         System.out.println("Pour le moment, le niveau est entièrement générer au hasard");
-        exportNiveau(chooseDim(), chooseDim(), 15);
+        int nbNiveaux;
+        if (args.length == 1) {
+            try {
+                nbNiveaux = Integer.parseInt(args[0]);
+            }catch (NumberFormatException e) {
+                nbNiveaux = 1;
+            }
+        }else {
+            nbNiveaux = 1;
+        }
+        int numNiveau = Jeu.getListNiveau().size();
+        for (int i = 0; i < nbNiveaux; i++) {
+            exportNiveau(chooseDim(), chooseDim(), ++numNiveau);
+        }
     }
 
     private static void exportNiveau(int largeur, int hauteur, int numNiveau) {

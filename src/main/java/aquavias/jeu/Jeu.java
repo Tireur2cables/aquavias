@@ -338,7 +338,7 @@ public class Jeu {
 
     private static String niveauxDir = "resources/niveaux/";
 
-    static ArrayList<File> getListNiveau(){
+    public static ArrayList<File> getListNiveau() {
         File dossier = new File(niveauxDir);
         if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
         File[] files = dossier.listFiles();
