@@ -110,17 +110,7 @@ public class Jeu {
 
     private Pont createPont(int ligne, JSONArray json) {
         JSONArray tab = ((JSONArray) json.get(ligne));
-        return (tab.length() <= 0)? null : castPont(tab);
-    }
-
-    private Pont castPont(JSONArray tab) {
-        switch(tab.getString(0).toUpperCase().charAt(0)) {
-            case 'I' : return new PontI(tab);
-            case 'L' : return new PontL(tab);
-            case 'T' : return new PontT(tab);
-            case 'X' : return new PontX(tab);
-        }
-        throw new RuntimeException("char du pont inconnu");
+        return (tab.length() <= 0)? null : Pont.castPont(tab);
     }
 
     private void chercheEntree() {
