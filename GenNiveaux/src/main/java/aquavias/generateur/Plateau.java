@@ -69,7 +69,7 @@ class Plateau {
                                 this.plateau[newX][newY] = Pont.createPont('T', null);
                                 this.satisfaitSortiesPont(newX, newY, x, y, oldSorties);
                             }else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie")) {
-                                this.plateau[newX][newY] = this.creerEntreeSortie('T', (this.plateau[newX][newY].getSpe().equals("entree")));
+                                this.plateau[newX][newY] = this.creerEntreeSortie('T', (this.plateau[newX][newY].getSpe().equals("entree")), newX, newY);
                                 this.satisfaitSortiesPontIO(newX, newY, x, y, oldSorties);
                             }
                         }
@@ -290,27 +290,25 @@ class Plateau {
     
     private void placerEntreeSortie() {
         int i = 0;
-        /*int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
-        int j = 2;
-        Pont entree = this.creerEntreeSortie('O', true);
-        this.plateau[i][j] = entree;
+        int j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.xEntree = i;
         this.yEntree = j;
+        Pont entree = this.creerEntreeSortie('O', true, xEntree, yEntree);
+        this.plateau[i][j] = entree;
 
         i = this.getLargeur()-1;
-        /*j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());*/
-        j = 1;
-        Pont sortie = this.creerEntreeSortie('O', false);
-        this.plateau[i][j] = sortie;
+        j = ThreadLocalRandom.current().nextInt(0, this.getHauteur());
         this.xSortie = i;
         this.ySortie = j;
+        Pont sortie = this.creerEntreeSortie('O', false, xSortie, ySortie);
+        this.plateau[i][j] = sortie;
     }
 
-    private Pont creerEntreeSortie(char forme, boolean entree) {
+    private Pont creerEntreeSortie(char forme, boolean entree, int x, int y) {
         Pont p;
         do {
             p = Pont.createPont(forme, (entree)? "entree" : "sortie");
-        }while (!p.isOrientationCorrecteEntreeSortie());
+        }while (!p.isOrientationCorrecteEntreeSortie() || !this.verifMur(x, y));
         return p;
     }
 
