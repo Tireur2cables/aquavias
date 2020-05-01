@@ -52,11 +52,9 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    public Jeu(int numNiveau, String mode, int limite){
+    public Jeu(int numNiveau, String mode){
         this.numNiveau = numNiveau;
         this.mode = mode;
-        this.limite = limite;
-        this.compteur = limite;
     }
 
     public void setPlateau(Pont[][] plateau) {
