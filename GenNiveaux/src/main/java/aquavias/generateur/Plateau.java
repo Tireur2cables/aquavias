@@ -80,16 +80,6 @@ class Plateau {
         }
     }
 
-    private void rotateAleaPont(){
-        for(int i = 0; i < this.getLargeur(); i++){
-            for(int j = 0; j < this.getHauteur(); j++){
-                if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
-                    this.plateau[i][j].setOrientation(Pont.getRandomOrientation());
-                }
-            }
-        }
-    }
-
     /**
      * Fonction simple
      * */
@@ -188,13 +178,26 @@ class Plateau {
         return false;
     }
 
-    private void placerPontInutile() { //fixme random pourrait etre mieux ? pas trop compris
-        int random = ThreadLocalRandom.current().nextInt(1, this.getHauteur()*2);
-        for (int i = 0; i < random; i++) {
-            int x = ThreadLocalRandom.current().nextInt(0, this.getLargeur()-1);
-            int y = ThreadLocalRandom.current().nextInt(0, this.getHauteur()-1);
-            if (this.plateau[x][y] == null) {
-                this.plateau[x][y] = Pont.createPont('O', null);
+    private void placerPontInutile() {
+        //On parcourt le tableau, et pour chaque cases vides, on a 1 chances sur 3 de placer un pont inutile à cette position
+        for(int i = 0; i < this.getLargeur(); i++){
+            for(int j = 0; j < this.getHauteur(); j++){
+                if (this.plateau[i][j] == null) {
+                    if(ThreadLocalRandom.current().nextInt(0, 3) == 0){
+                        this.plateau[i][j] = Pont.createPont('O', null);
+                    }
+
+                }
+            }
+        }
+    }
+
+    private void rotateAleaPont(){
+        for(int i = 0; i < this.getLargeur(); i++){
+            for(int j = 0; j < this.getHauteur(); j++){
+                if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
+                    this.plateau[i][j].setOrientation(Pont.getRandomOrientation());
+                }
             }
         }
     }
