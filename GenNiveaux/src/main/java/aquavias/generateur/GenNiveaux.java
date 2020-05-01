@@ -10,10 +10,9 @@ class GenNiveaux {
         System.out.println("gen niveau -> WIP cf. branche GenererNiveaux");
         System.out.println("Pour le moment, le niveau est entièrement générer au hasard");
         exportNiveau(chooseDim(), chooseDim(), 15);
-
     }
 
-    static void exportNiveau(int largeur, int hauteur, int numNiveau) {
+    private static void exportNiveau(int largeur, int hauteur, int numNiveau) {
         String mode = chooseMode();
         Jeu jeu = new Jeu(numNiveau, mode);
         Plateau p = new Plateau(largeur, hauteur, true, jeu, mode);
@@ -24,12 +23,8 @@ class GenNiveaux {
         return (ThreadLocalRandom.current().nextBoolean())? "compteur" : "fuite";
     }
 
-    private static int chooseLimite() {
-        return 100;
-    }
-
     private static int chooseDim(){
-        return ThreadLocalRandom.current().nextInt(3, 10);
+        return ThreadLocalRandom.current().nextInt(3, 11);
     }
 
 }
