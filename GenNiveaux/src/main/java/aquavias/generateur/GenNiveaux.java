@@ -30,8 +30,7 @@ class GenNiveaux {
     }
 
     private static int chooseDim(){
-        return 6;
-        //return ThreadLocalRandom.current().nextInt(3, 10);
+        return ThreadLocalRandom.current().nextInt(3, 10);
     }
 
 }
