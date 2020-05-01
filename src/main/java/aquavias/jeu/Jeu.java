@@ -14,7 +14,6 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 import org.apache.commons.io.FileUtils;
 import org.json.*;
 
-import javax.management.RuntimeMBeanException;
 
 public class Jeu {
 
@@ -53,14 +52,18 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    public Jeu(Pont[][] plateau, int numNiveau, String mode, int limite){
+    public Jeu(int numNiveau, String mode, int limite){
         this.numNiveau = numNiveau;
-        this.plateau = plateau;
         this.mode = mode;
         this.limite = limite;
         this.compteur = limite;
+    }
+
+    public void setPlateau(Pont[][] plateau) {
+        this.plateau = plateau;
         this.chercheEntree();
         this.chercheSortie();
+        this.parcourchemin();
         this.initDebit();
     }
 
@@ -112,6 +115,7 @@ public class Jeu {
             case 'I' : return new PontI(tab);
             case 'L' : return new PontL(tab);
             case 'T' : return new PontT(tab);
+            case 'X' : return new PontX(tab);
         }
         throw new RuntimeException("char du pont inconnu");
     }
@@ -413,12 +417,13 @@ public class Jeu {
         }
     }
 
-    boolean calculVictoire(){
+    public boolean calculVictoire() {
         int trous = this.isEtanche();
-        if(this.getPont(this.xSortie, this.ySortie).getEau())
+        if (this.getPont(this.xSortie, this.ySortie).getEau())
             return trous == 0;
         else
             return false;
+        //return this.getPont(this.xSortie, this.ySortie).getEau() && this.isEtanche() == 0;
     }
 
     /**

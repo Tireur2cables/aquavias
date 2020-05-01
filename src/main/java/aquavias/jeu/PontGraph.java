@@ -72,6 +72,8 @@ abstract class PontGraph {
                     break;
                 case 'T' : newP = new PontTGraph(p);
                     break;
+                case 'X' : newP = new PontXGraph(p);
+                    break;
             }
         }
         return newP;
