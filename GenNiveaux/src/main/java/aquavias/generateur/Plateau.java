@@ -60,13 +60,13 @@ class Plateau {
                         if (this.shouldBeX(newX, newY)) {
                             if (this.plateau[newX][newY].getSpe() != null && this.plateau[newX][newY].getSpe().equals("entree"))
                                 throw new RuntimeException("Tentative de transformation du pont d'entrée en pont en X");
-                            this.plateau[newX][newY] = this.createPont('X', this.plateau[newX][newY].getSpe());
+                            this.plateau[newX][newY] = Pont.createPont('X', this.plateau[newX][newY].getSpe());
                         }else if (this.shouldBeL(newX, newY)) {
-                            this.plateau[newX][newY] = this.createPont('L', this.plateau[newX][newY].getSpe());
+                            this.plateau[newX][newY] = Pont.createPont('L', this.plateau[newX][newY].getSpe());
                             this.satisfaitSortiesPontIO(newX, newY, x, y, oldSorties);
                         }else { //so shouldBeT
                             if (this.plateau[newX][newY].getSpe() == null) {
-                                this.plateau[newX][newY] = this.createPont('T', null);
+                                this.plateau[newX][newY] = Pont.createPont('T', null);
                                 this.satisfaitSortiesPont(newX, newY, x, y, oldSorties);
                             }else if (this.plateau[newX][newY].getSpe().equals("entree") || this.plateau[newX][newY].getSpe().equals("sortie")) {
                                 this.plateau[newX][newY] = this.creerEntreeSortie('T', (this.plateau[newX][newY].getSpe().equals("entree")));
@@ -84,7 +84,7 @@ class Plateau {
         for(int i = 0; i < this.getLargeur(); i++){
             for(int j = 0; j < this.getHauteur(); j++){
                 if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
-                    this.plateau[i][j].setOrientation(this.getRandomOrientation());
+                    this.plateau[i][j].setOrientation(Pont.getRandomOrientation());
                 }
             }
         }
@@ -142,7 +142,7 @@ class Plateau {
     }
 
     private void ajouterPontBiaiser(int x, int y, int oldX, int oldY) {
-        this.plateau[x][y] = this.createPont('O', null);
+        this.plateau[x][y] = Pont.createPont('O', null);
         this.lierPontWith(x, y, oldX, oldY);
         boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] acces = this.getAcces(x, y);
@@ -194,7 +194,7 @@ class Plateau {
             int x = ThreadLocalRandom.current().nextInt(0, this.getLargeur()-1);
             int y = ThreadLocalRandom.current().nextInt(0, this.getHauteur()-1);
             if (this.plateau[x][y] == null) {
-                this.plateau[x][y] = createPont('O', null);
+                this.plateau[x][y] = Pont.createPont('O', null);
             }
         }
     }
@@ -279,71 +279,10 @@ class Plateau {
             char newOrientation = Pont.getNextOrientation(pont.getOrientation());
             pont.setOrientation(newOrientation);
             if (compteur == 4) { //On a fait les 4 orientations possibles et le pont n'en satisfait aucune : pont en T ou en I dans un angle
-                this.plateau[x][y] = this.createPont('L', null);
+                this.plateau[x][y] = Pont.createPont('L', null);
                 compteur = 0;
             }
         }
-    }
-
-    //FIXME: pourrait faire partie de l'api aquavias
-    private char getRandomOrientation(){
-        int random = ThreadLocalRandom.current().nextInt(0, 4);
-        switch (random){
-            case 0 : return 'N';
-            case 1 : return 'E';
-            case 2 : return 'S';
-            case 3 : return 'O';
-        }
-        throw new RuntimeException("Valeur aléatoire d'orientation inconnue");
-    }
-
-    //FIXME : devrait etre dans aquavias
-    private Pont createPont(char forme, String spe) {
-        if(forme == 'O') {
-            forme = this.chooseForme();
-        }
-        char orientation = this.chooseOrientation();
-        switch(forme) {
-            case 'I' :
-                return new PontI(orientation, spe);
-            case 'L' :
-                return new PontL(orientation, spe);
-            case 'T' :
-                return new PontT(orientation, spe);
-            case 'X' :
-                return new PontX(orientation, spe);
-        }
-        throw new RuntimeException("char du pont inconnu");
-    }
-
-    //fixme devrait etre dans aquavias ?
-    private char chooseForme() {
-        int random = ThreadLocalRandom.current().nextInt(0, 5);
-        switch (random) {
-            case 0: case 1:
-                return 'I';
-            case 2: case 3:
-                return 'L';
-            case 4 : //moins de probabilité d'avoir un T que d'avoir les autres
-                return 'T';
-        } //les ponts en X nes sont pas pris en compte pour en avoir seulement lorsqu'on en a besoin
-        throw new RuntimeException("Random int out of bounds");
-    }
-
-    //fixme pourrait etre dans aquavias
-    private char chooseOrientation() {
-        int random = ThreadLocalRandom.current().nextInt(0, 4);
-        switch (random) {
-            case 0 :
-                return 'N';
-            case 1 :
-                return 'E';
-            case 2 :
-                return 'S';
-            case 3 :
-                return 'O';
-        }
-        throw new RuntimeException("Random int out of bounds");
     }
     
     private void placerEntreeSortie() {
@@ -367,7 +306,7 @@ class Plateau {
     private Pont creerEntreeSortie(char forme, boolean entree) {
         Pont p;
         do {
-            p = this.createPont(forme, (entree)? "entree" : "sortie");
+            p = Pont.createPont(forme, (entree)? "entree" : "sortie");
         }while (!p.isOrientationCorrecteEntreeSortie());
         return p;
     }
