@@ -160,6 +160,7 @@ class Plateau {
     }
 
     private boolean isConnected(int x, int y, int newX, int newY) {
+        //Test si les ponts en x-y et newX-newY partage chacun une sortie -> ils sont interconnectés
         int[][] acces = this.getAcces(x,y);
         boolean[] sorties = this.plateau[x][y].calculSorties();
         int[][] newAcces = this.getAcces(newX, newY);
@@ -168,13 +169,11 @@ class Plateau {
             for(int j = 0; j < newSorties.length; j++){
                 if(sorties[i] && newSorties[j]){
                     if(acces[i][0] == newX && acces[i][1] == newY && newAcces[j][0] == x && newAcces[j][1] == y){
-                        System.out.println("is Connected : " + x + " " + y + " " + newX + " " + newY + " true");
                         return true;
                     }
                 }
             }
         }
-        System.out.println("is Connected : " + x + " " + y + " " + newX + " " + newY + " false");
         return false;
     }
 
@@ -193,6 +192,7 @@ class Plateau {
     }
 
     private void rotateAleaPont(){
+        //On parcourt le tableau, et pour chaque cases contenant un pont, on lui donne une nouvelle orientation aléatoire
         for(int i = 0; i < this.getLargeur(); i++){
             for(int j = 0; j < this.getHauteur(); j++){
                 if(this.plateau[i][j] != null && !this.plateau[i][j].isEntree() && !this.plateau[i][j].isSortie()){
