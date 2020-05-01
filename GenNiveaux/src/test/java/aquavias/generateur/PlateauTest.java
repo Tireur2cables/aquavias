@@ -12,8 +12,6 @@ public class PlateauTest{
                 int limite = 100;
                 Jeu jeu = new Jeu(16, mode, limite);
                 Plateau p = new Plateau(6, 6, false, jeu);
-                jeu.setPlateau(p.getPlateau());
-                jeu.calculVictoire();
             }
         }catch (RuntimeException e) {
             e.printStackTrace();
