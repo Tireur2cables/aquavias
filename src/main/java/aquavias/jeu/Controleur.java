@@ -18,6 +18,7 @@ class Controleur {
 
     void launch() {
         this.mainMenu();
+        this.importListeNiveauTermine();
         System.out.println("Le jeu se lance!");
     }
 
@@ -109,9 +110,27 @@ class Controleur {
             this.endGame();
     }
 
+    void ajoutListeNiveauTermine(){
+        this.jeu.ajoutListeNiveauTermine();
+    }
+
+    void clearListeNiveauTermine(){
+        this.jeu.clearListeNiveauTermine();
+    }
+
+    void saveListeNiveauTermine(){
+        this.jeu.saveListeNiveauTermine();
+    }
+
+    void importListeNiveauTermine(){
+        this.jeu.importListeNiveauTermine();
+    }
+
     int getNombreNiveaux() {
         return Jeu.getListNiveau().size();
     }
+
+    int getNiveauCourant(){ return this.jeu.getNumNiveau(); }
 
     static ArrayList<File> getListNiveau(){
        return Jeu.getListNiveau();

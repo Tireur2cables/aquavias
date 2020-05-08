@@ -19,6 +19,7 @@ public class Jeu {
 
     private Controleur controleur;
     private Pont[][] plateau;
+    private ArrayList<Integer> listeNiveauTermine = new ArrayList<>();
     private int numNiveau;
     private int xEntree;
     private int yEntree;
@@ -42,6 +43,10 @@ public class Jeu {
             }
             System.out.println();
         }
+    }
+
+    void ajoutListeNiveauTermine(){
+        listeNiveauTermine.add(this.numNiveau);
     }
 
     /**
@@ -531,6 +536,35 @@ public class Jeu {
         String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
+    }
+
+    public void clearListeNiveauTermine(){
+        this.listeNiveauTermine.clear();
+    }
+
+    public void saveListeNiveauTermine(){
+        String chemin = saveDir + "listeNiveauTermine.json";
+        JSONObject fic = this.createListeNiveauTermineJSON();
+        writeFile(fic, chemin);
+    }
+
+    public void importListeNiveauTermine(){
+        String chemin = saveDir + "listeNiveauTermine.json";
+        JSONObject json = readJSON(chemin);
+        JSONArray liste = json.getJSONArray("liste");
+        for(int i = 0; i < liste.length(); i++){
+            listeNiveauTermine.add((Integer)liste.get(i));
+        }
+    }
+
+    public JSONObject createListeNiveauTermineJSON(){
+        JSONObject fic = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for(int i = 0; i < listeNiveauTermine.size(); i++){
+            arr.put(listeNiveauTermine.get(i));
+        }
+        fic.put("liste", arr);
+        return fic;
     }
 
     public JSONObject createJSON() {

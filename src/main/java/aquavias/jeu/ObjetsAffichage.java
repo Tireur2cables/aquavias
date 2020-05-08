@@ -53,6 +53,7 @@ class Fenetre extends JFrame {
 
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
+        controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
@@ -378,6 +379,7 @@ class MenuBar extends JMenuBar {
     private JMenuItem createExit(Fenetre fenetre, Controleur controleur) {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
+            controleur.saveListeNiveauTermine();
             fenetre.dispose();
             controleur.exit();
         });
