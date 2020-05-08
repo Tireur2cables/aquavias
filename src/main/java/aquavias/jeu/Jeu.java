@@ -143,7 +143,10 @@ public class Jeu {
 
     /**
      * ACTUALISATION EAU PART
-     *
+     * */
+
+    /**
+     * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
      * */
     void parcourchemin() {
         this.resetWater();
@@ -158,8 +161,10 @@ public class Jeu {
     }
 
     /**
-     * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
-     * */
+     *  X = largeur et Y = hauteur
+     *  On redirige vers la fonction correspondant à la sortie pointée par sortie (NORD - EST - SUD - OUEST)
+     *  on vérifie le voisin dans la direction sortie
+     *  */
     private void detectAdjacents(int x, int y, Cardinal sortie) {
         switch (sortie) {
             case Nord : this.checkAdjaNord(x, y);
@@ -169,31 +174,6 @@ public class Jeu {
             case Sud : this.checkAdjaSud(x, y);
                 break;
             case Ouest : this.checkAdjaOuest(x, y);
-        }
-        /*Pont p = this.plateau[x][y];
-        boolean[] sortiesP = p.getSorties();
-        for (int i = 0; i < sortiesP.length; i++) {
-            if (sortiesP[i]) {
-                this.afficheAdja(i, x, y);
-            }
-        }*/
-    }
-
-    /**
-     *  X = largeur et Y = hauteur
-     *  On redirige vers la fonction correspondant à la sortie pointée par i (0-NORD - 1-EST - 2-SUD - 3-OUEST)
-     *  on vérifie le voisin dans la direction i
-     *  */
-    private void afficheAdja(int i, int x, int y) {
-        switch (i) {
-            case 0 : this.checkAdjaNord(x, y);
-                break;
-            case 1 : this.checkAdjaEst(x, y);
-                break;
-            case 2 : this.checkAdjaSud(x, y);
-                break;
-            case 3 : this.checkAdjaOuest(x, y);
-                break;
         }
     }
 
@@ -329,10 +309,6 @@ public class Jeu {
         return this.compteur;
     }
 
-    String getDifficulte() {
-        return this.difficulte;
-    }
-
     int getNumNiveau() { return this.numNiveau; }
 
     Pont getPont(int largeur, int hauteur) {
@@ -464,17 +440,19 @@ public class Jeu {
 
     /**
      * CALCUL ETANCHEITE PART
-     *
-     * A vérifié: semble marché en fait voir niveau 4
-     * Suppose que Sortie est une ligne droite
-     * (ne possède que une sortie connectable avec des ponts)
-     * cf. checkEtanche... le else de fin
      * */
+
     private int isEtanche() {
         createPassage(this.getLargeur(), this.getHauteur());
         int x = this.xEntree;
         int y = this.yEntree;
-        int trous = this.detectEtancheAdjacents(x, y);
+        Pont p = this.plateau[x][y];
+        boolean[] sortiesP = p.getSorties();
+        int trous = 0;
+        for (int i = 0; i < sortiesP.length; i++) {
+            if (sortiesP[i])
+                trous += this.detectEtancheAdjacents(Cardinal.values()[i], x, y);
+        }
         this.setDebit(trous);
         return trous;
     }
@@ -482,25 +460,13 @@ public class Jeu {
     /**
      * detection de l'étanchéité à la façon du parcours du chemin standard
      * */
-    private int detectEtancheAdjacents(int x, int y) {
-        Pont p = this.plateau[x][y];
-        boolean[] sortiesP = p.getSorties();
+    private int detectEtancheAdjacents(Cardinal sortie, int x, int y) {
         passage[x][y] = true;
-        int sortieEtanche = 0;
-        for (int i = 0; i < sortiesP.length; i++) {
-            if (sortiesP[i]) {
-                sortieEtanche += this.getAdjacentDirection(i, x, y);
-            }
-        }
-        return sortieEtanche;
-    }
-
-    private int getAdjacentDirection(int i, int x, int y) {
-        switch (i) {
-            case 0 : return this.checkEtancheNord(x, y);
-            case 1 : return this.checkEtancheEst(x, y);
-            case 2 : return this.checkEtancheSud(x, y);
-            case 3 : return this.checkEtancheOuest(x, y);
+        switch (sortie) {
+            case Nord : return this.checkEtancheNord(x, y);
+            case Est : return this.checkEtancheEst(x, y);
+            case Sud : return this.checkEtancheSud(x, y);
+            case Ouest : return this.checkEtancheOuest(x, y);
         }
         throw new RuntimeException("Sortie de aquavias.jeu.Pont Inconnue");
     }
@@ -511,10 +477,16 @@ public class Jeu {
             Pont p = this.plateau[x][y-1];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x][y-1]) return 0;
-                return this.detectEtancheAdjacents(x, y-1);
-            } else
+                boolean[] sortiesP = p.getSorties();
+                int trous = 0;
+                for (int i = 0; i < sortiesP.length; i++) {
+                    if (sortiesP[i])
+                        trous += this.detectEtancheAdjacents(Cardinal.values()[i], x, y-1);
+                }
+                return trous;
+            }else
                 return 1;
-        } else
+        }else
             return (isSortie(x, y) || isEntree(x, y))? 0 : 1 ;
     }
 
@@ -524,10 +496,16 @@ public class Jeu {
             Pont p = this.plateau[x+1][y];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x+1][y]) return 0;
-                return this.detectEtancheAdjacents(x+1, y);
-            } else
+                boolean[] sortiesP = p.getSorties();
+                int trous = 0;
+                for (int i = 0; i < sortiesP.length; i++) {
+                    if (sortiesP[i])
+                        trous += this.detectEtancheAdjacents(Cardinal.values()[i], x+1, y);
+                }
+                return trous;
+            }else
                 return 1;
-        } else
+        }else
             return (isSortie(x, y) || isEntree(x, y))? 0 : 1 ;
     }
 
@@ -537,10 +515,16 @@ public class Jeu {
             Pont p = this.plateau[x][y+1];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x][y+1]) return 0;
-                return this.detectEtancheAdjacents(x, y+1);
-            } else
+                boolean[] sortiesP = p.getSorties();
+                int trous = 0;
+                for (int i = 0; i < sortiesP.length; i++) {
+                    if (sortiesP[i])
+                        trous += this.detectEtancheAdjacents(Cardinal.values()[i], x, y+1);
+                }
+                return trous;
+            }else
                 return 1;
-        } else
+        }else
             return (isSortie(x, y) || isEntree(x, y))? 0 : 1 ;
     }
 
@@ -550,10 +534,16 @@ public class Jeu {
             Pont p = this.plateau[x-1][y];
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (passage[x-1][y]) return 0;
-                return this.detectEtancheAdjacents(x-1, y);
-            } else
+                boolean[] sortiesP = p.getSorties();
+                int trous = 0;
+                for (int i = 0; i < sortiesP.length; i++) {
+                    if (sortiesP[i])
+                        trous += this.detectEtancheAdjacents(Cardinal.values()[i], x-1, y);
+                }
+                return trous;
+            }else
                 return 1;
-        } else
+        }else
             return (isSortie(x, y) || isEntree(x, y))? 0 : 1 ;
     }
 
