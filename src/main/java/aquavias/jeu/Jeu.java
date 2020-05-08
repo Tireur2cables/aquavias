@@ -535,6 +535,7 @@ public class Jeu {
         String chemin;
         if(isSave){
             chemin = saveDir + "niveauSauvegarde.json";
+            writeNumSauvegarde(this.numNiveau);
         }else{
             chemin = exportDir + "niveau" + this.numNiveau + ".json";
         }
@@ -547,10 +548,24 @@ public class Jeu {
         f.delete();
     }
 
+    static int getNumSauvegarde(){
+        String chemin = saveDir + "numSauvegarde.json";
+        JSONObject json = readJSON(chemin);
+        return (Integer) json.get("num");
+    }
+
+    static void writeNumSauvegarde(int numNiveau){
+        String chemin = saveDir + "numSauvegarde.json";
+        JSONObject json = new JSONObject();
+        json.put("num",numNiveau);
+        writeFile(json, chemin);
+    }
+
     //Simple copie du fichier JSON depuis le dossier niveau vers le dossier sauvegarde pour que le bouton continuer amène vers le niveau suivant
     void exportNiveauSuivant(int numNiveau) {
         String cheminIn = niveauxDir + "niveau" + numNiveau + ".json";
         String cheminOut = saveDir + "niveauSauvegarde.json";
+        writeNumSauvegarde(numNiveau);
         JSONObject json = readJSON(cheminIn);
         writeFile(json, cheminOut);
 
