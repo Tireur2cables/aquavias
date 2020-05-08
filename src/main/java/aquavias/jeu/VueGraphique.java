@@ -14,8 +14,9 @@ class VueGraphique {
     static Font font = new Font("Tahoma", Font.BOLD, 20);
 
     /**
-     *  Fonction pour affichage de test unitaire
+     *  TESTS AND DEBUG PART
      */
+
     void affichePont(BufferedImage image) {
         EventQueue.invokeLater(() -> new Fenetre("aquavias.jeu.Pont", image, this));
     }
@@ -59,8 +60,8 @@ class VueGraphique {
     private void initPlateau(int largeur, int hauteur) {
         this.plateau = new PontGraph[largeur][hauteur];
         this.imageW = 0;
-        for(int i = 0; i < largeur; i++){
-            for(int j = 0; j < hauteur; j++){
+        for(int i = 0; i < largeur; i++) {
+            for(int j = 0; j < hauteur; j++) {
                 this.plateau[i][j] = this.getPontGraphique(i, j);
             }
         }

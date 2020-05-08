@@ -17,8 +17,8 @@ class Controleur {
     }
 
     void launch() {
+        //fixme: ajout vérif tuto ici
         this.mainMenu();
-        System.out.println("Le jeu se lance!");
     }
 
     /**
@@ -27,20 +27,17 @@ class Controleur {
 
     void exit() {
         this.stopTimer();
-        System.out.println("Le jeu s'arrète!");
         System.exit(0);
     }
 
     /**
      * REQUETTE PART
      * */
-    //FIXME: ici
     void tournePont(int x, int y) {
         /* change les sorties du pont et l'orientation */
         this.jeu.tournePont(x, y);
     }
 
-    //FIXME: ici
     void decrementeCompteur() {
         boolean victory = true;
         this.jeu.decrementeCompteur();
@@ -75,7 +72,7 @@ class Controleur {
     }
 
     private void endGame() {
-        //Ajouter le générique ici!
+        //FIXME : Ajouter le générique ici!
         this.stopTimer();
         this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
     }

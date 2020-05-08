@@ -9,12 +9,12 @@ public class PontI extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    public PontI(char Orientation, String spe){
+    PontI(char Orientation, String spe) {
         super('I', Orientation, spe);
         this.sorties = this.calculSorties();
     }
 
-    public boolean[] calculSorties() {
+    boolean[] calculSorties() {
         boolean[] tab = new boolean[4];
         for(int i = 0 ; i < tab.length ; i++) {
             tab[i] = ((this.orientation == 'N' || this.orientation == 'S') && i%2 == 0)
