@@ -9,7 +9,7 @@ public class JeuTest {
     @Test
     public void initNiveauIsWorkingGood(){
         Jeu testJeu = new Jeu(new Controleur());
-        testJeu.initNiveau(1);
+        testJeu.initNiveau(1, false);
         assertEquals(testJeu.getHauteur(), 3);
         assertEquals(testJeu.getLargeur(), 3);
         assertEquals(testJeu.getMode(), "compteur");

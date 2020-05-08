@@ -55,9 +55,14 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    void initNiveau(int number) {
+    void initNiveau(int number, boolean isSave) {
         this.numNiveau = number;
-        String chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
+        String chemin;
+        if(isSave){
+            chemin = saveDir + "niveauSauvegarde.json";
+        }else{
+            chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
+        }
         JSONObject json = readJSON(chemin);
         int largeur = json.getInt("largeur");
         int hauteur = json.getInt("hauteur");
@@ -325,6 +330,19 @@ public class Jeu {
         return niveaux;
     }
 
+    static boolean existeUneSauvegarde(){
+        File dossier = new File(saveDir);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
+        File[] files = dossier.listFiles();
+        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
+        for(int i = 0; i < files.length; i++){
+            if(files[i].getName().equals("niveauSauvegarde.json")){
+                return true;
+            }
+        }
+        return false;
+    }
+
     static Comparator<File> getNiveauComparator() {
         return new Comparator<File>() {
             @Override
@@ -513,11 +531,29 @@ public class Jeu {
     private final static String saveDir = "resources/profil/";
 
     void exportNiveau(boolean isSave) {
-        String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
+        String chemin;
+        if(isSave){
+            chemin = saveDir + "niveauSauvegarde.json";
+        }else{
+            chemin = exportDir + "niveau" + this.numNiveau + ".json";
+        }
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }
 
+    void supprimerSauvegarde(){
+        File f = new File(saveDir + "niveauSauvegarde.json");
+        f.delete();
+    }
+
+    //Simple copie du fichier JSON depuis le dossier niveau vers le dossier sauvegarde pour que le bouton continuer amène vers le niveau suivant
+    void exportNiveauSuivant(int numNiveau) {
+        String cheminIn = niveauxDir + "niveau" + numNiveau + ".json";
+        String cheminOut = saveDir + "niveauSauvegarde.json";
+        JSONObject json = readJSON(cheminIn);
+        writeFile(json, cheminOut);
+
+    }
 
     boolean niveauDejaTermine(int numNiveau) {
         return this.listeNiveauTermine.contains((Integer) numNiveau);

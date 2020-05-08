@@ -61,10 +61,25 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Niveau Suivant */
+            if (retour == 0) { /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
-            else /* retour = 1 = Retour au menu */
+            }
+            else {
+                this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
                 this.controleur.mainMenu();
+            }
+        });
+    }
+    void victoireSansNiveauSuivant(){
+        String[] choices = {"Retour au menu"};
+        controleur.ajoutListeNiveauTermine();
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là! Vous êtes arrivé au dernier Niveau !","",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
+            if (retour == 0) {
+                this.controleur.mainMenu();
+                this.controleur.supprimerSauvegarde();
+            }
         });
     }
 
@@ -300,7 +315,7 @@ class MenuBar extends JMenuBar {
 
     MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
-        JMenu charger = this.createChargerMenu(controleur);
+        JMenu charger = this.createChargerMenu(controleur, inNiveau);
         charger.setFont(VueGraphique.font);
         this.add(charger);
 
@@ -309,8 +324,13 @@ class MenuBar extends JMenuBar {
         this.add(options);
     }
 
-    private JMenu createChargerMenu(Controleur controleur) {
+    private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
         JMenu charger = new JMenu("Charger");
+        if(!inNiveau && controleur.existeUneSauvegarde()){
+            JMenuItem continuer = createMenuItemContinuer(controleur);
+            continuer.setForeground(Color.BLUE);
+            charger.add(continuer);
+        }
         ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
             try {
@@ -341,6 +361,15 @@ class MenuBar extends JMenuBar {
         return item;
     }
 
+    private JMenuItem createMenuItemContinuer(Controleur controleur){
+        String name = "Continuer";
+        JMenuItem item = new JMenuItem(name);
+        item.addActionListener((ActionEvent e) -> {
+            controleur.chargeNiveau();
+        });
+        return item;
+    }
+
     private int findNum(String name) {
         String num = "";
         for (int i = 6; name.charAt(i) != '.'; i++) {
@@ -362,7 +391,7 @@ class MenuBar extends JMenuBar {
             JMenuItem save = this.createSave(fenetre, controleur);
             menu.add(save);
         }
-        JMenuItem exit = this.createExit(fenetre, controleur);
+        JMenuItem exit = this.createExit(fenetre, controleur, inNiveau);
         menu.add(exit);
         return menu;
     }
@@ -384,10 +413,13 @@ class MenuBar extends JMenuBar {
         return save;
     }
 
-    private JMenuItem createExit(Fenetre fenetre, Controleur controleur) {
+    private JMenuItem createExit(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
             controleur.saveListeNiveauTermine();
+            if(inNiveau){
+                controleur.exportNiveau(true);
+            }
             fenetre.dispose();
             controleur.exit();
         });

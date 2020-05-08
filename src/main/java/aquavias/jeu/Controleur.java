@@ -95,19 +95,33 @@ class Controleur {
 
     void chargeNiveau(int num) {
         this.stopTimer();
-        this.jeu.initNiveau(num);
+        this.jeu.initNiveau(num, false);
         if(this.jeu.niveauDejaTermine(num)){
             this.graph.infoOk("Vous avez déja terminé ce niveau !");
         }
         this.graph.afficheNiveau();
     }
 
+    void chargeNiveau() {
+        this.stopTimer();
+        this.jeu.initNiveau(0, true);
+        this.graph.afficheNiveau();
+    }
+
     void nextLevel() {
         int numNiveau = this.jeu.getNumNiveau();
-        if(numNiveau < getNombreNiveaux())
+        if(existeNiveauSuivant())
             this.chargeNiveau(numNiveau + 1);
         else
             this.endGame();
+    }
+
+    boolean existeNiveauSuivant(){
+        return this.jeu.getNumNiveau() < getNombreNiveaux();
+    }
+
+    int getNumNiveau(){
+        return this.jeu.getNumNiveau();
     }
 
     void ajoutListeNiveauTermine(){
@@ -174,6 +188,20 @@ class Controleur {
 
     void exportNiveau(boolean isSave) {
         this.jeu.exportNiveau(isSave);
+    }
+
+    void exportNiveauSuivant(int numNiveau) { //Cas ou on doit copier le niveau suivant
+        this.jeu.exportNiveauSuivant(numNiveau);
+    }
+
+    boolean existeUneSauvegarde(){
+        return Jeu.existeUneSauvegarde();
+    }
+
+    void supprimerSauvegarde(){
+        if(Jeu.existeUneSauvegarde()){
+            this.jeu.supprimerSauvegarde();
+        }
     }
 
 }
