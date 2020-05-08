@@ -19,6 +19,7 @@ public class Jeu {
 
     private Controleur controleur;
     private Pont[][] plateau;
+    private ArrayList<Integer> listeNiveauTermine = new ArrayList<>();
     private int numNiveau;
     private int xEntree;
     private int yEntree;
@@ -306,7 +307,7 @@ public class Jeu {
         return x == this.xEntree && y == this.yEntree;
     }
 
-    private static String niveauxDir = "resources/niveaux/";
+    private final static String niveauxDir = "resources/niveaux/";
 
     static ArrayList<File> getListNiveau() {
         File dossier = new File(niveauxDir);
@@ -502,12 +503,51 @@ public class Jeu {
      * EXPORT PART
      * */
 
-    private static String exportDir = "resources/niveaux/";
+    private final static String exportDir = "resources/niveaux/";
+    private final static String saveDir = "resources/profil/";
 
-    public void exportNiveau() {
-        String chemin = exportDir + "niveau" + this.numNiveau + ".json";
+    public void exportNiveau(boolean isSave) {
+        String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
+    }
+
+
+    boolean niveauDejaTermine(int numNiveau) {
+        return this.listeNiveauTermine.contains((Integer) numNiveau);
+    }
+
+    void clearListeNiveauTermine() {
+        this.listeNiveauTermine.clear();
+    }
+
+    void saveListeNiveauTermine() {
+        String chemin = saveDir + "listeNiveauTermine.json";
+        JSONObject fic = this.createListeNiveauTermineJSON();
+        writeFile(fic, chemin);
+    }
+
+    void importListeNiveauTermine() {
+        String chemin = saveDir + "listeNiveauTermine.json";
+        JSONObject json = readJSON(chemin);
+        JSONArray liste = json.getJSONArray("liste");
+        for(int i = 0; i < liste.length(); i++){
+            listeNiveauTermine.add((Integer)liste.get(i));
+        }
+    }
+
+    void ajoutListeNiveauTermine() {
+        if(!listeNiveauTermine.contains(this.numNiveau))listeNiveauTermine.add(this.numNiveau);
+    }
+
+    private JSONObject createListeNiveauTermineJSON() {
+        JSONObject fic = new JSONObject();
+        JSONArray arr = new JSONArray();
+        for(int i = 0; i < listeNiveauTermine.size(); i++){
+            arr.put(listeNiveauTermine.get(i));
+        }
+        fic.put("liste", arr);
+        return fic;
     }
 
     private JSONObject createJSON() {

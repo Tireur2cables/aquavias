@@ -53,6 +53,7 @@ class Fenetre extends JFrame {
 
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
+        controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
@@ -85,6 +86,13 @@ class Fenetre extends JFrame {
         });
     }
 
+    void infoOk(String info) {
+        String[] choices = {"Ok"};
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, info,"",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
+        });
+    }
     /**
      * ADD PART
      */
@@ -311,6 +319,12 @@ class MenuBar extends JMenuBar {
         int num = findNum(name);
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
+        if(controleur.niveauDejaTermine(num)){
+            item.setForeground(Color.gray);
+        }
+        else{
+            item.setForeground(Color.black);
+        }
         item.addActionListener((ActionEvent e) -> {
             controleur.chargeNiveau(num);
         });
@@ -354,7 +368,7 @@ class MenuBar extends JMenuBar {
     private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
         JMenuItem save = new JMenuItem("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
-            controleur.exportNiveau();
+            controleur.exportNiveau(true);
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;
@@ -363,6 +377,7 @@ class MenuBar extends JMenuBar {
     private JMenuItem createExit(Fenetre fenetre, Controleur controleur) {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
+            controleur.saveListeNiveauTermine();
             fenetre.dispose();
             controleur.exit();
         });

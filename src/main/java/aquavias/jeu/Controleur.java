@@ -17,6 +17,7 @@ class Controleur {
     }
 
     void launch() {
+        this.importListeNiveauTermine();
         //fixme: ajout vérif tuto ici
         this.mainMenu();
     }
@@ -95,6 +96,9 @@ class Controleur {
     void chargeNiveau(int num) {
         this.stopTimer();
         this.jeu.initNiveau(num);
+        if(this.jeu.niveauDejaTermine(num)){
+            this.graph.infoOk("Vous avez déja terminé ce niveau !");
+        }
         this.graph.afficheNiveau();
     }
 
@@ -106,9 +110,31 @@ class Controleur {
             this.endGame();
     }
 
+    void ajoutListeNiveauTermine(){
+        this.jeu.ajoutListeNiveauTermine();
+    }
+
+    void clearListeNiveauTermine(){
+        this.jeu.clearListeNiveauTermine();
+    }
+
+    void saveListeNiveauTermine(){
+        this.jeu.saveListeNiveauTermine();
+    }
+
+    void importListeNiveauTermine(){
+        this.jeu.importListeNiveauTermine();
+    }
+
+    boolean niveauDejaTermine(int num){
+        return jeu.niveauDejaTermine(num);
+    }
+
     int getNombreNiveaux() {
         return Jeu.getListNiveau().size();
     }
+
+    int getNiveauCourant(){ return this.jeu.getNumNiveau(); }
 
     static ArrayList<File> getListNiveau(){
        return Jeu.getListNiveau();
@@ -146,8 +172,8 @@ class Controleur {
         return this.jeu.getDebit();
     }
 
-    void exportNiveau() {
-        this.jeu.exportNiveau();
+    void exportNiveau(boolean isSave) {
+        this.jeu.exportNiveau(isSave);
     }
 
 }
