@@ -86,6 +86,13 @@ class Fenetre extends JFrame {
         });
     }
 
+    void infoOk(String info) {
+        String[] choices = {"Ok"};
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, info,"",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
+        });
+    }
     /**
      * ADD PART
      */

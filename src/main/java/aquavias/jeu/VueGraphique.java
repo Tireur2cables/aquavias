@@ -183,6 +183,8 @@ class VueGraphique {
         this.fenetre.infoRetourMenu(info);
     }
 
+    void infoOk(String info) {this.fenetre.infoOk(info);}
+
     /**
      * GETTER PART
      * */

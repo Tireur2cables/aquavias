@@ -45,10 +45,6 @@ public class Jeu {
         }
     }
 
-    void ajoutListeNiveauTermine(){
-        listeNiveauTermine.add(this.numNiveau);
-    }
-
     /**
      * INIT PART
      * */
@@ -538,6 +534,10 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
+    public boolean niveauDejaTermine(int numNiveau){
+        return this.listeNiveauTermine.contains((Integer) numNiveau);
+    }
+
     public void clearListeNiveauTermine(){
         this.listeNiveauTermine.clear();
     }
@@ -555,6 +555,10 @@ public class Jeu {
         for(int i = 0; i < liste.length(); i++){
             listeNiveauTermine.add((Integer)liste.get(i));
         }
+    }
+
+    void ajoutListeNiveauTermine(){
+        if(!listeNiveauTermine.contains(this.numNiveau))listeNiveauTermine.add(this.numNiveau);
     }
 
     public JSONObject createListeNiveauTermineJSON(){
