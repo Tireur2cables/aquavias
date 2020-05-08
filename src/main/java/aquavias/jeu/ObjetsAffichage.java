@@ -435,6 +435,7 @@ class MenuBar extends JMenuBar {
     private JMenuItem createMainMenu(Controleur controleur) {
         JMenuItem mainMenu = new JMenuItem("Menu principal");
         mainMenu.addActionListener((ActionEvent e) -> {
+            controleur.exportNiveau(true);
             controleur.mainMenu();
         });
         return mainMenu;
