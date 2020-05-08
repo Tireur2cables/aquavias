@@ -65,10 +65,10 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
-                VueGraphique.playable = true;
+                Jeu.playable = true;
                 this.controleur.nextLevel();
             }else {
-                VueGraphique.playable = true;
+                Jeu.playable = true;
                 this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
                 this.controleur.mainMenu();
             }
@@ -83,7 +83,7 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {
-                VueGraphique.playable = true;
+                Jeu.playable = true;
                 this.controleur.endGame();
                 this.controleur.supprimerSauvegarde();
             }
@@ -97,10 +97,10 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {/* retour = Réessayer */
-                VueGraphique.playable = true;
+                Jeu.playable = true;
                 this.controleur.retry();
             }else { /* retour = Retour au menu */
-                VueGraphique.playable = true;
+                Jeu.playable = true;
                 this.controleur.mainMenu();
             }
         });
@@ -113,7 +113,7 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour au menu */
-                VueGraphique.playable = true;
+                Jeu.playable = true;
                 this.controleur.mainMenu();
             }
         });
@@ -126,7 +126,7 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {
-                VueGraphique.playable = true;
+                Jeu.playable = true;
             }
         });
     }
@@ -166,7 +166,7 @@ class Fenetre extends JFrame {
     }
 
     private JDialog createDialog(JOptionPane optionPane) {
-        VueGraphique.playable = false;
+        Jeu.playable = false;
         JDialog dialog = new JDialog(this,"", true);
         dialog.setContentPane(optionPane);
         dialog.setUndecorated(true);

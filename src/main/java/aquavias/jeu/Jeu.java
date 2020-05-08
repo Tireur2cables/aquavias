@@ -31,6 +31,8 @@ public class Jeu {
     private double compteur; //Commence à la limite et décrémente à chaque coups / seconde
     private double debit; //1 pour mode coups / calcul la vitesse de vidage de l'eau en mode fuite
 
+    static boolean playable = true;
+
     /**
      * DEBUG PART
      * */
@@ -246,7 +248,7 @@ public class Jeu {
             Runnable compteSeconde = new Runnable() {
                 @Override
                 public void run() {
-                    if (VueGraphique.playable) {
+                    if (playable) {
                         if(debit != 0) {
                             controleur.decrementeCompteur();
                             flag = true;
