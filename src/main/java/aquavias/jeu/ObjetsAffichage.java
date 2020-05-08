@@ -99,6 +99,7 @@ class Fenetre extends JFrame {
     void addCompteur() {
         int compteur =  (int) this.controleur.getCompteur();
         JLabel counter = new JLabel("" + compteur);
+        counter.setFont(VueGraphique.font);
         EventQueue.invokeLater(() -> {
             this.getJMenuBar().add(counter);
         });
@@ -113,6 +114,7 @@ class Fenetre extends JFrame {
         progressBar.setStringPainted(true);
         progressBar.setForeground(Color.blue);
         this.updateBarString(compteur, progressBar, debit);
+        progressBar.setFont(VueGraphique.font);
         EventQueue.invokeLater(() -> {
             this.getJMenuBar().add(progressBar);
         });
@@ -139,10 +141,9 @@ class Fenetre extends JFrame {
      */
 
     private void updateBarString(double val, JProgressBar progressBar, double debit) {
-        if (val > 1)
-            progressBar.setString(val + "L restants | -" + debit + "L/s");
-        else
-            progressBar.setString(val + "L restant | -" + debit + "L/s");
+        String restant = (val > 1)? "L restants " : "L restant ";
+        String deb = (debit == 0)? "| " + ((int) debit) : "| -" + debit;
+        progressBar.setString(val + restant + deb + "L/s");
     }
 
     void decrementeCompteur() {
@@ -303,9 +304,11 @@ class MenuBar extends JMenuBar {
     MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
         JMenu charger = this.createChargerMenu(controleur);
+        charger.setFont(VueGraphique.font);
         this.add(charger);
 
         JMenu options = this.createOptionsMenu(controleur, fenetre, inNiveau);
+        options.setFont(VueGraphique.font);
         this.add(options);
     }
 
