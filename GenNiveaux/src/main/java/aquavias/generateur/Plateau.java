@@ -337,7 +337,7 @@ class Plateau {
     }
 
     void exportNiveau() {
-        this.jeu.exportNiveau(false);
+        this.jeu.niveauToJSON(false);
     }
 
     /**

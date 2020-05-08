@@ -622,5 +622,9 @@ public class Jeu {
     public boolean isVictoire() {
         return this.calculVictoire();
     }
+    
+    public void niveauToJSON(boolean isSave) {
+        this.exportNiveau(isSave);
+    }
 
 }
