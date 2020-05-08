@@ -54,9 +54,14 @@ public class Jeu {
         this.controleur = controleur;
     }
 
-    void initNiveau(int number) {
+    void initNiveau(int number, boolean isSave) {
         this.numNiveau = number;
-        String chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
+        String chemin;
+        if(isSave){
+            chemin = saveDir + "niveauSauvegarde.json";
+        }else{
+            chemin = niveauxDir + "niveau"+ this.numNiveau + ".json";
+        }
         JSONObject json = readJSON(chemin);
         int largeur = json.getInt("largeur");
         int hauteur = json.getInt("hauteur");
@@ -507,7 +512,12 @@ public class Jeu {
     private final static String saveDir = "resources/profil/";
 
     public void exportNiveau(boolean isSave) {
-        String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
+        String chemin;
+        if(isSave){
+            chemin = saveDir + "niveauSauvegarde.json";
+        }else{
+            chemin = exportDir + "niveau" + this.numNiveau + ".json";
+        }
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }

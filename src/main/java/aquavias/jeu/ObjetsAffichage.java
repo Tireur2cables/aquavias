@@ -307,6 +307,8 @@ class MenuBar extends JMenuBar {
 
     private JMenu createChargerMenu(Controleur controleur) {
         JMenu charger = new JMenu("Charger");
+        JMenuItem continuer = createMenuItemContinuer(controleur);
+        charger.add(continuer);
         ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
             JMenuItem niveau = createMenuItem(f.getName(), controleur);
@@ -327,6 +329,15 @@ class MenuBar extends JMenuBar {
         }
         item.addActionListener((ActionEvent e) -> {
             controleur.chargeNiveau(num);
+        });
+        return item;
+    }
+
+    private JMenuItem createMenuItemContinuer(Controleur controleur){
+        String name = "Continuer";
+        JMenuItem item = new JMenuItem(name);
+        item.addActionListener((ActionEvent e) -> {
+            controleur.chargeNiveau();
         });
         return item;
     }
