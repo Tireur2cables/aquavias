@@ -137,6 +137,10 @@ public class Jeu {
             this.debit = 1;
     }
 
+    private enum Cardinal {
+        Nord, Est, Sud, Ouest
+    }
+
     /**
      * ACTUALISATION EAU PART
      *
@@ -145,20 +149,34 @@ public class Jeu {
         this.resetWater();
         int x = this.xEntree;
         int y = this.yEntree;
-        this.detectAdjacents(x, y);
+        Pont p = this.plateau[x][y];
+        boolean[] sortiesP = p.getSorties();
+        for (int i = 0; i < sortiesP.length; i++) {
+            if (sortiesP[i])
+                this.detectAdjacents(x, y, Cardinal.values()[i]);
+        }
     }
 
     /**
      * On parcours toutes les sorties d'un premier morceau de pont (x,y) et on suit le chemin selon ses sorties
      * */
-    private void detectAdjacents(int x, int y) {
-        Pont p = this.plateau[x][y];
+    private void detectAdjacents(int x, int y, Cardinal sortie) {
+        switch (sortie) {
+            case Nord : this.checkAdjaNord(x, y);
+                break;
+            case Est : this.checkAdjaEst(x, y);
+                break;
+            case Sud : this.checkAdjaSud(x, y);
+                break;
+            case Ouest : this.checkAdjaOuest(x, y);
+        }
+        /*Pont p = this.plateau[x][y];
         boolean[] sortiesP = p.getSorties();
         for (int i = 0; i < sortiesP.length; i++) {
             if (sortiesP[i]) {
                 this.afficheAdja(i, x, y);
             }
-        }
+        }*/
     }
 
     /**
@@ -186,7 +204,11 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.detectAdjacents(x, y-1);
+                    boolean[] sortiesP = p.getSorties();
+                    for (int i = 0; i < sortiesP.length; i++) {
+                        if (sortiesP[i])
+                            this.detectAdjacents(x, y-1, Cardinal.values()[i]);
+                    }
                 }
             }
         }
@@ -199,7 +221,11 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.detectAdjacents(x+1, y);
+                    boolean[] sortiesP = p.getSorties();
+                    for (int i = 0; i < sortiesP.length; i++) {
+                        if (sortiesP[i])
+                            this.detectAdjacents(x+1, y, Cardinal.values()[i]);
+                    }
                 }
             }
         }
@@ -212,7 +238,11 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.detectAdjacents(x, y+1);
+                    boolean[] sortiesP = p.getSorties();
+                    for (int i = 0; i < sortiesP.length; i++) {
+                        if (sortiesP[i])
+                            this.detectAdjacents(x, y+1, Cardinal.values()[i]);
+                    }
                 }
             }
         }
@@ -225,7 +255,11 @@ public class Jeu {
             if (p != null && p.isAccessibleFrom(sortie)) {
                 if (!p.getEau()) {
                     p.setEau(true);
-                    this.detectAdjacents(x-1, y);
+                    boolean[] sortiesP = p.getSorties();
+                    for (int i = 0; i < sortiesP.length; i++) {
+                        if (sortiesP[i])
+                            this.detectAdjacents(x-1, y, Cardinal.values()[i]);
+                    }
                 }
             }
         }
