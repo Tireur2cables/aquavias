@@ -31,6 +31,8 @@ public class Jeu {
     private double compteur; //Commence à la limite et décrémente à chaque coups / seconde
     private double debit; //1 pour mode coups / calcul la vitesse de vidage de l'eau en mode fuite
 
+    static boolean playable = true;
+
     /**
      * DEBUG PART
      * */
@@ -246,13 +248,14 @@ public class Jeu {
             Runnable compteSeconde = new Runnable() {
                 @Override
                 public void run() {
-                    if(debit != 0) {
-                        controleur.decrementeCompteur();
-                        flag = true;
-                    }
-                    else if (flag) {
-                        controleur.decrementeCompteur();
-                        flag = false;
+                    if (playable) {
+                        if(debit != 0) {
+                            controleur.decrementeCompteur();
+                            flag = true;
+                        }else if (flag) {
+                            controleur.decrementeCompteur();
+                            flag = false;
+                        }
                     }
                 }
             };
@@ -542,7 +545,7 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    void supprimerSauvegarde(){
+    void supprimerSauvegarde() {
         File f = new File(saveDir + "niveauSauvegarde.json");
         f.delete();
     }

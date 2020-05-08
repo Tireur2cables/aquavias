@@ -72,10 +72,10 @@ class Controleur {
         return false;
     }
 
-    private void endGame() {
-        //FIXME : Ajouter le générique ici!
+    void endGame() {
         this.stopTimer();
-        this.graph.infoRetourMenu("Vous êtes arrivé au dernier niveau ! Bien joué !");
+        //FIXME : Ajouter le générique ici! a la place du menu
+        this.mainMenu();
     }
 
     private void defaite() {
@@ -88,9 +88,9 @@ class Controleur {
         this.chargeNiveau(numNiveau);
     }
 
-    void mainMenu(){
-        this.graph.chargeMenu();
+    void mainMenu() {
         this.stopTimer();
+        this.graph.chargeMenu();
     }
 
     void chargeNiveau(int num) {
@@ -198,10 +198,14 @@ class Controleur {
         return Jeu.existeUneSauvegarde();
     }
 
-    void supprimerSauvegarde(){
-        if(Jeu.existeUneSauvegarde()){
+    void supprimerSauvegarde() {
+        if(Jeu.existeUneSauvegarde()) {
             this.jeu.supprimerSauvegarde();
         }
+    }
+
+    static void setPlayable(boolean playable) {
+        Jeu.playable = playable;
     }
 
 }

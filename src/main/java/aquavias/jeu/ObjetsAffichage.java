@@ -7,6 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -59,25 +61,30 @@ class Fenetre extends JFrame {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) { /* retour = 0 = Niveau Suivant */
+            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE/* FIXME :Image personnaliable */, JOptionPane.YES_NO_OPTION, null, choices, choices[0]);
+            JDialog dialog = this.createDialog(optionPane);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
+                Controleur.setPlayable(true);
                 this.controleur.nextLevel();
-            }
-            else {
+            }else {
+                Controleur.setPlayable(true);
                 this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
                 this.controleur.mainMenu();
             }
         });
     }
-    void victoireSansNiveauSuivant(){
+
+    void victoireSansNiveauSuivant() {
         String[] choices = {"Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là! Vous êtes arrivé au dernier Niveau !","",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) {
-                this.controleur.mainMenu();
+            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!\nVous êtes arrivé au dernier Niveau !", JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
+            JDialog dialog = this.createDialog(optionPane);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) {
+                Controleur.setPlayable(true);
+                this.controleur.endGame();
                 this.controleur.supprimerSauvegarde();
             }
         });
@@ -86,30 +93,41 @@ class Fenetre extends JFrame {
     void defaite() {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(", "",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* FIXME : Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Réessayer */
+            JOptionPane optionPane = new JOptionPane("Vous avez perdu! :(", JOptionPane.ERROR_MESSAGE /* FIXME : Image personnaliable */, JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
+            JDialog dialog = this.createDialog(optionPane);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) {/* retour = Réessayer */
+                Controleur.setPlayable(true);
                 this.controleur.retry();
-            else /* retour = 1 = Retour au menu */
+            }else { /* retour = Retour au menu */
+                Controleur.setPlayable(true);
                 this.controleur.mainMenu();
+            }
         });
     }
 
     void infoRetourMenu(String info) {
         String[] choices = {"Retour au menu"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, info,"",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
-            if (retour == 0) /* retour au menu */
+            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE/* FIXME : Image personnaliable */,  JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
+            JDialog dialog = this.createDialog(optionPane);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) { /* retour au menu */
+                Controleur.setPlayable(true);
                 this.controleur.mainMenu();
+            }
         });
     }
 
     void infoOk(String info) {
         String[] choices = {"Ok"};
         EventQueue.invokeLater(() -> {
-            int retour = JOptionPane.showOptionDialog(this, info,"",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE/* FIXME : Image personnaliable */, JOptionPane.YES_NO_OPTION, null, choices, choices[0]);
+            JDialog dialog = this.createDialog(optionPane);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) {
+                Controleur.setPlayable(true);
+            }
         });
     }
     /**
@@ -145,6 +163,24 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.getJMenuBar().add(progressBar);
         });
+    }
+
+    private JDialog createDialog(JOptionPane optionPane) {
+        Controleur.setPlayable(false);
+        JDialog dialog = new JDialog(this,"", true);
+        dialog.setContentPane(optionPane);
+        dialog.setUndecorated(true);
+        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent e) {
+                if (dialog.isVisible() && (e.getSource() == optionPane)) {
+                    dialog.setVisible(false);
+                }
+            }
+        });
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+        return dialog;
     }
 
     /**
