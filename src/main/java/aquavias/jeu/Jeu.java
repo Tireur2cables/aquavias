@@ -541,7 +541,7 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    void supprimerSauvegarde(){
+    void supprimerSauvegarde() {
         File f = new File(saveDir + "niveauSauvegarde.json");
         f.delete();
     }
