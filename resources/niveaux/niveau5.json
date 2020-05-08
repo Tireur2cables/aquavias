@@ -4,6 +4,7 @@
   "mode" : "compteur",
   "limite" : 10,
   "compteur" : 10,
+  "difficulte" : "Moyen",
   "niveau" : [
       [
         [], ["i", "E", "entree"], [], [], [], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null], ["i", "N", null]

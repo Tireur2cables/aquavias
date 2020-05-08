@@ -1,10 +1,14 @@
 package aquavias.jeu;
 
+import org.apache.commons.io.FileUtils;
+import org.json.JSONObject;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -309,15 +313,21 @@ class MenuBar extends JMenuBar {
         JMenu charger = new JMenu("Charger");
         ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
-            JMenuItem niveau = createMenuItem(f.getName(), controleur);
-            charger.add(niveau);
+            try {
+                JSONObject json = new JSONObject(FileUtils.readFileToString(f, "utf-8"));
+                String difficulte = json.getString("difficulte");
+                JMenuItem niveau = createMenuItem(f.getName(), controleur, difficulte);
+                charger.add(niveau);
+            }catch (IOException e) {
+                throw new RuntimeException("Impossible de lire le fichier niveau à l'adresse : " + f.getAbsolutePath());
+            }
         }
         return charger;
     }
 
-    private JMenuItem createMenuItem(String name, Controleur controleur) {
+    private JMenuItem createMenuItem(String name, Controleur controleur, String difficulte) {
         int num = findNum(name);
-        String newName = this.getFileName(name, num);
+        String newName = this.getFileName(name, num, difficulte);
         JMenuItem item = new JMenuItem(newName);
         if(controleur.niveauDejaTermine(num)){
             item.setForeground(Color.gray);
@@ -339,9 +349,9 @@ class MenuBar extends JMenuBar {
         return Integer.parseInt(num);
     }
 
-    private String getFileName(String name, int num) {
+    private String getFileName(String name, int num, String difficulte) {
         String nom = name.substring(0, 6);
-        return nom + " " + num;
+        return nom + " " + num + " (" + difficulte + ")";
     }
 
     private JMenu createOptionsMenu(Controleur controleur, Fenetre fenetre, boolean inNiveau) {

@@ -2,8 +2,9 @@
     "hauteur" : 4,
     "largeur" : 6,
     "mode" : "fuite",
-    "limite" : 100,
-    "compteur" : 100,
+    "limite" : 40,
+    "compteur" : 40,
+	"difficulte" : "Moyen",
     "niveau" : [
         [
             [], ["i", "E", "entree"], [], []
