@@ -31,8 +31,9 @@ public class Jeu {
     private double debit; //1 pour mode coups / calcul la vitesse de vidage de l'eau en mode fuite
 
     /**
-     * AFFICHAGE PART
+     * DEBUG PART
      * */
+
     private void afficher() {
         System.out.println("Test affichage terminal du niveau");
         if (this.plateau.length <= 0) return;
@@ -51,24 +52,6 @@ public class Jeu {
 
     Jeu(Controleur controleur) {
         this.controleur = controleur;
-    }
-
-    public Jeu(int numNiveau, String mode) {
-        this.numNiveau = numNiveau;
-        this.mode = mode;
-    }
-
-    public void setPlateau(Pont[][] plateau) {
-        this.plateau = plateau;
-        this.chercheEntree();
-        this.chercheSortie();
-        this.parcourchemin();
-    }
-
-    public void setLimite(int limite) {
-        this.limite = limite;
-        this.compteur = limite;
-        this.initDebit();
     }
 
     void initNiveau(int number) {
@@ -289,10 +272,6 @@ public class Jeu {
         return this.plateau.length;
     }
 
-    Pont[][] getPlateau(){
-        return this.plateau;
-    }
-
     String getMode() {
         return this.mode;
     }
@@ -330,7 +309,7 @@ public class Jeu {
 
     private static String niveauxDir = "resources/niveaux/";
 
-    public static ArrayList<File> getListNiveau() {
+    static ArrayList<File> getListNiveau() {
         File dossier = new File(niveauxDir);
         if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
         File[] files = dossier.listFiles();
@@ -417,13 +396,12 @@ public class Jeu {
         }
     }
 
-    public boolean calculVictoire() {
+    boolean calculVictoire() {
         int trous = this.isEtanche();
         if (this.getPont(this.xSortie, this.ySortie).getEau())
             return trous == 0;
         else
             return false;
-        //return this.getPont(this.xSortie, this.ySortie).getEau() && this.isEtanche() == 0;
     }
 
     /**
@@ -534,21 +512,22 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    public boolean niveauDejaTermine(int numNiveau){
+
+    private boolean niveauDejaTermine(int numNiveau) {
         return this.listeNiveauTermine.contains((Integer) numNiveau);
     }
 
-    public void clearListeNiveauTermine(){
+    private void clearListeNiveauTermine() {
         this.listeNiveauTermine.clear();
     }
 
-    public void saveListeNiveauTermine(){
+    private void saveListeNiveauTermine() {
         String chemin = saveDir + "listeNiveauTermine.json";
         JSONObject fic = this.createListeNiveauTermineJSON();
         writeFile(fic, chemin);
     }
 
-    public void importListeNiveauTermine(){
+    void importListeNiveauTermine() {
         String chemin = saveDir + "listeNiveauTermine.json";
         JSONObject json = readJSON(chemin);
         JSONArray liste = json.getJSONArray("liste");
@@ -557,11 +536,11 @@ public class Jeu {
         }
     }
 
-    void ajoutListeNiveauTermine(){
+    private void ajoutListeNiveauTermine() {
         if(!listeNiveauTermine.contains(this.numNiveau))listeNiveauTermine.add(this.numNiveau);
     }
 
-    public JSONObject createListeNiveauTermineJSON(){
+    private JSONObject createListeNiveauTermineJSON() {
         JSONObject fic = new JSONObject();
         JSONArray arr = new JSONArray();
         for(int i = 0; i < listeNiveauTermine.size(); i++){
@@ -571,7 +550,7 @@ public class Jeu {
         return fic;
     }
 
-    public JSONObject createJSON() {
+    private JSONObject createJSON() {
         JSONObject fic = new JSONObject();
         fic.put("largeur", this.getLargeur());
         fic.put("hauteur", this.getHauteur());
@@ -612,6 +591,36 @@ public class Jeu {
         }catch (IOException e) {
             throw new RuntimeException("Erreur d'écriture du fichier exporté");
         }
+    }
+
+    /**
+     * API PART
+     */
+
+    public Jeu(int numNiveau, String mode) {
+        this.numNiveau = numNiveau;
+        this.mode = mode;
+    }
+
+    public void setPlateau(Pont[][] plateau) {
+        this.plateau = plateau;
+        this.chercheEntree();
+        this.chercheSortie();
+        this.parcourchemin();
+    }
+
+    public void setLimite(int limite) {
+        this.limite = limite;
+        this.compteur = limite;
+        this.initDebit();
+    }
+
+    public static ArrayList<File> getArrayListNiveau() {
+        return getListNiveau();
+    }
+
+    public boolean isVictoire() {
+        return this.calculVictoire();
     }
 
 }
