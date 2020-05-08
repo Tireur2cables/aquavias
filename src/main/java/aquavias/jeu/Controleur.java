@@ -199,9 +199,13 @@ class Controleur {
     }
 
     void supprimerSauvegarde() {
-        if(Jeu.existeUneSauvegarde()){
+        if(Jeu.existeUneSauvegarde()) {
             this.jeu.supprimerSauvegarde();
         }
+    }
+
+    static void setPlayable(boolean playable) {
+        Jeu.playable = playable;
     }
 
 }
