@@ -57,10 +57,25 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
                     JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
-            if (retour == 0) /* retour = 0 = Niveau Suivant */
+            if (retour == 0) { /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
-            else /* retour = 1 = Retour au menu */
+            }
+            else {
+                this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
                 this.controleur.mainMenu();
+            }
+        });
+    }
+    void victoireSansNiveauSuivant(){
+        String[] choices = {"Retour au menu"};
+        controleur.ajoutListeNiveauTermine();
+        EventQueue.invokeLater(() -> {
+            int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là! Vous êtes arrivé au dernier Niveau !","",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
+            if (retour == 0) {
+                this.controleur.mainMenu();
+                this.controleur.supprimerSauvegarde();
+            }
         });
     }
 
@@ -366,7 +381,7 @@ class MenuBar extends JMenuBar {
             JMenuItem save = this.createSave(fenetre, controleur);
             menu.add(save);
         }
-        JMenuItem exit = this.createExit(fenetre, controleur);
+        JMenuItem exit = this.createExit(fenetre, controleur, inNiveau);
         menu.add(exit);
         return menu;
     }
@@ -388,10 +403,13 @@ class MenuBar extends JMenuBar {
         return save;
     }
 
-    private JMenuItem createExit(Fenetre fenetre, Controleur controleur) {
+    private JMenuItem createExit(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
             controleur.saveListeNiveauTermine();
+            if(inNiveau){
+                controleur.exportNiveau(true);
+            }
             fenetre.dispose();
             controleur.exit();
         });

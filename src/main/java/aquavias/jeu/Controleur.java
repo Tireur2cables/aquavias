@@ -110,10 +110,18 @@ class Controleur {
 
     void nextLevel() {
         int numNiveau = this.jeu.getNumNiveau();
-        if(numNiveau < getNombreNiveaux())
+        if(existeNiveauSuivant())
             this.chargeNiveau(numNiveau + 1);
         else
             this.endGame();
+    }
+
+    boolean existeNiveauSuivant(){
+        return this.jeu.getNumNiveau() < getNombreNiveaux();
+    }
+
+    int getNumNiveau(){
+        return this.jeu.getNumNiveau();
     }
 
     void ajoutListeNiveauTermine(){
@@ -182,8 +190,18 @@ class Controleur {
         this.jeu.exportNiveau(isSave);
     }
 
+    void exportNiveauSuivant(int numNiveau) { //Cas ou on doit copier le niveau suivant
+        this.jeu.exportNiveauSuivant(numNiveau);
+    }
+
     boolean existeUneSauvegarde(){
         return Jeu.existeUneSauvegarde();
+    }
+
+    void supprimerSauvegarde(){
+        if(Jeu.existeUneSauvegarde()){
+            this.jeu.supprimerSauvegarde();
+        }
     }
 
 }

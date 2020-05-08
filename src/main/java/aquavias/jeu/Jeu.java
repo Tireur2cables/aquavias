@@ -535,6 +535,19 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
+    void supprimerSauvegarde(){
+        File f = new File(saveDir + "niveauSauvegarde.json");
+        f.delete();
+    }
+
+    //Simple copie du fichier JSON depuis le dossier niveau vers le dossier sauvegarde pour que le bouton continuer amène vers le niveau suivant
+    void exportNiveauSuivant(int numNiveau) {
+        String cheminIn = niveauxDir + "niveau" + numNiveau + ".json";
+        String cheminOut = saveDir + "niveauSauvegarde.json";
+        JSONObject json = readJSON(cheminIn);
+        writeFile(json, cheminOut);
+
+    }
 
     boolean niveauDejaTermine(int numNiveau) {
         return this.listeNiveauTermine.contains((Integer) numNiveau);
