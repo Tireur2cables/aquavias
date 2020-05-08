@@ -307,7 +307,7 @@ public class Jeu {
         return x == this.xEntree && y == this.yEntree;
     }
 
-    private static String niveauxDir = "resources/niveaux/";
+    private final static String niveauxDir = "resources/niveaux/";
 
     static ArrayList<File> getListNiveau() {
         File dossier = new File(niveauxDir);
@@ -503,8 +503,8 @@ public class Jeu {
      * EXPORT PART
      * */
 
-    private static String exportDir = "resources/niveaux/";
-    private static String saveDir = "resources/profil/";
+    private final static String exportDir = "resources/niveaux/";
+    private final static String saveDir = "resources/profil/";
 
     public void exportNiveau(boolean isSave) {
         String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
@@ -513,15 +513,15 @@ public class Jeu {
     }
 
 
-    private boolean niveauDejaTermine(int numNiveau) {
+    boolean niveauDejaTermine(int numNiveau) {
         return this.listeNiveauTermine.contains((Integer) numNiveau);
     }
 
-    private void clearListeNiveauTermine() {
+    void clearListeNiveauTermine() {
         this.listeNiveauTermine.clear();
     }
 
-    private void saveListeNiveauTermine() {
+    void saveListeNiveauTermine() {
         String chemin = saveDir + "listeNiveauTermine.json";
         JSONObject fic = this.createListeNiveauTermineJSON();
         writeFile(fic, chemin);
@@ -536,7 +536,7 @@ public class Jeu {
         }
     }
 
-    private void ajoutListeNiveauTermine() {
+    void ajoutListeNiveauTermine() {
         if(!listeNiveauTermine.contains(this.numNiveau))listeNiveauTermine.add(this.numNiveau);
     }
 
