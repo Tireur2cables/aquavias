@@ -104,7 +104,7 @@ class Controleur {
 
     void chargeNiveau() {
         this.stopTimer();
-        this.jeu.initNiveau(0, true);
+        this.jeu.initNiveau(Jeu.getNumSauvegarde(), true);
         this.graph.afficheNiveau();
     }
 
