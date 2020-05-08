@@ -9,13 +9,13 @@ public class PontT extends Pont {
         this.sorties = this.calculSorties();
     }
 
-    public PontT(char Orientation, String spe){
+    PontT(char Orientation, String spe) {
         super('T', Orientation, spe);
         this.sorties = this.calculSorties();
     }
 
-    public boolean[] calculSorties() {
-        boolean[] tab = {true,true,true,true};
+    boolean[] calculSorties() {
+        boolean[] tab = {true, true, true, true};
         switch (this.orientation) {
             case 'N' : tab[3] = false;
                 break;

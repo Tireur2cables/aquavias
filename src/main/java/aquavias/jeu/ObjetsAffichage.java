@@ -41,7 +41,7 @@ class Fenetre extends JFrame {
         this.controleur = controleur;
         graphDevice.setFullScreenWindow(this); //plein écran
         EventQueue.invokeLater(() -> {
-            this.addCloseOperation(); //inutil en plein écran
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
             this.setTitle("Aquavias");
             this.setVisible(true);
         });
@@ -55,7 +55,7 @@ class Fenetre extends JFrame {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez gagné! BRAVO!\nL'eau est là!","",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Niveau Suivant */
                 this.controleur.nextLevel();
             else /* retour = 1 = Retour au menu */
@@ -67,7 +67,7 @@ class Fenetre extends JFrame {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
             int retour = JOptionPane.showOptionDialog(this, "Vous avez perdu! :(", "",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* Image personnaliable */, null, choices, choices[0]);
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE /* FIXME : Image personnaliable */, null, choices, choices[0]);
             if (retour == 0) /* retour = 0 = Réessayer */
                 this.controleur.retry();
             else /* retour = 1 = Retour au menu */
@@ -117,22 +117,6 @@ class Fenetre extends JFrame {
         progressBar.setFont(VueGraphique.font);
         EventQueue.invokeLater(() -> {
             this.getJMenuBar().add(progressBar);
-        });
-    }
-
-    private void addCloseOperation() {
-        this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter() {
-
-            @Override
-            public void windowClosing(WindowEvent e) {
-                /* Ferme la fenêtre */
-                dispose();
-
-                /* arrête le programme dans son ensemble */
-                controleur.exit();
-            }
-
         });
     }
 
@@ -213,7 +197,7 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    public Niveau() {
+    Niveau() {
         super();
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridBagLayout());
@@ -230,7 +214,7 @@ class ImagePane extends JPanel {
      private final VueGraphique vue;
      private final int x;
      private final int y;
-     private boolean movable;
+     private final boolean movable;
 
     ImagePane(BufferedImage image, boolean movable, VueGraphique vue, int x, int y) {
         super();
@@ -282,7 +266,8 @@ class ClickListener implements MouseListener {
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        if (this.imagePane.isMovable()) this.imagePane.rotateImage();
+        if (this.imagePane.isMovable())
+            this.imagePane.rotateImage();
     }
 
     @Override
@@ -388,7 +373,7 @@ class MenuBar extends JMenuBar {
 
 class Accueil extends JPanel {
 
-    private BufferedImage bg;
+    private final BufferedImage bg;
 
     Accueil(BufferedImage bg) {
         this.bg = bg;

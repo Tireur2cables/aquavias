@@ -6,7 +6,6 @@ import java.io.PrintStream;
 import static org.junit.Assert.*;
 
 /* Import with maven dependencies */
-import aquavias.jeu.GameLauncher;
 import org.junit.*;
 
 public class GameLauncherTest {
@@ -31,7 +30,7 @@ public class GameLauncherTest {
     @Test
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
-        assertEquals("Le jeu se lance!\n", outContent.toString());
+        //assertEquals("Le jeu se lance!\n", outContent.toString()); test plus nécéssaire car le jeu n'affiche plus rien sur le terminal
     }
 
 }
