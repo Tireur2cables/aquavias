@@ -65,8 +65,10 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
+                VueGraphique.playable = true;
                 this.controleur.nextLevel();
             }else {
+                VueGraphique.playable = true;
                 this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
                 this.controleur.mainMenu();
             }
@@ -81,6 +83,7 @@ class Fenetre extends JFrame {
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {
+                VueGraphique.playable = true;
                 this.controleur.endGame();
                 this.controleur.supprimerSauvegarde();
             }
@@ -93,10 +96,13 @@ class Fenetre extends JFrame {
             JOptionPane optionPane = new JOptionPane("Vous avez perdu! :(", JOptionPane.ERROR_MESSAGE /* FIXME : Image personnaliable */, JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
-            if (retour.equals(choices[0])) /* retour = 0 = Réessayer */
+            if (retour.equals(choices[0])) {/* retour = Réessayer */
+                VueGraphique.playable = true;
                 this.controleur.retry();
-            else /* retour = 1 = Retour au menu */
+            }else { /* retour = Retour au menu */
+                VueGraphique.playable = true;
                 this.controleur.mainMenu();
+            }
         });
     }
 
@@ -106,8 +112,10 @@ class Fenetre extends JFrame {
             JOptionPane optionPane = new JOptionPane(info, JOptionPane.QUESTION_MESSAGE,  JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
-            if (retour.equals(choices[0])) /* retour au menu */
+            if (retour.equals(choices[0])) { /* retour au menu */
+                VueGraphique.playable = true;
                 this.controleur.mainMenu();
+            }
         });
     }
 
@@ -116,6 +124,10 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             JOptionPane optionPane = new JOptionPane(info, JOptionPane.QUESTION_MESSAGE, JOptionPane.YES_NO_OPTION, null, choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) {
+                VueGraphique.playable = true;
+            }
         });
     }
     /**
@@ -154,6 +166,7 @@ class Fenetre extends JFrame {
     }
 
     private JDialog createDialog(JOptionPane optionPane) {
+        VueGraphique.playable = false;
         JDialog dialog = new JDialog(this,"", true);
         dialog.setContentPane(optionPane);
         dialog.setUndecorated(true);

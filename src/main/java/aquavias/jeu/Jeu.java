@@ -246,13 +246,14 @@ public class Jeu {
             Runnable compteSeconde = new Runnable() {
                 @Override
                 public void run() {
-                    if(debit != 0) {
-                        controleur.decrementeCompteur();
-                        flag = true;
-                    }
-                    else if (flag) {
-                        controleur.decrementeCompteur();
-                        flag = false;
+                    if (VueGraphique.playable) {
+                        if(debit != 0) {
+                            controleur.decrementeCompteur();
+                            flag = true;
+                        }else if (flag) {
+                            controleur.decrementeCompteur();
+                            flag = false;
+                        }
                     }
                 }
             };

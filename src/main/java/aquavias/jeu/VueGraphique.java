@@ -12,6 +12,7 @@ class VueGraphique {
     private int imageW;
 
     static Font font = new Font("Tahoma", Font.BOLD, 20);
+    static boolean playable = true;
 
     /**
      *  TESTS AND DEBUG PART
