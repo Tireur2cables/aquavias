@@ -324,6 +324,19 @@ public class Jeu {
         return niveaux;
     }
 
+    static boolean existeUneSauvegarde(){
+        File dossier = new File(saveDir);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
+        File[] files = dossier.listFiles();
+        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
+        for(int i = 0; i < files.length; i++){
+            if(files[i].getName().equals("niveauSauvegarde.json")){
+                return true;
+            }
+        }
+        return false;
+    }
+
     static Comparator<File> getNiveauComparator() {
         return new Comparator<File>() {
             @Override

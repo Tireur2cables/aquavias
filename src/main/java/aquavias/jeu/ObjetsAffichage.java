@@ -307,7 +307,7 @@ class MenuBar extends JMenuBar {
 
     private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
         JMenu charger = new JMenu("Charger");
-        if(!inNiveau){
+        if(!inNiveau && controleur.existeUneSauvegarde()){
             JMenuItem continuer = createMenuItemContinuer(controleur);
             continuer.setForeground(Color.BLUE);
             charger.add(continuer);

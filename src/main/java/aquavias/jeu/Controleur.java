@@ -182,4 +182,8 @@ class Controleur {
         this.jeu.exportNiveau(isSave);
     }
 
+    boolean existeUneSauvegarde(){
+        return Jeu.existeUneSauvegarde();
+    }
+
 }
