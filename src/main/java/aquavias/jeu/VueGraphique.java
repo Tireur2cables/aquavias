@@ -11,6 +11,8 @@ class VueGraphique {
     private PontGraph[][] plateau;
     private int imageW;
 
+    static Font font = new Font("Tahoma", Font.BOLD, 20);
+
     /**
      *  Fonction pour affichage de test unitaire
      */
