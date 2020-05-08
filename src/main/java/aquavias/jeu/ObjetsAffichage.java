@@ -296,7 +296,7 @@ class MenuBar extends JMenuBar {
 
     MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
         super();
-        JMenu charger = this.createChargerMenu(controleur);
+        JMenu charger = this.createChargerMenu(controleur, inNiveau);
         charger.setFont(VueGraphique.font);
         this.add(charger);
 
@@ -305,10 +305,13 @@ class MenuBar extends JMenuBar {
         this.add(options);
     }
 
-    private JMenu createChargerMenu(Controleur controleur) {
+    private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
         JMenu charger = new JMenu("Charger");
-        JMenuItem continuer = createMenuItemContinuer(controleur);
-        charger.add(continuer);
+        if(!inNiveau){
+            JMenuItem continuer = createMenuItemContinuer(controleur);
+            continuer.setForeground(Color.BLUE);
+            charger.add(continuer);
+        }
         ArrayList<File> niveaux = Controleur.getListNiveau();
         for (File f : niveaux) {
             JMenuItem niveau = createMenuItem(f.getName(), controleur);
