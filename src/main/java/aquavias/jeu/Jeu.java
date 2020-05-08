@@ -21,6 +21,7 @@ public class Jeu {
     private Pont[][] plateau;
     private ArrayList<Integer> listeNiveauTermine = new ArrayList<>();
     private int numNiveau;
+    private String difficulte;
     private int xEntree;
     private int yEntree;
     private int xSortie;
@@ -63,6 +64,7 @@ public class Jeu {
         this.mode = json.getString("mode");
         this.limite = json.getInt("limite");
         this.compteur = json.getDouble("compteur");
+        this.difficulte = json.getString("difficulte");
         JSONArray niveau = json.getJSONArray("niveau");
         this.initPlateau(largeur, hauteur, niveau);
         this.chercheEntree();
@@ -288,6 +290,10 @@ public class Jeu {
         return this.compteur;
     }
 
+    String getDifficulte() {
+        return this.difficulte;
+    }
+
     int getNumNiveau() { return this.numNiveau; }
 
     Pont getPont(int largeur, int hauteur) {
@@ -506,7 +512,7 @@ public class Jeu {
     private final static String exportDir = "resources/niveaux/";
     private final static String saveDir = "resources/profil/";
 
-    public void exportNiveau(boolean isSave) {
+    void exportNiveau(boolean isSave) {
         String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
@@ -543,7 +549,7 @@ public class Jeu {
     private JSONObject createListeNiveauTermineJSON() {
         JSONObject fic = new JSONObject();
         JSONArray arr = new JSONArray();
-        for(int i = 0; i < listeNiveauTermine.size(); i++){
+        for(int i = 0; i < listeNiveauTermine.size(); i++) {
             arr.put(listeNiveauTermine.get(i));
         }
         fic.put("liste", arr);
@@ -557,6 +563,7 @@ public class Jeu {
         fic.put("mode", this.mode);
         fic.put("limite", this.limite);
         fic.put("compteur", this.compteur);
+        fic.put("difficulte", this.difficulte);
         JSONArray niveau = this.saveNiveau();
         fic.put("niveau", niveau);
         return fic;
@@ -615,6 +622,10 @@ public class Jeu {
         this.initDebit();
     }
 
+    public void setDifficulte(String difficulte) {
+        this.difficulte = difficulte;
+    }
+
     public static ArrayList<File> getArrayListNiveau() {
         return getListNiveau();
     }
@@ -622,7 +633,7 @@ public class Jeu {
     public boolean isVictoire() {
         return this.calculVictoire();
     }
-    
+
     public void niveauToJSON(boolean isSave) {
         this.exportNiveau(isSave);
     }

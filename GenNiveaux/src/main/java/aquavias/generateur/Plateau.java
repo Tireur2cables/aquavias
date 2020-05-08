@@ -34,17 +34,18 @@ class Plateau {
         int limite;
         if (melange) {
            limite = this.melange();
-
         }else {
            limite = 100;
         }
+        String difficulte = "";
         if (mode.equals("compteur")) {
             this.jeu.setLimite(limite);
+            difficulte = (limite < 30)? "Facile" : (limite < 80)? "Moyen" : "Difficile";
         }else if (mode.equals("fuite")) {
             this.jeu.setLimite(limite*2);
+            difficulte = (limite*2 < 30)? "Facile" : (limite*2 < 80)? "Moyen" : "Difficile";
         }
-
-
+        this.jeu.setDifficulte(difficulte);
     }
 
     /**
