@@ -131,18 +131,15 @@ public class Jeu {
     }
 
     private void initDebit() {
-        switch (this.mode) {
-            case "fuite" : this.isEtanche();
-                break;
-            case "compteur" : this.debit = 1;
-                break;
-        }
+        if (this.mode.equals("fuite"))
+            this.isEtanche();
+        else
+            this.debit = 1;
     }
 
     /**
      * ACTUALISATION EAU PART
      *
-     * FIXME: A refactor c'est très laid (trop long et decoupé)
      * */
     void parcourchemin() {
         this.resetWater();
@@ -166,8 +163,8 @@ public class Jeu {
 
     /**
      *  X = largeur et Y = hauteur
-     *  Selon l'entier i donné (0-NORD - 1-EST - 2-SUD - 3-OUEST) on vérifie le voisin dans la direction i
-     *
+     *  On redirige vers la fonction correspondant à la sortie pointée par i (0-NORD - 1-EST - 2-SUD - 3-OUEST)
+     *  on vérifie le voisin dans la direction i
      *  */
     private void afficheAdja(int i, int x, int y) {
         switch (i) {
@@ -449,7 +446,7 @@ public class Jeu {
     }
 
     /**
-     * FIXME: A refactor c'est très laid (trop long et decoupé)
+     * detection de l'étanchéité à la façon du parcours du chemin standard
      * */
     private int detectEtancheAdjacents(int x, int y) {
         Pont p = this.plateau[x][y];
