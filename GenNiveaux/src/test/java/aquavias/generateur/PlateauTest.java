@@ -10,7 +10,7 @@ public class PlateauTest{
             for (int i = 0; i < 100; i++) {
                 String mode = "compteur";
                 Jeu jeu = new Jeu(16, mode);
-                Plateau p = new Plateau(6, 6, false, jeu, mode);
+                new Plateau(6, 6, true, jeu, mode, false);
             }
         }catch (RuntimeException e) {
             e.printStackTrace();

@@ -532,12 +532,15 @@ public class Jeu {
 
     private final static String exportDir = "resources/niveaux/";
     private final static String saveDir = "resources/profil/";
+    private final static String soluceDir = "resources/solutions/";
 
     void exportNiveau(boolean isSave) {
         String chemin;
         if(isSave){
             chemin = saveDir + "niveauSauvegarde.json";
             writeNumSauvegarde(this.numNiveau);
+        }else if (this.calculVictoire()) {
+               chemin = soluceDir + "niveau" + this.numNiveau + ".json";
         }else{
             chemin = exportDir + "niveau" + this.numNiveau + ".json";
         }
@@ -650,6 +653,7 @@ public class Jeu {
             fichier.flush();
             fichier.close();
         }catch (IOException e) {
+            e.getStackTrace();
             throw new RuntimeException("Erreur d'écriture du fichier exporté");
         }
     }
