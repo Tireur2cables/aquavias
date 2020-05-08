@@ -334,6 +334,12 @@ class MenuBar extends JMenuBar {
         int num = findNum(name);
         String newName = this.getFileName(name, num);
         JMenuItem item = new JMenuItem(newName);
+        if(controleur.niveauDejaTermine(num)){
+            item.setForeground(Color.gray);
+        }
+        else{
+            item.setForeground(Color.black);
+        }
         item.addActionListener((ActionEvent e) -> {
             controleur.chargeNiveau(num);
         });

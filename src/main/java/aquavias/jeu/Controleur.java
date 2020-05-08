@@ -17,8 +17,8 @@ class Controleur {
     }
 
     void launch() {
-        this.mainMenu();
         this.importListeNiveauTermine();
+        this.mainMenu();
         System.out.println("Le jeu se lance!");
     }
 
@@ -127,6 +127,10 @@ class Controleur {
 
     void importListeNiveauTermine(){
         this.jeu.importListeNiveauTermine();
+    }
+
+    boolean niveauDejaTermine(int num){
+        return jeu.niveauDejaTermine(num);
     }
 
     int getNombreNiveaux() {

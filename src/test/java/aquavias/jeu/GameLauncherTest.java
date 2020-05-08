@@ -27,7 +27,6 @@ public class GameLauncherTest {
         System.setOut(originalOut);
         System.setErr(originalErr);
     }
-
     @Test
     public void mainShouldDislayLaunchMessage() {
         GameLauncher.main(new String[]{"test"});
