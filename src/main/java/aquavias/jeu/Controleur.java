@@ -149,8 +149,8 @@ class Controleur {
         return this.jeu.getDebit();
     }
 
-    void exportNiveau() {
-        this.jeu.exportNiveau();
+    void exportNiveau(boolean isSave) {
+        this.jeu.exportNiveau(isSave);
     }
 
 }

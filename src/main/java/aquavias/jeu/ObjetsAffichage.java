@@ -369,7 +369,7 @@ class MenuBar extends JMenuBar {
     private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
         JMenuItem save = new JMenuItem("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
-            controleur.exportNiveau();
+            controleur.exportNiveau(true);
             JOptionPane.showMessageDialog(fenetre, "Niveau exporté!");
         });
         return save;

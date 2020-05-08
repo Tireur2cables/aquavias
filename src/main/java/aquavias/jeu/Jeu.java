@@ -525,9 +525,10 @@ public class Jeu {
      * */
 
     private static String exportDir = "resources/niveaux/";
+    private static String saveDir = "resources/profil/";
 
-    public void exportNiveau() {
-        String chemin = exportDir + "niveau" + this.numNiveau + ".json";
+    public void exportNiveau(boolean isSave) {
+        String chemin = (isSave)?saveDir:exportDir + "niveau" + this.numNiveau + ".json";
         JSONObject fic = this.createJSON();
         writeFile(fic, chemin);
     }
