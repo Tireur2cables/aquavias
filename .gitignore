@@ -1,5 +1,5 @@
-#exportation de niveaux
-#resources/export/
+#sauvegarde du profil
+resources/profil/*
 
 #Java
 *.class
