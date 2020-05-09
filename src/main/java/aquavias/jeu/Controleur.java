@@ -3,6 +3,8 @@ package aquavias.jeu;
 import java.io.File;
 import java.util.ArrayList;
 
+import aquavias.generateur.GenNiveaux;
+
 class Controleur {
 
     private final Jeu jeu;
@@ -20,6 +22,11 @@ class Controleur {
         this.importListeNiveauTermine();
         //fixme: ajout vérif tuto ici
         this.mainMenu();
+    }
+
+    static void genererNiveau(){
+        String[] args = {"1"};
+        GenNiveaux.main(args);
     }
 
     /**
@@ -90,7 +97,7 @@ class Controleur {
 
     void mainMenu() {
         this.stopTimer();
-        this.graph.chargeMenu();
+        this.graph.chargeMenu(this);
     }
 
     void chargeNiveau(int num) {
@@ -184,6 +191,14 @@ class Controleur {
 
     double getDebit() {
         return this.jeu.getDebit();
+    }
+
+    boolean debloqueGenerateur(){
+        return this.jeu.debloqueGenerateur();
+    }
+
+    boolean justDebloqueGenerateur(){
+        return this.jeu.justDebloqueGenerateur();
     }
 
     void exportNiveau(boolean isSave) {

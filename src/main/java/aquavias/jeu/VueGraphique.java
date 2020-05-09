@@ -36,7 +36,7 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
-        this.fenetre.setMenuBar(true);
+        this.fenetre.setMenuBar(true, controleur.debloqueGenerateur());
         this.initNiveau(largeur, hauteur);
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
@@ -125,8 +125,8 @@ class VueGraphique {
      * MENU PART
      */
 
-    void chargeMenu() {
-        this.fenetre.setMenuBar(false);
+    void chargeMenu(Controleur controleur) {
+        this.fenetre.setMenuBar(false, controleur.debloqueGenerateur());
         BufferedImage image = PontGraph.chargeImage("bg.png");
         EventQueue.invokeLater(() -> {
             Dimension dim = this.getEffectiveFrameSize(); // doit etre dans le eventqeue pour avoir la taille dela jmenubar prise en compte

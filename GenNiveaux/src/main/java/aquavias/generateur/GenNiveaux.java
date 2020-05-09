@@ -4,7 +4,7 @@ import aquavias.jeu.Jeu;
 
 import java.util.concurrent.ThreadLocalRandom;
 
-class GenNiveaux {
+public class GenNiveaux {
 
     public static void main(String[] args) {
         int nbNiveaux;

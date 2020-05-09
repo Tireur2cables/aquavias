@@ -61,6 +61,11 @@ class Fenetre extends JFrame {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
+                    if (controleur.justDebloqueGenerateur()) {
+                        this.infoOk("Vous venez de débloquer le mode de jeu infini !");
+                    }
+                });
+        EventQueue.invokeLater(() -> {
             JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
@@ -134,10 +139,10 @@ class Fenetre extends JFrame {
      * ADD PART
      */
 
-    void setMenuBar(boolean inNiveau) {
+    void setMenuBar(boolean inNiveau, boolean debloqueGenerateur) {
         EventQueue.invokeLater(() -> {
             this.setJMenuBar(null);
-            this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau));
+            this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau, debloqueGenerateur));
         });
     }
 
@@ -349,7 +354,7 @@ class ClickListener implements MouseListener {
 
 class MenuBar extends JMenuBar {
 
-    MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau) {
+    MenuBar(Fenetre fenetre, Controleur controleur, boolean inNiveau, boolean debloqueGenerateur) {
         super();
         JMenu charger = this.createChargerMenu(controleur, inNiveau);
         charger.setFont(VueGraphique.font);
@@ -358,6 +363,9 @@ class MenuBar extends JMenuBar {
         JMenu options = this.createOptionsMenu(controleur, fenetre, inNiveau);
         options.setFont(VueGraphique.font);
         this.add(options);
+
+        if(debloqueGenerateur)
+            this.add(this.createGenererNiveau(fenetre, controleur));
     }
 
     private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
@@ -406,6 +414,7 @@ class MenuBar extends JMenuBar {
         return item;
     }
 
+
     private int findNum(String name) {
         String num = "";
         for (int i = 6; name.charAt(i) != '.'; i++) {
@@ -439,6 +448,15 @@ class MenuBar extends JMenuBar {
             controleur.mainMenu();
         });
         return mainMenu;
+    }
+
+    private JButton createGenererNiveau(Fenetre fenetre, Controleur controleur) {
+        JButton genNiveau = new JButton("Mode infini");
+        genNiveau.addActionListener((ActionEvent e) -> {
+            Controleur.genererNiveau();
+            fenetre.infoRetourMenu("Nouveau niveau générer ! Il se trouve dans votre liste de niveau");
+        });
+        return genNiveau;
     }
 
     private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
