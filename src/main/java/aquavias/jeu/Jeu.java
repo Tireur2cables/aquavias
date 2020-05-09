@@ -562,7 +562,7 @@ public class Jeu {
 
     void exportNiveau(boolean isSave) {
         String chemin;
-        if(isSave){
+        if(isSave) {
             chemin = saveDir + "niveauSauvegarde.json";
             writeNumSauvegarde(this.numNiveau);
         }else if (this.calculVictoire()) {
@@ -574,7 +574,7 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    void supprimerSauvegarde() {
+    void supprimerSauvegarde() { //FIXME: devrait supprimer le numniveau.json aussi ? pourrait dans option->supprimer sauvegarde qui vide aussi la liste des niveaux déjà fait
         File f = new File(saveDir + "niveauSauvegarde.json");
         f.delete();
     }

@@ -435,7 +435,8 @@ class MenuBar extends JMenuBar {
     private JMenuItem createMainMenu(Controleur controleur) {
         JMenuItem mainMenu = new JMenuItem("Menu principal");
         mainMenu.addActionListener((ActionEvent e) -> {
-            controleur.exportNiveau(true);
+            if (controleur.getNumNiveau() > 0)
+                controleur.exportNiveau(true);
             controleur.mainMenu();
         });
         return mainMenu;
@@ -444,8 +445,12 @@ class MenuBar extends JMenuBar {
     private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
         JMenuItem save = new JMenuItem("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
-            controleur.exportNiveau(true);
-            fenetre.infoRetourMenu("Niveau Sauvergardé!");
+            if (controleur.getNumNiveau() > 0) {
+                controleur.exportNiveau(true);
+                fenetre.infoRetourMenu("Niveau Sauvergardé!");
+            }else
+                fenetre.infoOk("Impossible de sauvegarder dans le tutoriel!");
+
         });
         return save;
     }
@@ -454,8 +459,9 @@ class MenuBar extends JMenuBar {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
             controleur.saveListeNiveauTermine();
-            if(inNiveau){
-                controleur.exportNiveau(true);
+            if(inNiveau) {
+                if (controleur.getNumNiveau() > 0)
+                    controleur.exportNiveau(true);
             }
             fenetre.dispose();
             controleur.exit();
