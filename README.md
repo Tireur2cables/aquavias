@@ -98,5 +98,67 @@ Si le niveau n'est pas en état de victoire alors il sera sauvegardé dans `reso
   
 ### Comment utiliser l'API
   
-Pour créer un projet utilisant l'API d'Aquavias vous pouvez imiter.
-  
+Pour créer un projet utilisant l'API d'Aquavias vous pouvez imiter l'arborescen du dossier `GenNiveaux` en remplaçant `GenNiveaux`, `generateur` et le classes à l'interieur par les votre.  
+Il faudra aussi reprendre le pom.xml de cette arborescence en modifiant les noms précédants par les votre.  
+N'oubliez pas de vérifier que les package de vos classes sont correctes.  
+Enfin, il faudra modifier le fichier Makefile de la racine en ajoutant les instructions suivantes à la fin du fichier :  
+```  
+# Target just VotreAddon
+VotreAddon : clean-VotreAddon
+	cd VotreAddon && $(MVN) install assembly:single
+	cp $(JARPATH3) \
+   	$(TARGET3)
+
+# Target clean removes all files produced during build for VotreAddon.
+clean-VotreAddon :
+	if [ -e $(TARGET3) ]; then rm $(TARGET3); fi;
+	cd VotreAddon && $(MVN) clean
+```  
+Il faut ensuite modifier quelques lignes :  
+```  
+#Target clean removes all files produced during build for both GenNiveaux and aquavias
+clean : clean-aquavias clean-GenNiveaux
+```  
+Devient :  
+```  
+#Target clean removes all files produced during build for both GenNiveaux, aquavias and VotreAddon
+clean : clean-aquavias clean-GenNiveaux clean-VotreAddon
+```  
+De la même façon :  
+```  
+# Target all builds the project.
+all: aquavias GenNiveaux
+```  
+Devient :  
+```  
+# Target all builds the project.
+all: aquavias GenNiveaux VotreAddon
+```  
+Enfin il faut modifier le haut du fichier :  
+```  
+.PHONY: all run clean-aquavias run-fast genNiveaux clean-GenNiveaux clean
+
+MVN=mvn
+JARPATH1=target/jeu-0.1-jar-with-dependencies.jar
+JARPATH2=GenNiveaux/target/generateur-0.1-jar-with-dependencies.jar
+JAVA_OPT=-jar
+JAVA=java $(JAVA_OPT)
+TARGET1=aquavias.jar
+TARGET2=genNiveaux.jar
+```  
+Devient :  
+```  
+.PHONY: all run clean-aquavias run-fast genNiveaux clean-GenNiveaux clean VotreAddon clean-VotreAddon
+
+MVN=mvn
+JARPATH1=target/jeu-0.1-jar-with-dependencies.jar
+JARPATH2=GenNiveaux/target/generateur-0.1-jar-with-dependencies.jar
+JARPATH3=VotreAddon/target/votreSousPackage-0.1-jar-with-dependencies.jar
+JAVA_OPT=-jar
+JAVA=java $(JAVA_OPT)
+TARGET1=aquavias.jar
+TARGET2=genNiveaux.jar
+TARGET3=VotreAddon.jar
+```  
+En Remplaçant tous les `VotreAddon` par ce qui remplace `GenNiveaux` et `votreSousPackage` par ce qui remplace `generateur`.  
+Si vous avez une question n'hésitez pas à envoyer un mail ou à ouvrir une issue sur le sujet.
