@@ -77,7 +77,24 @@ Cette fonction devrait être utilisée seulement sur un pont aillant un paramèt
 #### Classe Jeu
   
 `Jeu(int numNiveau, String mode)` : constructeur de `Jeu` permettant d'initialiser un objet Jeu avec les paramètres `numNiveau`, pour le numéro du niveau en cours.  
-Et `mode`, pour le mode de jeu voulu, à savoir `"compteur"` ou `"fuite"`.  
+Et `mode`, pour le mode de jeu voulu, à savoir `"compteur"` ou `"fuite"`. A ce moment là le jeu n'a pas encore de plateau et beaucoup de fonctions ne sont pas utilisables.  
+    
+`static ArrayList<File> getArrayListNiveau()` : renvoit une ArrayList contenant chaque niveaux du dossier `resources/niveaux`.  
+  
+`void setPlateau(Pont[][] plateau)` : permet d'initialiser le paramètre `plateau` de l'objet Jeu, qui sera la matrice de Pont passée en paramètre.  
+  
+`void setLimite(int limite)` : permet d'initialiser le paramètre `limite` et grâce à celui-ci le paramètre `debit` qui dépendent du paramètre `mode` initialisé lors de la construction de l'objet.  
+  
+`void setDifficulte(String difficulte)` : permet d'initialiser le paramètre `difficulte` de l'objet. Devrait être soit `"Facile"`, `"Moyen"` ou `"Difficile"`.  
+Cependant rien n'empêche de créer sa propre difficulté.  
+  
+`boolean isVictore()` : revoit `true` si le plateau actuel est en situation de victoire. C'est à dire que les ponts entrée et sortie sont relié sans aucune fuite entre eux.  
+Renvoit `false` sinon.  
+  
+`void niveauToJSON(boolean isSave)` : permet d'exporter un niveau créer dans un fichier JSON.  
+Si le paramètre `isSave` vaut `true` alors le niveau sera sauvegardé dans `resources/profil/niveauSauvegarde.json` et son numéro sera sauvegardé dans `resources/profil/numSauvegarde.json`.  
+Sinon si le niveau actuel est en état de victoire alors le niveau sera sauvegardé comme une solution dans `resources/solutions/niveau[numNiveau].json`.  
+Si le niveau n'est pas en état de victoire alors il sera sauvegardé dans `resources/niveaux/niveau[numNiveau].json` avec les autres niveaux jouables.  
   
 ### Comment utiliser l'API
   
