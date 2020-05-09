@@ -43,7 +43,7 @@ Si vous trouvez qu'il manque des fonctions dans l'API n'hésitez pas à ouvrir u
   
 ### Description de l'API
   
-#### Classe Jeu
+#### Classe Pont
   
 `static Pont createPont(char forme, String spé)` : renvoit un pont de la forme passée en paramètre, si la forme demandée est `'O'` renvoit une forme aléatoire.  
 Le paramètre spé vaut soit `null` pour un pont standard soit `"entree"` ou `"sortie"` pour un pont d'entrée ou sortie.  
@@ -74,9 +74,10 @@ Par exemple un pont en I orientation 'N' renverra `true` pour un appel à cette 
 `boolean isOrientationCorrecteEntreeSortie()` : renvoit `true` si le pont possède une orientation lui permettant d'être une entrée ou une sortie et `false`.  
 Cette fonction devrait être utilisée seulement sur un pont aillant un paramètre spé égal à "entree" ou "sortie".  
   
-#### Classe Pont
+#### Classe Jeu
   
-``  
+`Jeu(int numNiveau, String mode)` : constructeur de `Jeu` permettant d'initialiser un objet Jeu avec les paramètres `numNiveau`, pour le numéro du niveau en cours.  
+Et `mode`, pour le mode de jeu voulu, à savoir `"compteur"` ou `"fuite"`.  
   
 ### Comment utiliser l'API
   
