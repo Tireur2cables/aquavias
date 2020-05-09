@@ -43,8 +43,40 @@ Si vous trouvez qu'il manque des fonctions dans l'API n'hésitez pas à ouvrir u
   
 ### Description de l'API
   
-blablabla  
+#### Classe Jeu
   
+`static Pont createPont(char forme, String spé)` : renvoit un pont de la forme passée en paramètre, si la forme demandée est `'O'` renvoit une forme aléatoire.  
+Le paramètre spé vaut soit `null` pour un pont standard soit `"entree"` ou `"sortie"` pour un pont d'entrée ou sortie.  
+  
+`static char getRandomOrientation()` : renvoit un char correspondant à une orientation aléatoire entre les 4 utilisées par le jeu (`'N'`, `E`, `S`, `O`).  
+  
+`boolean[] reCalculSorties()` : renvoit un tableau de 4 booléens correspondants aux sorties du pont.  
+Si reCalculSorties()[0] vaut `true` alors le pont possède une sortie vers le Nord. Ainsi de suite avec 1 = Est, 2 = Sud et 3 = Ouest.  
+  
+`static getCharNextOrientation(char c)` : renvoit l'orientation suivante après avoir tourné le pont.  
+Par exemple si l'orientation passée en paramètre est `'N'` alors la fonction renvoit `'E'`. Permet de tourner un pont en l'utilisant avec `setCharOrientation()`.  
+  
+`char getCharForme()` : renvoit un char correspondant à la forme du pont, `'L'`, `I`, `T`, `X`.  
+  
+`void setCharOrientation(char orientation)` : met l'orientation du pont à la valeur passée en paramètre et met à jour les sorties du pont.  
+  
+`char getCharOrientation()` : renvoit un char correspondant à l'orientation actuelle du pont.  
+  
+`String getStringSpe()` : renvoit une string correspondant au paramètre spé du pont à savoir `null` pour un pont normal et `"entree"` ou `"sortie"` pour un pont d'entréé ou de sortie.  
+  
+`boolean isPontEntree()` : revoit `true` si le pont est un pont d'entrée et `false` sinon.  
+  
+`boolean isPontSortie()` : renvoit `true` si le pont est un pont de sortie et `false` sinon.  
+  
+`boolean isPontAccessibleFrom(char sortie)` : renvoit `true` si le pont est est accessible depuis la sortie passée en paramètre.  
+Par exemple un pont en I orientation 'N' renverra `true` pour un appel à cette fonction avec `'N'` ou `'S'` en paramètre.  
+  
+`boolean isOrientationCorrecteEntreeSortie()` : renvoit `true` si le pont possède une orientation lui permettant d'être une entrée ou une sortie et `false`.  
+Cette fonction devrait être utilisée seulement sur un pont aillant un paramètre spé égal à "entree" ou "sortie".  
+  
+#### Classe Pont
+  
+``  
   
 ### Comment utiliser l'API
   
