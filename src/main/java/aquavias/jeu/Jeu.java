@@ -20,6 +20,7 @@ public class Jeu {
     private Controleur controleur;
     private Pont[][] plateau;
     private ArrayList<Integer> listeNiveauTermine = new ArrayList<>();
+    private static final int nbNiveauBase = 5; //FIXME: à changer avec la séléction finale
     private int numNiveau;
     private String difficulte;
     private int xEntree;
@@ -632,6 +633,14 @@ public class Jeu {
         }
         fic.put("liste", arr);
         return fic;
+    }
+
+    boolean debloqueGenerateur(){
+        return this.listeNiveauTermine.size() >= nbNiveauBase;
+    }
+
+    boolean justDebloqueGenerateur(){
+        return this.listeNiveauTermine.size() == nbNiveauBase;
     }
 
     private JSONObject createJSON() {

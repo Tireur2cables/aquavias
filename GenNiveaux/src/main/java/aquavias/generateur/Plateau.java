@@ -18,9 +18,9 @@ class Plateau {
      * INIT PART
      * */
 
-    Plateau(int largeur, int hauteur, boolean melange, Jeu jeu, String mode, boolean saveSolution) {
+    Plateau(int largeur, int hauteur, boolean melange, int numNiveau, String mode, boolean saveSolution) {
         this.plateau = new Pont[largeur][hauteur];
-        this.jeu = jeu;
+        this.jeu = new Jeu(numNiveau, mode);
         do {
             for (int i = 0; i < largeur; i++)
                 for (int j = 0; j < hauteur; j++)
@@ -30,8 +30,12 @@ class Plateau {
             this.genererChemin(this.xSortie, this.ySortie);
             this.jeu.setPlateau(this.plateau);
         } while (!this.jeu.isVictoire());
-        if (saveSolution)
+        if (saveSolution) {
+            this.jeu.setLimite(200);
+            this.jeu.setDifficulte("Solution");
             this.exportNiveau();
+            this.jeu.setPlateau(this.plateau);
+        }
         int limite = 0;
         if (melange) {
             do {
@@ -43,13 +47,14 @@ class Plateau {
 
         if (mode.equals("compteur")) {
             this.jeu.setLimite(limite);
-
         }else if (mode.equals("fuite")) {
             this.jeu.setLimite(limite*2);
         }
+
         int nombrePonts = this.getNombrePonts();
         String difficulte = (limite < 30 && nombrePonts < 30)? "Facile" : (limite < 60 && nombrePonts < 60)? "Moyen" : "Difficile";
         this.jeu.setDifficulte(difficulte);
+
     }
 
     /**
@@ -367,6 +372,16 @@ class Plateau {
     /**
      * GETTEUR PART
      */
+
+    private Pont[][] copyPlateau() {
+        Pont[][] retour = new Pont[this.getLargeur()][this.getHauteur()];
+        for (int i = 0; i < this.plateau.length; i++) {
+            for (int j = 0; j < this.plateau[i].length; j++) {
+                retour[i][j] = this.plateau[i][j];
+            }
+        }
+        return retour;
+    }
 
     private int[][] getAcces(int x, int y) {
         boolean[] sorties = this.plateau[x][y].reCalculSorties();

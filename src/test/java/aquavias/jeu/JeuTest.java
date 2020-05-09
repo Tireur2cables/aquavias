@@ -8,7 +8,7 @@ public class JeuTest {
 
     @Test
     public void initNiveauIsWorkingGood(){
-        Jeu testJeu = new Jeu(new Controleur());
+        Jeu testJeu = new Jeu(new Controleur(true));
         testJeu.initNiveau(1, false);
         assertEquals(testJeu.getHauteur(), 3);
         assertEquals(testJeu.getLargeur(), 3);

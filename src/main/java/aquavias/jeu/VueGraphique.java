@@ -17,17 +17,18 @@ class VueGraphique {
      *  TESTS AND DEBUG PART
      */
 
-    void affichePont(BufferedImage image) {
-        EventQueue.invokeLater(() -> new Fenetre("aquavias.jeu.Pont", image, this));
+    private Fenetre affichePont(BufferedImage image) {
+        return new Fenetre("aquavias.jeu.Pont", image, this);
     }
 
     /**
      * INIT PART
      * */
 
-    VueGraphique(Controleur controleur) {
+    VueGraphique(Controleur controleur, boolean isTest) {
         this.controleur = controleur;
-        this.fenetre = new Fenetre(controleur);
+        if (isTest) this.fenetre = this.affichePont(PontGraph.transp);
+        else this.fenetre = new Fenetre(controleur);
     }
 
     /**
@@ -36,7 +37,7 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
-        this.fenetre.setMenuBar(true);
+        this.fenetre.setMenuBar(true, controleur.debloqueGenerateur());
         this.initNiveau(largeur, hauteur);
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
@@ -125,8 +126,8 @@ class VueGraphique {
      * MENU PART
      */
 
-    void chargeMenu() {
-        this.fenetre.setMenuBar(false);
+    void chargeMenu(Controleur controleur) {
+        this.fenetre.setMenuBar(false, controleur.debloqueGenerateur());
         BufferedImage image = PontGraph.chargeImage("bg.png");
         EventQueue.invokeLater(() -> {
             Dimension dim = this.getEffectiveFrameSize(); // doit etre dans le eventqeue pour avoir la taille dela jmenubar prise en compte

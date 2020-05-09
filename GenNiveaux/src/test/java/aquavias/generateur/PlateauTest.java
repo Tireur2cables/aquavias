@@ -8,9 +8,9 @@ public class PlateauTest{
     public void testIfGeneratingMakesFeasibleLevels() {
         try {
             for (int i = 0; i < 100; i++) {
-                String mode = "compteur";
-                Jeu jeu = new Jeu(16, mode);
-                new Plateau(6, 6, true, jeu, mode, false);
+                String mode = "compteur"; //arbitraire
+                int numNiveau = 16; //arbitraire
+                new Plateau(6, 6, true, numNiveau, mode, false);
             }
         }catch (RuntimeException e) {
             e.printStackTrace();
