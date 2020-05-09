@@ -37,18 +37,23 @@ class VueGraphique {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
         this.fenetre.setMenuBar(true);
-        this.initNiveau(largeur, hauteur);
-        for (int j = 0; j < hauteur; j++) {
-            for (int i = 0; i < largeur; i++) {
-                boolean movable = this.controleur.isMovable(i, j);
-                this.addToNiveau(this.getImage(i, j), movable, i, j); //ajout des images dans la grille niveau
+        EventQueue.invokeLater(() -> {
+            Dimension dim = this.getEffectiveFrameSize(); // doit etre dans le eventqeue pour avoir la taille dela jmenubar prise en compte
+            this.imageW = dim.width;
+            int imageH = dim.height;
+            this.initNiveau(largeur, hauteur, this.resizeImage(Fenetre.background, this.imageW, imageH));
+            for (int j = 0; j < hauteur; j++) {
+                for (int i = 0; i < largeur; i++) {
+                    boolean movable = this.controleur.isMovable(i, j);
+                    this.addToNiveau(this.getImage(i, j), movable, i, j); //ajout des images dans la grille niveau
+                }
             }
-        }
-        this.repaint(); //affiche le niveau
+            this.repaint(); //affiche le niveau
+        });
     }
 
-    private void initNiveau(int largeur, int hauteur) {
-        this.niveau = new Niveau();
+    private void initNiveau(int largeur, int hauteur, BufferedImage bg) {
+        this.niveau = new Niveau(bg);
         this.initPlateau(largeur, hauteur);
         this.calculImageSize(largeur, hauteur);
         this.setNiveau();

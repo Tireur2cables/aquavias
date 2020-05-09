@@ -19,6 +19,7 @@ class Fenetre extends JFrame {
 
     private Controleur controleur;
     private final static GraphicsDevice graphDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+    static BufferedImage background = PontGraph.chargeImage("bg.png");
 
     /**
      * INIT PART
@@ -260,11 +261,18 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    Niveau() {
+    BufferedImage bg;
+    Niveau(BufferedImage bg) {
         super();
+        this.bg = bg;
         EventQueue.invokeLater(() -> {
             this.setLayout(new GridBagLayout());
         });
+    }
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(this.bg, 0, 0, this);
     }
 
 }
@@ -314,6 +322,7 @@ class ImagePane extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        this.setOpaque(false);
         g.drawImage(this.image, 0, 0, this);
     }
 }
