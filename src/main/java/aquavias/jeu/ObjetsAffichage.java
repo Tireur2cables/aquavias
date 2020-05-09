@@ -362,7 +362,7 @@ class MenuBar extends JMenuBar {
 
     private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
         JMenu charger = new JMenu("Charger");
-        if(!inNiveau && controleur.existeUneSauvegarde()){
+        if(!inNiveau && controleur.existeUneSauvegarde()) {
             JMenuItem continuer = createMenuItemContinuer(controleur);
             continuer.setForeground(Color.BLUE);
             charger.add(continuer);
@@ -397,7 +397,7 @@ class MenuBar extends JMenuBar {
         return item;
     }
 
-    private JMenuItem createMenuItemContinuer(Controleur controleur){
+    private JMenuItem createMenuItemContinuer(Controleur controleur) {
         String name = "Continuer";
         JMenuItem item = new JMenuItem(name);
         item.addActionListener((ActionEvent e) -> {
