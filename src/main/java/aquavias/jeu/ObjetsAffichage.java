@@ -19,7 +19,7 @@ class Fenetre extends JFrame {
 
     private Controleur controleur;
     private final static GraphicsDevice graphDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
-    static BufferedImage background = PontGraph.chargeImage("bg.png");
+    static BufferedImage background = PontGraph.chargeImage("bgniveau2.png");
 
     /**
      * INIT PART
@@ -303,6 +303,7 @@ class ImagePane extends JPanel {
         EventQueue.invokeLater(() -> {
             this.addMouseListener(new ClickListener(this));
         });
+        this.setOpaque(false);
 
     }
 
@@ -322,7 +323,6 @@ class ImagePane extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        this.setOpaque(false);
         g.drawImage(this.image, 0, 0, this);
     }
 }
