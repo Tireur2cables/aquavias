@@ -35,26 +35,23 @@ class Fenetre extends JFrame {
             this.setContentPane(new ImagePane(image, true, vue, 0, 0));
             this.pack();
             this.setResizable(false);
-            this.setVisible(true);
+            this.setVisible(false);
         });
     }
 
     /**
      * Fenetre pour l'affichage du jeu
      * */
-    Fenetre(Controleur controleur, boolean isTest) {
+    Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
-        if (isTest) {
-            this.setVisible(false);
-        }else {
-            graphDevice.setFullScreenWindow(this); //plein écran
-            EventQueue.invokeLater(() -> {
-                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
-                this.setTitle("Aquavias");
-                this.setVisible(true);
-            });
-        }
+        graphDevice.setFullScreenWindow(this); //plein écran
+        EventQueue.invokeLater(() -> {
+            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
+            this.setTitle("Aquavias");
+            this.setVisible(true);
+        });
+
     }
 
     /**
@@ -368,8 +365,11 @@ class MenuBar extends JMenuBar {
         options.setFont(VueGraphique.font);
         this.add(options);
 
-        if(debloqueGenerateur)
-            this.add(this.createGenererNiveau(fenetre, controleur));
+        if(debloqueGenerateur) {
+            JButton generateur = this.createGenererNiveau(fenetre);
+            generateur.setFont(VueGraphique.font);
+            this.add(generateur);
+        }
     }
 
     private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
@@ -454,7 +454,7 @@ class MenuBar extends JMenuBar {
         return mainMenu;
     }
 
-    private JButton createGenererNiveau(Fenetre fenetre, Controleur controleur) {
+    private JButton createGenererNiveau(Fenetre fenetre) {
         JButton genNiveau = new JButton("Mode infini");
         genNiveau.addActionListener((ActionEvent e) -> {
             Controleur.genererNiveau();

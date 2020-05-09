@@ -15,7 +15,7 @@ class Controleur {
      */
     Controleur(boolean isTest) {
         this.jeu = new Jeu(this);
-        this.graph = new VueGraphique(this, true);
+        this.graph = new VueGraphique(this, isTest);
     }
 
     void launch() {

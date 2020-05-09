@@ -17,8 +17,8 @@ class VueGraphique {
      *  TESTS AND DEBUG PART
      */
 
-    void affichePont(BufferedImage image) {
-        EventQueue.invokeLater(() -> new Fenetre("aquavias.jeu.Pont", image, this));
+    private Fenetre affichePont(BufferedImage image) {
+        return new Fenetre("aquavias.jeu.Pont", image, this);
     }
 
     /**
@@ -27,7 +27,8 @@ class VueGraphique {
 
     VueGraphique(Controleur controleur, boolean isTest) {
         this.controleur = controleur;
-        this.fenetre = new Fenetre(controleur, isTest);
+        if (isTest) this.fenetre = this.affichePont(PontGraph.transp);
+        else this.fenetre = new Fenetre(controleur);
     }
 
     /**

@@ -33,7 +33,6 @@ class Plateau {
         if (saveSolution) {
             this.jeu.setLimite(200);
             this.jeu.setDifficulte("Solution");
-            System.out.println(this.jeu.isVictoire());
             this.exportNiveau();
             this.jeu.setPlateau(this.plateau);
         }
