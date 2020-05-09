@@ -25,8 +25,7 @@ public class GenNiveaux {
 
     private static void createNiveau(int largeur, int hauteur, int numNiveau) {
         String mode = chooseMode();
-        Jeu jeu = new Jeu(numNiveau, mode);
-        Plateau p = new Plateau(largeur, hauteur, true, jeu, mode, true);
+        Plateau p = new Plateau(largeur, hauteur, true, numNiveau, mode, true);
         p.exportNiveau();
     }
 
