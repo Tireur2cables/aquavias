@@ -61,7 +61,7 @@ class Fenetre extends JFrame {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.gif"), choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
@@ -79,7 +79,7 @@ class Fenetre extends JFrame {
         String[] choices = {"Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!\nVous êtes arrivé au dernier Niveau !", JOptionPane.INFORMATION_MESSAGE /* FIXME :Image personnaliable */, JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!\nVous êtes arrivé au dernier Niveau !", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION,new ImageIcon("resources/img/victorylast.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {
@@ -109,7 +109,7 @@ class Fenetre extends JFrame {
     void infoRetourMenu(String info) {
         String[] choices = {"Retour au menu"};
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE/* FIXME : Image personnaliable */,  JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE,  JOptionPane.YES_NO_OPTION,new ImageIcon("resources/img/menu.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour au menu */
@@ -122,7 +122,7 @@ class Fenetre extends JFrame {
     void infoOk(String info) {
         String[] choices = {"Ok"};
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE/* FIXME : Image personnaliable */, JOptionPane.YES_NO_OPTION, null, choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/ok.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {
