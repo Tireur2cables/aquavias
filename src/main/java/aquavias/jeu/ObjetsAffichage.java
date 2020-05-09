@@ -42,15 +42,19 @@ class Fenetre extends JFrame {
     /**
      * Fenetre pour l'affichage du jeu
      * */
-    Fenetre(Controleur controleur) {
+    Fenetre(Controleur controleur, boolean isTest) {
         super();
         this.controleur = controleur;
-        graphDevice.setFullScreenWindow(this); //plein écran
-        EventQueue.invokeLater(() -> {
-            this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
-            this.setTitle("Aquavias");
-            this.setVisible(true);
-        });
+        if (isTest) {
+            this.setVisible(false);
+        }else {
+            graphDevice.setFullScreenWindow(this); //plein écran
+            EventQueue.invokeLater(() -> {
+                this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
+                this.setTitle("Aquavias");
+                this.setVisible(true);
+            });
+        }
     }
 
     /**

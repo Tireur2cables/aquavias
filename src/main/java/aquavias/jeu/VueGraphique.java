@@ -25,9 +25,9 @@ class VueGraphique {
      * INIT PART
      * */
 
-    VueGraphique(Controleur controleur) {
+    VueGraphique(Controleur controleur, boolean isTest) {
         this.controleur = controleur;
-        this.fenetre = new Fenetre(controleur);
+        this.fenetre = new Fenetre(controleur, isTest);
     }
 
     /**
