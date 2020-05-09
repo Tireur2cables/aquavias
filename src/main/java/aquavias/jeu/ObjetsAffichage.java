@@ -109,7 +109,7 @@ class Fenetre extends JFrame {
     void infoRetourMenu(String info) {
         String[] choices = {"Retour au menu"};
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE,  JOptionPane.YES_NO_OPTION,new ImageIcon("resources/img/menu.png"), choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE,  JOptionPane.YES_NO_OPTION,new ImageIcon("resources/img/ok.gif"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour au menu */
@@ -122,7 +122,7 @@ class Fenetre extends JFrame {
     void infoOk(String info) {
         String[] choices = {"Ok"};
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/ok.png"), choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane(info, JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/ok.gif"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {
