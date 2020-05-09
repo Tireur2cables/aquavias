@@ -61,7 +61,7 @@ class Fenetre extends JFrame {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.png"), choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.gif"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
@@ -93,7 +93,7 @@ class Fenetre extends JFrame {
     void defaite() {
         String[] choices = {"Réessayer!", "Retour au menu"};
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane("Vous avez perdu! :(", JOptionPane.ERROR_MESSAGE /* FIXME : Image personnaliable */, JOptionPane.YES_NO_OPTION,null, choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane("Vous avez perdu! :(", JOptionPane.ERROR_MESSAGE, JOptionPane.YES_NO_OPTION,new ImageIcon("resources/img/defeat.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) {/* retour = Réessayer */
