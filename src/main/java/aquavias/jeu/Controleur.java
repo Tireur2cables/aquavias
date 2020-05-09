@@ -105,10 +105,13 @@ class Controleur {
     void chargeNiveau(int num) {
         this.stopTimer();
         this.jeu.initNiveau(num, false);
+        if (num > 0)
+            this.graph.afficheNiveau();
+        else
+            this.graph.afficheTuto(num);
         if(this.jeu.niveauDejaTermine(num)) {
             this.graph.infoOk("Vous avez déja terminé ce niveau !");
         }
-        this.graph.afficheNiveau();
     }
 
     void chargeNiveau() {

@@ -31,6 +31,17 @@ class VueGraphique {
     }
 
     /**
+     * Lancement du tuto
+     */
+    void afficheTuto(int num) {
+        this.afficheNiveau();
+        if (num == -1)
+            this.afficheTutoCompteur();
+        else
+            this.afficheTutoFuite();
+    }
+
+    /**
      * remplit le JPanel Niveau avec chaque Pont du plateau de Jeu et entraine l'affichage de la fenêtre
      * */
     void afficheNiveau() {
@@ -119,6 +130,14 @@ class VueGraphique {
         EventQueue.invokeLater(() -> {
             this.niveau.add(new ImagePane(image, movable, this, x, y), gbc);
         });
+    }
+
+    private void afficheTutoCompteur() {
+        this.fenetre.infoOk("Ceci est le tuto du mode Compteur!");
+    }
+
+    private void afficheTutoFuite() {
+        this.fenetre.infoOk("Ceci est le tuto du mode fuite!");
     }
 
     /**
