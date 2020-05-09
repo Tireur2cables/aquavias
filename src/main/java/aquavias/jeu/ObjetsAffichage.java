@@ -61,7 +61,7 @@ class Fenetre extends JFrame {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
-            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE/* FIXME :Image personnaliable */, JOptionPane.YES_NO_OPTION, null, choices, choices[0]);
+            JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
