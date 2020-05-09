@@ -261,7 +261,8 @@ class Fenetre extends JFrame {
 
 class Niveau extends JPanel {
 
-    BufferedImage bg;
+    private BufferedImage bg;
+
     Niveau(BufferedImage bg) {
         super();
         this.bg = bg;
@@ -269,6 +270,7 @@ class Niveau extends JPanel {
             this.setLayout(new GridBagLayout());
         });
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -298,13 +300,9 @@ class ImagePane extends JPanel {
         this.movable = movable;
         EventQueue.invokeLater(() -> {
             this.setPreferredSize(new Dimension(this.width, this.height));
-        });
-
-        EventQueue.invokeLater(() -> {
             this.addMouseListener(new ClickListener(this));
+            this.setOpaque(false);
         });
-        this.setOpaque(false);
-
     }
 
     boolean isMovable() {
