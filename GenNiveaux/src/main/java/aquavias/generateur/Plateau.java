@@ -18,7 +18,7 @@ class Plateau {
      * INIT PART
      * */
 
-    Plateau(int largeur, int hauteur, boolean melange, Jeu jeu, String mode) {
+    Plateau(int largeur, int hauteur, boolean melange, Jeu jeu, String mode, boolean saveSolution) {
         this.plateau = new Pont[largeur][hauteur];
         this.jeu = jeu;
         do {
@@ -29,14 +29,18 @@ class Plateau {
             this.genererChemin(this.xEntree, this.yEntree);
             this.genererChemin(this.xSortie, this.ySortie);
             this.jeu.setPlateau(this.plateau);
-        }while (!this.jeu.isVictoire());
-
-        int limite;
+        } while (!this.jeu.isVictoire());
+        if (saveSolution)
+            this.exportNiveau();
+        int limite = 0;
         if (melange) {
-           limite = this.melange();
-        }else {
-           limite = 100;
-        }
+            do {
+                limite = this.melange();
+                this.jeu.setPlateau(this.plateau);
+            }while (this.jeu.isVictoire());
+        }else
+           limite = 100; //totalement arbitraire
+
         String difficulte = "";
         if (mode.equals("compteur")) {
             this.jeu.setLimite(limite);
@@ -381,10 +385,6 @@ class Plateau {
         int[] sud = {x, y + ((sorties[2])? 1 : 0)};
         int[] ouest = {x - ((sorties[3])? 1 : 0), y};
         return new int[][]{nord, est, sud, ouest};
-    }
-
-    public Pont[][] getPlateau() {
-        return this.plateau;
     }
 
     private int getLargeur() {

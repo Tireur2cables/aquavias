@@ -19,14 +19,14 @@ class GenNiveaux {
         }
         int numNiveau = Jeu.getArrayListNiveau().size();
         for (int i = 0; i < nbNiveaux; i++) {
-            exportNiveau(chooseDim(), chooseDim(), ++numNiveau);
+            createNiveau(chooseDim(), chooseDim(), ++numNiveau);
         }
     }
 
-    private static void exportNiveau(int largeur, int hauteur, int numNiveau) {
+    private static void createNiveau(int largeur, int hauteur, int numNiveau) {
         String mode = chooseMode();
         Jeu jeu = new Jeu(numNiveau, mode);
-        Plateau p = new Plateau(largeur, hauteur, true, jeu, mode);
+        Plateau p = new Plateau(largeur, hauteur, true, jeu, mode, true);
         p.exportNiveau();
     }
 
