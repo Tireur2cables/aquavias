@@ -8,6 +8,10 @@ Barrault Victor - 21803922 - @Brrlt
 Sang David - 21804098 - @david  
 Canto Justin - 21965056 - @Justin   
   
+Sous la supervision de :  
+Ines Klimann - @klimann  
+Benjamin Lipp - @blipp  
+  
 # Comment Jouer
     
 1.  Téléchargez ou clonez le projet dans un dossier.
@@ -22,22 +26,27 @@ Canto Justin - 21965056 - @Justin
 Il existe pour chaque niveau un pont d'entrée, pont spécial tout à gauche du niveau, et un pont de sortie, pont spécial tout à droite du niveau.  
 Le but de chaque niveau est de créer un chemin entre le pont d'entrée et le pont de sortie ne contenant aucune fuite d'eau.  
 La difficulté réside dans le nombre de coups ou le temps qui vous est impartit pour réussir votre mission  
-![image info](./resources/screenshot_niveau1.png)
+  
+![image info](./resources/img/screenshot_niveau1.png)
   
   
   
-  mettre d'autres choses entre les deux le "pour les développeurs doit être à la fin"
+mettre les autres choses ici.  
+Le "pour les développeurs doit être à la fin"  
   
   
   
 # Pour les développeurs
   
-  Aquavias possède une API afin de donner une certaine liberté de développement autour du jeu.
-  Si vous trouvez qu'il manque des fonctions dans l'API n'hésitez pas à ouvrir une issue sur le sujet!  
+Aquavias possède une API afin de donner une certaine liberté de développement autour du jeu.
+Si vous trouvez qu'il manque des fonctions dans l'API n'hésitez pas à ouvrir une issue sur le sujet!  
   
 ### Description de l'API
   
+blablabla  
   
   
+### Comment utiliser l'API
   
+avec maven etc..  
   
