@@ -1,10 +1,10 @@
 {
   "hauteur" : 3,
   "largeur" : 3,
-  "mode" : "compteur",
+  "mode" : "fuite",
   "limite" : 10,
   "compteur" : 10,
-  "difficulte" : "Facile",
+  "difficulte" : "Tutoriel",
   "niveau" : [
       [
         [], ["i", "E", "entree"], []

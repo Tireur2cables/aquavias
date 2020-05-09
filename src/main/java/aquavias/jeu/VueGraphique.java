@@ -133,6 +133,13 @@ class VueGraphique {
     }
 
     private void afficheTutoCompteur() {
+        this.fenetre.infoOk("Dans cette partie du tutoriel tu es em mode \"compteur\".\nDans ce mode à chaque fois que tu clique pour faire tourner un pont, le compteur ci-dessus perd une charge.\n" +
+                "Lorsqu'il arrive à 0 si tu n'as pas réussi à amener l'eau jusqu'à la sortie tu perdras. ");//placer sur compteur
+        this.fenetre.infoOk("Mais avant sahce qu'il existe deux modes de jeux dans Aquavias.");
+        this.fenetre.infoOk("Pour cela il faut faire tourner ce pont la en cliquant dessus!\nTu ne peux pas faire pivoter la sortie ou l'entrée.");
+        this.fenetre.infoOk("Regarde ce pont juste en dessous! C'est la sortie!\nTU doit relier l'entree et la sortie.");//placer sur la sortie
+        this.fenetre.infoOk("Tu vois le pont juste en dessous de ce message ? c'est le pont d'entrée!\nC'est ta source d'eau, ton chemin doit partir de ce pont là.");//placer sur l'entrée
+        this.fenetre.infoOk("Bienvenu dans le jeu Aquavias!\nDans ce jeu tu va devoir créer un chemin pour faire circuler de l'eau entre l'entrée et la sortie!");
         this.fenetre.infoOk("Ceci est le tuto du mode Compteur!");
     }
 

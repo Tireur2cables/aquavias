@@ -45,7 +45,7 @@ class Controleur {
     }
 
     void decrementeCompteur() {
-        boolean victory = true;
+        boolean victory = false;
         this.jeu.decrementeCompteur();
         if (this.jeu.getMode().equals("compteur")) {
             this.graph.decrementeCompteur();
