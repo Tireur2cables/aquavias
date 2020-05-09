@@ -98,5 +98,5 @@ Si le niveau n'est pas en état de victoire alors il sera sauvegardé dans `reso
   
 ### Comment utiliser l'API
   
-avec maven etc..  
+Pour créer un projet utilisant l'API d'Aquavias vous pouvez imiter.
   
