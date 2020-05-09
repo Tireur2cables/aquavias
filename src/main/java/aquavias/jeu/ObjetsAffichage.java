@@ -59,17 +59,19 @@ class Fenetre extends JFrame {
 
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
-        controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
             JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
                 Controleur.setPlayable(true);
+                this.controleur.ajoutListeNiveauTermine();
                 this.controleur.nextLevel();
             }else {
                 Controleur.setPlayable(true);
-                this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
+                if (this.controleur.getNumNiveau() > 0 && !this.controleur.niveauDejaTermine(this.controleur.getNumNiveau()+1))
+                    this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
+                this.controleur.ajoutListeNiveauTermine();
                 this.controleur.mainMenu();
             }
         });
@@ -385,10 +387,9 @@ class MenuBar extends JMenuBar {
         int num = findNum(name);
         String newName = this.getFileName(name, num, difficulte);
         JMenuItem item = new JMenuItem(newName);
-        if(controleur.niveauDejaTermine(num)){
+        if(controleur.niveauDejaTermine(num)) {
             item.setForeground(Color.gray);
-        }
-        else{
+        }else {
             item.setForeground(Color.black);
         }
         item.addActionListener((ActionEvent e) -> {
@@ -415,8 +416,11 @@ class MenuBar extends JMenuBar {
     }
 
     private String getFileName(String name, int num, String difficulte) {
-        String nom = name.substring(0, 6);
-        return nom + " " + num + " (" + difficulte + ")";
+        if (num > 0) {
+            String nom = name.substring(0, 6);
+            return nom + " " + num + " (" + difficulte + ")";
+        }else
+            return "Tutoriel partie " + ((num == -1)? "1" : "2" );
     }
 
     private JMenu createOptionsMenu(Controleur controleur, Fenetre fenetre, boolean inNiveau) {
@@ -435,7 +439,7 @@ class MenuBar extends JMenuBar {
     private JMenuItem createMainMenu(Controleur controleur) {
         JMenuItem mainMenu = new JMenuItem("Menu principal");
         mainMenu.addActionListener((ActionEvent e) -> {
-            if (controleur.getNumNiveau() > 0)
+            if (controleur.getNumNiveau() > 0 && !controleur.niveauDejaTermine(controleur.getNumNiveau()))
                 controleur.exportNiveau(true);
             controleur.mainMenu();
         });
@@ -447,7 +451,7 @@ class MenuBar extends JMenuBar {
         save.addActionListener((ActionEvent e) -> {
             if (controleur.getNumNiveau() > 0) {
                 controleur.exportNiveau(true);
-                fenetre.infoRetourMenu("Niveau Sauvergardé!");
+                fenetre.infoRetourMenu("Sauvergarde effectuée!");
             }else
                 fenetre.infoOk("Impossible de sauvegarder dans le tutoriel!");
 
@@ -460,7 +464,7 @@ class MenuBar extends JMenuBar {
         exit.addActionListener((ActionEvent e) -> {
             controleur.saveListeNiveauTermine();
             if(inNiveau) {
-                if (controleur.getNumNiveau() > 0)
+                if (controleur.getNumNiveau() > 0 && !controleur.niveauDejaTermine(controleur.getNumNiveau()))
                     controleur.exportNiveau(true);
             }
             fenetre.dispose();
