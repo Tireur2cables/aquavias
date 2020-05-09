@@ -41,14 +41,14 @@ class Plateau {
         }else
            limite = 100; //totalement arbitraire
 
-        String difficulte = "";
         if (mode.equals("compteur")) {
             this.jeu.setLimite(limite);
-            difficulte = (limite < 30)? "Facile" : (limite < 80)? "Moyen" : "Difficile";
+
         }else if (mode.equals("fuite")) {
             this.jeu.setLimite(limite*2);
-            difficulte = (limite*2 < 30)? "Facile" : (limite*2 < 80)? "Moyen" : "Difficile";
         }
+        int nombrePonts = this.getNombrePonts();
+        String difficulte = (limite < 30 && nombrePonts < 30)? "Facile" : (limite < 60 && nombrePonts < 60)? "Moyen" : "Difficile";
         this.jeu.setDifficulte(difficulte);
     }
 
@@ -196,7 +196,7 @@ class Plateau {
                 if (this.plateau[i][j] == null) {
                     if(ThreadLocalRandom.current().nextInt(0, 3) == 0) {
                         this.plateau[i][j] = Pont.createPont('O', null);
-                        compteur += 4;
+                        compteur++;
                     }
                 }
             }
@@ -212,7 +212,7 @@ class Plateau {
                 if(this.plateau[i][j] != null && !this.plateau[i][j].isPontEntree() && !this.plateau[i][j].isPontSortie()){
                     char orientation = this.plateau[i][j].getCharOrientation();
                     char nextOrientation = Pont.getRandomOrientation();
-                    total += this.calculDistanceRotation(orientation, nextOrientation) + 1;
+                    total += this.calculDistanceRotation(orientation, nextOrientation);
                     this.plateau[i][j].setCharOrientation(nextOrientation);
                 }
             }
@@ -222,7 +222,6 @@ class Plateau {
 
     private int calculDistanceRotation(char orientation, char nextOrientation){
         int compteur = 0;
-        if(orientation == nextOrientation) return compteur;
         while(orientation != nextOrientation){
             orientation = Pont.getCharNextOrientation(orientation);
             compteur++;
@@ -395,5 +394,15 @@ class Plateau {
         return this.plateau[0].length;
     }
 
+    private int getNombrePonts() {
+        int count = 0;
+        for (int i = 0; i < this.plateau.length; i++) {
+            for (int j = 0; j < this.plateau[i].length; j++) {
+                if (this.plateau[i][j] != null)
+                    count++;
+            }
+        }
+        return count;
+    }
 
 }
