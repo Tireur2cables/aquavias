@@ -36,7 +36,7 @@ La récursion s'arrête quand on tombe sur une case non vide. On transfome le po
 L'algorithme génère le niveau dans la configuration de victoire, avec tous les ponts bien connectés et orientés. Il nous est donc très simple de vérifier 
 si celui-ci est faisable. En effet, un simple appel a la fonction isVictoire() de Jeu nous permet de savoir si il est faisable.
 
-Le fonctionnement de l'algortihme ne nous prouve pas que le niveau produit est faisable. 
+Le fonctionnement de l'algortihme ne nous prouve pas que le niveau produit est faisable mais pourtant l'algorithme termine. 
 Par exemple, le niveau suivant n'est pas faisable :
 ![image info](../resources/imgreadme/Niveau_infaisable.png)
 
@@ -56,6 +56,11 @@ Ajout screen niveau solution + Niveau mélangé
 
 Ces deux fonctions (rotateAleaPont() & placerPontInutile()) permettent aussi de calculer le nombre de coup pour le niveau, et sa difficulté.  
 La limite du nombre de coup est calculé de la façon suivante : On compte le nombre de fois que l'on doit cliquer sur le pont pour atteindre la position de victoire, et on rajoute 
-un coup par pont placer aléatoirement. Après plusieurs essais, c'est cette façon de compter qui semble donner un nombre de coup le plus interressant pour le joueur.  
+un coup par pont placé aléatoirement. Après plusieurs essais, c'est cette façon de compter qui semble donner un nombre de coup le plus interressant pour le joueur.  
+Pour le temps, on à considérer que chaque coup prenait 2 secondes, on multiplie donc par deux le nombre de coups, et transformons en seconde. Les niveaux avec fuite d'eau
+sont donc un peu plus simple que les niveaux avec compteur de coups, pour contre-balancer la "pression" du chronomètre. 
+  
+Finalement, on exprime la difficulté du niveau en fonction de sa taille et du nombre de coup pour le résoudre, et le constructeur renvoit un nouveau plateau, 
+qui peut être exporter dans le dossier niveau par la fonction createNiveau() du GenNiveaux.  
 
 
