@@ -19,9 +19,12 @@ Ensuite on appel genererChemin() sur le pont d'entrée.
 
 La fonction genererChemin() est une fonction récursive qui s'appelle sur toutes les sorties du pont qu'elle vient de générer, si on a besoin de continuer le chemin (voir condition d'arret).  
 Ainsi, pour chaque sortie du pont passer en paramètre de la fonction, on à deux possibilités :  
--liste
-- liste ?
-
+- Si la case du plateau vers laquelle dirige une sortie du pont est vide :  
+  On créer un nouveau pont aléatoire, qui a plus de chance de diriger vers la droite (vers la sortie) que vers la gauche et de revenir sur ses pas.
+- Sinon, la case du plateau vers lequelle la sortie dirige contient déja un pont :
+  Il faut donc qu'on forme une connexion entre ces deux ponts, pour former un passage, ou une boucle.  
+  On doit donc rajouter une sortie au pont sur lequel on arrive, en changeant sa forme. Ainsi un pont en I ou en L qui ne présente que 2 sorties (déja connectées car l'appelle récursif
+est déja passé) doivent devenir des ponts en T, et les ponts en T, qui présentent 3 sorties, doivent devenir des ponts en +, et être connectés dans toutes les directions.
 
 
 ## Calcul de la limite et de la difficulté  
