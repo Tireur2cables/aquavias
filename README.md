@@ -1,7 +1,7 @@
 # Aquavias
 
 Version d'Aquavias pour le projet d'informatique du semèstre 4.  
-Le document explicatif pour le rendu du projet est le fichier `README.md` dans le dossier `Rendu`.  
+Le document explicatif pour le rendu du projet est le fichier [README.md](Rendu/README.md) dans le dossier `Rendu`.  
 
 [GROUPE]  
 Battaglini Nicolas - 21801244 - @Tireur2cables  
@@ -47,7 +47,7 @@ Vous pourrez utiliser autant que vous voulez ce bouton afin d'allonger votre exp
 
 ## Génération aléatoire de niveaux  
 
-L'explication de l'algorithme de génération de niveaux se trouve dans le fichier README.md du générateur, dans le dossier GenNiveaux. Il forme un programme "à part" du jeu.  
+L'explication de l'algorithme de génération de niveaux se trouve dans le fichier [README.md](GenNiveaux/README.md) du générateur, dans le dossier `GenNiveaux`. Il forme un programme "à part" du jeu.  
 Pour générer "manuellement" des niveaux supplémentaires, il vous suffit de taper la commande : `java -jar genNiveaux.jar N`, où N est le nombre de niveaux que vous voulez.  
 
 # Pour les développeurs
