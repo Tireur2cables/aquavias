@@ -27,7 +27,7 @@ Il existe pour chaque niveau un pont d'entrée, pont spécial tout à gauche du 
 Le but de chaque niveau est de créer un chemin entre le pont d'entrée et le pont de sortie ne contenant aucune fuite d'eau.  
 La difficulté réside dans le nombre de coups ou le temps qui vous est impartit pour réussir votre mission  
 
-![image info](./resources/img/screenshot_niveau1.png)
+![image info](./resources/imgreadme/screenshot_niveau1.png)
 
 
 Il existe deux modes de jeu différents, le mode "compteur" et le mode "fuite d'eau". Le mode compteur donne une limite du nombre de rotation de pont. Le mode fuite d'eau entraine 
