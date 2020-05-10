@@ -1,0 +1,22 @@
+[<model> Jeu]
+[<model>Pont|orientation:char 
+			 forme:char 
+             sortie:array of boolean water:boolean|
+             rotate() 
+             isWater()]-[Case]
+[<model>Case | Pont pont]o-[Jeu]
+[Jeu]-[Pont]
+[GameLauncher|Controller.launch()]
+[<controller>Controller|Jeu jeu
+                        Vue_Graphique graph|
+                        launch()]-+[Jeu]
+[<controller>Controller]<-[GameLauncher]
+[<vue>Vue Graphique|Controller controller
+                   |showPont()
+                   CheminPont()
+                   TakeImage()]+-[Controller]
+[<vue>View|outils graphiques]<--[Vue Graphique]
+
+#.model: fill=#ff5733 
+#.vue: fill=#8f8
+#.controller: fill=#33e6ff
