@@ -37,6 +37,11 @@ Dans le mode fuite d'eau, si une partie du chemin est complête et emmène de l'
 De même, si le joueur parvient a former une boucle dans le chemin, alors il n'y a plus de fuite, et le compteur se met en pose. Il peut donc avancer dans le niveau sans
 s'occuper du temps qu'il lui reste.
 mettre les autres choses ici.  
+
+##L'algorithme de génération aléatoire de niveau  
+
+L'explication de l'algorithme de génération de niveau se trouve dans le fichier readme du générateur, dans le dossier readme. Il forme un programme "a part" du jeu.  
+  
 Le "pour les développeurs doit être à la fin"  
 
 
