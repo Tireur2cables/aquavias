@@ -36,8 +36,8 @@ La récursion s'arrête quand on tombe sur une case non vide. On transfome le po
 L'algorithme génère le niveau dans la configuration de victoire, avec tous les ponts bien connectés et orientés. Il nous est donc très simple de vérifier 
 si celui-ci est faisable. En effet, un simple appel a la fonction isVictoire() de Jeu nous permet de savoir si il est faisable.
 
-Le fonctionnement de l'algortihme ne nous prouve pas que le niveau produit est faisable mais pourtant l'algorithme termine. 
-Par exemple, le niveau suivant n'est pas faisable :
+Le fonctionnement de l'algortihme ne nous prouve pas que le niveau produit est faisable. 
+Par exemple, le niveau suivant n'est pas faisable mais pourtant l'algorithme termine :
 ![image info](../resources/imgreadme/Niveau_infaisable.png)
 
 C'est pourquoi notre algorithme vérifie la faisabilité du niveau avant d'effectuer la suite du programme. Si il détecte un niveau qui n'est pas faisable, il efface 
