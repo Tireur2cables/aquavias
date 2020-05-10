@@ -60,8 +60,8 @@ class VueGraphique {
                     "Ceci est le tuto du mode fuite!",
                     "Commme tu peux le voir ici tu disposes d'une certaine quantité d'eau indiquée à la place du compteur de coup.\nLorsqu'un pont emmène de l'eau vers le vide, cela fait baisser ta réserve d'eau.\nPlus tu auras de ponts qui emmènent l'eau vers la sortie moins tu perdras d'eau chaque seconde.",
                     "Il existe également différentes formes de ponts dans le jeu.\nDans le tutriel précédent tu as pu voir les ponts en ligne droite.",
-                    "Ici il y a maintenant des ponts formants un virage comme celui ci-dessous.",
-                    "Tu trouveras aussi des ponts formant une bifurcation comme celui là.",
+                    "Ici il y a maintenant des ponts formants un virage comme celui ci-dessus.",
+                    "Tu trouveras aussi des ponts formant une bifurcation comme celui juste en dessous.",
                     "Enfin les dernier type de pont sont les ponts en croix qui possèdent une entrée dans chaque direction.\n(un conseil évite de les tourner cela ne te servira à rien et te feras perdre du temps ou un coups)",
                     "Si tu réussis ce niveau tu sera fin prêt à t'amuser dans Aquavias!\nBonne chance!"
             };
@@ -262,11 +262,11 @@ class VueGraphique {
     private Point choosePoint(int num, String typeTuto) {
         Dimension dim = this.getEffectiveFrameSize();
         if (typeTuto.equals("fuite")) {
-            switch (num) {//pas finit
-                case 1 : return new Point(dim.width/8, (dim.height*3)/4);
-                case 3 : return new Point((dim.width*7)/13, (dim.height*3)/4);
-                case 4 : return new Point((dim.width*5)/16, dim.height/4);
-                case 5 : return new Point(0, dim.height/20);
+            switch (num) {
+                case 1 : return new Point(0, dim.height/20);
+                case 3 : return new Point(dim.width/15, (dim.height)/3);
+                case 4 : return new Point((dim.width*2)/9, dim.height/5);
+                case 5 : return new Point((dim.width*3)/8, dim.height/5);
                 default : return null;
             }
         }else {

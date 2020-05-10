@@ -1,19 +1,22 @@
 {
   "hauteur" : 3,
-  "largeur" : 3,
+  "largeur" : 4,
   "mode" : "fuite",
-  "limite" : 10,
-  "compteur" : 10,
+  "limite" : 60,
+  "compteur" : 60,
   "difficulte" : "Tutoriel",
   "niveau" : [
-      [
-        [], ["i", "E", "entree"], []
+	  [
+        ["l", "E", null], ["l", "O", "entree"], []
       ],
       [
-        [], ["i", "N", null], []
+        ["t", "E", null], ["t", "N", null], []
       ],
       [
-        [], ["i", "E", "sortie"], []
-      ]
+        ["l", "N", null], ["x", "N", null], ["l", "O", null]
+	  ],
+	  [
+		[], ["T", "E", "sortie"], ["l", "S", null]
+	  ]
   ]
 }
