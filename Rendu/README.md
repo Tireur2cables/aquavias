@@ -4,10 +4,12 @@
   
 L'objectif de ce projet est de recréer un jeu sur le model du jeu mobile Aquavias.  
 D'où le nom Aquavias pour le projet.  
+Vous trouverez les instructions nécéssaires à l'exécution du jeu ainsi qu'une expliquation du principe et des fonctionnalités du jeu dans le fichier [README.md](../README.md).
 
 ## Architecture du programme
 
 ### Format et sauvegarde des niveaux
+
 Les niveaux sont sauvegardés dans des fichiers json.  
 Le json d'un niveau comprend 3 champs :  
   * `hauteur` et `largeur` qui définissent la taille du plateau  
@@ -22,6 +24,7 @@ Lorsque l'on charge un niveau, le programme va chercher le fichier JSON correspo
 Grâce aux informations contenues dans ce fichier, le programme est capable de recréer une matrice de Ponts correspondant au niveau.
   
 ### Pont
+
 Un pont est défini par 5 attributs :  
   * sa `forme` caractérisée par un char
   * son `orientation` caractérisée par un char E pour Est, N pour Nord, O pour Ouest et S pour Sud  
@@ -32,13 +35,24 @@ Un pont est défini par 5 attributs :
 L'affichage se contentera d'afficher chaque pont au bon endroit dans la fenre d'affichage.  
 
 ### Formatage du code
+
 Notre code suit l'architecture modèle - vue - controleur afin de structurer le code.  
 Le schéma UML suivant décrit de façon globale les interactions de notre programme :  
 ![img](../resources/imgreadme/nomnoml.png)
+
+## Répartition du travail
+
+Pour nous répartir les travails nous avions une réunion hebdomadaire avec notre responsable de projet durant laquelle nous discutions des possibles améliorations du programme.  
+Avant le confinement, nous avions des sprints de deux semaines durant lesquelle nous avions un certains nombre d'issues à finir séléctionnées au début du sprint.  
+Pour chaque issue nous discutions entre les membres pour savoir qui allait la résoudre. Une branche (au minimum) était alors créée et allouée à la résolution de cette issue.  
+Au fur et à mesure que nous avancions dans le projet nous rajoutions nous aussi des issues dans liste à faire pour le sprint d'après.  
+Nous avons beaucoup travaillé en groupe sur les issues qui nous semblaient plus importantes et longues comme la création du générateur de niveau.  
+Lorsqu'une issue est résolue alors la personne chargée de l'issue créé une "Merge Request" et l'assigne à un membre de l'équipe.  
+Après approbation de ce membre désigné, la branche est fusionnée avec la branche désignée, souvent la branche develop.  
   
 ## Pistes d'amélioration
   
-Nous avons créé des issues contenant le tag [BONUS] dans leur titre pour chaque pistes d'améliorations que nous aurions aimé pouvoir implémenter.
+Nous avons créé des issues contenant le tag [BONUS] dans leur titre pour chaque pistes d'améliorations que nous aurions aimé pouvoir implémenter.  
 Voici la liste exhaustive des ces issues :  
 *  Décoration arrière du decor :  Cette issue à pour but de mettre une image en fond pour les niveaux.  
 Nous avons commencé cette issue mais suite à quelques problèmes, dont nous parlerons plus dans la partie "Difficultés rencontrées", nous avons mis en pause la résolution de cette issue.  
@@ -55,6 +69,18 @@ Cela éviteraià l'utilisateur de devoir retourner au menu puis cliquer sur le b
 
 ## Difficultés rencontrées  
   
-Background  
-eventqueue invoke later ralentit et produit des excepetion  
-sous effectif  
+La première difficulté qui s'est présentée à nous a été la baisse d'effectif. En effet dès les premières semaines du projet seule la moitiée du groupe résolvait, en dehors des séances de TP ou nous travaillions tous ensemble, les issues assignées.  
+Un membre a ensuite été incapable à cause de problèmes personnels de pouvoir honorer les rendez vous hebdomadaires.  
+Enfin le confinement est arrivé et seul le travail en dehors des cours était maintenant possible ce qui à amplifier la différence de travail entre les deux motiés de l'équipe.  
+  
+Nous avons ensuite connus des problèmes causé pas la programmation dite `Thread Safe`.  
+En effet pour les élément d'interface graphique nous utilisons l'instruction `EventQueue.invokeLater`.  
+Or cela retarde de quelques millisecondes à une seconde les instructions qu'elle contient, produisant alors un écrat entre l'execution du code qui est dedans et celui qui n'y est pas.  
+Certains appels à des fonctions étaient donc éffectués trop tôt par rapport à l'éxecution dans le `EventQueue.invokeLater` ce qui produit des erreurs car les valeurs obtenues sont alors érronées.  
+Nous avons réussis à "contourner" ce problème en réduisant au maximum l'utilisation de `EventQueue.invokeLater` et en évitant de faire des appels immédiats sur des fonctions qui nécéssiteraient d'être dans ce `EventQueue.invokeLater`.  
+  
+La création d'un algorithme de génération de niveau a également été un obstacle important à surmonter. En effet nous devions faire un algorithme capable de créer plusieurs niveaux tous différents tout en nous assurant que le niveau soit finissable et un minimum agréable à faire.  
+Nous avons finalement réussi à écrire un tel algorithme. Nous l'expliquons en détail dans le fichier [README.md](../GenNiveaux/README.md) du dossier GenNiveaux.  
+  
+La dernière difficultés que nous avons eu concerne l'ajout du fond pour chaque niveau. En effet nous devons ajouter l'image de fond à chaque chargement de niveau ce qui produit ralentissement du programme, clignotement de la fenêtre et autres bugs graphiques.  
+Nous avons donc décidé de laissé cette issue en piste d'amélioration car non essentielle au jeu. Nous n'avons pour le moment pas trouvé de moyen de régler ce problème.  
