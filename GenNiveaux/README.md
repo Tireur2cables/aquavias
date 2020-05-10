@@ -26,7 +26,7 @@ Ainsi, pour chaque sortie du pont passer en paramètre de la fonction, on à deu
   On doit donc rajouter une sortie au pont sur lequel on arrive, en changeant sa forme. Ainsi un pont en I ou en L qui ne présente que 2 sorties (déja connectées car l'appelle récursif
 est déja passé) doivent devenir des ponts en T, et les ponts en T, qui présentent 3 sorties, doivent devenir des ponts en +, et être connectés dans toutes les directions.  
 C'est pourquoi on à les fonctions shouldBeX(), shouldBeL() et shouldBeT(), qui calcul les conditions pour savoir en quel pont le pont sur lequel on forme une nouvelle connexion doit
-etre transformé.
+etre transformé.  
 ![image info](../resources/imgreadme/PontTConnection.png)
 
 Condition d'arrêt :  
