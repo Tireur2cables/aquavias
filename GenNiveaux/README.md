@@ -46,3 +46,5 @@ A ce moment de l'algorithme, on est en capacité d'exporter le niveau, sous form
 
 ## Calcul de la limite et de la difficulté  
 
+Ajout screen niveau solution + Niveau mélangé
+
