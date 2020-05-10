@@ -24,7 +24,11 @@ Ainsi, pour chaque sortie du pont passer en paramètre de la fonction, on à deu
 - Sinon, la case du plateau vers lequelle la sortie dirige contient déja un pont :
   Il faut donc qu'on forme une connexion entre ces deux ponts, pour former un passage, ou une boucle.  
   On doit donc rajouter une sortie au pont sur lequel on arrive, en changeant sa forme. Ainsi un pont en I ou en L qui ne présente que 2 sorties (déja connectées car l'appelle récursif
-est déja passé) doivent devenir des ponts en T, et les ponts en T, qui présentent 3 sorties, doivent devenir des ponts en +, et être connectés dans toutes les directions.
+est déja passé) doivent devenir des ponts en T, et les ponts en T, qui présentent 3 sorties, doivent devenir des ponts en +, et être connectés dans toutes les directions.  
+C'est pourquoi on à les fonctions shouldBeX(), shouldBeL() et shouldBeT(), qui calcul les conditions pour savoir en quel pont le pont sur lequel on forme une nouvelle connexion doit
+etre transformé.
+
+Condition d'arrêt :  
 
 
 ## Calcul de la limite et de la difficulté  
