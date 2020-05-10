@@ -49,22 +49,22 @@ class VueGraphique {
             {
                     "Ceci est le tuto du mode Compteur!",
                     "Bienvenu dans le jeu Aquavias!\nDans ce jeu tu vas devoir créer un chemin pour faire circuler de l'eau entre l'entrée et la sortie!",
-                    "Tu vois le pont contenant de l'eau juste au dessus de ce message ? c'est le pont d'entrée!\nC'est ta source d'eau, ton chemin doit partir de ce pont là.",
+                    "Tu vois le pont contenant de l'eau juste au dessus de ce message? C'est le pont d'entrée!\nC'est ta source d'eau, ton chemin doit partir de ce pont là.",
                     "Regarde ce pont, en rouge, juste au dessus! C'est la sortie!\nTu dois relier l'entrée et la sortie.",
-                    "Pour cela il faut faire tourner ce pont là, en dessous du message, en cliquant dessus!\nTu ne peux pas faire pivoter la sortie ou l'entrée.",
-                    "Mais avant sache qu'il existe deux modes de jeu dans Aquavias.",
-                    "Dans cette partie du tutoriel tu es en mode \"compteur\".\nDans ce mode à chaque fois que tu cliques pour faire tourner un pont le compteur ci-dessus, dans la barre de menu, perd une charge.\nLorsqu'il arrive à 0 si tu n'as pas réussi à amener l'eau jusqu'à la sortie tu perdras."
+                    "Pour cela il faut faire tourner ce pont là, en dessous du message, en cliquant dessus!\nTu ne peux ni faire pivoter la sortie ni l'entrée.",
+                    "Mais avant de commencer, sache qu'il existe deux modes de jeu dans Aquavias.",
+                    "Dans cette partie du tutoriel tu es en mode \"compteur\".\nDans ce mode à chaque fois que tu cliques pour faire tourner un pont le compteur ci-dessus, dans la barre de menu, perd une charge.\nLorsqu'il arrive à 0 si tu n'as pas réussi à créer un chemin étanche jusqu'à la sortie tu perdras."
             };
 
     private final static String[] textTutoFuite = new String[]
             {
                     "Ceci est le tuto du mode fuite!",
-                    "Commme tu peux le voir ici tu disposes d'une certaine quantité d'eau indiquée à la place du compteur de coup.\nLorsqu'un pont emmène de l'eau vers le vide, cela fait baisser ta réserve d'eau.\nPlus tu auras de ponts qui emmènent l'eau vers la sortie moins tu perdras d'eau chaque seconde.",
+                    "Commme tu peux le voir, ici tu disposes d'une certaine quantité d'eau indiquée à la place du compteur de coup.\nLorsqu'un pont emmène de l'eau vers le vide, cela fait baisser ta réserve d'eau.\nPlus tu auras de ponts qui emmènent l'eau vers la sortie moins tu perdras d'eau chaque seconde.",
                     "Il existe également différentes formes de ponts dans le jeu.\nDans le tutriel précédent tu as pu voir les ponts en ligne droite.",
-                    "Ici il y a maintenant des ponts formants un virage comme celui ci-dessus.",
-                    "Tu trouveras aussi des ponts formant une bifurcation comme celui juste en dessous.",
-                    "Enfin les dernier type de pont sont les ponts en croix qui possèdent une entrée dans chaque direction.\n(un conseil évite de les tourner cela ne te servira à rien et te feras perdre du temps ou un coups)",
-                    "Si tu réussis ce niveau tu sera fin prêt à t'amuser dans Aquavias!\nBonne chance!"
+                    "Ici il y a aussi des ponts formants un virage comme celui ci-dessus.",
+                    "Tu trouveras également des ponts en forme de T, créant une bifurcation, comme celui juste en dessous.",
+                    "Enfin le dernier type de pont est le pont en croix qui possède une entrée dans chaque direction.\n(un conseil : évite de les tourner cela ne te serviras à rien et te feras perdre du temps ou pire, un coups)",
+                    "Si tu réussis ce niveau tu seras fin prêt à t'amuser dans Aquavias!\nBonne chance!"
             };
 
     /**
@@ -120,7 +120,7 @@ class VueGraphique {
         this.imageW = this.imageW / largeur;
         this.imageW = (int) Math.floor((this.imageW*largeur > width)? this.imageW-diff : this.imageW+diff);
         // Math.floor arrondi a l'entier EN DESSOUS
-        
+
         imageH = imageH * hauteur;
         diff = Math.abs(imageH - height) / hauteur;
         imageH = imageH / hauteur;
