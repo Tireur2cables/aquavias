@@ -31,9 +31,13 @@ etre transformé.
 Condition d'arrêt :  
 
 Ce fonctionnement ne nous prouve pas que le niveau produit est faisable. 
-Par exemple, le niveau suivant n'est pas faisable
+Par exemple, le niveau suivant n'est pas faisable :
 ![image info](../resources/imgreadme/Niveau_infaisable.png)
 
+C'est pourquoi notre algorithme vérifie la faisabilité du niveau avant d'effectuer la suite du programme. Si il détecte un niveau qui n'est pas faisable, il efface 
+celui-ci et recommence une nouvelle génération. Ce fonctionnement n'est pas parfait, mais permet d'assurer l'exportation de niveau faisable. Etant donné qu'il existe un 
+nombre (très) important de configuration faisable, et un nombre assez faible de configuration non-faisable, on est sur que cette boucle while termine et entraine l'exportation 
+d'un niveau.
 
 ## Calcul de la limite et de la difficulté  
 
