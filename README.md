@@ -1,7 +1,7 @@
 # Aquavias
 
 Version d'Aquavias pour le projet d'informatique du semèstre 4.  
-Le document explicatif pour le rendu du projet est le fichier README.md dans le dossier Rendu.  
+Le document explicatif pour le rendu du projet est le fichier `README.md` dans le dossier `Rendu`.  
 
 [GROUPE]  
 Battaglini Nicolas - 21801244 - @Tireur2cables  
