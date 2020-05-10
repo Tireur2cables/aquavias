@@ -30,6 +30,10 @@ etre transformé.
 
 Condition d'arrêt :  
 
+Ce fonctionnement ne nous prouve pas que le niveau produit est faisable. 
+Par exemple, le niveau suivant n'est pas faisable
+![image info](../resources/imgreadme/Niveau_infaisable.png)
+
 
 ## Calcul de la limite et de la difficulté  
 
