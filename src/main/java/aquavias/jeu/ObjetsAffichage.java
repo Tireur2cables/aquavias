@@ -393,7 +393,13 @@ class MenuBar extends JMenuBar {
             item.setForeground(Color.black);
         }
         item.addActionListener((ActionEvent e) -> {
-            controleur.chargeNiveau(num);
+            if (num == -1 || controleur.niveauDejaTermine(num-1))
+                controleur.chargeNiveau(num);
+            else {
+                String nom1 = (num > 0)? "niveau " + num : "tutoriel partie 2";
+                String nom2 = (num-1 > 0)? "niveau " + (num-1) : (num-1 == 0)? "tutoriel partie 2" : "tutoriel partie 1";
+                controleur.infoOk("Vous ne pouvez pas charger le " + nom1 + " car vous n'avez pas fini le " + nom2 + " !");
+            }
         });
         return item;
     }

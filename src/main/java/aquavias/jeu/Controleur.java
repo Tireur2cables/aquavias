@@ -218,6 +218,10 @@ class Controleur {
         }
     }
 
+    void infoOk(String info) {
+        this.graph.infoOk(info);
+    }
+
     static void setPlayable(boolean playable) {
         Jeu.playable = playable;
     }
