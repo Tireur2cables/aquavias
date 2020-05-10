@@ -30,9 +30,15 @@ La difficulté réside dans le nombre de coups ou le temps qui vous est impartit
 ![image info](./resources/img/screenshot_niveau1.png)
 
 
-
+Il existe deux modes de jeu différents, le mode "compteur" et le mode "fuite d'eau". Le mode compteur donne une limite du nombre de rotation de pont. Le mode fuite d'eau entraine 
+une limite en "temps", qui s'écoule de façon non-linéaire. Si le joueur arrive à la fin du compteur / qu'il n'a plus d'eau dans son réservoir et que le niveau n'est pas
+gagné, il perd et doit recommencer le niveau.  
+Dans le mode fuite d'eau, si une partie du chemin est complête et emmène de l'eau jusqu'a la sortie, alors le débit de fuite diminue, et le joueur a plus de temps pour avancer. 
+De même, si le joueur parvient a former une boucle dans le chemin, alors il n'y a plus de fuite, et le compteur se met en pose. Il peut donc avancer dans le niveau sans
+s'occuper du temps qu'il lui reste.
 mettre les autres choses ici.  
 Le "pour les développeurs doit être à la fin"  
+
 
 
 
