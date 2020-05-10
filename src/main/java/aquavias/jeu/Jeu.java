@@ -341,6 +341,10 @@ public class Jeu {
         return niveaux;
     }
 
+    static int getNombreNiveaux() {
+        return getListNiveau().size() - 2;//on enlève le nombre de niveau tutoriels qui sont en numéros négatifs ou nuls
+    }
+
     static boolean existeUneSauvegarde() {
         File dossier = new File(saveDir);
         if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + saveDir);
@@ -575,8 +579,10 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    void supprimerSauvegarde() { //FIXME: devrait supprimer le numniveau.json aussi ? pourrait dans option->supprimer sauvegarde qui vide aussi la liste des niveaux déjà fait
+    void supprimerSauvegarde() {
         File f = new File(saveDir + "niveauSauvegarde.json");
+        f.delete();
+        f = new File(saveDir + "numSauvegarde.json");
         f.delete();
     }
 
@@ -722,6 +728,10 @@ public class Jeu {
 
     public static ArrayList<File> getArrayListNiveau() {
         return getListNiveau();
+    }
+
+    public static int getNbNiveaux() {
+        return getNombreNiveaux();
     }
 
     public boolean isVictoire() {

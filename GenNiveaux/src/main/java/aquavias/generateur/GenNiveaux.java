@@ -17,7 +17,7 @@ public class GenNiveaux {
         }else {
             nbNiveaux = 1;
         }
-        int numNiveau = Jeu.getArrayListNiveau().size();
+        int numNiveau = Jeu.getNbNiveaux();
         for (int i = 0; i < nbNiveaux; i++) {
             createNiveau(chooseDim(), chooseDim(), ++numNiveau);
         }
