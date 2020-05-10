@@ -61,11 +61,6 @@ class Fenetre extends JFrame {
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
         EventQueue.invokeLater(() -> {
-                    if (controleur.justDebloqueGenerateur()) {
-                        this.infoOk("Vous venez de débloquer le mode de jeu infini !");
-                    }
-                });
-        EventQueue.invokeLater(() -> {
             JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/victory.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);
             String retour = (String) optionPane.getValue();
@@ -86,6 +81,11 @@ class Fenetre extends JFrame {
     void victoireSansNiveauSuivant() {
         String[] choices = {"Retour au menu"};
         controleur.ajoutListeNiveauTermine();
+        EventQueue.invokeLater(() -> {
+            if (controleur.justDebloqueGenerateur()) {
+                this.infoOk("Vous venez de débloquer le mode de jeu infini !");
+            }
+        });
         EventQueue.invokeLater(() -> {
             JOptionPane optionPane = new JOptionPane("Vous avez gagné! BRAVO!\nL'eau est là!\nVous êtes arrivé au dernier Niveau !", JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION,new ImageIcon("resources/img/victorylast.png"), choices, choices[0]);
             JDialog dialog = this.createDialog(optionPane);

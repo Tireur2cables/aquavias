@@ -2,9 +2,9 @@
     "hauteur" : 3,
     "largeur" : 4,
     "mode" : "fuite",
-    "limite" : 40,
-    "compteur" : 40,
-	"difficulte" : "Moyen",
+    "limite" : 30,
+    "compteur" : 30,
+	"difficulte" : "Facile",
     "niveau" : [
         [
             ["l", "O", null], ["l", "N", "entree"], ["l", "N", null]

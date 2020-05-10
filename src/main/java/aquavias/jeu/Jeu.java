@@ -20,7 +20,7 @@ public class Jeu {
     private Controleur controleur;
     private Pont[][] plateau;
     private ArrayList<Integer> listeNiveauTermine = new ArrayList<>();
-    private static final int nbNiveauBase = 5; //FIXME: à changer avec la séléction finale
+    private static final int nbNiveauBase = 15;
     private int numNiveau;
     private String difficulte;
     private int xEntree;
