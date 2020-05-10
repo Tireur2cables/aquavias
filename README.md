@@ -38,7 +38,7 @@ De même, si le joueur parvient a former une boucle dans le chemin, alors il n'y
 s'occuper du temps qu'il lui reste.
 mettre les autres choses ici.  
 
-##L'algorithme de génération aléatoire de niveau  
+## L'algorithme de génération aléatoire de niveau  
 
 L'explication de l'algorithme de génération de niveau se trouve dans le fichier readme du générateur, dans le dossier readme. Il forme un programme "a part" du jeu.  
   
