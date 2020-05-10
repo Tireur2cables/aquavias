@@ -1,19 +1,19 @@
 {
     "hauteur" : 3,
     "largeur" : 4,
-    "mode" : "compteur",
-    "limite" : 10,
-    "compteur" : 10,
+    "mode" : "fuite",
+    "limite" : 30,
+    "compteur" : 30,
 	"difficulte" : "Facile",
     "niveau" : [
         [
-            [], ["i", "E", "entree"], []
+            ["l", "O", null], ["l", "N", "entree"], ["l", "N", null]
         ],
         [
-            ["l", "N", null], ["l", "O", null], []
+            [], ["i", "E", null], ["i", "E", null]
         ],
         [
-            ["l", "N", null], ["l", "S", null], []
+            [], ["t", "E", null], ["l", "N", null]
         ],
         [
             [], ["i", "E", "sortie"], []

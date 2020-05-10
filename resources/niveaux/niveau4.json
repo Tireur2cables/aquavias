@@ -4,7 +4,7 @@
     "mode" : "fuite",
     "limite" : 40,
     "compteur" : 40,
-	"difficulte" : "Moyen",
+	"difficulte" : "Facile",
     "niveau" : [
         [
             [], ["i", "E", "entree"], [], []

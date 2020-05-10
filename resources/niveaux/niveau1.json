@@ -1,19 +1,22 @@
 {
-  "hauteur" : 3,
-  "largeur" : 3,
-  "mode" : "compteur",
-  "limite" : 10,
-  "compteur" : 10,
-  "difficulte" : "Facile",
-  "niveau" : [
-      [
-        [], ["i", "E", "entree"], []
-      ],
-      [
-        [], ["i", "N", null], []
-      ],
-      [
-        [], ["i", "E", "sortie"], []
-      ]
-  ]
+    "hauteur" : 3,
+    "largeur" : 4,
+    "mode" : "compteur",
+    "limite" : 10,
+    "compteur" : 10,
+	"difficulte" : "Facile",
+    "niveau" : [
+        [
+            [], ["i", "E", "entree"], []
+        ],
+        [
+            ["l", "N", null], ["l", "O", null], []
+        ],
+        [
+            ["l", "N", null], ["l", "S", null], []
+        ],
+        [
+            [], ["i", "E", "sortie"], []
+        ]
+    ]
 }
