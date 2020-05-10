@@ -16,9 +16,11 @@ bien orienté (les images de ces ponts n'étant pas symétriques, leur orientati
 Ensuite on appel genererChemin() sur le pont d'entrée.
   
 ### La fonction genererChemin()  
+
 La fonction genererChemin() est une fonction récursive qui s'appelle sur toutes les sorties du pont qu'elle vient de générer, si on a besoin de continuer le chemin (voir condition d'arret).  
 Ainsi, pour chaque sortie du pont passer en paramètre de la fonction, on à deux possibilités :  
--
+-liste
+- liste ?
 
 
 
