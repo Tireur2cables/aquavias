@@ -367,7 +367,7 @@ class MenuBar extends JMenuBar {
         options.setFont(VueGraphique.font);
         this.add(options);
 
-        if(debloqueGenerateur) {
+        if(debloqueGenerateur && !inNiveau) {
             JButton generateur = this.createGenererNiveau(fenetre);
             generateur.setFont(VueGraphique.font);
             this.add(generateur);
