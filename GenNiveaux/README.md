@@ -20,14 +20,22 @@ Ensuite on appel genererChemin() sur le pont d'entrée.
 La fonction genererChemin() est une fonction récursive qui s'appelle sur toutes les sorties du pont qu'elle vient de générer, si on a besoin de continuer le chemin (voir condition d'arret).  
 Ainsi, pour chaque sortie du pont passer en paramètre de la fonction, on à deux possibilités :  
 - Si la case du plateau vers laquelle dirige une sortie du pont est vide :  
-  On créer un nouveau pont aléatoire, qui a plus de chance de diriger vers la droite (vers la sortie) que vers la gauche et de revenir sur ses pas.
+  On créer un nouveau pont aléatoire, qui a plus de chance de diriger vers la droite (vers la sortie) que vers la gauche et de revenir sur ses pas. Les essais nous on montrés
+qu'avoir deux chances sur trois de diriger plutôt vers la droite donnait les résultats les plus intéressants.
 - Sinon, la case du plateau vers lequelle la sortie dirige contient déja un pont :
   Il faut donc qu'on forme une connexion entre ces deux ponts, pour former un passage, ou une boucle.  
   On doit donc rajouter une sortie au pont sur lequel on arrive, en changeant sa forme. Ainsi un pont en I ou en L qui ne présente que 2 sorties (déja connectées car l'appelle récursif
 est déja passé) doivent devenir des ponts en T, et les ponts en T, qui présentent 3 sorties, doivent devenir des ponts en +, et être connectés dans toutes les directions.  
 C'est pourquoi on à les fonctions shouldBeX(), shouldBeL() et shouldBeT(), qui calcul les conditions pour savoir en quel pont le pont sur lequel on forme une nouvelle connexion doit
 etre transformé.  
+  
 ![image info](../resources/imgreadme/PontTConnection.png)
+
+Les fonctions satisfaitSortiesPont(), lierPontWith() et verifMur() permettent de vérifier les conditions de base de fonctionnement d'un niveau.  
+- verifMur() permet de vérifier que les ponts ne dirigent pas en dehors des limites du plateau.   
+- lierPontWith() permet de connecter de pont ensemble.
+- satisfaitSortiesPont() permet d'assurer que le nouveau pont est bien connectés avec ses voisins. 
+
 
 Condition d'arrêt :  
 La récursion s'arrête quand on tombe sur une case non vide. On transfome le pont sur lequel on tombe, et on arrête cette partie de la récursion car le reste du chemin 
