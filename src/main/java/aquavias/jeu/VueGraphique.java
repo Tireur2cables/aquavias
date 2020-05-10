@@ -282,9 +282,9 @@ class VueGraphique {
     }
 
     void victoire() {
-        if(this.controleur.existeNiveauSuivant()){
+        if(this.controleur.existeNiveauSuivant()) {
             this.fenetre.victoire();
-        }else{
+        }else {
             this.fenetre.victoireSansNiveauSuivant();
         }
 

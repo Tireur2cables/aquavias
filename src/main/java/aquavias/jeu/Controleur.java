@@ -136,7 +136,7 @@ class Controleur {
     }
 
     boolean existeNiveauSuivant() {
-        return this.jeu.getNumNiveau() < this.getNombreNiveaux();
+        return this.jeu.getNumNiveau() < Jeu.getNombreNiveaux();
     }
 
     int getNumNiveau() {
@@ -161,10 +161,6 @@ class Controleur {
 
     boolean niveauDejaTermine(int num) {
         return this.jeu.niveauDejaTermine(num);
-    }
-
-    int getNombreNiveaux() {
-        return Jeu.getListNiveau().size();
     }
 
     int getNiveauCourant(){
