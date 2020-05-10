@@ -341,17 +341,22 @@ public class Jeu {
         return niveaux;
     }
 
-    static boolean existeUneSauvegarde(){
+    static boolean existeUneSauvegarde() {
         File dossier = new File(saveDir);
-        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + niveauxDir);
+        if (!dossier.exists()) throw new CantFindFolderException("Impossible de trouvé : " + saveDir);
         File[] files = dossier.listFiles();
-        if (files == null) throw new CantFindNiveauException("Aucun niveau trouvé dans le dossier " + niveauxDir);
-        for(int i = 0; i < files.length; i++){
-            if(files[i].getName().equals("niveauSauvegarde.json")){
-                return true;
+        if (files == null) throw new CantFindNiveauException("Aucun fichier trouvé dans le dossier " + saveDir);
+        for(int i = 0; i < files.length; i++) {
+            if(files[i].getName().equals("niveauSauvegarde.json")) {
+                if (getNumSauvegarde() > 0)
+                    return true;
             }
         }
         return false;
+    }
+
+    boolean isListNiveauTermineEmpty() {
+        return this.listeNiveauTermine.isEmpty();
     }
 
     static Comparator<File> getNiveauComparator() {
@@ -558,7 +563,7 @@ public class Jeu {
 
     void exportNiveau(boolean isSave) {
         String chemin;
-        if(isSave){
+        if(isSave) {
             chemin = saveDir + "niveauSauvegarde.json";
             writeNumSauvegarde(this.numNiveau);
         }else if (this.calculVictoire()) {
@@ -570,7 +575,7 @@ public class Jeu {
         writeFile(fic, chemin);
     }
 
-    void supprimerSauvegarde() {
+    void supprimerSauvegarde() { //FIXME: devrait supprimer le numniveau.json aussi ? pourrait dans option->supprimer sauvegarde qui vide aussi la liste des niveaux déjà fait
         File f = new File(saveDir + "niveauSauvegarde.json");
         f.delete();
     }
@@ -581,10 +586,10 @@ public class Jeu {
         return (Integer) json.get("num");
     }
 
-    static void writeNumSauvegarde(int numNiveau){
+    static void writeNumSauvegarde(int numNiveau) {
         String chemin = saveDir + "numSauvegarde.json";
         JSONObject json = new JSONObject();
-        json.put("num",numNiveau);
+        json.put("num", numNiveau);
         writeFile(json, chemin);
     }
 
@@ -599,7 +604,7 @@ public class Jeu {
     }
 
     boolean niveauDejaTermine(int numNiveau) {
-        return this.listeNiveauTermine.contains((Integer) numNiveau);
+        return this.listeNiveauTermine.contains(numNiveau);
     }
 
     void clearListeNiveauTermine() {
@@ -617,19 +622,20 @@ public class Jeu {
         JSONObject json = readJSON(chemin);
         JSONArray liste = json.getJSONArray("liste");
         for(int i = 0; i < liste.length(); i++){
-            listeNiveauTermine.add((Integer)liste.get(i));
+            this.listeNiveauTermine.add((Integer)liste.get(i));
         }
     }
 
     void ajoutListeNiveauTermine() {
-        if(!listeNiveauTermine.contains(this.numNiveau))listeNiveauTermine.add(this.numNiveau);
+        if(!this.listeNiveauTermine.contains(this.numNiveau))
+            this.listeNiveauTermine.add(this.numNiveau);
     }
 
     private JSONObject createListeNiveauTermineJSON() {
         JSONObject fic = new JSONObject();
         JSONArray arr = new JSONArray();
-        for(int i = 0; i < listeNiveauTermine.size(); i++) {
-            arr.put(listeNiveauTermine.get(i));
+        for(int i = 0; i < this.listeNiveauTermine.size(); i++) {
+            arr.put(this.listeNiveauTermine.get(i));
         }
         fic.put("liste", arr);
         return fic;

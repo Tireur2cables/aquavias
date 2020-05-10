@@ -20,8 +20,12 @@ class Controleur {
 
     void launch() {
         this.importListeNiveauTermine();
-        //fixme: ajout vérif tuto ici
-        this.mainMenu();
+        if (!this.jeu.niveauDejaTermine(-1))
+            this.tutoriel(-1);
+        else if (!this.jeu.niveauDejaTermine(0))
+            this.tutoriel(0);
+        else
+            this.mainMenu();
     }
 
     static void genererNiveau(){
@@ -41,13 +45,14 @@ class Controleur {
     /**
      * REQUETTE PART
      * */
+
     void tournePont(int x, int y) {
         /* change les sorties du pont et l'orientation */
         this.jeu.tournePont(x, y);
     }
 
     void decrementeCompteur() {
-        boolean victory = true;
+        boolean victory = false;
         this.jeu.decrementeCompteur();
         if (this.jeu.getMode().equals("compteur")) {
             this.graph.decrementeCompteur();
@@ -95,6 +100,10 @@ class Controleur {
         this.chargeNiveau(numNiveau);
     }
 
+    void tutoriel(int numTuto) {
+        this.chargeNiveau(numTuto);
+    }
+
     void mainMenu() {
         this.stopTimer();
         this.graph.chargeMenu(this);
@@ -103,10 +112,13 @@ class Controleur {
     void chargeNiveau(int num) {
         this.stopTimer();
         this.jeu.initNiveau(num, false);
-        if(this.jeu.niveauDejaTermine(num)){
+        if (num > 0)
+            this.graph.afficheNiveau();
+        else
+            this.graph.afficheTuto(num);
+        if(this.jeu.niveauDejaTermine(num)) {
             this.graph.infoOk("Vous avez déja terminé ce niveau !");
         }
-        this.graph.afficheNiveau();
     }
 
     void chargeNiveau() {
@@ -117,47 +129,49 @@ class Controleur {
 
     void nextLevel() {
         int numNiveau = this.jeu.getNumNiveau();
-        if(existeNiveauSuivant())
+        if(this.existeNiveauSuivant())
             this.chargeNiveau(numNiveau + 1);
         else
             this.endGame();
     }
 
-    boolean existeNiveauSuivant(){
-        return this.jeu.getNumNiveau() < getNombreNiveaux();
+    boolean existeNiveauSuivant() {
+        return this.jeu.getNumNiveau() < this.getNombreNiveaux();
     }
 
-    int getNumNiveau(){
+    int getNumNiveau() {
         return this.jeu.getNumNiveau();
     }
 
-    void ajoutListeNiveauTermine(){
+    void ajoutListeNiveauTermine() {
         this.jeu.ajoutListeNiveauTermine();
     }
 
-    void clearListeNiveauTermine(){
+    void clearListeNiveauTermine() {
         this.jeu.clearListeNiveauTermine();
     }
 
-    void saveListeNiveauTermine(){
+    void saveListeNiveauTermine() {
         this.jeu.saveListeNiveauTermine();
     }
 
-    void importListeNiveauTermine(){
+    void importListeNiveauTermine() {
         this.jeu.importListeNiveauTermine();
     }
 
-    boolean niveauDejaTermine(int num){
-        return jeu.niveauDejaTermine(num);
+    boolean niveauDejaTermine(int num) {
+        return this.jeu.niveauDejaTermine(num);
     }
 
     int getNombreNiveaux() {
         return Jeu.getListNiveau().size();
     }
 
-    int getNiveauCourant(){ return this.jeu.getNumNiveau(); }
+    int getNiveauCourant(){
+        return this.jeu.getNumNiveau();
+    }
 
-    static ArrayList<File> getListNiveau(){
+    static ArrayList<File> getListNiveau() {
        return Jeu.getListNiveau();
     }
 
@@ -209,7 +223,7 @@ class Controleur {
         this.jeu.exportNiveauSuivant(numNiveau);
     }
 
-    boolean existeUneSauvegarde(){
+    boolean existeUneSauvegarde() {
         return Jeu.existeUneSauvegarde();
     }
 
@@ -217,6 +231,10 @@ class Controleur {
         if(Jeu.existeUneSauvegarde()) {
             this.jeu.supprimerSauvegarde();
         }
+    }
+
+    void infoOk(String info) {
+        this.graph.infoOk(info);
     }
 
     static void setPlayable(boolean playable) {

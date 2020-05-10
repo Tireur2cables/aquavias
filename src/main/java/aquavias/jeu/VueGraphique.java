@@ -1,7 +1,10 @@
 package aquavias.jeu;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 
 class VueGraphique {
 
@@ -30,6 +33,39 @@ class VueGraphique {
         if (isTest) this.fenetre = this.affichePont(PontGraph.transp);
         else this.fenetre = new Fenetre(controleur);
     }
+
+    /**
+     * Lancement du tuto
+     */
+    void afficheTuto(int num) {
+        this.afficheNiveau();
+        if (num == -1)
+            this.afficheTutoCompteur(0);
+        else
+            this.afficheTutoFuite(0);
+    }
+
+    private final static String[] textTutoCompteur = new String[]
+            {
+                    "Ceci est le tuto du mode Compteur!",
+                    "Bienvenu dans le jeu Aquavias!\nDans ce jeu tu vas devoir créer un chemin pour faire circuler de l'eau entre l'entrée et la sortie!",
+                    "Tu vois le pont contenant de l'eau juste au dessus de ce message ? c'est le pont d'entrée!\nC'est ta source d'eau, ton chemin doit partir de ce pont là.",
+                    "Regarde ce pont, en rouge, juste au dessus! C'est la sortie!\nTu dois relier l'entrée et la sortie.",
+                    "Pour cela il faut faire tourner ce pont là, en dessous du message, en cliquant dessus!\nTu ne peux pas faire pivoter la sortie ou l'entrée.",
+                    "Mais avant sache qu'il existe deux modes de jeu dans Aquavias.",
+                    "Dans cette partie du tutoriel tu es en mode \"compteur\".\nDans ce mode à chaque fois que tu cliques pour faire tourner un pont le compteur ci-dessus, dans la barre de menu, perd une charge.\nLorsqu'il arrive à 0 si tu n'as pas réussi à amener l'eau jusqu'à la sortie tu perdras."
+            };
+
+    private final static String[] textTutoFuite = new String[]
+            {
+                    "Ceci est le tuto du mode fuite!",
+                    "Commme tu peux le voir ici tu disposes d'une certaine quantité d'eau indiquée à la place du compteur de coup.\nLorsqu'un pont emmène de l'eau vers le vide, cela fait baisser ta réserve d'eau.\nPlus tu auras de ponts qui emmènent l'eau vers la sortie moins tu perdras d'eau chaque seconde.",
+                    "Il existe également différentes formes de ponts dans le jeu.\nDans le tutriel précédent tu as pu voir les ponts en ligne droite.",
+                    "Ici il y a maintenant des ponts formants un virage comme celui ci-dessus.",
+                    "Tu trouveras aussi des ponts formant une bifurcation comme celui juste en dessous.",
+                    "Enfin les dernier type de pont sont les ponts en croix qui possèdent une entrée dans chaque direction.\n(un conseil évite de les tourner cela ne te servira à rien et te feras perdre du temps ou un coups)",
+                    "Si tu réussis ce niveau tu sera fin prêt à t'amuser dans Aquavias!\nBonne chance!"
+            };
 
     /**
      * remplit le JPanel Niveau avec chaque Pont du plateau de Jeu et entraine l'affichage de la fenêtre
@@ -122,6 +158,36 @@ class VueGraphique {
         });
     }
 
+    private void afficheTutoCompteur(int num) {
+        String[] choices = {"Ok"};
+        EventQueue.invokeLater(() -> {
+            JOptionPane optionPane = new JOptionPane(textTutoCompteur[num], JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/ok.gif"), choices, choices[0]);
+            Point p = this.choosePoint(num, "compteur");
+            JDialog dialog = this.createDialog(optionPane, p);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) {
+                Controleur.setPlayable(true);
+                if (num+1 < textTutoCompteur.length)
+                    this.afficheTutoCompteur(num+1);
+            }
+        });
+    }
+
+    private void afficheTutoFuite(int num) {
+        String[] choices = {"Ok"};
+        EventQueue.invokeLater(() -> {
+            JOptionPane optionPane = new JOptionPane(textTutoFuite[num], JOptionPane.INFORMATION_MESSAGE, JOptionPane.YES_NO_OPTION, new ImageIcon("resources/img/ok.gif"), choices, choices[0]);
+            Point p = this.choosePoint(num, "fuite");
+            JDialog dialog = this.createDialog(optionPane, p);
+            String retour = (String) optionPane.getValue();
+            if (retour.equals(choices[0])) {
+                Controleur.setPlayable(true);
+                if (num+1 < textTutoFuite.length)
+                    this.afficheTutoFuite(num+1);
+            }
+        });
+    }
+
     /**
      * MENU PART
      */
@@ -172,6 +238,48 @@ class VueGraphique {
     /**
      * DISPLAY POPUP PART
      */
+
+    private JDialog createDialog(JOptionPane optionPane, Point p) {
+        Controleur.setPlayable(false);
+        JDialog dialog = new JDialog(this.fenetre,"", true);
+        dialog.setContentPane(optionPane);
+        dialog.setUndecorated(true);
+        optionPane.addPropertyChangeListener(new PropertyChangeListener() {
+            public void propertyChange(PropertyChangeEvent e) {
+                if (dialog.isVisible() && (e.getSource() == optionPane)) {
+                    dialog.setVisible(false);
+                }
+            }
+        });
+        dialog.pack();
+        if (p == null)
+            dialog.setLocationRelativeTo(null);
+        else
+            dialog.setLocation(p);
+        dialog.setVisible(true);
+        return dialog;
+    }
+
+    private Point choosePoint(int num, String typeTuto) {
+        Dimension dim = this.getEffectiveFrameSize();
+        if (typeTuto.equals("fuite")) {
+            switch (num) {
+                case 1 : return new Point(0, dim.height/20);
+                case 3 : return new Point(dim.width/15, (dim.height)/3);
+                case 4 : return new Point((dim.width*2)/9, dim.height/5);
+                case 5 : return new Point((dim.width*3)/8, dim.height/5);
+                default : return null;
+            }
+        }else {
+            switch (num) {
+                case 2 : return new Point(dim.width/8, (dim.height*3)/4);
+                case 3 : return new Point((dim.width*7)/13, (dim.height*3)/4);
+                case 4 : return new Point((dim.width*5)/16, dim.height/4);
+                case 6 : return new Point(0, dim.height/20);
+                default : return null;
+            }
+        }
+    }
 
     void victoire() {
         if(this.controleur.existeNiveauSuivant()){

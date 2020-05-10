@@ -60,7 +60,6 @@ class Fenetre extends JFrame {
 
     void victoire() {
         String[] choices = {"Niveau Suivant", "Retour au menu"};
-        controleur.ajoutListeNiveauTermine();
         EventQueue.invokeLater(() -> {
                     if (controleur.justDebloqueGenerateur()) {
                         this.infoOk("Vous venez de débloquer le mode de jeu infini !");
@@ -72,10 +71,13 @@ class Fenetre extends JFrame {
             String retour = (String) optionPane.getValue();
             if (retour.equals(choices[0])) { /* retour = Niveau Suivant */
                 Controleur.setPlayable(true);
+                this.controleur.ajoutListeNiveauTermine();
                 this.controleur.nextLevel();
             }else {
                 Controleur.setPlayable(true);
-                this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
+                if (this.controleur.getNumNiveau() > 0 && !this.controleur.niveauDejaTermine(this.controleur.getNumNiveau()+1))
+                    this.controleur.exportNiveauSuivant(this.controleur.getNumNiveau() + 1); //Existe car ce menu n'est affiché qu'en cas de niveau suivant
+                this.controleur.ajoutListeNiveauTermine();
                 this.controleur.mainMenu();
             }
         });
@@ -374,7 +376,7 @@ class MenuBar extends JMenuBar {
 
     private JMenu createChargerMenu(Controleur controleur, boolean inNiveau) {
         JMenu charger = new JMenu("Charger");
-        if(!inNiveau && controleur.existeUneSauvegarde()){
+        if(!inNiveau && controleur.existeUneSauvegarde()) {
             JMenuItem continuer = createMenuItemContinuer(controleur);
             continuer.setForeground(Color.BLUE);
             charger.add(continuer);
@@ -397,19 +399,24 @@ class MenuBar extends JMenuBar {
         int num = findNum(name);
         String newName = this.getFileName(name, num, difficulte);
         JMenuItem item = new JMenuItem(newName);
-        if(controleur.niveauDejaTermine(num)){
+        if(controleur.niveauDejaTermine(num)) {
             item.setForeground(Color.gray);
-        }
-        else{
+        }else {
             item.setForeground(Color.black);
         }
         item.addActionListener((ActionEvent e) -> {
-            controleur.chargeNiveau(num);
+            if (num == -1 || controleur.niveauDejaTermine(num-1))
+                controleur.chargeNiveau(num);
+            else {
+                String nom1 = (num > 0)? "niveau " + num : "tutoriel partie 2";
+                String nom2 = (num-1 > 0)? "niveau " + (num-1) : (num-1 == 0)? "tutoriel partie 2" : "tutoriel partie 1";
+                controleur.infoOk("Vous ne pouvez pas charger le " + nom1 + " car vous n'avez pas fini le " + nom2 + " !");
+            }
         });
         return item;
     }
 
-    private JMenuItem createMenuItemContinuer(Controleur controleur){
+    private JMenuItem createMenuItemContinuer(Controleur controleur) {
         String name = "Continuer";
         JMenuItem item = new JMenuItem(name);
         item.addActionListener((ActionEvent e) -> {
@@ -428,8 +435,11 @@ class MenuBar extends JMenuBar {
     }
 
     private String getFileName(String name, int num, String difficulte) {
-        String nom = name.substring(0, 6);
-        return nom + " " + num + " (" + difficulte + ")";
+        if (num > 0) {
+            String nom = name.substring(0, 6);
+            return nom + " " + num + " (" + difficulte + ")";
+        }else
+            return "Tutoriel partie " + ((num == -1)? "1" : "2" );
     }
 
     private JMenu createOptionsMenu(Controleur controleur, Fenetre fenetre, boolean inNiveau) {
@@ -448,7 +458,8 @@ class MenuBar extends JMenuBar {
     private JMenuItem createMainMenu(Controleur controleur) {
         JMenuItem mainMenu = new JMenuItem("Menu principal");
         mainMenu.addActionListener((ActionEvent e) -> {
-            controleur.exportNiveau(true);
+            if (controleur.getNumNiveau() > 0 && !controleur.niveauDejaTermine(controleur.getNumNiveau()))
+                controleur.exportNiveau(true);
             controleur.mainMenu();
         });
         return mainMenu;
@@ -466,8 +477,12 @@ class MenuBar extends JMenuBar {
     private JMenuItem createSave(Fenetre fenetre, Controleur controleur) {
         JMenuItem save = new JMenuItem("Sauvegarder");
         save.addActionListener((ActionEvent e) -> {
-            controleur.exportNiveau(true);
-            fenetre.infoRetourMenu("Niveau Sauvergardé!");
+            if (controleur.getNumNiveau() > 0) {
+                controleur.exportNiveau(true);
+                fenetre.infoRetourMenu("Sauvergarde effectuée!");
+            }else
+                fenetre.infoOk("Impossible de sauvegarder dans le tutoriel!");
+
         });
         return save;
     }
@@ -476,8 +491,9 @@ class MenuBar extends JMenuBar {
         JMenuItem exit = new JMenuItem("Quitter");
         exit.addActionListener((ActionEvent e) -> {
             controleur.saveListeNiveauTermine();
-            if(inNiveau){
-                controleur.exportNiveau(true);
+            if(inNiveau) {
+                if (controleur.getNumNiveau() > 0 && !controleur.niveauDejaTermine(controleur.getNumNiveau()))
+                    controleur.exportNiveau(true);
             }
             fenetre.dispose();
             controleur.exit();
