@@ -30,6 +30,8 @@ etre transformé.
 ![image info](../resources/imgreadme/PontTConnection.png)
 
 Condition d'arrêt :  
+La récursion s'arrête quand on tombe sur une case non vide. On transfome le pont sur lequel on tombe, et on arrête cette partie de la récursion car le reste du chemin 
+à été traité par l'appel récursif du pont sur lequel on est tombé.
 
 L'algorithme génère le niveau dans la configuration de victoire, avec tous les ponts bien connectés et orientés. Il nous est donc très simple de vérifier 
 si celui-ci est faisable. En effet, un simple appel a la fonction isVictoire() de Jeu nous permet de savoir si il est faisable.
@@ -47,5 +49,13 @@ A ce moment de l'algorithme, on est en capacité d'exporter le niveau, sous form
 
 ## Calcul de la limite et de la difficulté  
 
+Afin de rendre le niveau générer intérressant on mélange les pièces et on en rajoute certaines inutiles. Chaque case vide à une chance sur trois d'accueillir un pont
+inutile, ils sont donc placés de façon totalement aléatoire, parfois isolés et (vraiment) inutiles, parfois au plus proche d'un chemin, et donc ajoutant de la difficulté.  
+Chaque case contenant un pont est tourné, un nombre de coup choisi aléatoirement.
 Ajout screen niveau solution + Niveau mélangé
+
+Ces deux fonctions (rotateAleaPont() & placerPontInutile()) permettent aussi de calculer le nombre de coup pour le niveau, et sa difficulté.  
+La limite du nombre de coup est calculé de la façon suivante : On compte le nombre de fois que l'on doit cliquer sur le pont pour atteindre la position de victoire, et on rajoute 
+un coup par pont placer aléatoirement. Après plusieurs essais, c'est cette façon de compter qui semble donner un nombre de coup le plus interressant pour le joueur.  
+
 
