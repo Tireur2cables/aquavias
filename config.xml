@@ -29,7 +29,7 @@
 </singleInstance> -->
   <jre>
     <!-- Specify path or minVersion or both. -->
-    <path>/usr/local/java/jdk-13.0.1/</path>
+    <path>./launch4j/jdk13.tar.gz</path>
     <bundledJre64Bit>true</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
     <!-- <minVersion>1.8.0</minVersion>
