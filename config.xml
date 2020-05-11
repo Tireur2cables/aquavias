@@ -32,8 +32,8 @@
     <path>/usr/local/java/jdk-13.0.1/</path>
     <bundledJre64Bit>true</bundledJre64Bit>
     <bundledJreAsFallback>false</bundledJreAsFallback>
-    <minVersion>1.8.0</minVersion>
-    <maxVersion>13.0.2</maxVersion>
+    <!-- <minVersion>1.8.0</minVersion>
+    <maxVersion>13.0.2</maxVersion> -->
     <jdkPreference>preferJdk</jdkPreference>
     <runtimeBits>64/32</runtimeBits>
     <!-- Heap sizes in MB and % of available memory. -->
