@@ -2,7 +2,7 @@
   <headerType>console</headerType>
   <outfile>Aquavias.exe</outfile>
   <jar>aquavias.jar</jar>
-  <dontWrapJar>true</dontWrapJar>
+  <dontWrapJar>false</dontWrapJar>
   <!-- Optionnal <errTitle>application name</errTitle> -->
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl>https://gitlab.com/Tireur2cables/aquavias/-/issues</supportUrl>
