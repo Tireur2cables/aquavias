@@ -60,7 +60,7 @@ class VueGraphique {
             {
                     "Ceci est le tuto du mode fuite!",
                     "Commme tu peux le voir, ici tu disposes d'une certaine quantité d'eau indiquée à la place du compteur de coup.\nLorsqu'un pont emmène de l'eau vers le vide, cela fait baisser ta réserve d'eau.\nPlus tu auras de ponts qui emmènent l'eau vers la sortie moins tu perdras d'eau chaque seconde.",
-                    "Il existe également différentes formes de ponts dans le jeu.\nDans le tutriel précédent tu as pu voir les ponts en ligne droite.",
+                    "Il existe également différentes formes de ponts dans le jeu.\nDans le tutoriel précédent tu as pu voir les ponts en ligne droite.",
                     "Ici il y a aussi des ponts formants un virage comme celui ci-dessus.",
                     "Tu trouveras également des ponts en forme de T, créant une bifurcation, comme celui juste en dessous.",
                     "Enfin le dernier type de pont est le pont en croix qui possède une entrée dans chaque direction.\n(un conseil : évite de les tourner cela ne te serviras à rien et te feras perdre du temps ou pire, un coups)",
