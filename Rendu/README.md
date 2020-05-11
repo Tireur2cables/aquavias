@@ -24,7 +24,13 @@ Le fichier json d'un niveau comprend 7 champs :
 
 Lorsque l'on charge un niveau, le programme va chercher le fichier JSON correspondant à ce niveau.  
 Grâce aux informations contenues dans ce fichier, le programme est capable de recréer une matrice de Ponts correspondant au niveau.  
-  
+
+### Formatage du code
+
+Notre code suit l'architecture modèle - vue - controleur afin d'avoir une structure cohérente.  
+Le schéma UML suivant décrit de façon globale cette architexture appliquée à notre programme :  
+![img](../resources/imgreadme/nomnoml.png)  
+
 ### Ponts
 
 Un pont est défini par 5 attributs :  
@@ -34,13 +40,14 @@ Un pont est défini par 5 attributs :
   * Un booléen `eau` qui informe sur la présence d'eau ou non sur le pont.  
   * Une string, `spe`, valant null pour les ponts normaux et "entree" ou "sortie" pour les ponts correspondants.  
 
-L'affichage se contentera d'afficher chaque pont de la matrice au bon endroit dans la fenêtre d'affichage.  
 
-### Formatage du code
-
-Notre code suit l'architecture modèle - vue - controleur afin d'avoir une structure cohérente.  
-Le schéma UML suivant décrit de façon globale cette architexture appliquée à notre programme :  
-![img](../resources/imgreadme/nomnoml.png)  
+### Ponts Graphiques  
+  
+Chaque pont possède aussi une sous classe, PontXGraph, qui s'occupe de la partie graphique de chaque pont, afin de bien dissocier le modèle de la vue. Ainsi les
+classes PontXGraph stockent simplement les images des différents ponts dans les différentes situations (rotation, avec ou sans eau, entrée ou sortie), et renvoit la bonne
+version de l'image selon l'état actuel du pont.  
+  
+L'affichage se contentera donc de récuper l'image de chaque pont de la matrice et de l'afficher au bon endroit dans la fenêtre d'affichage.  
 
 ## Répartition du travail
 
