@@ -74,7 +74,8 @@ Cela éviterait à l'utilisateur de devoir retourner au menu puis cliquer sur le
 *  Ajout d'animations : Nous avons pensé à faire une animation plutôt que de faire un simple changement d'image lorsque l'on tourne un pont. L'eau qui coule pourrait aussi être faite en animation.  
 *  Générique : Lorsque l'on finit les (20) niveaux de la version originale de notre jeu nous aurions aimé rajouter un petit générique pour marquer la fin du jeu (même si nous pouvons encore jouer grâce au mode infini).  
 *  FrameWork d'internationnalisation : Notre chargé de TP nous a soufflé l'idée d'intégrer un framework d'internationnalisation pour avoir le jeu en plusieurs langues et également de laissé la liberté du genre utilisé au joueur.  
-
+*  Faire des tests unitaires plus poussés : Nous n'avons pas écrit de vrais tests afin de prouver le fonctionnement du jeu et de l'algorithme de génération de niveau. Nous avons seulement écrit un petit test qui vérifie que le niveau 1 du jeu est bien chargé, et que le générateur de niveau ne renvoit pas d'erreur.  
+Nous n'avons cependant pas eu le temps d'écrire des tests plus avancés pour tester, par exemple, que l'image d'un pont correspond bien à son modèle, que les niveaux exportés correspondent bien aux niveaux dans le modèle etc ...
 
 ## Difficultés rencontrées  
   
