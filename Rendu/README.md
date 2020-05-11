@@ -56,7 +56,7 @@ Après approbation de ce membre désigné, la branche est fusionnée avec la bra
   
 Nous avons créé des issues contenant le tag [BONUS] dans leur titre pour chaque pistes d'améliorations que nous aurions aimé pouvoir implémenter.  
 Voici la liste exhaustive des ces issues :  
-*  Décoration arrière du decor :  Cette issue à pour but de mettre une image en fond pour les niveaux.  
+*  Décoration de fond du niveau :  Cette issue à pour but de mettre une image en fond pour les niveaux.  
 Nous avons commencé cette issue mais suite à quelques problèmes techniques, dont nous parlerons plus dans la partie "Difficultés rencontrées", nous avons mis en pause la résolution de cette issue.  
 *  Proposer de générer un nouveau niveau après la fin d'un niveau générer : Le but serait ici de proposer directement de générer un nouveau niveau lorsque l'on finit le dernier niveau du jeu (même lorsue ce dernier niveau vient d'être généré).  
 Cela éviterait à l'utilisateur de devoir retourner au menu puis cliquer sur le bouton `mode infini`.  
@@ -72,17 +72,20 @@ Cela éviterait à l'utilisateur de devoir retourner au menu puis cliquer sur le
 ## Difficultés rencontrées  
   
 La première difficulté qui s'est présentée à nous a été la baisse d'effectif. En effet dès les premières semaines du projet seule la moitiée du groupe résolvait, en dehors des séances de TP ou nous travaillions tous ensemble, les issues assignées.  
-Un membre a ensuite été incapable à cause de problèmes personnels de pouvoir honorer les rendez vous hebdomadaires.  
+Un membre a ensuite été incapable de pouvoir honorer les rendez vous hebdomadaires, à cause de problèmes personnels.  
 Enfin le confinement est arrivé et seul le travail en dehors des cours était maintenant possible ce qui à accentué la différence de travail entre les deux motiés de l'équipe.  
   
 Nous avons ensuite connus des problèmes causé par la programmation dite `Thread Safe`.  
 En effet pour les éléments d'interface graphique nous utilisons l'instruction `EventQueue.invokeLater`.  
-Or cela retarde de quelques millisecondes à une seconde les instructions qu'elle contient, produisant alors un écrat entre l'execution du code qui est dedans et celui qui n'y est pas.  
-Certains appels à des fonctions étaient donc éffectués trop tôt par rapport à l'éxecution du code dans le `EventQueue.invokeLater` ce qui produit des erreurs car les valeurs obtenues sont alors érronées.  
+Or cela retarde de quelques millisecondes à une seconde les instructions qu'elle contient, produisant alors un écart entre l'execution du code qui est dedans et celui qui n'y est pas.  
+Certains appels à des fonctions étaient donc effectués trop tôt par rapport à l'éxecution du code dans le `EventQueue.invokeLater` ce qui produit des erreurs car les valeurs obtenues sont alors érronées.  
 Nous avons réussis à "contourner" ce problème en réduisant au maximum l'utilisation de `EventQueue.invokeLater` et en évitant de faire des appels immédiats sur des fonctions qui nécéssiteraient d'être dans ce `EventQueue.invokeLater`.  
   
-La création d'un algorithme de génération de niveau a également été un obstacle important à surmonter. En effet nous devions faire un algorithme capable de créer plusieurs niveaux tous différents tout en nous assurant que le niveau soit finissable et un minimum agréable à faire.  
-Nous avons finalement réussi à écrire un tel algorithme. Nous l'expliquons en détail dans le fichier [README.md](../GenNiveaux/README.md) du dossier GenNiveaux.  
+La création de algorithme de génération de niveau a également été un obstacle important à surmonter. En effet nous devions faire un algorithme capable de créer plusieurs niveaux tous différents tout en nous assurant que le niveau soit finissable et un minimum agréable à faire.  
+Nous avons finalement réussi à écrire un tel algorithme. Nous avons écrit plusieurs itérations de cet algorithme, avant d'arriver à un résultat fonctionnel et 
+pas trop compliqué. Nous l'expliquons en détail dans le fichier [README.md](../GenNiveaux/README.md) du dossier GenNiveaux.  
   
-La dernière difficultés que nous avons eu concerne l'ajout del'image de fond pour chaque niveau. En effet nous devons ajouter l'image de fond à chaque chargement de niveau ce qui produit ralentissement du programme, clignotement de la fenêtre et autres bugs graphiques.  
+La dernière difficultés que nous avons eu concerne l'ajout de l'image de fond pour chaque niveau. Nous avons réussi à mettre une image en fond sur les niveaux, mais 
+nous avons alors fait face à plusieurs problèmes. En effet nous devons ajouter l'image de fond à chaque chargement de niveau ce qui produit ralentissement du programme, 
+clignotement de la fenêtre et autres bugs graphiques.  
 Nous avons donc décidé de laisser cette issue en piste d'amélioration car non essentielle au jeu. Nous n'avons pour le moment pas trouvé de moyen de régler ce problème.  
