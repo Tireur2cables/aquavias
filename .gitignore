@@ -25,3 +25,5 @@ bin/
 
 #Launch4j
 launch4j/
+
+!aquavias.jar
