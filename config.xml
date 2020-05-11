@@ -2,7 +2,7 @@
   <headerType>console</headerType>
   <outfile>Aquavias.exe</outfile>
   <jar>aquavias.jar</jar>
-  <dontWrapJar>false</dontWrapJar>
+  <dontWrapJar>true</dontWrapJar>
   <!-- Optionnal <errTitle>application name</errTitle> -->
   <downloadUrl>http://java.com/download</downloadUrl>
   <supportUrl>https://gitlab.com/Tireur2cables/aquavias/-/issues</supportUrl>
@@ -11,7 +11,7 @@
   <priority>normal</priority> <!-- Other options |idle|high -->
   <stayAlive>true</stayAlive>
   <restartOnCrash>false</restartOnCrash>
-  <icon>icone.ico</icon>
+  <icon>./launch4j/icone.ico</icon>
   <!-- Optionnal <obj>header object file</obj>
   ... -->
   <!-- Optionnal <lib>w32api lib</lib>
@@ -19,8 +19,9 @@
   <!-- Optionnal <var>var=text (%VAR%)</var>
   ... -->
   <classPath>
-    <mainClass>./src/main/java/aquavias/jeu/GameLauncher.java</mainClass>
-    <!-- <cp>./target/classes/aquavias/jeu/GameLauncher.class</cp> -->
+    <mainClass>aquavias.jeu.GameLauncher</mainClass>
+    <!-- ./src/main/java/aquavias/jeu/GameLauncher.java
+	 <cp>./target/classes/aquavias/jeu/GameLauncher.class</cp> -->
   </classPath>
   <!-- Optionnal <singleInstance>
     <mutexName>text</mutexName>
