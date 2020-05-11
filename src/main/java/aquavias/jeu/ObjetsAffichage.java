@@ -45,6 +45,7 @@ class Fenetre extends JFrame {
     Fenetre(Controleur controleur) {
         super();
         this.controleur = controleur;
+        System.out.println(graphDevice.getDisplayMode().getHeight() + " : " + graphDevice.getDisplayMode().getWidth());
         graphDevice.setFullScreenWindow(this); //plein écran
         EventQueue.invokeLater(() -> {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
