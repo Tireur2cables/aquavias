@@ -1,6 +1,6 @@
 # Aquavias
 
-Version d'Aquavias pour le projet d'informatique du semèstre 4.  
+Version d'Aquavias pour le projet d'informatique du semestre 4.  
 Le document explicatif pour le rendu du projet est le fichier [README.md](Rendu/README.md) dans le dossier `Rendu`.  
 
 [GROUPE]  
@@ -38,7 +38,7 @@ De même, si le joueur parvient à former une boucle dans le chemin, alors il n'
   
 Le jeu se finit lorsque vous terminez le dernier niveau.  
 A ce moment là vous débloquerez le `mode infini`. Le mode infini est un bouton qui se trouve sur la barre de menu quand vous êtes dans le menu principal.  
-Ce bouton vous permet de générer autoomatiquement un nouveau niveau aléatoire.  
+Ce bouton vous permet de générer automatiquement un nouveau niveau aléatoire.  
 Vous pourrez utiliser autant que vous voulez ce bouton afin d'allonger votre expérience de jeu.  
 
 ## Génération aléatoire de niveaux  
