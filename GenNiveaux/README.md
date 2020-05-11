@@ -11,7 +11,7 @@ La classe Plateau s'occupe de la mise en place d'un plateau de jeu, et s'assure,
 L'algorithme s'articule autour de la fonction `genererChemin()`. On créé dans un premier temps un tableau de la taille choisie précédemment que l'on remplit de case nulle.  
 Puis on place l'entrée et la sortie du jeu à des hauteurs aléatoires. La position sur l'axe X étant définie (0 pour l'entrée et taille du plateau moins 1 pour la sortie) il n'y a plus qu'a générer un nombre aléatoire pour l'axe Y.  
 Les ponts d'entrées et de sorties peuvent être placés a n'importe quelle hauteur, et on vérifie bien qu'ils ne présentent pas de sortie en direction d'un mur et qu'ils soient bien orienté (les images de ces ponts n'étant pas symétriques, leur orientation est donc importante).  
-Ensuite on appel `genererChemin()` sur le pont d'entrée.  
+Ensuite on appel `genererChemin()` sur le pont d'entrée, puis sur le pont de sortie.  
 
 ### La fonction genererChemin()  
 
