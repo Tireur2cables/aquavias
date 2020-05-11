@@ -1,0 +1,75 @@
+<launch4jConfig>
+  <headerType>console</headerType>
+  <outfile>Aquavias.exe</outfile>
+  <jar>aquavias.jar</jar>
+  <dontWrapJar>false</dontWrapJar>
+  <!-- Optionnal <errTitle>application name</errTitle> -->
+  <downloadUrl>http://java.com/download</downloadUrl>
+  <supportUrl>https://gitlab.com/Tireur2cables/aquavias/-/issues</supportUrl>
+  <!-- Optionnal <cmdLine>text</cmdLine> -->
+  <chdir>.</chdir>
+  <priority>normal</priority> <!-- Other options |idle|high -->
+  <stayAlive>true</stayAlive>
+  <restartOnCrash>false</restartOnCrash>
+  <icon>./launch4j/icone.ico</icon>
+  <!-- Optionnal <obj>header object file</obj>
+  ... -->
+  <!-- Optionnal <lib>w32api lib</lib>
+  ... -->
+  <!-- Optionnal <var>var=text (%VAR%)</var>
+  ... -->
+  <classPath>
+    <mainClass>aquavias.jeu.GameLauncher</mainClass>
+    <!-- ./src/main/java/aquavias/jeu/GameLauncher.java
+	 <cp>./target/classes/aquavias/jeu/GameLauncher.class</cp> -->
+  </classPath>
+  <!-- Optionnal <singleInstance>
+    <mutexName>text</mutexName>
+    <windowTitle>text</windowTitle>
+</singleInstance> -->
+  <jre>
+    <!-- Specify path or minVersion or both. -->
+    <path>/usr/local/java/jdk-13.0.1/</path>
+    <bundledJre64Bit>true</bundledJre64Bit>
+    <bundledJreAsFallback>false</bundledJreAsFallback>
+    <minVersion>1.8.0</minVersion>
+    <maxVersion>13.0.2</maxVersion>
+    <jdkPreference>preferJdk</jdkPreference>
+    <runtimeBits>64/32</runtimeBits>
+    <!-- Heap sizes in MB and % of available memory. -->
+    <!-- Optionnal <initialHeapSize>MB</initialHeapSize>
+    <initialHeapPercent>%</initialHeapPercent>
+    <maxHeapSize>MB</maxHeapSize>
+    <maxHeapPercent>%</maxHeapPercent> -->
+    <!-- Optionnal <opt>text (%VAR%)</opt>
+    ... -->
+  </jre>
+  <!-- Optionnal <splash>
+    <file>file</file>
+    <waitForWindow>true|false</waitForWindow>
+    <timeout>seconds [60]</timeout>
+    <timeoutErr>true|false</timeoutErr>
+</splash> -->
+  <versionInfo>
+    <fileVersion>1.0.0.0</fileVersion>
+    <txtFileVersion>1.0.0.0</txtFileVersion>
+    <fileDescription>Jeu Aquavias</fileDescription>
+    <copyright>Copie pas stp</copyright>
+    <productVersion>1.0.0.0</productVersion>
+    <txtProductVersion>1.0.0.0</txtProductVersion>
+    <productName>Aquavias</productName>
+    <companyName>TireurPousseur</companyName>
+    <internalName>Aquavias</internalName>
+    <originalFilename>Aquavias.exe</originalFilename>
+    <trademarks>Aquavias</trademarks>
+    <language>FRENCH</language>
+  </versionInfo>
+  <!-- Optionnal <messages>
+    <startupErr>text</startupErr>
+    <bundledJreErr>text</bundledJreErr>
+    <jreVersionErr>text</jreVersionErr>
+    <launcherErr>text</launcherErr> -->
+    <!-- Used by console header only. -->
+    <!-- Optionnal <instanceAlreadyExistsMsg>text</instanceAlreadyExistsMsg>
+</messages> -->
+</launch4jConfig>
