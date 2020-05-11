@@ -1,5 +1,5 @@
-#sauvegarde du profil
-resources/profil/
+#sauvegarde des données
+resources/
 
 #Java
 *.class
