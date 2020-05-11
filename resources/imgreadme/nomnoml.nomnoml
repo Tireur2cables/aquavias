@@ -1,0 +1,41 @@
+#direction : right
+[<con> Contrôleur|
+	[GameLauncher|] --> [Controleur]
+    [Controleur|]
+] <--> [Modèle]
+[<mod> Modèle |
+	[Jeu|] --> [Pont]
+	[Pont|]
+] <--> [Générateur]
+[<gen> Générateur |
+	[GenNiveaux|] --> [Plateau]
+    [Plateau|]
+]
+
+[Contrôleur] <--> [Vue]
+[<vue> Vue|
+	[VueGraphique|] --> [PontGraph]
+	[VueGraphique] --> [ObjetsAffichage]
+	[PontGraph|]
+	[ObjetsAffichage|
+		[Fenetre] --> [Niveau]
+    	[Fenetre] --> [MenuBar]
+    	[Fenetre] --> [Acceuil]
+    	[Niveau] --> [ImagePane]
+    	[ImagePane]
+    	[MenuBar]
+    	[Acceuil]
+	]
+]
+
+#.vue: visual=roundrect
+#.vue: fill=#8f8
+
+#.gen: visual=roundrect
+#.gen: fill=#9a9
+
+#.mod: visual=roundrect
+#.mod: fill=#aff
+
+#.con: visual=roundrect
+#.con: fill=#fa1
