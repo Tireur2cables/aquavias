@@ -57,7 +57,7 @@ Chaque case vide à une chance sur trois d'accueillir un pont inutile, ils sont 
 Chaque case contenant un pont est tourné, un nombre de coup choisi aléatoirement.  
 Voici un niveau solution créer par le générateur de niveau :  
 ![image info](../resources/imgreadme/niveau_solution.png)  
-Et voici le même niveau tel qui serait exporté pour être jouable :  
+Et voici le même niveau tel qu'il serait exporté pour être jouable :  
 ![image info](../resources/imgreadme/niveau_melange.png)  
   
 Ces deux fonctions (`rotateAleaPont()` et `placerPontInutile()`) permettent aussi de calculer le nombre de coups pour le niveau, et sa difficulté.  
