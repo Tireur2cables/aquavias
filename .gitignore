@@ -1,7 +1,24 @@
-.idea/
+#sauvegarde des données
+resources/
 
+#Java
+*.class
+*.jar
+
+#Maven compilation
+*target/
+
+#IntelliJ
+.idea/
+out/
 *.iml
 
-target/
+#Eclipse
+.classpath
+.project
+.settings/
+bin/
 
-*.jar
+#Emacs
+*~
+\#*

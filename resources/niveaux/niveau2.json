@@ -1,0 +1,22 @@
+{
+    "hauteur" : 3,
+    "largeur" : 4,
+    "mode" : "fuite",
+    "limite" : 30,
+    "compteur" : 30,
+	"difficulte" : "Facile",
+    "niveau" : [
+        [
+            ["l", "O", null], ["l", "N", "entree"], ["l", "N", null]
+        ],
+        [
+            [], ["i", "E", null], ["i", "E", null]
+        ],
+        [
+            [], ["t", "E", null], ["l", "N", null]
+        ],
+        [
+            [], ["i", "E", "sortie"], []
+        ]
+    ]
+}
