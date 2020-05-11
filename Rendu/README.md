@@ -4,6 +4,8 @@
   
 L'objectif de ce projet est de recréer un jeu sur le modèle du jeu mobile Aquavias.  
 D'où le nom Aquavias pour ce projet.  
+C'est un jeu "d'énigme", dans lequel le joueur est face à un aqueduc en plusieurs morceau, qu'il doit reconstruire. Pour ce faire, sa seule possibilité 
+est de faire tourner les différents morceaux de ponts qui sont positionnés dans le niveau.
 Vous trouverez les instructions nécéssaires à l'exécution du jeu ainsi qu'une expliquation du principe et des fonctionnalités du jeu dans le fichier [README.md](../README.md) principal.
 
 ## Architecture du programme
@@ -26,7 +28,7 @@ Grâce aux informations contenues dans ce fichier, le programme est capable de r
 ### Ponts
 
 Un pont est défini par 5 attributs :  
-  * Sa `forme` caractérisée par un char.
+  * Sa `forme` caractérisée par un char. I, L, T ou X.
   * Son `orientation` caractérisée par un char : E pour Est, N pour Nord, O pour Ouest et S pour Sud.  
   * Un tableau de booléens de taille 4, `sorties`, qui défini dans quelles directions le pont est ouvert, le tableau "sorties" suit l'organisation [Nord, Est, Sud, Ouest].  
   * Un booléen `eau` qui informe sur la présence d'eau ou non sur le pont.  
@@ -37,7 +39,7 @@ L'affichage se contentera d'afficher chaque pont de la matrice au bon endroit da
 ### Formatage du code
 
 Notre code suit l'architecture modèle - vue - controleur afin d'avoir une structure cohérente.  
-Le schéma UML suivant décrit de façon globale cette architexture appilquée à notre programme :  
+Le schéma UML suivant décrit de façon globale cette architexture appliquée à notre programme :  
 ![img](../resources/imgreadme/nomnoml.png)  
 
 ## Répartition du travail
