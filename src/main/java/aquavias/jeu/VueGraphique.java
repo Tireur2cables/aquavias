@@ -31,15 +31,7 @@ class VueGraphique {
     VueGraphique(Controleur controleur, boolean isTest) {
         this.controleur = controleur;
         if (isTest) this.fenetre = this.affichePont(PontGraph.transp);
-        else {
-            this.fenetre = new Fenetre(controleur);
-            try {
-                Thread.sleep(1000);
-            }catch (InterruptedException e) {
-                e.getStackTrace();
-                System.exit(-1);
-            }
-        }
+        else this.fenetre = new Fenetre(controleur);
     }
 
     /**
