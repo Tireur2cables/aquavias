@@ -63,18 +63,18 @@ Après approbation de ce membre désigné, la branche est fusionnée avec la bra
   
 Nous avons créé des issues contenant le tag [BONUS] dans leur titre pour chaque pistes d'améliorations que nous aurions aimé pouvoir implémenter.  
 Voici la liste exhaustive de ces issues :  
-*  *Décoration de fond du niveau* :  Cette issue à pour but de mettre une image en fond pour les niveaux.  
+*  **Décoration de fond du niveau** :  Cette issue à pour but de mettre une image en fond pour les niveaux.  
 Nous avons commencé cette issue mais suite à quelques problèmes techniques, dont nous parlerons plus dans la partie "Difficultés rencontrées", nous avons mis en pause la résolution de cette issue.  
-*  *Proposer de générer un nouveau niveau après la fin d'un niveau générer* : Le but serait ici de proposer directement de générer un nouveau niveau lorsque l'on finit le dernier niveau du jeu (même lorsue ce dernier niveau vient d'être généré).  
+*  **Proposer de générer un nouveau niveau après la fin d'un niveau générer** : Le but serait ici de proposer directement de générer un nouveau niveau lorsque l'on finit le dernier niveau du jeu (même lorsue ce dernier niveau vient d'être généré).  
 Cela éviterait à l'utilisateur de devoir retourner au menu puis cliquer sur le bouton `mode infini`.  
-*  *Menu Principal* : Nous pensions faire ici un menu principal plus élaboré qui permettrait d'exploiter la taille de la fenêtre pour charger les niveaux ou faire d'autres actions plus basiques plutôt que d'afficher simplement une image.  
-*  *Meilleur affichage compteur* : Nous aurions aimé faire un meilleur affichage pour le compteur de coups et la réserve d'eau, à l'image du jeu mobile Aquavias.  
-*  *Ajout de sons* : Afin de rendre le jeu plus agréable à jouer nous pensions ajouter des bruitages pour l'eau qui coule ou les ponts qui tournent. Nous avons aussi pensé à une musique de fond ou encore une musique de victoire.  
-*  *Changement graphisme* : Nous pouvons facilement changer les images de chaque pont grâce au découpage des classes. Nous pensions donc passer sur des images plus détaillée et en perspectives pour un rendu en 3 dimensions.  
-*  *Ajout d'animations* : Nous avons pensé à faire une animation plutôt que de faire un simple changement d'image lorsque l'on tourne un pont. L'eau qui coule pourrait aussi être faite en animation.  
-*  *Générique* : Lorsque l'on finit les (20) niveaux de la version originale de notre jeu nous aurions aimé rajouter un petit générique pour marquer la fin du jeu (même si nous pouvons encore jouer grâce au mode infini).  
-*  *FrameWork d'internationnalisation* : Notre chargé de TP nous a soufflé l'idée d'intégrer un framework d'internationnalisation pour avoir le jeu en plusieurs langues et également de laissé la liberté du genre utilisé au joueur.  
-*  *Faire des tests unitaires plus poussés* : Nous n'avons pas écrit de vrais tests afin de prouver le fonctionnement du jeu et de l'algorithme de génération de niveau. Nous avons seulement écrit un petit test qui vérifie que le niveau 1 du jeu est bien chargé, et que le générateur de niveau ne renvoit pas d'erreur.  
+*  **Menu Principal** : Nous pensions faire ici un menu principal plus élaboré qui permettrait d'exploiter la taille de la fenêtre pour charger les niveaux ou faire d'autres actions plus basiques plutôt que d'afficher simplement une image.  
+*  **Meilleur affichage compteur** : Nous aurions aimé faire un meilleur affichage pour le compteur de coups et la réserve d'eau, à l'image du jeu mobile Aquavias.  
+*  **Ajout de sons** : Afin de rendre le jeu plus agréable à jouer nous pensions ajouter des bruitages pour l'eau qui coule ou les ponts qui tournent. Nous avons aussi pensé à une musique de fond ou encore une musique de victoire.  
+*  **Changement graphisme** : Nous pouvons facilement changer les images de chaque pont grâce au découpage des classes. Nous pensions donc passer sur des images plus détaillée et en perspectives pour un rendu en 3 dimensions.  
+*  **Ajout d'animations** : Nous avons pensé à faire une animation plutôt que de faire un simple changement d'image lorsque l'on tourne un pont. L'eau qui coule pourrait aussi être faite en animation.  
+*  **Générique** : Lorsque l'on finit les (20) niveaux de la version originale de notre jeu nous aurions aimé rajouter un petit générique pour marquer la fin du jeu (même si nous pouvons encore jouer grâce au mode infini).  
+*  **FrameWork d'internationnalisation** : Notre chargé de TP nous a soufflé l'idée d'intégrer un framework d'internationnalisation pour avoir le jeu en plusieurs langues et également de laissé la liberté du genre utilisé au joueur.  
+*  **Faire des tests unitaires plus poussés** : Nous n'avons pas écrit de vrais tests afin de prouver le fonctionnement du jeu et de l'algorithme de génération de niveau. Nous avons seulement écrit un petit test qui vérifie que le niveau 1 du jeu est bien chargé, et que le générateur de niveau ne renvoit pas d'erreur.  
 Nous n'avons cependant pas eu le temps d'écrire des tests plus avancés pour tester, par exemple, que l'image d'un pont correspond bien à son modèle, que les niveaux exportés correspondent bien aux niveaux dans le modèle etc ...
 
 ## Difficultés rencontrées  
