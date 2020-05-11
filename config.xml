@@ -20,7 +20,7 @@
   ... -->
   <classPath>
     <mainClass>./src/main/java/aquavias/jeu/GameLauncher.java</mainClass>
-    <cp>./target/classes/aquavias/jeu/GameLauncher.class</cp>
+    <!-- <cp>./target/classes/aquavias/jeu/GameLauncher.class</cp> -->
   </classPath>
   <!-- Optionnal <singleInstance>
     <mutexName>text</mutexName>
