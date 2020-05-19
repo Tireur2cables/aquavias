@@ -19,6 +19,7 @@ class Fenetre extends JFrame {
 
     private Controleur controleur;
     private final static GraphicsDevice graphDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices()[0];
+    private boolean isMenuSet = false;
 
     /**
      * INIT PART
@@ -50,6 +51,7 @@ class Fenetre extends JFrame {
             this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE); // inutil car en plein écran
             this.setTitle("Aquavias");
             this.setVisible(true);
+
         });
 
     }
@@ -146,7 +148,12 @@ class Fenetre extends JFrame {
         EventQueue.invokeLater(() -> {
             this.setJMenuBar(null);
             this.setJMenuBar(new MenuBar(this, this.controleur, inNiveau, debloqueGenerateur));
+            this.isMenuSet = true;
         });
+    }
+
+    boolean isMenuSet(){
+        return this.isMenuSet;
     }
 
     void addCompteur() {

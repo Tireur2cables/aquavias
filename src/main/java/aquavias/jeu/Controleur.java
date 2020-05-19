@@ -20,11 +20,11 @@ class Controleur {
 
     void launch() {
         this.importListeNiveauTermine();
-        if (!this.jeu.niveauDejaTermine(-1))
+        /*if (!this.jeu.niveauDejaTermine(-1))
             this.tutoriel(-1);
         else if (!this.jeu.niveauDejaTermine(0))
             this.tutoriel(0);
-        else
+        else*/
             this.mainMenu();
     }
 
