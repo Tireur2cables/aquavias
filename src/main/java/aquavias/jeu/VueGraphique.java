@@ -125,7 +125,7 @@ class VueGraphique {
         diff = Math.abs(imageH - height) / hauteur;
         imageH = imageH / hauteur;
         imageH = (int) Math.floor((imageH*hauteur > height)? imageH-diff : imageH+diff);
-        this.imageW = Math.min(this.imageW, imageH) - 1; //permet aux ponts d'être carrés
+        this.imageW = Math.min(this.imageW, imageH) - 1; //permet aux ponts d'être carrés .
     }
 
     /**
