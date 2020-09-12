@@ -3,7 +3,6 @@ resources/
 
 #Java
 *.class
-*.jar
 
 #Maven compilation
 *target/
