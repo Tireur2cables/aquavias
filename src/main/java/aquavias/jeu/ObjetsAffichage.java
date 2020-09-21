@@ -4,6 +4,7 @@ import org.apache.commons.io.FileUtils;
 import org.json.JSONObject;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
