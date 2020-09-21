@@ -262,10 +262,10 @@ public class Jeu {
                 public void run() {
                     if (playable) {
                         if(debit != 0) {
-                            controleur.decrementeCompteur();
+                            /*controleur.decrementeCompteur();*/
                             flag = true;
                         }else if (flag) {
-                            controleur.decrementeCompteur();
+                            /*controleur.decrementeCompteur();*/
                             flag = false;
                         }
                     }
@@ -398,7 +398,8 @@ public class Jeu {
         p.setOrientation(newOrientation);
         this.parcourchemin();
         if (this.mode.equals("compteur"))
-            this.controleur.decrementeCompteur();
+            System.out.println("Decremente compteur");
+            /*this.controleur.decrementeCompteur();*/
         else if (this.mode.equals("fuite"))
             this.controleur.isVictoire();
     }

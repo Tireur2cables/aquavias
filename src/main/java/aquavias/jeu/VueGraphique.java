@@ -73,7 +73,7 @@ class VueGraphique {
     void afficheNiveau() {
         int hauteur = this.controleur.getHauteur();
         int largeur = this.controleur.getLargeur();
-        this.fenetre.setMenuBar(true, controleur.debloqueGenerateur());
+        //this.fenetre.setMenuBar(true, controleur.debloqueGenerateur());
         this.initNiveau(largeur, hauteur);
         for (int j = 0; j < hauteur; j++) {
             for (int i = 0; i < largeur; i++) {
@@ -137,10 +137,12 @@ class VueGraphique {
             this.fenetre.setContentPane(this.niveau);
         });
         if (this.controleur.getMode().equals("compteur"))
-            this.fenetre.addCompteur();
+            System.out.println("Mode compteur");
+            /*this.fenetre.addCompteur();*/
         else if (this.controleur.getMode().equals("fuite")) {
-            this.fenetre.addProgressBar();
-            this.controleur.initTimer();
+            System.out.println("Mode fuite");
+            /*this.fenetre.addProgressBar();
+            this.controleur.initTimer();*/
         }
     }
 
@@ -193,7 +195,7 @@ class VueGraphique {
      */
 
     void chargeMenu(Controleur controleur) {
-        this.fenetre.setMenuBar(false, controleur.debloqueGenerateur());
+        //this.fenetre.setMenuBar(false, controleur.debloqueGenerateur());
         BufferedImage image = PontGraph.chargeImage("bg.png");
         EventQueue.invokeLater(() -> {
             Dimension dim = this.getEffectiveFrameSize(); // doit etre dans le eventqeue pour avoir la taille dela jmenubar prise en compte
@@ -307,7 +309,7 @@ class VueGraphique {
 
     private Dimension getEffectiveFrameSize() {
         int width = this.fenetre.getWidth() - (this.fenetre.getInsets().left + this.fenetre.getInsets().right);
-        int height = this.fenetre.getHeight() - (this.fenetre.getInsets().bottom + this.fenetre.getInsets().top) - this.fenetre.getJMenuBar().getPreferredSize().height;
+        int height = this.fenetre.getHeight() - (this.fenetre.getInsets().bottom + this.fenetre.getInsets().top) /*- this.fenetre.getJMenuBar().getPreferredSize().height*/;
         return new Dimension(width, height);
     }
 
