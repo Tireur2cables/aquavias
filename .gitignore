@@ -1,0 +1,26 @@
+#sauvegarde des données
+resources/
+
+#Java
+*.class
+
+#Maven compilation
+*target/
+
+#IntelliJ
+.idea/
+out/
+*.iml
+
+#Eclipse
+.classpath
+.project
+.settings/
+bin/
+
+#Emacs
+*~
+\#*
+
+#Launch4j
+launch4j/
